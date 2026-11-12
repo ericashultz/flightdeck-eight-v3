@@ -11,7 +11,8 @@
 .hc-tag::before{content:"";width:8px;height:8px;border-radius:2px;background:#0ad64f}
 .hc h1{margin:0;font-weight:300;font-size:clamp(38px,4.6vw,68px);line-height:1;letter-spacing:-.03em;color:#fff;text-wrap:balance}
 .hc-sub{margin:18px 0 0;font-size:clamp(16px,1.35vw,20px);line-height:1.5;color:rgba(255,255,255,.8);max-width:60ch;text-wrap:pretty}
-.hc-ctas{display:flex;flex-wrap:wrap;gap:12px}
+.hc-ctas{display:flex;flex-wrap:wrap;gap:14px;margin-top:26px}
+.hc-ctas .hc-pill{margin-top:0}
 .hc-pill{display:inline-flex;align-items:center;gap:22px;margin-top:26px;padding:6px 6px 6px 26px;border-radius:6.25rem;border:1px solid transparent;
   background:rgba(255,255,255,.1);color:#fff;font-size:16px;line-height:1.2;cursor:pointer;text-decoration:none;
   -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);transition:background .18s,color .18s}

@@ -49,7 +49,7 @@
 @media(max-width:900px){.aistat-block{width:calc(100% - 40px)}}
 @media(max-width:700px){.aistat-block{padding-top:40px}.aistat-card{grid-template-columns:1fr}}
 .aipair .fd-say .say-eb{margin:0 0 18px}
-.aipair .fd-say .say-h{margin:0 0 12px;font-size:clamp(26px,2.4vw,34px);font-weight:300;line-height:1.1;letter-spacing:-.025em;color:#00003d}
+.aipair .fd-say .say-h{margin:0 0 12px;font-size:clamp(28px,2.6vw,40px);font-weight:300;line-height:1.04;letter-spacing:-.028em;color:#00003d}
 .aipair .fd-say p.say-sub{font-size:15px;font-weight:400;line-height:1.45;color:#75758f;max-width:none}
 .aipair .fd-say .say-video{padding:0;overflow:hidden}
 .aipair .fd-say .say-video .sa-shot{margin:0;border-radius:14px}
