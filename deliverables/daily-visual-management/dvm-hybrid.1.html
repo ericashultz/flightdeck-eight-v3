@@ -1,0 +1,959 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex, nofollow"><link rel="stylesheet" href="/hub/hub.css"><title>Daily &amp; Visual Management · Concept Hybrid.1 · Flight Deck</title><style>
+body{padding-left:48px!important}
+@media(max-width:700px){body{padding-left:0!important}}
+#dvm-h{font-family:"GE Sans",-apple-system,"Helvetica Neue",Arial,sans-serif;color:#00003d;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+#dvm-h *{box-sizing:border-box}
+
+/* ─── SHARED PRIMITIVES ─── */
+#dvm-h .kick{display:inline-flex;align-items:center;gap:9px;font-size:11.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#2256e6}
+#dvm-h .kick::before{content:"";width:7px;height:7px;background:#16b364;border-radius:1px;flex-shrink:0}
+#dvm-h .eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#44496e;margin-bottom:18px}
+#dvm-h .eyebrow::before{content:"";width:7px;height:7px;background:#16b364;border-radius:1px;flex-shrink:0}
+#dvm-h .wrap-mid{max-width:1088px;margin:0 auto;padding:0 24px}
+
+/* ─── HERO (Design B navy, dual-audience) ─── */
+#dvm-h .hero{position:relative;color:#fff;padding:74px 24px 64px;background:radial-gradient(120% 150% at 18% -10%,rgba(65,129,255,.32),transparent 55%),linear-gradient(120deg,#00010f,#000a2e 58%,#06173f);overflow:hidden}
+#dvm-h .hero::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:54px 54px;-webkit-mask-image:radial-gradient(120% 120% at 50% 0,#000,transparent 75%);mask-image:radial-gradient(120% 120% at 50% 0,#000,transparent 75%);opacity:.5}
+#dvm-h .hero .in{position:relative;max-width:1040px;margin:0 auto}
+#dvm-h .hero .kick{color:#8aa6f0;margin-bottom:20px}
+#dvm-h .hero h1{font-size:50px;font-weight:300;letter-spacing:-.03em;margin:0 0 16px;line-height:1.07;max-width:34ch}
+#dvm-h .hero p{font-size:18px;color:rgba(255,255,255,.78);margin:0;max-width:60ch;line-height:1.55}
+#dvm-h .hero .meta{display:flex;align-items:center;gap:18px;margin-top:30px;font-size:12.5px;font-weight:600;letter-spacing:.02em;color:#9fb4e8;flex-wrap:wrap}
+#dvm-h .hero .meta span+span{display:flex;align-items:center;gap:18px}
+#dvm-h .hero .meta span+span::before{content:"";width:4px;height:4px;border-radius:50%;background:#4181ff}
+
+/* hero dual CTA */
+#dvm-h .hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-top:34px}
+#dvm-h .hc{display:inline-flex;align-items:center;gap:11px;border-radius:100px;padding:14px 24px;font-size:14.5px;font-weight:700;text-decoration:none;cursor:pointer;font-family:inherit;border:0;transition:transform .15s,background .15s,border-color .15s}
+#dvm-h .hc-primary{background:#fff;color:#00010f}
+#dvm-h .hc-primary:hover{background:#dfe6f3;transform:translateY(-1px)}
+#dvm-h .hc-ghost{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.28)}
+#dvm-h .hc-ghost:hover{border-color:#fff;transform:translateY(-1px)}
+#dvm-h .hc .hc-sub{font-weight:400;color:inherit;opacity:.62;font-size:12px;margin-left:2px}
+#dvm-h .hc::after{content:"↓";font-weight:700;opacity:.7}
+
+/* Wingmate ask bar in hero */
+#dvm-h .wm-ask{margin-top:30px;display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);border-radius:100px;padding:8px 8px 8px 20px;max-width:620px;backdrop-filter:blur(6px)}
+#dvm-h .wm-ask .wm-spark{font-size:15px}
+#dvm-h .wm-ask input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:#fff;font:inherit;font-size:14.5px}
+#dvm-h .wm-ask input::placeholder{color:rgba(255,255,255,.55)}
+#dvm-h .wm-ask button{flex:none;display:inline-flex;align-items:center;gap:7px;background:#2256e6;color:#fff;border:0;border-radius:100px;padding:10px 18px;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;transition:background .15s}
+#dvm-h .wm-ask button:hover{background:#1844cc}
+#dvm-h .wm-hint{margin-top:11px;font-size:12px;color:rgba(255,255,255,.5)}
+
+/* ─── MODE STRIP ─── */
+#dvm-h .modestrip{background:#00010f;border-top:1px solid rgba(255,255,255,.08);padding:14px 24px;color:#fff}
+#dvm-h .modestrip .in{max-width:1040px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-size:13px}
+#dvm-h .modestrip .ms-lead{font-weight:600;color:#9fb4e8;letter-spacing:.02em}
+#dvm-h .modestrip .ms-seg{display:inline-flex;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);border-radius:100px;padding:3px}
+#dvm-h .modestrip .ms-seg button{font-family:inherit;font-size:12.5px;font-weight:600;color:rgba(255,255,255,.72);background:transparent;border:0;border-radius:100px;padding:8px 16px;cursor:pointer;transition:background .15s,color .15s}
+#dvm-h .modestrip .ms-seg button.on{background:#fff;color:#00010f}
+#dvm-h .modestrip .ms-note{margin-left:auto;font-size:12px;color:rgba(255,255,255,.5)}
+
+/* ─── SECTION HEAD ─── */
+#dvm-h .sec{padding:58px 24px 8px}
+#dvm-h .sec .in{max-width:1088px;margin:0 auto}
+#dvm-h .sec-head{margin-bottom:30px}
+#dvm-h .sec-head h2{font-size:32px;font-weight:300;letter-spacing:-.025em;margin:12px 0 8px;color:#00003d}
+#dvm-h .sec-head p{font-size:15.5px;color:#4A506A;margin:0;line-height:1.6;max-width:66ch}
+#dvm-h .step-flag{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#2256e6;background:#eef3fd;border:1px solid #d6e3fb;border-radius:100px;padding:5px 13px;margin-bottom:4px}
+
+/* ─── ROLE TABS (Design A nav) ─── */
+#dvm-h .tabs{display:flex;gap:8px;margin:0 0 26px;flex-wrap:wrap}
+#dvm-h .tabs button{font-size:13px;font-weight:600;padding:10px 18px;border-radius:100px;border:1px solid #e1e6f2;color:#3a3f63;background:#fff;cursor:pointer;font-family:inherit;transition:background .15s,color .15s,box-shadow .15s,border-color .15s}
+#dvm-h .tabs button:hover{border-color:#b0bbd8;background:#f4f6fb}
+#dvm-h .tabs button.on{background:#00003d;color:#fff;border-color:#00003d;box-shadow:0 6px 16px -6px rgba(0,0,61,.5)}
+
+/* role cards */
+#dvm-h .roles{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:stretch}
+#dvm-h[data-fn="run"] .roles,#dvm-h[data-fn="update"] .roles,#dvm-h[data-fn="improve"] .roles{grid-template-columns:1fr}
+#dvm-h .role{border:1px solid #e7ebf4;border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 1px 2px rgba(11,26,64,.05),0 18px 40px -26px rgba(11,26,64,.22);display:flex;flex-direction:column;transition:box-shadow .18s,transform .16s,border-color .18s}
+#dvm-h .role:hover{box-shadow:0 14px 34px -16px rgba(11,26,64,.34);transform:translateY(-2px)}
+#dvm-h .role.dim{display:none}
+#dvm-h[data-fn] .role .role-wide{display:none}
+#dvm-h[data-fn="run"] .role.run .role-wide,#dvm-h[data-fn="update"] .role.update .role-wide,#dvm-h[data-fn="improve"] .role.improve .role-wide{display:grid}
+#dvm-h .role h3{margin:0;font-size:17px;font-weight:600;letter-spacing:.01em;color:#fff;padding:18px 22px}
+#dvm-h .role.run h3{background:linear-gradient(180deg,#3061c2,#244ea6)}
+#dvm-h .role.update h3{background:linear-gradient(180deg,#3061c2,#244ea6)}
+#dvm-h .role.improve h3{background:linear-gradient(180deg,#5b7fd6,#4a6bc0)}
+#dvm-h .role .body{padding:20px 22px 22px;display:flex;flex-direction:column;flex:1}
+#dvm-h .persona-role{font-size:12.5px;font-weight:600;color:#2d3a6b;background:#f4f7fd;border:1px solid #e7ebf4;border-radius:8px;padding:10px 12px;margin-bottom:16px;line-height:1.4;display:flex;align-items:center;gap:8px;flex-wrap:wrap;min-height:60px}
+#dvm-h .persona-role .fn-tag{font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#2256e6;background:#eef2fd;border-radius:5px;padding:3px 8px;white-space:nowrap}
+#dvm-h .lbl{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#4A506A;margin:16px 0 6px;display:flex;align-items:center;gap:7px}
+#dvm-h .lbl::before{content:"";width:5px;height:5px;background:#16b364;border-radius:50%;flex-shrink:0}
+#dvm-h .lbl:first-child{margin-top:0}
+#dvm-h .ex{font-weight:600;font-size:15px}
+#dvm-h .exs{font-size:12.5px;color:#4A506A;margin-top:2px}
+#dvm-h ul.bul{margin:6px 0 0;padding:0;list-style:none}
+#dvm-h ul.bul li{font-size:13px;color:#44496e;margin-bottom:7px;padding-left:18px;position:relative;line-height:1.45}
+#dvm-h ul.bul li::before{content:"";position:absolute;left:0;top:6px;width:7px;height:7px;border:1.5px solid #4181ff;border-radius:50%}
+
+/* recommended template chip */
+#dvm-h .rec-tpl{margin-top:14px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:12px 14px}
+#dvm-h .rec-tpl .rt-label{font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#16834a;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+#dvm-h .rec-tpl a{display:inline-flex;align-items:center;gap:7px;font-size:13.5px;font-weight:700;color:#13693f;text-decoration:none}
+#dvm-h .rec-tpl a:hover{text-decoration:underline}
+#dvm-h .role .cardfoot{margin-top:auto;padding-top:16px;display:flex;gap:10px;flex-wrap:wrap}
+#dvm-h .walkme{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:#fff;background:#2256e6;border:0;border-radius:100px;padding:10px 18px;cursor:pointer;font-family:inherit;text-decoration:none;transition:background .15s}
+#dvm-h .walkme:hover{background:#1844cc}
+#dvm-h .walkme::after{content:"→"}
+#dvm-h .wm-mini{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:#2256e6;background:#fff;border:1px solid #e1e6f2;border-radius:100px;padding:10px 16px;cursor:pointer;font-family:inherit;transition:border-color .15s}
+#dvm-h .wm-mini:hover{border-color:#4181ff}
+
+/* role-wide expanded detail */
+#dvm-h .role-wide{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid #eef1f8;margin-top:18px;padding-top:0}
+#dvm-h .role-wide .rw-col{padding:20px 0 0;padding-right:26px}
+#dvm-h .role-wide .rw-col+.rw-col{padding-right:0;padding-left:26px;border-left:1px solid #eef1f8}
+#dvm-h .step-list{list-style:none;padding:0;margin:0;counter-reset:steps}
+#dvm-h .step-list li{counter-increment:steps;padding:9px 12px 9px 40px;position:relative;font-size:13px;color:#44496e;line-height:1.5;border-bottom:1px solid #f0f3fa}
+#dvm-h .step-list li:last-child{border-bottom:none}
+#dvm-h .step-list li::before{content:counter(steps);position:absolute;left:8px;top:9px;width:20px;height:20px;background:#eef2fc;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#2256e6}
+
+/* ─── GUIDED PATH (Design B onboarding) ─── */
+#dvm-h .guide{background:#f4f7fd;border-top:1px solid #e7ebf4;border-bottom:1px solid #e7ebf4;margin-top:40px}
+#dvm-h .guide .in{max-width:1088px;margin:0 auto;padding:48px 24px 40px}
+#dvm-h .guide-head{display:flex;align-items:flex-start;justify-content:space-between;gap:28px;flex-wrap:wrap}
+#dvm-h .guide-head .gh-copy{flex:1;min-width:300px}
+#dvm-h .guide-head h2{font-size:30px;font-weight:300;letter-spacing:-.025em;margin:10px 0 8px;color:#00003d}
+#dvm-h .guide-head p{font-size:15px;color:#4A506A;margin:0;line-height:1.6;max-width:60ch}
+#dvm-h .scoped{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:#0b2f8f;background:#eef3fd;border:1px solid #d6e3fb;border-radius:100px;padding:6px 14px;margin-top:14px}
+#dvm-h .scoped b{font-weight:700}
+#dvm-h .three-el{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:18px}
+#dvm-h .three-el .te-lead{font-size:13px;font-weight:600;color:#44496e}
+#dvm-h .three-el .te-chip{font-size:12.5px;font-weight:700;color:#0b2f8f;background:#eef3fd;border:1px solid #d6e3fb;border-radius:100px;padding:5px 14px}
+
+/* progress panel */
+#dvm-h .gprog{background:#00010f;color:#fff;border-radius:14px;padding:20px 22px;min-width:240px;flex:0 0 auto}
+#dvm-h .gprog .gp-label{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#8aa6f0;margin-bottom:12px}
+#dvm-h .gprog .prog-track{height:6px;background:rgba(255,255,255,.15);border-radius:6px;overflow:hidden}
+#dvm-h .gprog .prog-fill{height:100%;width:0;background:linear-gradient(90deg,#4181ff,#16b364);border-radius:6px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+#dvm-h .gprog .prog-count{margin-top:10px;font-size:13px;font-weight:600;color:#cfe0fb}
+#dvm-h .gprog .gp-reset{margin-top:6px;font-size:11.5px;color:rgba(255,255,255,.5);background:none;border:0;cursor:pointer;font-family:inherit;padding:0}
+#dvm-h .gprog .gp-reset:hover{color:#fff}
+
+/* steps */
+#dvm-h .steps{margin-top:34px}
+#dvm-h .step{display:grid;grid-template-columns:74px 1fr;gap:24px;position:relative;margin-bottom:12px}
+#dvm-h .step:not(:last-child)>.step-line{position:absolute;left:36px;top:74px;bottom:-12px;width:2px;background:linear-gradient(#4181ff,#dfe4f2);pointer-events:none}
+#dvm-h .num{width:64px;height:64px;border-radius:50%;border:1.5px solid #4181ff;color:#0b2f8f;font-size:24px;font-weight:300;display:flex;align-items:center;justify-content:center;background:#fff;z-index:1;box-shadow:0 10px 24px -10px rgba(11,47,143,.5);flex-shrink:0;transition:border-color .2s,color .2s}
+#dvm-h .step.complete .num{border-color:#16b364;color:#16b364}
+#dvm-h .step-body{padding-bottom:30px}
+#dvm-h .step-body h3{font-size:22px;font-weight:600;letter-spacing:-.015em;margin:10px 0 6px;color:#00003d}
+#dvm-h .step-card{background:#fff;border:1px solid #e7ebf4;border-radius:14px;padding:22px 24px 18px;box-shadow:0 1px 2px rgba(11,26,64,.05),0 18px 40px -26px rgba(11,26,64,.22);margin-top:4px}
+#dvm-h .step-card .intro{font-size:15px;color:#44496e;margin:0 0 14px;line-height:1.65;max-width:64ch}
+#dvm-h .worked{background:#f4f7fd;border-left:3px solid #4181ff;border-radius:0 8px 8px 0;padding:12px 16px;margin:14px 0 16px;font-size:13.5px;color:#44496e;line-height:1.6}
+#dvm-h .worked strong{display:block;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#2256e6;margin-bottom:4px}
+#dvm-h .meta-row{display:flex;align-items:center;gap:12px;margin:0 0 16px;flex-wrap:wrap}
+#dvm-h .time-badge{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:#4A506A;background:#f4f7fd;border:1px solid #e7ebf4;border-radius:100px;padding:5px 12px}
+#dvm-h .time-badge::before{content:"⏱";font-size:12px}
+#dvm-h .tmpl-badge{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:#2256e6;background:#eef3fd;border:1px solid #d6e3fb;border-radius:100px;padding:5px 12px}
+#dvm-h .tmpl-badge::before{content:"📄";font-size:11px}
+#dvm-h .wm-badge{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:#1844cc;background:#eef3fd;border:1px solid #d6e3fb;border-radius:100px;padding:5px 12px;cursor:pointer;font-family:inherit;transition:background .15s}
+#dvm-h .wm-badge:hover{background:#e3ecff}
+#dvm-h .wm-badge::before{content:"✦";font-size:12px}
+#dvm-h .checklist{list-style:none;margin:0;padding:14px 0 0;border-top:1px solid #eef1f8}
+#dvm-h .checklist li{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid #f2f4fa;cursor:pointer;user-select:none}
+#dvm-h .checklist li:last-child{border-bottom:none}
+#dvm-h .checklist li:hover .cb{border-color:#4181ff}
+#dvm-h .cb{width:18px;height:18px;border:1.5px solid #c4cde0;border-radius:4px;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:background .15s,border-color .15s;background:#fff}
+#dvm-h .checklist li.checked .cb{background:#16b364;border-color:#16b364}
+#dvm-h .checklist li.checked .cb::after{content:"✓";font-size:11px;color:#fff;font-weight:700}
+#dvm-h .checklist li.checked .cl-text{color:#4A506A;text-decoration:line-through;text-decoration-color:#c4cde0}
+#dvm-h .cl-text{font-size:13.5px;color:#44496e;line-height:1.5;padding-top:1px}
+#dvm-h .act{display:inline-flex;align-items:center;gap:9px;font-size:13.5px;font-weight:600;color:#2256e6;background:#fff;border:1px solid #e1e6f2;border-radius:100px;padding:9px 18px;cursor:pointer;text-decoration:none;margin-top:16px;transition:border-color .2s}
+#dvm-h .act:hover{border-color:#4181ff}
+#dvm-h .act::after{content:"→";color:#4181ff}
+
+/* guided collapsed state */
+#dvm-h .guide.collapsed .steps,#dvm-h .guide.collapsed .recap{display:none}
+#dvm-h .guide-toggle{margin-top:24px;font-family:inherit;font-size:13.5px;font-weight:700;color:#fff;background:#2256e6;border:0;border-radius:100px;padding:12px 22px;cursor:pointer;display:inline-flex;align-items:center;gap:9px;transition:background .15s}
+#dvm-h .guide-toggle:hover{background:#1844cc}
+#dvm-h .guide-toggle .gt-caret{font-size:17px;font-weight:300;transition:transform .2s}
+#dvm-h .guide:not(.collapsed) .guide-toggle .gt-caret{transform:rotate(45deg)}
+
+/* recap */
+#dvm-h .recap{margin-top:8px}
+#dvm-h .recap h3{font-size:15px;font-weight:700;color:#00003d;margin:0 0 14px}
+#dvm-h .timeline-recap{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));counter-reset:recap}
+#dvm-h .tr-item{counter-increment:recap;padding:18px 22px;border-left:2px solid #dfe4f2;position:relative;background:#fff;border-top:1px solid #eef1f8;border-bottom:1px solid #eef1f8}
+#dvm-h .tr-item::before{content:counter(recap,"0"counter(recap));font-size:11px;font-weight:700;letter-spacing:.14em;color:#4181ff;display:block;margin-bottom:8px}
+#dvm-h .tr-item strong{display:block;font-size:14px;font-weight:700;color:#00003d;margin-bottom:4px}
+#dvm-h .tr-item span{font-size:12.5px;color:#4A506A;line-height:1.5;display:block}
+#dvm-h .tr-item .t-time{font-size:11px;font-weight:600;color:#16b364;margin-top:6px;display:block}
+
+/* ─── WINGMATE BAND (AI throughout) ─── */
+#dvm-h .wingband{position:relative;color:#fff;padding:60px 24px;background:radial-gradient(120% 150% at 85% -20%,rgba(65,129,255,.22),transparent 55%),linear-gradient(120deg,#00010f,#000a2e 58%,#06173f);overflow:hidden}
+#dvm-h .wingband::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:54px 54px;-webkit-mask-image:radial-gradient(120% 120% at 90% 0,#000,transparent 75%);mask-image:radial-gradient(120% 120% at 90% 0,#000,transparent 75%);opacity:.5}
+#dvm-h .wingband .in{position:relative;max-width:1088px;margin:0 auto}
+#dvm-h .wingband .kick{color:#8aa6f0}
+#dvm-h .wingband .kick::before{background:#16b364}
+#dvm-h .wingband h2{font-size:32px;font-weight:300;letter-spacing:-.025em;margin:12px 0 8px;color:#fff;line-height:1.08}
+#dvm-h .wingband .wb-sub{font-size:16px;color:rgba(255,255,255,.78);margin:0 0 30px;max-width:62ch;line-height:1.6}
+#dvm-h .wb-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+#dvm-h .wb-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:20px 20px 18px;transition:border-color .18s,background .18s,transform .16s}
+#dvm-h .wb-card:hover{border-color:rgba(65,129,255,.55);background:rgba(255,255,255,.09);transform:translateY(-2px)}
+#dvm-h .wb-card .wb-ic{width:38px;height:38px;border-radius:10px;background:rgba(65,129,255,.16);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:14px}
+#dvm-h .wb-card strong{display:block;font-size:14.5px;font-weight:700;color:#fff;margin-bottom:5px;letter-spacing:-.01em}
+#dvm-h .wb-card p{font-size:12.5px;color:rgba(255,255,255,.66);margin:0 0 16px;line-height:1.55}
+#dvm-h .wb-card .wb-when{display:inline-block;margin-top:10px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8aa6f0}
+#dvm-h .wb-launch{display:inline-flex;align-items:center;gap:9px;margin-top:30px;background:#2256e6;color:#fff;font-size:14px;font-weight:700;border:0;border-radius:100px;padding:13px 26px;text-decoration:none;cursor:pointer;font-family:inherit;transition:background .15s,transform .15s}
+#dvm-h .wb-launch:hover{background:#1844cc;transform:translateY(-1px)}
+@media(max-width:880px){#dvm-h .wb-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){#dvm-h .wb-grid{grid-template-columns:1fr}}
+
+/* ─── RECOMMENDED TEMPLATES (reduce decision fatigue) ─── */
+#dvm-h .tpl-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+#dvm-h .tpl-card{border:1px solid #e7ebf4;border-radius:14px;padding:22px 22px 22px;background:#fff;box-shadow:0 1px 2px rgba(11,26,64,.05),0 18px 40px -26px rgba(11,26,64,.22);display:flex;flex-direction:column;gap:11px;position:relative;transition:border-color .18s,box-shadow .18s,transform .16s}
+#dvm-h .tpl-card:hover{border-color:#4181ff;box-shadow:0 12px 30px -14px rgba(34,86,230,.28);transform:translateY(-2px)}
+#dvm-h .tpl-card.rec{border-color:#bbf7d0;box-shadow:0 1px 2px rgba(11,26,64,.05),0 18px 40px -26px rgba(16,131,74,.4)}
+#dvm-h .tpl-card .rec-flag{position:absolute;top:14px;right:14px;font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#16834a;background:#ecfdf5;border:1px solid #bbf7d0;border-radius:100px;padding:4px 10px;display:none}
+#dvm-h .tpl-card.rec .rec-flag{display:inline-block}
+#dvm-h .tpl-card .tpl-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;background:#eef2fd}
+#dvm-h .tpl-card .tpl-tag{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#2256e6;background:#eef2fd;border-radius:6px;padding:4px 10px;width:fit-content}
+#dvm-h .tpl-card h3{font-size:14.5px;font-weight:600;color:#00003d;margin:0;line-height:1.3}
+#dvm-h .tpl-card p{font-size:12.5px;color:#4A506A;margin:0;line-height:1.55;flex:1}
+#dvm-h .tpl-card a.open{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:#2256e6;text-decoration:none;margin-top:4px;padding-top:12px;border-top:1px solid #eef1f8}
+#dvm-h .tpl-card a.open:hover{text-decoration:underline}
+#dvm-h .tpl-foot{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:22px}
+#dvm-h .tpl-foot a{font-size:13.5px;font-weight:600;color:#2256e6;text-decoration:none}
+#dvm-h .tpl-foot a:hover{text-decoration:underline}
+#dvm-h .tpl-foot .tf-note{font-size:12.5px;color:#4A506A}
+@media(max-width:980px){#dvm-h .tpl-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:540px){#dvm-h .tpl-grid,#dvm-h .roles{grid-template-columns:1fr}}
+
+/* ─── SEE IT IN ACTION ─── */
+#dvm-h .action-band{background:#fff;border-top:1px solid #e7ebf4;padding:52px 24px}
+#dvm-h .action-band .in{max-width:1088px;margin:0 auto}
+#dvm-h .ab-media{position:relative;display:block;width:100%;margin:22px auto 0;border-radius:16px;overflow:hidden;box-shadow:0 1px 2px rgba(11,26,64,.05),0 26px 60px -30px rgba(11,26,64,.5);aspect-ratio:16/9}
+#dvm-h .ab-media img{width:100%;height:100%;object-fit:cover;display:block}
+#dvm-h .ab-play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:66px;height:66px;border-radius:50%;background:rgba(255,255,255,.94);color:#0b2f8f;display:flex;align-items:center;justify-content:center;font-size:21px;box-shadow:0 6px 18px -4px rgba(0,0,0,.4)}
+#dvm-h .ab-foot{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;margin:22px 0 0;}
+#dvm-h .ab-highlights{display:flex;gap:22px;flex-wrap:wrap;margin:0}
+#dvm-h .ab-highlights span{position:relative;padding-left:24px;font-size:13.5px;color:#44496e;line-height:1.45}
+#dvm-h .ab-highlights span::before{content:"\2713";position:absolute;left:0;top:0;width:16px;height:16px;background:#ecfdf5;border-radius:50%;color:#16b364;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center}
+
+/* ─── FAQ ─── */
+#dvm-h .faq{padding:54px 24px 8px}
+#dvm-h .faq .in{max-width:1040px;margin:0 auto}
+#dvm-h .faq h2{font-size:30px;font-weight:300;letter-spacing:-.025em;margin:8px 0 28px;color:#00003d}
+#dvm-h .faq-item{border-top:1px solid #e7ebf4;padding:20px 0}
+#dvm-h .faq-item:last-child{border-bottom:1px solid #e7ebf4}
+#dvm-h .faq-q{font-size:15px;font-weight:700;color:#00003d;margin:0;letter-spacing:-.01em;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px}
+#dvm-h .faq-q .faq-icon{font-size:16px;color:#4181ff;transition:transform .2s;flex-shrink:0}
+#dvm-h .faq-item.open .faq-icon{transform:rotate(45deg)}
+#dvm-h .faq-item.open .faq-q{margin-bottom:8px}
+#dvm-h .faq-a{font-size:14.5px;color:#44496e;line-height:1.7;margin:0;max-width:66ch;display:none;padding-top:4px}
+#dvm-h .faq-item.open .faq-a{display:block}
+
+/* ─── FOOTER ─── */
+.fd-footer{background:#00010f;color:#fff;margin-top:48px;font-family:"GE Sans",-apple-system,"Helvetica Neue",Arial,sans-serif}
+.fd-footer .fdf-in{max-width:1280px;margin:0 auto;padding:48px 28px 40px}
+.fd-footer .fdf-top{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-bottom:26px;border-bottom:1px solid rgba(255,255,255,.12)}
+.fd-footer .fdf-brand{display:flex;align-items:center;gap:11px;font-size:15px;font-weight:600;color:#fff}
+.fd-footer .fdf-chip{background:#fff;color:#00010f;font-size:10px;font-weight:800;letter-spacing:.12em;padding:5px 9px;border-radius:4px;border:1px solid #16b364}
+.fd-footer .fdf-cobrand{font-size:13px;font-weight:600;color:rgba(255,255,255,.7);letter-spacing:.02em}
+.fd-footer .fdf-cobrand i{font-style:normal;opacity:.5;margin:0 5px}
+.fd-footer .fdf-cols{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;padding:30px 0}
+.fd-footer .fdf-h{font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#7e8aa8;margin-bottom:12px}
+.fd-footer .fdf-col a{display:block;color:rgba(255,255,255,.78);font-size:13.5px;text-decoration:none;padding:5px 0}
+.fd-footer .fdf-col a:hover{color:#fff}
+.fd-footer .fdf-meta{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:22px;border-top:1px solid rgba(255,255,255,.12);font-size:11.5px;color:rgba(255,255,255,.45)}
+@media(max-width:720px){.fd-footer .fdf-cols{grid-template-columns:1fr 1fr}}
+@media(max-width:440px){.fd-footer .fdf-cols{grid-template-columns:1fr}}
+
+/* ─── WINGMATE DRAWER ─── */
+#dvm-h .wm-drawer{position:fixed;top:0;right:0;bottom:0;width:380px;max-width:92vw;background:#00010f;color:#fff;z-index:120;transform:translateX(100%);transition:transform .28s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;box-shadow:-20px 0 60px -20px rgba(0,0,0,.6)}
+#dvm-h .wm-drawer.open{transform:translateX(0)}
+#dvm-h .wm-drawer .wmd-head{display:flex;align-items:center;gap:10px;padding:20px 22px;border-bottom:1px solid rgba(255,255,255,.1)}
+#dvm-h .wm-drawer .wmd-spark{width:30px;height:30px;border-radius:8px;background:rgba(123,227,173,.18);display:flex;align-items:center;justify-content:center;font-size:15px;color:#7be3ad}
+#dvm-h .wm-drawer .wmd-title{font-size:14px;font-weight:700}
+#dvm-h .wm-drawer .wmd-title small{display:block;font-size:11px;font-weight:500;color:rgba(255,255,255,.5)}
+#dvm-h .wm-drawer .wmd-x{margin-left:auto;background:none;border:0;color:rgba(255,255,255,.6);font-size:20px;cursor:pointer;font-family:inherit}
+#dvm-h .wm-drawer .wmd-x:hover{color:#fff}
+#dvm-h .wm-drawer .wmd-body{flex:1;overflow-y:auto;padding:20px 22px;display:flex;flex-direction:column;gap:14px}
+#dvm-h .wm-msg{font-size:13.5px;line-height:1.55;border-radius:12px;padding:13px 15px;max-width:90%}
+#dvm-h .wm-msg.bot{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);align-self:flex-start;color:rgba(255,255,255,.9)}
+#dvm-h .wm-msg.user{background:#2256e6;align-self:flex-end;color:#fff}
+#dvm-h .wm-msg b{color:#8aa6f0;font-weight:700}
+#dvm-h .wm-sugg{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+#dvm-h .wm-sugg button{text-align:left;font-family:inherit;font-size:12.5px;color:#cfe0fb;background:rgba(65,129,255,.12);border:1px solid rgba(65,129,255,.3);border-radius:10px;padding:10px 13px;cursor:pointer;transition:background .15s}
+#dvm-h .wm-sugg button:hover{background:rgba(65,129,255,.22)}
+#dvm-h .wm-drawer .wmd-foot{padding:16px 18px;border-top:1px solid rgba(255,255,255,.1);display:flex;gap:9px}
+#dvm-h .wm-drawer .wmd-foot input{flex:1;min-width:0;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:100px;padding:11px 16px;color:#fff;font:inherit;font-size:13.5px;outline:0}
+#dvm-h .wm-drawer .wmd-foot input::placeholder{color:rgba(255,255,255,.45)}
+#dvm-h .wm-drawer .wmd-foot button{flex:none;background:#2256e6;color:#fff;border:0;border-radius:100px;width:42px;height:42px;font-size:16px;cursor:pointer}
+#dvm-h .wm-scrim{position:fixed;inset:0;background:rgba(0,1,15,.4);z-index:119;opacity:0;pointer-events:none;transition:opacity .28s}
+#dvm-h .wm-scrim.open{opacity:1;pointer-events:auto}
+
+@media(max-width:760px){
+  #dvm-h .hero h1{font-size:38px}
+  #dvm-h .guide-head{flex-direction:column}
+  #dvm-h .role-wide{grid-template-columns:1fr}
+  #dvm-h .role-wide .rw-col+.rw-col{padding-left:0;border-left:0;border-top:1px solid #eef1f8;padding-top:18px}
+}
+</style><script src="/gate.js"></script></head><body>
+<div class="suite"><div class="wrap suite-in">
+  <span class="waffle"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+  <span class="org"><span class="monogram">GE</span>GE Aerospace</span>
+  <span class="sp">SharePoint</span>
+  <input placeholder="Search this site">
+  <span class="icons"><span>&#9881;</span><span class="acct"><span class="av">A</span><span class="nm">Aero</span></span></span>
+</div></div>
+<div class="sprail"><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg></span><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h8l4 4v14H7z"/><path d="M15 3v4h4"/></svg></span><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="15" rx="1.5"/><path d="M3.5 9.5h17M9 9.5v10"/></svg></span><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a1.8 1.8 0 0 1 1.8-1.8H9l2 2h7.2A1.8 1.8 0 0 1 21 9v8.2A1.8 1.8 0 0 1 19.2 19H4.8A1.8 1.8 0 0 1 3 17.2z"/></svg></span><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span></div>
+
+<header class="site">
+  <div class="wrap site-bar">
+    <div class="site-mark"><span class="chip">FLIGHT DECK</span><a href="index.html">FLIGHT DECK Activation Hub</a></div>
+    <nav class="primary">
+      <div><a class="top" href="/concept-quickstart.html">Home</a></div>
+      <div>
+        <a class="top active" href="index.html#fundamentals">Fundamentals<span class="caret">&#9662;</span></a>
+        <div class="menu">
+          <a href="standard-work.html">Standard Work</a>
+          <a href="action-planning.html">Action Planning</a>
+          <a href="daily-visual-management.html">Daily and Visual Management</a>
+          <a href="value-stream-management.html">Value Stream Management</a>
+          <a href="operating-cadences.html">Operating Cadences</a>
+          <a href="problem-solving.html">Problem Solving</a>
+          <a href="5s.html">5S</a>
+          <a href="flow-pull.html">Flow/Pull</a>
+        </div>
+      </div>
+      <div><a class="top" href="behaviors.html">Behaviors<span class="caret">&#9662;</span></a><div class="menu"><a href="/deliverables/respect-for-people/respect-for-people-concept.1.html">Respect for People</a><a href="/deliverables/customer-driven/customer-driven-concept.1.html">Customer Driven</a><a href="/deliverables/continuous-improvement/continuous-improvement-concept.1.html">Continuous Improvement</a></div></div>
+      <div><a class="top" href="sw-templates.html">Templates</a></div>
+      <div><a class="top" href="video-library.html">Video Library</a></div>
+      <div><a class="top" href="/deliverables/standard-work/prompt-library.html">Prompt Library</a></div>
+      <div>
+        <a class="top" href="#">Additional Tools<span class="caret">&#9662;</span></a>
+        <div class="menu">
+          <a href="/tools/index.html">FLIGHT DECK Tool Library</a>
+          <a href="leader-portal.html">FLIGHT DECK Leader Portal</a>
+          <a href="miro.html">FLIGHT DECK on Miro</a>
+          <a href="/programs/index.html">FLIGHT DECK Programs</a>
+          <a href="faq.html">FAQ</a>
+        </div>
+      </div>
+      <div><a class="top" href="https://aifactory-aiwingmate.av.ge.com/?profile=FLIGHTDECK" target="_blank" rel="noopener">FLIGHT DECK Wingmate<span class="caret">&#9662;</span></a></div>
+      
+    </nav>
+    <span class="badge-sensitive">Sensitive &#8964;</span>
+  </div>
+</header>
+
+
+<div id="dvm-h" data-fn="all">
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero">
+    <div class="in">
+      <div class="kick">Flight Deck Fundamental · Daily &amp; Visual Management</div>
+      <h1>See the work.<br>Surface the problems.</h1>
+      <p>Experienced leaders jump to their board. New teams get a guided first board in minutes. Wingmate preps the stand-up.</p>
+      <div class="meta"><span>Three roles</span><span>Four guided moves</span><span>Wingmate throughout</span></div>
+      <div class="wm-ask">
+        <span class="wm-spark">✦</span>
+        <input id="wm-hero-input" placeholder="Ask Wingmate: set up a tier 1 board for my team" onkeydown="if(event.key==='Enter')hWingAsk(this.value)">
+        <button onclick="hWingAsk(document.getElementById('wm-hero-input').value)">Ask Wingmate</button>
+      </div>
+      <div class="wm-hint">Wingmate can recommend a board layout, draft stand-up talking points, or coach you through your first tier 1 review.</div>
+    </div>
+  </section>
+
+  <!-- ═══ START HERE · ROLE SWITCHER ═══ -->
+  <section class="sec" id="start-here">
+    <div class="in">
+      <div class="sec-head">
+        <div class="step-flag">Navigation first</div>
+        <h2>Start with your role.</h2>
+        <p>Pick the role that matches what you do at the board. Every example, template, and checklist then speaks your language. Choose one to see the full detail, or compare all three side by side.</p>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="Role view">
+        <button class="on" data-fn="all" onclick="hSetFn('all')">Side by side</button>
+        <button data-fn="run" onclick="hSetFn('run')">Run the board</button>
+        <button data-fn="update" onclick="hSetFn('update')">Update the board</button>
+        <button data-fn="improve" onclick="hSetFn('improve')">Improve the system</button>
+      </div>
+
+      <div class="roles">
+        <!-- RUN THE BOARD (Leader) -->
+        <div class="role run" data-role="run">
+          <h3>Do you run the daily?</h3>
+          <div class="body">
+            <div class="persona-role">For team leaders and supervisors who lead the stand-up <span class="fn-tag">Run the board</span></div>
+            <div class="lbl">Recommended template</div>
+            <div class="ex">Tier 1 Daily Management Board</div>
+            <div class="exs">Cell lead · Supervisor · Team leader</div>
+            <div class="lbl">What good looks like</div>
+            <ul class="bul">
+              <li>The board drives the conversation, not the other way around</li>
+              <li>Every miss has an owner before the stand-up ends</li>
+              <li>Escalations are timely and documented at the board</li>
+            </ul>
+            <div class="rec-tpl">
+              <div class="rt-label">✦ Recommended template</div>
+              <a href="dvm-template-detail.html?t=Tier+1+Daily+Management+Board&fn=run" target="_blank" rel="noopener">Tier 1 Daily Management Board →</a>
+            </div>
+            <div class="role-wide">
+              <div class="rw-col">
+                <div class="lbl">How to run it</div>
+                <ol class="step-list">
+                  <li>Start at the board on time. The board is the agenda.</li>
+                  <li>Review SQDC top to bottom. Green means on target, any other color means explain why.</li>
+                  <li>Name an owner for every item that is not green before moving on.</li>
+                  <li>Park problems that need more than two minutes on the problems list.</li>
+                  <li>Close in ten minutes. Escalate anything that cannot be resolved at tier 1.</li>
+                </ol>
+              </div>
+              <div class="rw-col">
+                <div class="lbl">Worked example</div>
+                <div class="ex">Cell lead · Tier 1 SQDC stand-up</div>
+                <div class="exs" style="margin-top:6px;line-height:1.55">A cell lead runs a ten-minute SQDC stand-up each morning at the board. Every metric is updated before the team arrives. Safety is green. Quality shows one miss from yesterday: the owner is named, a one-line note is on the board, and the stand-up moves on.</div>
+                <div class="lbl">Who owns it</div>
+                <div class="exs" style="line-height:1.55">The team leader or supervisor. Coaching support from the value-stream manager.</div>
+              </div>
+            </div>
+            <div class="cardfoot">
+              <button class="walkme" onclick="hWalkMe('run')">Walk me through it</button>
+              <button class="wm-mini" onclick="hWingScope('run')">✦ Ask Wingmate</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- UPDATE THE BOARD (Operator) -->
+        <div class="role update" data-role="update">
+          <h3>Do you update the board?</h3>
+          <div class="body">
+            <div class="persona-role">For operators and frontline staff who keep the board current <span class="fn-tag">Update the board</span></div>
+            <div class="lbl">Recommended template</div>
+            <div class="ex">SQDC Tracking Sheet</div>
+            <div class="exs">Operator · Frontline staff · Cell member</div>
+            <div class="lbl">What good looks like</div>
+            <ul class="bul">
+              <li>The board is updated in real time, not at the end of the shift</li>
+              <li>Red is honest: problems are written down, not hidden</li>
+              <li>One-line problem notes give the team leader enough context to act</li>
+            </ul>
+            <div class="rec-tpl">
+              <div class="rt-label">✦ Recommended template</div>
+              <a href="dvm-template-detail.html?t=SQDC+Tracking+Sheet&fn=update" target="_blank" rel="noopener">SQDC Tracking Sheet →</a>
+            </div>
+            <div class="role-wide">
+              <div class="rw-col">
+                <div class="lbl">How to update it</div>
+                <ol class="step-list">
+                  <li>Mark the metric as soon as the result is known. Do not wait until the stand-up.</li>
+                  <li>Use the agreed color convention: green is on target, any miss is marked accordingly.</li>
+                  <li>Write a one-line problem note for any miss. Who noticed it, what happened.</li>
+                  <li>Do not erase or change a miss before the stand-up. The board is the record.</li>
+                  <li>If you need help, flag the team leader at the board before the meeting, not after.</li>
+                </ol>
+              </div>
+              <div class="rw-col">
+                <div class="lbl">Worked example</div>
+                <div class="ex">Operator · Quality miss at the cell</div>
+                <div class="exs" style="margin-top:6px;line-height:1.55">An operator catches a quality deviation on the second unit of the shift. They mark the Quality metric and add a one-line note: "Unit 2 thread gauge out of spec, quarantined at station 3." The board is updated before the stand-up. The team leader has what they need to act.</div>
+                <div class="lbl">Who owns it</div>
+                <div class="exs" style="line-height:1.55">The operator or designated cell member for each shift. Not delegated to the team leader.</div>
+              </div>
+            </div>
+            <div class="cardfoot">
+              <button class="walkme" onclick="hWalkMe('update')">Walk me through it</button>
+              <button class="wm-mini" onclick="hWingScope('update')">✦ Ask Wingmate</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- IMPROVE THE SYSTEM (Engineer) -->
+        <div class="role improve" data-role="improve">
+          <h3>Do you improve the system?</h3>
+          <div class="body">
+            <div class="persona-role">For engineers and managers connecting boards across tiers <span class="fn-tag">Improve the system</span></div>
+            <div class="lbl">Recommended template</div>
+            <div class="ex">Tiered Escalation Matrix</div>
+            <div class="exs">Engineer · Manager · FLIGHT DECK leader</div>
+            <div class="lbl">What good looks like</div>
+            <ul class="bul">
+              <li>Tiers connect: a tier-1 miss that repeats surfaces at tier-2 within 48 hours</li>
+              <li>Repeat problems route to a root-cause owner, not back to the operator</li>
+              <li>The board is tied to the metric that matters at that tier</li>
+            </ul>
+            <div class="rec-tpl">
+              <div class="rt-label">✦ Recommended template</div>
+              <a href="dvm-template-detail.html?t=Tiered+Escalation+Matrix&fn=improve" target="_blank" rel="noopener">Tiered Escalation Matrix →</a>
+            </div>
+            <div class="role-wide">
+              <div class="rw-col">
+                <div class="lbl">How to improve it</div>
+                <ol class="step-list">
+                  <li>Map the current tiers: what boards exist, who runs them, how they connect.</li>
+                  <li>Define the escalation trigger: what condition at tier 1 routes a problem to tier 2.</li>
+                  <li>Name the tier-2 and tier-3 review owners before the first escalation happens.</li>
+                  <li>Audit the board for metric alignment: does the tier-1 metric tie to the tier-2 target?</li>
+                  <li>Review the escalation log monthly; close root-cause actions at the right tier.</li>
+                </ol>
+              </div>
+              <div class="rw-col">
+                <div class="lbl">Worked example</div>
+                <div class="ex">Engineer · Tier escalation from cell to value stream</div>
+                <div class="exs" style="margin-top:6px;line-height:1.55">A recurring tier-1 quality miss on the same part number appears three days running. The engineer reviews the escalation matrix, confirms the trigger condition is met, and routes the problem to the tier-2 value-stream review. A root-cause owner is named within the same day. The tier-1 board is updated to show escalated status.</div>
+                <div class="lbl">Who owns it</div>
+                <div class="exs" style="line-height:1.55">Lead engineer or continuous-improvement manager. Escalation paths defined before they are needed.</div>
+              </div>
+            </div>
+            <div class="cardfoot">
+              <button class="walkme" onclick="hWalkMe('improve')">Walk me through it</button>
+              <button class="wm-mini" onclick="hWingScope('improve')">✦ Ask Wingmate</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ GUIDED PATH (Design B onboarding, revealed when needed) ═══ -->
+  <div class="guide collapsed" id="guide">
+    <div class="in">
+      <div class="guide-head">
+        <div class="gh-copy">
+          <div class="step-flag">Guidance when needed</div>
+          <h2>Your first tier board in four moves.</h2>
+          <p>Four moves take you from nothing to a running tier board in under 20 minutes. Each move has a short action, a worked example, the template it points to, and a small checklist. Check items off as you go.</p>
+          <div class="scoped" id="scoped">Scoped to <b id="scoped-fn">all roles</b>. Pick a role above to tailor every example.</div>
+          <div class="three-el">
+            <span class="te-lead">Every board answers three questions:</span>
+            <span class="te-chip">What tier are we?</span>
+            <span class="te-chip">What metrics matter?</span>
+            <span class="te-chip">What happened today?</span>
+          </div>
+          <button class="guide-toggle" id="guide-toggle" onclick="hToggleGuide()"><span id="gt-label">Show the four moves</span><span class="gt-caret">+</span></button>
+        </div>
+        <div class="gprog">
+          <div class="gp-label">Your progress</div>
+          <div class="prog-track"><div class="prog-fill" id="prog-fill"></div></div>
+          <div class="prog-count" id="prog-count">0 of 12 tasks complete</div>
+          <button class="gp-reset" onclick="hResetProgress()">Reset</button>
+        </div>
+      </div>
+
+      <div class="steps" id="steps">
+        <!-- STEP 1 -->
+        <div class="step" id="step-1">
+          <div class="step-line"></div>
+          <div class="num">01</div>
+          <div class="step-body">
+            <h3>Choose the tier and metrics</h3>
+            <div class="step-card">
+              <p class="intro">Before anything goes on the board, the team needs to agree on the tier and the four to six metrics that matter at that level. Pick the tier first: tier 1 is the cell or team, tier 2 is the value stream, tier 3 is the site or business unit. Then choose the SQDC metrics that reflect what the team is accountable for.</p>
+              <div class="worked"><strong>Worked example</strong><span class="ex-text" data-ex="1">A team picks tier 1 with Safety, Quality, Delivery, and Cost as their daily metrics. Safety is measured by near-miss reports. Quality is first-pass yield. Delivery is units to schedule. Cost is overtime hours. Four metrics, each with a clear daily target.</span></div>
+              <div class="meta-row">
+                <span class="time-badge">5 minutes</span>
+                <span class="tmpl-badge rec-badge" data-tpl="1">SQDC Board Template</span>
+                <button class="wm-badge" onclick="hWingStep(1)">Ask Wingmate to recommend metrics</button>
+              </div>
+              <ul class="checklist" data-step="1">
+                <li onclick="hCheck(this)"><span class="cb"></span><span class="cl-text">Confirm the tier: 1 (cell), 2 (value stream), or 3 (site)</span></li>
+                <li onclick="hCheck(this)"><span class="cb"></span><span class="cl-text">Name four to six SQDC metrics with a daily target for each</span></li>
+                <li onclick="hCheck(this)"><span class="cb"></span><span class="cl-text">Confirm these are metrics the team controls, not just measures they watch</span></li>
+              </ul>
+              <a href="dvm-template-detail.html?t=SQDC+Board+Template" class="act">Open the SQDC Board Template</a>
+            </div>
+          </div>
+        </div>
+        <!-- STEP 2 -->
+        <div class="step" id="step-2">
+          <div class="step-line"></div>
+          <div class="num">02</div>
+          <div class="step-body">
+            <h3>Build the board</h3>
+            <div class="step-card">
+              <p class="intro">Lay out the visual board where the team gathers every day. Physical boards work best when the team shares a space. Digital boards work when the team is distributed. Either way, the board needs to be visible to every member, updated before the stand-up, and simple enough to read in under 30 seconds.</p>
+              <div class="worked"><strong>Worked example</strong><span class="ex-text" data-ex="2">A physical board is mounted at the cell entrance. It has four SQDC columns, today's date, a target row and an actual row, a color zone, and a problems parking lot at the bottom. All fields are pre-printed. The team fills it in daily with a marker. Nothing is typed or digitized at this stage.</span></div>
+              <div class="meta-row">
+                <span class="time-badge">8 minutes</span>
+                <span class="tmpl-badge rec-badge" data-tpl="2">Tier Board Layout</span>
+                <button class="wm-badge" onclick="hWingStep(2)">Ask Wingmate to design the layout</button>
+              </div>
+              <ul class="checklist" data-step="2">
+                <li onclick="hCheck(this)"><span class="cb"></span><span class="cl-text">Place the board where the stand-up will happen, not in a conference room</span></li>
+                <li onclick="hCheck(this)"><span class="cb"></span><span class="cl-text">Include a target row, an actual row, a color zone, and a problems area</span></li>
+                <li onclick="hCheck(this)"><span class="cb"></span><span class="cl-text">Confirm every team member can update it without asking for help</span></li>
+              </ul>
+              <a href="dvm-template-detail.html?t=Tier+Board+Layout" class="act">Open the Tier Board Layout</a>
+            </div>
+          </div>
+        </div>
+        <!-- STEP 3 -->
+        <div class="step" id="step-3">
+          <div class="step-line"></div>
+          <div class="num">03</div>
+          <div class="step-body">
+            <h3>Run the daily stand-up</h3>
+            <div class="step-card">
+              <p class="intro">Set the time, the standing agenda, and the ten-minute cadence before the first stand-up. The board is the agenda. The leader facilitates. The team answers. Every miss gets an owner. Problems that take more than two minutes to discuss go to the parking lot.</p>
+              <div class="worked"><strong>Worked example</strong><span class="ex-text" data-ex="3">The stand-up is at 7:30am at the board, every day. The cell lead reviews SQDC top to bottom. Safety is green: no action. Quality shows a miss from the previous shift: the operator names the issue, the lead assigns an owner, and a note goes on the board. Delivery and Cost are green. The meeting ends in nine minutes.</span></div>
+              <div class="meta-row">
+                <span class="time-badge">3 minutes to set up</span>
+                <span class="tmpl-badge rec-badge" data-tpl="3">Stand-up Cadence Guide</span>
+                <button class="wm-badge" onclick="hWingStep(3)">Ask Wingmate to draft the agenda</button>
+              </div>
+              <ul class="checklist" data-step="3">
+                <li onclick="hCheck(this)"><span class="cb"></span><span class="cl-text">Set a fixed time and location and put it on the team calendar</span></li>
+                <li onclick="hCheck(this)"><span class="cb"></span><span class="cl-text">Agree on the SQDC review order and the two-minute rule for parking lot items</span></li>
+                <li onclick="hCheck(this)"><span class="cb"></span><span class="cl-text">Run the first stand-up today, even if the board is not perfect yet</span></li>
+              </ul>
+              <a href="dvm-template-detail.html?t=Stand-up+Cadence+Guide" class="act">Open the Stand-up Cadence Guide</a>
+            </div>
+          </div>
+        </div>
+        <!-- STEP 4 -->
+        <div class="step" id="step-4">
+          <div class="num">04</div>
+          <div class="step-body">
+            <h3>Escalate and act</h3>
+            <div class="step-card">
+              <p class="intro">Define what escalates, to whom, and when before the first problem needs to go up the chain. A clear escalation path means the team does not lose time debating the question in the moment. The escalation matrix connects tier 1 to tier 2 and tier 3 so that repeat problems get the right level of attention.</p>
+              <div class="worked"><strong>Worked example</strong><span class="ex-text" data-ex="4">Any item on the tier-1 problems list that is unresolved after two days automatically routes to the tier-2 value-stream review. The escalation matrix lists the trigger, the receiving owner, and the response time. A recurring delivery miss escalates within 48 hours. The tier-2 owner is named before it ever happens.</span></div>
+              <div class="meta-row">
+                <span class="time-badge">2 minutes</span>
+                <span class="tmpl-badge rec-badge" data-tpl="4">Escalation Matrix</span>
+                <button class="wm-badge" onclick="hWingStep(4)">Ask Wingmate to map the escalation path</button>
+              </div>
+              <ul class="checklist" data-step="4">
+                <li onclick="hCheck(this)"><span class="cb"></span><span class="cl-text">Define the escalation trigger: what condition sends an item to the next tier</span></li>
+                <li onclick="hCheck(this)"><span class="cb"></span><span class="cl-text">Name the tier-2 and tier-3 owners before the first escalation is needed</span></li>
+                <li onclick="hCheck(this)"><span class="cb"></span><span class="cl-text">Post the escalation path at or near the board so the whole team can see it</span></li>
+              </ul>
+              <a href="dvm-template-detail.html?t=Escalation+Matrix" class="act">Open the Escalation Matrix</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="recap">
+          <h3>What you just set up, in under 20 minutes</h3>
+          <div class="timeline-recap">
+            <div class="tr-item"><strong>Tier and metrics</strong><span>Chose the level and the four to six metrics that matter</span><span class="t-time">5 min</span></div>
+            <div class="tr-item"><strong>Build the board</strong><span>Laid out the visual board where the team gathers</span><span class="t-time">8 min</span></div>
+            <div class="tr-item"><strong>Run the stand-up</strong><span>Set the time, agenda, and ten-minute cadence</span><span class="t-time">3 min</span></div>
+            <div class="tr-item"><strong>Escalate and act</strong><span>Defined triggers, owners, and the path to the next tier</span><span class="t-time">2 min</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ WINGMATE BAND (AI throughout) ═══ -->
+  <section class="wingband">
+    <div class="in">
+      <div class="kick">FLIGHT DECK Wingmate</div>
+      <h2>The assistant runs alongside every board.</h2>
+      <p class="wb-sub">Wingmate is already in Flight Deck. Here it does the heavy lifting on daily and visual management so you spend your time running the review, not preparing for it.</p>
+      <div class="wb-grid">
+        <div class="wb-card"><div class="wb-ic">✦</div><strong>Recommends the tier and metrics</strong><p>Describe your team and Wingmate recommends the right tier level and the four to six metrics that fit.</p><span class="wb-when">At setup</span></div>
+        <div class="wb-card"><div class="wb-ic">📝</div><strong>Drafts the stand-up talking points</strong><p>Tell Wingmate what is on the board and it writes a crisp ten-minute agenda you can run immediately.</p><span class="wb-when">Before the stand-up</span></div>
+        <div class="wb-card"><div class="wb-ic">🔍</div><strong>Flags the misses worth escalating</strong><p>Paste the problems list and Wingmate identifies which items meet the escalation trigger and should go to tier 2.</p><span class="wb-when">After the stand-up</span></div>
+        <div class="wb-card"><div class="wb-ic">🎓</div><strong>Coaches the daily routine</strong><p>Stuck on cadence or metric selection? Wingmate explains it in your team's language and gives a worked example.</p><span class="wb-when">Anytime</span></div>
+      </div>
+      <button class="wb-launch" onclick="hWingOpen()">✦ Open Wingmate</button>
+    </div>
+  </section>
+
+  <!-- ═══ RECOMMENDED TEMPLATES ═══ -->
+  <section class="sec" id="templates">
+    <div class="in">
+      <div class="sec-head">
+        <div class="step-flag">Fewer choices, better fit</div>
+        <h2>The templates we recommend.</h2>
+        <p>Four templates cover the core daily and visual management work. The one marked for you matches the role you selected above. The full library is one click away.</p>
+      </div>
+      <div class="tpl-grid">
+        <div class="tpl-card" data-tpl-fn="run">
+          <span class="rec-flag">✦ Recommended for you</span>
+          <div class="tpl-icon">&#128202;</div>
+          <div class="tpl-tag">Run</div>
+          <h3>Tier 1 Daily Management Board</h3>
+          <p>SQDC layout, daily target and actual rows, problems parking lot, and escalation flag. Ready to run in ten minutes.</p>
+          <a class="open" href="dvm-template-detail.html?t=Tier+1+Daily+Management+Board&fn=run" target="_blank" rel="noopener">Open template →</a>
+        </div>
+        <div class="tpl-card" data-tpl-fn="update">
+          <span class="rec-flag">✦ Recommended for you</span>
+          <div class="tpl-icon">&#128203;</div>
+          <div class="tpl-tag">Update</div>
+          <h3>SQDC Tracking Sheet</h3>
+          <p>Daily metric log by shift. Target, actual, color, and one-line problem note for every entry. Updates the board without extra steps.</p>
+          <a class="open" href="dvm-template-detail.html?t=SQDC+Tracking+Sheet&fn=update" target="_blank" rel="noopener">Open template →</a>
+        </div>
+        <div class="tpl-card" data-tpl-fn="improve">
+          <span class="rec-flag">✦ Recommended for you</span>
+          <div class="tpl-icon">&#128736;</div>
+          <div class="tpl-tag">Improve</div>
+          <h3>Tiered Escalation Matrix</h3>
+          <p>Trigger conditions, receiving owners, response times, and tier connections for a three-level escalation system.</p>
+          <a class="open" href="dvm-template-detail.html?t=Tiered+Escalation+Matrix&fn=improve" target="_blank" rel="noopener">Open template →</a>
+        </div>
+        <div class="tpl-card" data-tpl-fn="run">
+          <span class="rec-flag">✦ Recommended for you</span>
+          <div class="tpl-icon">&#9201;</div>
+          <div class="tpl-tag">Run</div>
+          <h3>Stand-up Cadence Guide</h3>
+          <p>Agenda, time allocation, facilitator prompts, and parking lot protocol for a ten-minute SQDC stand-up.</p>
+          <a class="open" href="dvm-template-detail.html?t=Stand-up+Cadence+Guide&fn=run" target="_blank" rel="noopener">Open template →</a>
+        </div>
+      </div>
+      <div class="tpl-foot">
+        <a href="dvm-templates.html">Open the full template library →</a>
+        <span class="tf-note">All daily and visual management templates, organized by role and tier.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ SEE IT IN ACTION ═══ -->
+  <section class="action-band">
+    <div class="in">
+      <div class="sec-head" style="margin-bottom:6px">
+        <div class="kick">Daily and visual management in action</div>
+        <h2>See a tier 1 board walkthrough.</h2>
+        <p>A complete walkthrough of setting up and running a tier 1 SQDC board: metric selection, stand-up cadence, problem capture, and escalation in a real cell environment.</p>
+      </div>
+      <a class="ab-media" href="training/index.html" aria-label="Watch the daily and visual management training">
+        <img src="training/poster.jpg" alt="Daily and visual management board walkthrough">
+        <span class="ab-play">&#9654;</span>
+      </a>
+      <div class="ab-foot">
+        <div class="ab-highlights">
+          <span>Tier 1 board setup from scratch</span>
+          <span>Live stand-up with real misses and owners</span>
+          <span>Escalation from tier 1 to tier 2</span>
+        </div>
+        <a class="act" href="training/index.html">Watch the full training</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FAQ ═══ -->
+  <section class="faq">
+    <div class="in">
+      <div class="kick">FAQ</div>
+      <h2>Common questions</h2>
+      <div class="faq-item">
+        <div class="faq-q" onclick="hToggleFaq(this)">Physical board or digital? <span class="faq-icon">+</span></div>
+        <p class="faq-a">Physical boards are faster to update, easier to see at a glance, and require no login or load time. They are the default for shop-floor teams who share a space. Digital boards work well for distributed teams or when the board needs to feed a tier-2 or tier-3 review automatically. Start physical if you are new to daily management. You can migrate to digital once the habit is set and the metrics are stable.</p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="hToggleFaq(this)">What metrics go on a tier 1 board? <span class="faq-icon">+</span></div>
+        <p class="faq-a">Tier 1 boards track the four to six SQDC metrics the team directly controls: Safety (near misses, incidents), Quality (first-pass yield, defects), Delivery (units to schedule, on-time shipment), and Cost (overtime, scrap rate). Every metric should have a daily target and a result the team can update themselves. Avoid metrics that require a manager to retrieve the data. If the team cannot update it in real time, it does not belong on a tier-1 board.</p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="hToggleFaq(this)">How long should the stand-up be? <span class="faq-icon">+</span></div>
+        <p class="faq-a">Ten minutes. Review SQDC top to bottom: green items get a nod, any non-green item gets a named owner and a one-line note. Problems that need more than two minutes to discuss go to the parking lot and are addressed after the stand-up, not during it. If your stand-ups regularly run past ten minutes, the board is probably doing too much work that should happen before or after the meeting.</p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="hToggleFaq(this)">What is the difference between tier 1, 2, and 3? <span class="faq-icon">+</span></div>
+        <p class="faq-a">Tier 1 is the team or cell level: daily stand-up, SQDC metrics, problems resolved by the team lead within the shift. Tier 2 is the value-stream or department level: issues escalated from tier 1 that need cross-team ownership or more than a day to resolve. Tier 3 is the site or business-unit level: systemic problems, capacity constraints, or anything that requires executive or cross-site action. The tiers are connected: an unresolved tier-1 miss should reach tier 2 within 48 hours, and an unresolved tier-2 issue should reach tier 3 within the week.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ WINGMATE DRAWER ═══ -->
+  <div class="wm-scrim" id="wm-scrim" onclick="hWingClose()"></div>
+  <aside class="wm-drawer" id="wm-drawer" aria-hidden="true">
+    <div class="wmd-head">
+      <span class="wmd-spark">✦</span>
+      <div class="wmd-title">FLIGHT DECK Wingmate<small>Daily &amp; Visual Management assistant</small></div>
+      <button class="wmd-x" onclick="hWingClose()">&times;</button>
+    </div>
+    <div class="wmd-body" id="wm-body">
+      <div class="wm-msg bot">Hi. I can help you set up a board, prep your stand-up, or map an escalation path. Tell me about your team, or pick one below.</div>
+      <div class="wm-sugg">
+        <button onclick="hWingAsk('Recommend a tier and metrics for my team')">Recommend a tier and metrics for my team</button>
+        <button onclick="hWingAsk('Draft stand-up talking points from my board')">Draft stand-up talking points from my board</button>
+        <button onclick="hWingAsk('Help me map the escalation path to tier 2')">Help me map the escalation path to tier 2</button>
+      </div>
+    </div>
+    <div class="wmd-foot">
+      <input id="wm-drawer-input" placeholder="Ask Wingmate…" onkeydown="if(event.key==='Enter')hWingAsk(this.value)">
+      <button onclick="hWingAsk(document.getElementById('wm-drawer-input').value)">→</button>
+    </div>
+  </aside>
+
+</div><!-- /#dvm-h -->
+
+<footer class="fd-footer">
+  <div class="fdf-in">
+    <div class="fdf-top">
+      <div class="fdf-brand"><span class="fdf-chip">FLIGHT DECK</span>Activation Hub</div>
+      <div class="fdf-cobrand">GE Aerospace</div>
+    </div>
+    <div class="fdf-cols">
+      <div class="fdf-col"><div class="fdf-h">Fundamentals</div><a href="standard-work.html">Standard Work</a><a href="daily-visual-management.html">Daily &amp; Visual Management</a><a href="operating-cadences.html">Operating Cadences</a></div>
+      <div class="fdf-col"><div class="fdf-h">Templates</div><a href="dvm-templates.html">DVM Template Library</a><a href="sw-templates.html">Standard Work Templates</a></div>
+      <div class="fdf-col"><div class="fdf-h">Daily &amp; Visual Management</div><a href="dvm-template-detail.html">Template Detail</a><a href="training/index.html">DVM Board Walkthrough</a></div>
+      <div class="fdf-col"><div class="fdf-h">Hub</div><a href="index.html">Hub Home</a><a href="faq.html">FAQ</a></div>
+    </div>
+    <div class="fdf-meta"><span>FLIGHT DECK Activation Hub</span><span>GE Aerospace Proprietary &middot; Sensitive &middot; authorized distribution only</span></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var root = document.getElementById('dvm-h');
+  var TOTAL = 12;
+
+  var FN = {
+    all: {label:'all roles'},
+    run: {
+      label:'Run the board',
+      ex1:'A cell lead picks tier 1 with Safety, Quality, Delivery, and Cost as daily metrics. Safety: near-miss reports. Quality: first-pass yield. Delivery: units to schedule. Cost: overtime hours.',
+      ex2:'A physical board is mounted at the cell entrance with four SQDC columns, today\'s date, target and actual rows, color zones, and a problems parking lot. The team fills it with a marker before the 7:30am stand-up.',
+      ex3:'Stand-up is at 7:30am at the board, every day. The cell lead reviews SQDC top to bottom. Any miss gets an owner before moving on. Problems needing more than two minutes go to the parking lot.',
+      ex4:'Any item on the problems list unresolved after two days routes to the tier-2 value-stream review. The tier-2 owner is named before the first escalation ever happens.',
+      t1:'SQDC Board Template',
+      t2:'Tier Board Layout',
+      t3:'Stand-up Cadence Guide',
+      t4:'Escalation Matrix'
+    },
+    update: {
+      label:'Update the board',
+      ex1:'An operator identifies they are accountable for Quality and Delivery on the tier-1 board. Their daily target: zero defects and ten units to schedule by end of shift.',
+      ex2:'The SQDC Tracking Sheet is pre-filled with today\'s targets before the shift starts. The operator updates each metric as results come in, not at the end of the shift.',
+      ex3:'Quality shows a miss at 9am. The operator marks it and writes: "Unit 2 thread gauge out of spec, quarantined at station 3." The board is updated before the stand-up.',
+      ex4:'The operator flags any unresolved item at the close of shift. The team lead reviews the problems list and confirms what escalates overnight.',
+      t1:'SQDC Board Template',
+      t2:'SQDC Tracking Sheet',
+      t3:'Stand-up Cadence Guide',
+      t4:'Escalation Matrix'
+    },
+    improve: {
+      label:'Improve the system',
+      ex1:'An engineer maps the current tiers: tier 1 at the cell, tier 2 at the value stream. They confirm the metrics align across tiers so a tier-1 delivery miss surfaces at the tier-2 level automatically.',
+      ex2:'The Tiered Escalation Matrix is built before the first escalation is needed. Trigger: any tier-1 item unresolved for 48 hours. Receiving owner: value-stream manager. Response time: same-day acknowledgment.',
+      ex3:'A recurring quality miss on the same part number appears three days running. The engineer confirms the trigger is met and routes it to tier 2. The tier-2 owner is named and a root-cause action is opened the same day.',
+      ex4:'The engineer reviews the escalation log monthly. Any action open more than two weeks without resolution is reviewed at the tier-3 site meeting. Root-cause closure rate is tracked on the tier-2 board.',
+      t1:'SQDC Board Template',
+      t2:'Tier Board Layout',
+      t3:'Stand-up Cadence Guide',
+      t4:'Escalation Matrix'
+    }
+  };
+
+  // ── Role navigation ──
+  window.hSetFn = function(fn){
+    root.setAttribute('data-fn', fn);
+    document.querySelectorAll('#dvm-h .tabs button').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-fn')===fn); });
+    // show/hide role cards
+    document.querySelectorAll('#dvm-h .role').forEach(function(r){
+      var key = r.getAttribute('data-role');
+      if(fn==='all'){ r.classList.remove('dim'); }
+      else { r.classList.toggle('dim', key!==fn); }
+    });
+    // recommended template flag
+    document.querySelectorAll('#dvm-h .tpl-card').forEach(function(c){
+      c.classList.toggle('rec', fn!=='all' && c.getAttribute('data-tpl-fn')===fn);
+    });
+    // scope the guide
+    var f = FN[fn] || FN.all;
+    document.getElementById('scoped-fn').textContent = f.label;
+    if(fn!=='all'){
+      [1,2,3,4].forEach(function(n){
+        var ex = document.querySelector('#step-'+n+' .ex-text');
+        if(ex && f['ex'+n]) ex.textContent = f['ex'+n];
+        var tb = document.querySelector('#step-'+n+' .rec-badge');
+        if(tb && f['t'+n]) tb.textContent = f['t'+n];
+      });
+    }
+  };
+
+  window.hWalkMe = function(fn){
+    hSetFn(fn);
+    hSetMode('guide');
+    if(root.querySelector('#guide').classList.contains('collapsed')) hToggleGuide();
+    document.getElementById('guide').scrollIntoView({behavior:'smooth', block:'start'});
+  };
+
+  // ── Mode strip ──
+  window.hSetMode = function(m){
+    var mn=document.getElementById('mode-nav'); if(mn) mn.classList.toggle('on', m==='nav');
+    var mg=document.getElementById('mode-guide'); if(mg) mg.classList.toggle('on', m==='guide');
+    if(m==='guide'){
+      if(document.getElementById('guide').classList.contains('collapsed')) hToggleGuide();
+    }
+  };
+  window.hStartGuide = function(){ hSetMode('guide'); document.getElementById('guide').scrollIntoView({behavior:'smooth',block:'start'}); };
+  window.hScrollTo = function(id){ var el=document.getElementById(id); if(el) el.scrollIntoView({behavior:'smooth',block:'start'}); };
+
+  // ── Guided path ──
+  window.hToggleGuide = function(){
+    var g = document.getElementById('guide');
+    var open = !g.classList.toggle('collapsed');
+    document.getElementById('gt-label').textContent = open ? 'Hide the four moves' : 'Show the four moves';
+  };
+  window.hCheck = function(li){ li.classList.toggle('checked'); hProgress(); };
+  function hProgress(){
+    var done = document.querySelectorAll('#dvm-h .checklist li.checked').length;
+    var pct = Math.round(done/TOTAL*100);
+    document.getElementById('prog-fill').style.width = pct + '%';
+    document.getElementById('prog-count').textContent = done + ' of ' + TOTAL + ' tasks complete';
+    [1,2,3,4].forEach(function(n){
+      var items = document.querySelectorAll('#step-'+n+' .checklist li');
+      var ck = Array.prototype.filter.call(items, function(li){ return li.classList.contains('checked'); });
+      document.getElementById('step-'+n).classList.toggle('complete', items.length>0 && ck.length===items.length);
+    });
+  }
+  window.hResetProgress = function(){
+    document.querySelectorAll('#dvm-h .checklist li.checked').forEach(function(li){ li.classList.remove('checked'); });
+    hProgress();
+  };
+  window.hToggleFaq = function(q){
+    var item = q.closest('.faq-item');
+    var was = item.classList.contains('open');
+    document.querySelectorAll('#dvm-h .faq-item.open').forEach(function(i){ i.classList.remove('open'); });
+    if(!was) item.classList.add('open');
+  };
+
+  // ── Wingmate drawer ──
+  function addMsg(text, who){
+    var body = document.getElementById('wm-body');
+    var sugg = body.querySelector('.wm-sugg'); if(sugg) sugg.remove();
+    var d = document.createElement('div');
+    d.className = 'wm-msg ' + (who||'bot');
+    d.innerHTML = text;
+    body.appendChild(d);
+    body.scrollTop = body.scrollHeight;
+  }
+  window.hWingOpen = function(){
+    document.getElementById('wm-drawer').classList.add('open');
+    document.getElementById('wm-drawer').setAttribute('aria-hidden','false');
+    document.getElementById('wm-scrim').classList.add('open');
+  };
+  window.hWingClose = function(){
+    document.getElementById('wm-drawer').classList.remove('open');
+    document.getElementById('wm-drawer').setAttribute('aria-hidden','true');
+    document.getElementById('wm-scrim').classList.remove('open');
+  };
+  window.hWingAsk = function(text){
+    if(!text || !text.trim()) return;
+    hWingOpen();
+    addMsg(text.replace(/</g,'&lt;'), 'user');
+    var fn = root.getAttribute('data-fn');
+    var f = FN[fn] || FN.all;
+    var tpl = fn==='all' ? 'Tier 1 Daily Management Board' : f.t2;
+    setTimeout(function(){
+      addMsg('For ' + f.label + ', I would start with the <b>' + tpl + '</b>. Want me to draft a stand-up agenda, recommend metrics for your team, or walk you through the escalation path?', 'bot');
+    }, 280);
+    var hi = document.getElementById('wm-hero-input'); if(hi) hi.value='';
+    var di = document.getElementById('wm-drawer-input'); if(di) di.value='';
+  };
+  window.hWingScope = function(fn){ hSetFn(fn); hWingAsk('Help me with ' + (FN[fn]||FN.all).label); };
+  window.hWingStep = function(n){
+    var labels = {1:'recommend the right tier and metrics for my team', 2:'help me design the board layout', 3:'draft the stand-up agenda', 4:'map the escalation path to the next tier'};
+    hWingAsk('Wingmate, ' + labels[n] + '.');
+  };
+
+  // init
+  hSetFn('all');
+  hProgress();
+})();
+</script>
+<script src="/deliverables/search/search-index.js"></script>
+<script src="/hub/omnibox.js"></script>
+</body></html>

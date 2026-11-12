@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow">
+<title>Problem Solving — Front Door</title>
+<style>
+  :root{
+    --navy:#00003d; --sky:#2256e6; --sky-d:#1c49c4; --green:#16b364; --green-d:#15803d;
+    --consult:#6b3fa0; --warn:#b7791f; --ink:#00003d; --body:#3a3f60; --muted:#565c74;
+    --line:#e3e8f3; --soft:#eef3fb; --bg:#f6f8fd; --card:#fff;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+    font-family:"GE Sans",-apple-system,"Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased;}
+  html.embed,html.embed body{background:transparent;}
+  .wiz{max-width:1040px;margin:0 auto;padding:6px 4px 10px;}
+
+  /* hero band — the fundamental-page family treatment */
+  .hero{background:linear-gradient(160deg,#0b1a34 0%,#142c55 100%);color:#fff;padding:44px 0 56px;margin-bottom:26px;}
+  .hero .in{max-width:1200px;margin:0 auto;padding:0 40px;}
+  .hero .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#cfe1ff;font-weight:600;margin-bottom:14px;}
+  .hero .eyebrow::before{content:"";width:10px;height:10px;background:var(--green);}
+  .hero h1{font-size:46px;margin:0 0 12px;letter-spacing:-.03em;font-weight:300;line-height:1.05;}
+  .hero p{font-size:16px;color:#c8d5e8;max-width:720px;margin:0;line-height:1.55;}
+  html.embed .hero{display:none;}
+  html.embed .nav,html.embed .suite,html.embed .sprail,html.embed header.site{display:none!important}
+  @media(max-width:640px){.hero{padding:32px 0 36px}.hero .in{padding:0 20px}.hero h1{font-size:34px}.hero p{font-size:15px}}
+
+  /* progress rail */
+  .steps{display:flex;align-items:center;gap:10px;margin:0 0 22px;flex-wrap:wrap;}
+  .steps .st{display:flex;align-items:center;gap:9px;font-size:12.5px;font-weight:600;color:var(--muted);}
+  .steps .st .dot{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--muted);background:#fff;flex:none;}
+  .steps .st.done .dot{background:var(--green);border-color:var(--green);color:#fff;}
+  .steps .st.active .dot{background:var(--navy);border-color:var(--navy);color:#fff;}
+  .steps .st.active{color:var(--navy);}
+  .steps .sep{flex:1;height:1.5px;background:var(--line);min-width:16px;}
+
+  /* question card */
+  .qcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:30px 32px 26px;
+    box-shadow:0 1px 2px rgba(11,26,64,.05),0 22px 50px -36px rgba(11,26,64,.28);}
+  .qcard .qk{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--sky);margin-bottom:12px;display:inline-flex;align-items:center;gap:8px;}
+  .qcard .qk::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--green);}
+  .qcard h3{font-size:25px;font-weight:400;letter-spacing:-.02em;line-height:1.2;margin:0 0 8px;color:var(--navy);}
+  .qcard .qhelp{font-size:14.5px;color:var(--body);line-height:1.55;margin:0 0 22px;max-width:64ch;}
+
+  .opts{display:flex;flex-direction:column;gap:11px;}
+  .opts.yn{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .opt{display:flex;align-items:center;gap:14px;text-align:left;background:#fff;border:1.5px solid var(--line);
+    border-radius:12px;padding:15px 17px;cursor:pointer;font-family:inherit;transition:border-color .15s,box-shadow .15s,transform .15s;width:100%;}
+  .opt:hover{border-color:var(--sky);transform:translateY(-2px);box-shadow:0 16px 34px -22px rgba(34,86,230,.5);}
+  .opt .ic{flex:none;width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;background:var(--soft);color:var(--sky);}
+  .opt.yes .ic{background:#e7f7ee;color:var(--green-d);}
+  .opt.no .ic{background:#f1f4fb;color:var(--muted);}
+  .opt .ol{flex:1;min-width:0;}
+  .opt .ot{display:block;font-size:15.5px;font-weight:600;color:var(--navy);letter-spacing:-.01em;}
+  .opt .od{display:block;font-size:12.5px;color:var(--muted);margin-top:3px;line-height:1.4;}
+  .opt .oa{color:var(--sky);font-size:17px;flex:none;opacity:.6;transition:transform .15s,opacity .15s;}
+  .opt:hover .oa{opacity:1;transform:translateX(3px);}
+  .opt.yes .ot{color:var(--green-d);}
+
+  /* answer panel */
+  .answer{display:none;background:linear-gradient(135deg,#eef4ff,#f6f9ff);border:1.5px solid #cfe0fb;border-radius:16px;padding:28px 30px;}
+  .answer.show{display:block;}
+  .answer.consult{background:linear-gradient(135deg,#f5eefb,#faf6ff);border-color:#ddc9ee;}
+  .answer.foundation{background:linear-gradient(135deg,#fdf7e9,#fffdf7);border-color:#f0e2c0;}
+  .answer .atags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;}
+  .answer .tag{font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:5px 11px;border-radius:100px;color:#fff;background:var(--sky);}
+  .answer .tag.rec{background:var(--navy);}
+  .answer .tag.self{background:var(--green);}
+  .answer .tag.consult{background:var(--consult);}
+  .answer .tag.foundation{background:var(--warn);}
+  .answer h3{font-size:26px;font-weight:400;letter-spacing:-.02em;margin:0 0 8px;color:var(--navy);}
+  .answer .why{font-size:14.5px;color:var(--body);line-height:1.6;margin:0 0 18px;}
+  .answer .coaching{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:16px;}
+  .answer .coaching b{display:block;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);margin-bottom:8px;}
+  .answer .coaching ul{margin:0;padding-left:18px;line-height:1.65;font-size:13.5px;color:var(--body);}
+  .answer .actions{display:flex;flex-wrap:wrap;gap:10px;}
+  .answer .actions a{background:#fff;border:1px solid #cfe0fb;border-radius:9px;padding:10px 15px;font-size:13px;font-weight:600;color:var(--sky-d);text-decoration:none;}
+  .actions .act-pending{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:#565c74;border:1px dashed #c4cbdc;border-radius:100px;padding:6px 13px;}
+  .answer.consult .actions a{border-color:#ddc9ee;color:var(--consult);}
+  .answer.foundation .actions a{border-color:#f0e2c0;color:var(--warn);}
+  .answer .actions a:hover{background:var(--sky);color:#fff;border-color:var(--sky);}
+  .answer.consult .actions a:hover{background:var(--consult);border-color:var(--consult);}
+  .answer.foundation .actions a:hover{background:var(--warn);border-color:var(--warn);}
+
+  /* controls */
+  .controls{display:flex;align-items:center;gap:16px;margin-top:20px;}
+  .controls button{font-family:inherit;font-size:13.5px;font-weight:600;cursor:pointer;background:transparent;border:0;}
+  .controls .back{color:var(--sky-d);}
+  .controls .back:hover{text-decoration:underline;text-underline-offset:3px;}
+  .controls .restart{color:var(--muted);margin-left:auto;}
+  .controls .restart:hover{color:var(--navy);}
+  .controls .back[disabled]{color:#b8c0d4;cursor:default;}
+
+  /* canonical Flight Deck nav (mirrors mind-map / tool-library pages) */
+  .nav { border-bottom:1px solid #dcdfe8; background:#fff; }
+  .nav .in { max-width:1200px; margin:0 auto; padding:20px 40px; display:flex; align-items:center; justify-content:space-between; }
+  .nav .logo { height:23px; width:auto; display:block; }
+  .nav a:hover .logo { opacity:.8; }
+  .nav .rt { font-size:13px; color:#6b7183; }
+  .nav .rt b { color:#00003d; font-weight:600; }
+  @media (max-width:640px){ .nav .in { padding:16px 20px; } }
+</style>
+<script>if(window.top!==window.self||/[?&]embed=1/.test(location.search)){document.documentElement.className+=' embed';}</script>
+<script src="/gate.js"></script>
+<link rel="stylesheet" href="/hub/hub.css">
+</head>
+<body>
+
+<div class="suite"><div class="wrap suite-in">
+  <span class="waffle"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+  <span class="org"><span class="monogram">GE</span>GE Aerospace</span>
+  <span class="sp">SharePoint</span>
+  <input placeholder="Search this site">
+  <span class="icons"><span>&#9881;</span><span class="acct"><span class="av">A</span><span class="nm">Aero</span></span></span>
+</div></div>
+<div class="sprail"><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg></span><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h8l4 4v14H7z"/><path d="M15 3v4h4"/></svg></span><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="1.5"/><path d="M3.5 9.5h17M9 9.5v10"/></svg></span><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a1.8 1.8 0 0 1 1.8-1.8H9l2 2h7.2A1.8 1.8 0 0 1 21 9v8.2A1.8 1.8 0 0 1 19.2 19H4.8A1.8 1.8 0 0 1 3 17.2z"/></svg></span><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></div>
+
+<header class="site">
+  <div class="wrap site-bar">
+    <div class="site-mark"><span class="chip">FLIGHT DECK</span><a href="/concept-quickstart.html">FLIGHT DECK Activation Hub</a></div>
+    <nav class="primary">
+      <div><a class="top" href="/concept-quickstart.html">Home</a></div>
+      <div>
+        <a class="top active" role="button" tabindex="0">Fundamentals<span class="caret">▾</span></a>
+        <div class="menu">
+          <a href="../standard-work/sw-concept-hybrid.1.html">Standard Work</a>
+          <a href="../action-planning/ap-concept-hybrid.1.html">Action Planning</a>
+          <a href="../daily-visual-management/dvm-concept-hybrid.1.html">Daily and Visual Management</a>
+          <a href="../value-stream-management/vsm-concept-hybrid.1.html">Value Stream Management</a>
+          <a href="../operating-cadences/oc-concept-hybrid.1.html">Operating Cadences</a>
+          <a href="../problem-solving/ps-concept-hybrid.1.html">Problem Solving</a>
+          <a href="../5s/5s-concept-hybrid.1.html">5S</a>
+          <a href="../flow-pull/fp-concept-hybrid.1.html">Flow/Pull</a>
+        </div>
+      </div>
+      <div><a class="top" href="../standard-work/behaviors.html">Behaviors<span class="caret">▾</span></a></div>
+      <div><a class="top" href="../standard-work/sw-templates.html">Templates</a></div>
+      <div><a class="top" href="../standard-work/video-library.html">Video Library</a></div>
+      <div><a class="top" href="/deliverables/standard-work/prompt-library.html">Prompt Library</a></div>
+      <div>
+        <a class="top" href="#">Additional Tools<span class="caret">▾</span></a>
+        <div class="menu">
+          <a href="/tools/index.html">FLIGHT DECK Tool Library</a>
+          <a href="../standard-work/leader-portal.html">FLIGHT DECK Leader Portal</a>
+          <a href="../standard-work/miro.html">FLIGHT DECK on Miro</a>
+          <a href="/programs/index.html">FLIGHT DECK Programs</a>
+          <a href="https://ge.sharepoint.us/sites/flight-deck-activation-hub/Lists/FAQ/AllItems.aspx" target="_blank" rel="noopener">FAQ</a>
+        </div>
+      </div>      
+    </nav>
+    <span class="badge-sensitive">Sensitive &#8964;</span>
+  </div>
+</header>
+
+
+<div class="wiz">
+  <div class="steps" id="steps"></div>
+  <div class="qcard" id="qcard"></div>
+  <div class="answer" id="answer"></div>
+  <div class="controls">
+    <button class="back" id="back">&larr; Back</button>
+    <button class="restart" id="restart">Start over</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  // ---- the decision tree ----
+  var TREE = {
+    foundation: {
+      step:1, k:'Gate 1 of 3 · Foundation',
+      q:'Is there Standard Work and Daily Management in place — and do you understand the process?',
+      help:'You need a standard to compare against before you can problem-solve. With no standard process, the root cause is simply that none exists yet.',
+      yn:true,
+      opts:[ {t:'Yes', cls:'yes', d:'You have a standard to compare against', to:'statement'}, {t:'No', cls:'no', d:'No standard yet — build it first', to:'a:foundation'} ]
+    },
+    statement: {
+      step:2, k:'Gate 2 of 3 · Problem statement',
+      q:'Do you have a clear problem statement?',
+      help:'A TAGS statement — Target, Actual, Gap, Significance. Without it, every method risks solving the wrong thing.',
+      yn:true,
+      opts:[ {t:'Yes', cls:'yes', d:'Target, Actual, Gap, Significance are clear', to:'method'}, {t:'No', cls:'no', d:'Sharpen the statement first', to:'a:statement'} ]
+    },
+    method: {
+      step:3, k:'Gate 3 of 3 · Match the method',
+      q:'What best describes the problem?',
+      help:'This routes you to the right method on the Problem Solving Continuum.',
+      opts:[
+        {t:'It is off-track today and fixable at the board', d:'Same-day, action-based', to:'a:dm'},
+        {t:'A single, isolated defect or safety issue', d:'Point-of-impact Root Cause Corrective Action (RCCA) · 8 steps', to:'a:apps'},
+        {t:'Recurring or cross-functional on a red KPI', d:'Structured PSR · ~30 days', to:'a:psr'},
+        {t:'Regulatory', d:'TOPS 8D · compliance record', to:'a:tops'},
+        {t:'Needs a 3–5 day step-change', d:'Kaizen event · consult a Leader', to:'a:kaizen'},
+        {t:'Building a new capability tied to strategy', d:'Hoshin Action Plan · consult a Leader', to:'a:hoshin'}
+      ]
+    }
+  };
+
+  // ---- the answers (verbatim from the FLIGHT DECK front-door doctrine) ----
+  var ANS = {
+    foundation:{ route:'foundation', title:'Build the foundation first',
+      why:'The front door blocks here on purpose. With no standard process to compare against, the root cause is simply that no Standard Work exists yet — there is nothing to problem-solve against. Establish Standard Work and Daily Management, then re-enter this flow.',
+      coaching:['What is the current best-known way this work should be done?','Who owns the Daily Management board and cadence?','What is the smallest piece of Standard Work we could pilot this week?'],
+      actions:['Standard Work','Daily & Visual Management'] },
+    statement:{ route:'foundation', title:'Write a clear problem statement',
+      why:'Without a TAGS statement — Target, Actual, Gap, Significance — every method risks solving the wrong thing. Sharpen the statement, then come back and pick a method.',
+      coaching:['What is the target, and where did that number come from?','What is the actual, and over what window?','Why does closing this gap matter — safety, quality, cost, delivery?'],
+      actions:['↓ Defining the Problem using TAGS','TAGS Refiner'] },
+    dm:{ route:'self', title:'Daily & Visual Management',
+      why:'A quick, action-based fix at the board. Restore standard, then still ask why it went off in the first place — escalate to APPS or PSR if it repeats.',
+      coaching:['Is standard restored? By when, and how do we know?','What caused us to leave standard today?','Has this happened before? Should this escalate to APPS?'],
+      actions:['Daily & Visual Management','Reference coaching questions'] },
+    apps:{ route:'self', title:'At Point Problem Solving (APPS)',
+      why:'An isolated defect or safety issue at one part, product, or site. Eight steps, tight scope, front-line ownership. Keep no more than 2–3 APPS open at a cell.',
+      coaching:['Have we been to genba to see the point of cause?','What are the 5 Whys — did we get to a root you can control?','What is the countermeasure, and how will we sustain it?'],
+      actions:['↓ APPS Template','Example: Tackling Welding Challenges at GE Aerospace Poland'] },
+    psr:{ route:'self', title:'Structured Problem Solving (PSR)', created:true,
+      why:'A recurring or cross-functional problem across parts, products, or sites. Four steps: Define → Analyze → Countermeasure → Sustain, target ~30 days. Watch created-vs-caused framing.',
+      coaching:['Is this a caused problem or a created one — which changes the method?','Does the TAGS statement pass the so-what test?','What is the containment vs. the root-cause countermeasure?'],
+      actions:['↓ Structured Problem Solving Report (PSR)','Coaching Quality Workbook','Reference coaching questions'] },
+    tops:{ route:'self', title:'TOPS 8D',
+      why:'Regulatory problems follow the 8-discipline TOPS 8D format — containment, root cause, corrective action, prevention. Satisfies the compliance record while still driving to root cause.',
+      coaching:['What is the containment action, and is the customer protected today?','Have we identified the escape point as well as the root cause?','What is the read-across to similar parts and processes?'],
+      actions:['Reference coaching questions'] },
+    kaizen:{ route:'consult', title:'Kaizen Event', created:true,
+      why:'A focused 3–5 day event to drive a step-change. This is a created improvement — a FLIGHT DECK Leader sponsors scope, resourcing, and follow-through.',
+      coaching:['What is the specific outcome we will test by end of the event?','Who owns the 30-day sustainment plan?','Which FLIGHT DECK Leader is sponsoring?'],
+      actions:['↓ Kaizen Event Playbook','Kaizen Event Coaching Quality Workbook'] },
+    hoshin:{ route:'consult', title:'Hoshin Action Plan', created:true,
+      why:'You are building a capability you have never hit before — a created problem tied to strategy. Hoshin bridges to the new standard with an Action Plan, sponsored by a FLIGHT DECK Leader.',
+      coaching:['Which TTI does this Hoshin ladder up to?','What is the true-north target, and by when?','Have we identified the capability gap, not just the KPI gap?'],
+      actions:['↓ Hoshin Kanri Action Planning','Guide for Created Problem Solving'] }
+  };
+
+  var qcard=document.getElementById('qcard'), answerEl=document.getElementById('answer'),
+      stepsEl=document.getElementById('steps'), backBtn=document.getElementById('back');
+  var path=['foundation'];   // stack of visited nodes; last is current
+
+  function postH(){ var el=document.querySelector('.wiz'); var h=el?Math.ceil(el.getBoundingClientRect().height+16):document.documentElement.scrollHeight; try{ parent.postMessage({type:'ps-embed-h', id:'frontdoor', h:h}, '*'); }catch(e){} }
+
+  function renderSteps(activeStep, done){
+    var labels=['Foundation','Statement','Method'];
+    var html='';
+    for(var i=0;i<3;i++){
+      var cls='st'; if(i+1<activeStep||done)cls+=' done'; if(i+1===activeStep&&!done)cls+=' active';
+      html+='<div class="'+cls+'"><span class="dot">'+((i+1<activeStep||done)?'✓':(i+1))+'</span>'+labels[i]+'</div>';
+      if(i<2) html+='<span class="sep"></span>';
+    }
+    stepsEl.innerHTML=html;
+  }
+
+  function go(to){ path.push(to); render(); }
+
+  // Every action used to render as href="#", so clicking one moved the reader to the
+  // top of the page instead of opening anything. Templates and named documents now
+  // open their own page; the routes GE has not supplied a destination for render as
+  // plain text rather than a link that goes nowhere.
+  // Every destination is a fixed literal (Ken, 21 Aug): the SharePoint build reads
+  // markup and rewrites this table. Nothing may assemble a URL at runtime.
+  var ACTION_TO = {
+    'Standard Work': '/deliverables/standard-work/sw-concept-hybrid.1.html',
+    'Daily & Visual Management': '/deliverables/daily-visual-management/dvm-concept-hybrid.1.html',
+    'Reference coaching questions': '/tools/Problem%20Solving/ps-continuum-hybrid.html',
+    'Example: Tackling Welding Challenges at GE Aerospace Poland': '/tools/Problem%20Solving/ps-continuum-hybrid.html',
+    '\u2193 Defining the Problem using TAGS': '/deliverables/standard-work/sw-template-detail.html?t=Defining%20the%20Problem%20using%20TAGS&fund=Problem%20Solving',
+    'TAGS Refiner': '/deliverables/standard-work/sw-template-detail.html?t=TAGS%20Refiner&fund=Problem%20Solving',
+    '\u2193 APPS Template': '/deliverables/standard-work/sw-template-detail.html?t=APPS%20Template&fund=Problem%20Solving',
+    '\u2193 Structured Problem Solving Report (PSR)': '/deliverables/standard-work/sw-template-detail.html?t=Structured%20Problem%20Solving%20Report%20(PSR)&fund=Problem%20Solving',
+    'Coaching Quality Workbook': '/deliverables/standard-work/sw-template-detail.html?t=Coaching%20Quality%20Workbook&fund=Problem%20Solving',
+    '\u2193 Kaizen Event Playbook': '/deliverables/standard-work/sw-template-detail.html?t=Kaizen%20Event%20Playbook&fund=Problem%20Solving',
+    'Kaizen Event Coaching Quality Workbook': '/deliverables/standard-work/sw-template-detail.html?t=Kaizen%20Event%20Coaching%20Quality%20Workbook&fund=Problem%20Solving',
+    '\u2193 Hoshin Kanri Action Planning': '/deliverables/standard-work/sw-template-detail.html?t=Hoshin%20Kanri%20Action%20Planning&fund=Problem%20Solving'
+  };
+  function actionHref(label){ return ACTION_TO[label] || null; }
+
+  function render(){
+    var cur=path[path.length-1];
+    backBtn.disabled = path.length<=1;
+    if(cur.indexOf('a:')===0){ renderAnswer(cur.slice(2)); return; }
+    var node=TREE[cur];
+    answerEl.className='answer'; answerEl.innerHTML='';
+    qcard.style.display='';
+    renderSteps(node.step, false);
+    var opts=node.opts.map(function(o){
+      var ic=o.cls==='yes'?'✓':o.cls==='no'?'✕':'›';
+      return '<button class="opt '+(o.cls||'')+'" data-to="'+o.to+'"><span class="ic">'+ic+'</span><span class="ol"><span class="ot">'+o.t+'</span>'+(o.d?'<span class="od">'+o.d+'</span>':'')+'</span><span class="oa">→</span></button>';
+    }).join('');
+    qcard.innerHTML='<div class="qk">'+node.k+'</div><h3>'+node.q+'</h3><p class="qhelp">'+node.help+'</p>'+
+      '<div class="opts'+(node.yn?' yn':'')+'">'+opts+'</div>';
+    qcard.querySelectorAll('.opt').forEach(function(btn){ btn.addEventListener('click',function(){ go(btn.dataset.to); }); });
+    postH();
+  }
+
+  function renderAnswer(key){
+    var d=ANS[key];
+    qcard.style.display='none';
+    renderSteps(3, true);
+    var routeTag = d.route==='self' ? {label:'Self-serve', cls:'self'}
+                 : d.route==='consult' ? {label:'Consult a FLIGHT DECK Leader', cls:'consult'}
+                 : {label:'Do this first', cls:'foundation'};
+    var recLabel = d.route==='foundation' ? 'Next step' : 'Recommended method';
+    var tags='<span class="tag rec">'+recLabel+'</span><span class="tag '+routeTag.cls+'">'+routeTag.label+'</span>'+(d.created?'<span class="tag" style="background:#b7791f">Created problem</span>':'');
+    var coaching='<div class="coaching"><b>Coaching questions</b><ul>'+d.coaching.map(function(c){return '<li>'+c+'</li>';}).join('')+'</ul></div>';
+    // Every action is a named, addressable CTA slot: data-cta carries the label,
+    // data-node the answer key, data-slot its 1-based position. The SharePoint build
+    // rewires hrefs from GE's Match the Method library against these anchors.
+    var actions='<div class="actions">'+d.actions.map(function(a,i){
+      var to=actionHref(a);
+      var slot=' data-cta="'+a.replace(/^\u2193 /,'')+'" data-node="'+key+'" data-slot="'+(i+1)+'"';
+      return to ? '<a href="'+to+'"'+slot+' target="_blank" rel="noopener">'+a+'</a>'
+                : '<span class="act-pending"'+slot+'>'+a+'</span>';
+    }).join('')+'</div>';
+    answerEl.className='answer show'+(d.route==='consult'?' consult':d.route==='foundation'?' foundation':'');
+    answerEl.innerHTML='<div class="atags">'+tags+'</div><h3>'+d.title+'</h3><p class="why">'+d.why+'</p>'+coaching+actions;
+    postH();
+  }
+
+  backBtn.addEventListener('click',function(){ if(path.length>1){ path.pop(); render(); } });
+  document.getElementById('restart').addEventListener('click',function(){ path=['foundation']; render(); });
+
+  render();
+  window.addEventListener('load',postH);
+  if(window.ResizeObserver){ new ResizeObserver(postH).observe(document.body); }
+})();
+</script>
+<script src="/deliverables/search/search-index.js"></script>
+<script src="/hub/omnibox.js"></script>
+</body>
+</html>

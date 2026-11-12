@@ -1,0 +1,603 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script src="/gate.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Flight Deck &middot; Publication Roadmap &middot; Bttr.</title>
+<style>
+  @font-face{font-family:"GE Sans";font-weight:400;font-display:swap;src:url("assets/fonts/ge-sans/sons-regular.woff2") format("woff2")}
+  @font-face{font-family:"GE Sans";font-weight:600;font-display:swap;src:url("assets/fonts/ge-sans/sons-semibold.woff2") format("woff2")}
+  :root{--ink:#00003d;--ink-soft:#23234a;--muted:#4A506A;--line:#e7ebf4;--soft:#eef1f8;--cap:#3d3d63;--surface:#f1f1f6;--blue:#146FF8;--green:#00B140;--green-t:#00782D;--deep:#0D0D47;--today:#c9a227;
+    --sans:"GE Sans",-apple-system,"Helvetica Neue",Arial,sans-serif;--mono:"Geist Mono",ui-monospace,"SF Mono",Menlo,monospace}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:var(--sans);color:var(--ink);background:#e9eaf0;line-height:1.3;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;overflow:hidden}
+  .top{display:flex;gap:0;flex:1;min-height:0}
+  .left{overflow:hidden}
+  .left{flex:1;min-width:0;display:flex;flex-direction:column}
+  header{padding:clamp(20px,2.4vh,32px) 34px 0;flex:none}
+  /* the one small-label style: same face and scale as the hub chrome around it */
+  .eyebrow,.gl,.st .k{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--cap)}
+  .eyebrow{margin-bottom:16px}
+  h1{font-weight:400;font-size:clamp(29px,3.4vw,44px);letter-spacing:-.025em;line-height:1.04}
+  .stats{display:flex;gap:0;margin-top:clamp(16px,2vh,24px);border-top:1px solid var(--line);background:#fff}
+  .st{flex:1;min-width:0;padding:14px 18px 15px;border-left:1px solid var(--line)}
+  .st:first-child{border-left:0}
+  .st .k{margin-bottom:7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .st .v{font-size:clamp(16px,1.25vw,21px);font-weight:400;letter-spacing:-.025em;line-height:1.15}
+  .st .v small{font-size:13px;font-weight:400;color:var(--muted);letter-spacing:0}
+  .st.now .v{color:var(--blue)}
+  /* The one control row: label inline left, pills right, inside the panel. */
+  /* The panel says what it is, like the work list does. Hidden on the full
+     page, which already has its own h1. */
+  .blockhd{display:none;font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--cap);padding:16px 18px 0}
+  /* the control row used to close the label with a hairline; with it gone the
+     label carries its own, so Schedule closes like This week and Status do */
+  body.embed .blockhd{display:block;padding-bottom:14px;border-bottom:1px solid var(--line)}
+  /* The hairline under the controls is the board's convention: Status, Library and Next week
+     all close their header row with one, and this card was the only one without it. */
+  .controls{display:flex;gap:24px;padding:13px 18px;flex-wrap:wrap;align-items:center;flex:none;
+    border-bottom:1px solid var(--line)}
+  .controls>div{display:flex;align-items:center;gap:10px}
+  .gl{margin-bottom:0;white-space:nowrap}
+  .opts{display:flex;gap:4px;flex-wrap:wrap}
+  .ck,.vb{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;letter-spacing:-.005em;border:1px solid var(--line);background:#fff;
+    border-radius:100px;cursor:pointer;user-select:none;transition:.18s}
+  .ck{padding:6px 13px 6px 10px}
+  .vb{padding:6px 13px}
+  .ck input,.vb input{display:none} .ck .sw{width:8px;height:8px;border-radius:50%;flex:none}
+  .ck:has(input:not(:checked)){opacity:.34} .ck:hover,.vb:hover{border-color:var(--ink)}
+  .vb:has(input:checked){background:var(--ink);border-color:var(--ink);color:#fff}
+  main{flex:1;overflow-y:auto;padding:4px 34px 18px;position:relative;display:flex;flex-direction:column}
+  .axis{position:relative;height:26px;margin-left:224px;flex:none}
+  .tick{position:absolute;top:0;transform:translateX(-50%)}
+  .tick span{font-size:11.5px;font-weight:400;letter-spacing:.02em;color:var(--muted)}
+  .heat{position:relative;height:22px;margin-left:224px;border-bottom:1px solid var(--line);margin-bottom:10px;flex:none}
+  .hb{position:absolute;bottom:0;width:9px;transform:translateX(-50%);background:#cfd4e2;border-radius:2px 2px 0 0;min-height:3px}
+  .hb em{display:none}
+  .chart{position:relative;flex:none}
+  .gridlines{position:absolute;left:224px;right:0;top:0;bottom:0;pointer-events:none}
+  .gridlines i{position:absolute;top:0;bottom:0;width:1px;background:var(--soft)}
+  .todayband{position:absolute;top:0;bottom:0;width:2px;background:var(--today);z-index:3;pointer-events:none}
+  .lane{display:grid;grid-template-columns:224px 1fr;align-items:center;height:50px;border-bottom:1px solid var(--line);transition:opacity .18s}
+  .lane.hide{display:none} .lane.fade{opacity:.15}
+  .lname{display:grid;grid-template-columns:10px 1fr;gap:0 8px;align-items:center;padding-right:20px}
+  .lname .sw{width:8px;height:8px;border-radius:50%;background:var(--pc)}
+  .lname b{font-size:14px;font-weight:600;letter-spacing:-.01em}
+  .lane[data-page^="p3-"] .lname b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+  /* One segment per stage, in order, so the bar says which stages are done —
+     not just how many. A bare count sent you to the legend to decode it. */
+  .lname .prog{grid-column:2;display:flex;gap:3px;height:5px;margin-top:6px}
+  .lname .prog i{flex:1;height:100%;border-radius:1px;background:#dfe3ec}
+  .lname .prog i.on{background:var(--green)}
+  .lname .prog i.now{background:var(--today)}
+  /* A page that has shipped says so on the row, not only in the stage count. */
+  .lname b .live{display:inline-block;margin-left:8px;padding:1.5px 6px 2px;border-radius:100px;
+    background:var(--green);color:#fff;font-family:var(--mono);font-size:8.5px;font-weight:500;
+    letter-spacing:.1em;text-transform:uppercase;vertical-align:1px}
+  body.embed .lname b .live{font-size:8px;padding:1px 5px 1.5px;margin-left:6px}
+  /* The row is a fixed 50px, so a label that wraps lands on the page below it.
+     One line, always. */
+  .lname em{grid-column:2;font-style:normal;font-size:11px;letter-spacing:.3px;color:var(--muted);margin-top:3px;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+  .track{position:relative;height:50px}
+  .span{position:absolute;top:50%;height:3px;background:var(--pc);opacity:.3;border-radius:2px;transform:translateY(-50%)}
+  /* the two milestones that are windows, not moments: a full week of Fundamental
+     Reviews and a 48 hour Comms window. Drawn so the duration is readable. */
+  .win{position:absolute;top:50%;height:12px;border-radius:3px;transform:translateY(-50%);opacity:.22;pointer-events:none}
+  .win.inf{opacity:.34;height:12px}
+  .nd{position:absolute;top:50%;width:26px;height:26px;border-radius:50%;transform:translate(-50%,-50%);cursor:pointer;
+    background:#fff;border:2px solid var(--pc);padding:0;transition:transform .12s,box-shadow .12s;z-index:2;
+    box-shadow:0 0 0 2.5px #fff;
+    font-size:12px;line-height:1;display:flex;align-items:center;justify-content:center;font-family:var(--sans)}
+  .nd.des{border-radius:7px;transform:translate(-50%,-50%)}
+  
+  
+  .key i.k0{border-radius:3px;transform:rotate(45deg);border-color:var(--green);background:var(--green)}
+  .nd.ite{background:#fff}
+  .nd.inf{border-radius:7px}
+  .nd.pub{width:28px;height:28px;border-width:2.5px;box-shadow:0 0 0 3px #fff,0 0 0 4px var(--pc)}
+  /* The learning team's content drop, after a page is live. Square rather than
+     round so it does not read as a ninth stage in the eight-stage cadence. */
+  .nd.con{border-radius:5px;border-style:dashed;opacity:.9}
+  .nd.done{border-color:var(--green);background:#f2fbf5;border-width:3px} .nd.pub.done{box-shadow:0 0 0 3px #fff,0 0 0 4px var(--green)}
+  .nd.ite.done{background:#fff}
+  .nd:hover,.nd:focus-visible{transform:translate(-50%,-50%) scale(1.35);box-shadow:0 4px 14px rgba(0,0,61,.3);outline:none;z-index:5}
+  .nd.sel{transform:translate(-50%,-50%) scale(1.45);box-shadow:0 0 0 3px #fff,0 0 0 5px var(--blue)}
+  .nd.off{opacity:.1;pointer-events:none}
+  /* milestone detail popup */
+  .pop{position:fixed;z-index:80;width:290px;background:#fff;border:1px solid var(--ink);border-radius:10px;
+    box-shadow:0 20px 52px rgba(0,0,61,.22);opacity:0;visibility:hidden;transform:translateY(-4px);transition:.14s}
+  .pop.on{opacity:1;visibility:visible;transform:translateY(0)}
+  .pop .ph{padding:17px 19px 14px;border-bottom:1px solid var(--line)}
+  .pop .pk{font-size:12px;letter-spacing:.4px;color:var(--muted);margin-bottom:7px}
+  .pop h2{font-size:22px;font-weight:400;letter-spacing:-.025em;line-height:1.1}
+  .pop .stg{display:inline-flex;align-items:center;gap:8px;margin-top:10px;font-size:13px;letter-spacing:.3px;color:var(--muted)}
+  .pop .stg i{width:9px;height:9px;border-radius:50%;background:var(--sc,#00003d)}
+  .pop .pb{padding:4px 19px 16px}
+  .pf{padding:12px 0;border-bottom:1px solid var(--soft)}
+  .pf:last-child{border-bottom:0}
+  .pf .fk{font-size:12px;letter-spacing:.4px;color:var(--muted);margin-bottom:4px}
+  .pf .fv{font-size:15px;font-weight:400;letter-spacing:-.01em;line-height:1.3}
+  .pop .x{position:absolute;top:13px;right:13px;width:24px;height:24px;border-radius:50%;border:0;background:var(--soft);
+    color:var(--ink);cursor:pointer;font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center}
+  .em{font-size:13px;line-height:1;font-style:normal;font-weight:400;display:inline-block}
+  .key .em{font-size:14px}
+  .pop .stg .em{font-size:15px}
+  .key{display:flex;gap:22px;flex-wrap:wrap;padding:12px 34px 14px;font-size:12px;letter-spacing:.02em;color:var(--muted);flex:none;border-top:1px solid var(--line)}
+  .key span{display:inline-flex;align-items:center;gap:7px}
+  .key i{width:14px;height:14px;border-radius:50%;border:2px solid var(--green);background:#f2fbf5;display:inline-block}
+  .key i.k2{background:linear-gradient(90deg,var(--ink) 50%,#fff 50%)} .key i.k3{border-radius:3px}
+  .key i.k4{background:var(--ink)}
+  /* k5 is the "complete" swatch, so it has to look like a complete node: green ring on the
+     pale fill, not a solid dot. It read as a filled marker that appears nowhere on the chart. */
+  .key i.k5{border-color:var(--green);background:#f2fbf5;border-width:3px}
+
+  /* Group heads: the eight Fundamentals, then the rest of the work GE asked to
+     see on the same chart on 17 Aug. */
+  .grp{display:grid;grid-template-columns:224px 1fr;align-items:baseline;padding:11px 0 8px;
+    border-bottom:1px solid var(--line);font-family:var(--mono);font-size:9.5px;font-weight:500;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--cap)}
+  .grp.grp-rule{padding:14px 0 0;border-bottom:0;border-top:1px solid var(--line);min-height:0}
+  body.embed .grp{padding:8px 0 6px}
+
+  /* embedded inside the deck: drop the standalone chrome, match the deck surface */
+  body.embed{background:#f6f8fd}
+  body.embed>*{background:#fff}
+  /* everything in the header is hidden in the embed, so its padding was 18px of
+     dead space that pushed the Schedule label lower than Status and This week */
+  body.embed header{padding:0}
+  /* Embedded on the hub this is a glance, not a workbench. Four numbers that
+     change the day, and the view toggle. Everything else is one click away on
+     the full page, so it does not need to cost 340px of header here. */
+  /* The hub carries status above this embed now, so the stat row is redundant here.
+     It still renders on the full page. */
+  body.embed .stats{display:none}
+  /* With the view toggle gone the glance view has no control worth its height:
+     the page and stage filters belong on the full page, so the row goes. */
+  body.embed .controls{display:none}
+  /* the hub embed is a glance view with Open full page right above it, so the
+     chrome gets out of the way and the chart gets the room */
+  body.embed .gl{margin-bottom:0;white-space:nowrap}
+  body.embed .ck .sw{width:7px;height:7px}
+  body.embed .eyebrow{display:none}
+  body.embed h1{display:none}
+  body.embed .controls{padding:15px 22px}
+  body.embed main{padding:2px 30px 2px;overflow:hidden}
+  /* Fifteen lanes now, so the lanes divide the box they are in rather than
+     stacking to a fixed height and running off the bottom of the card. */
+  .chart{flex:1 1 auto;display:flex;flex-direction:column}
+  #pagelanes{flex:1 1 auto;display:flex;flex-direction:column}
+  .lane{height:auto;min-height:46px;flex:1 1 0}
+  .track{height:auto;align-self:stretch}
+  .grp{flex:none}
+  body.embed .axis{height:30px}
+  body.embed .heat{height:22px;margin-bottom:8px}
+  body.embed .key{padding:11px 30px 13px}
+  body.embed .key span:last-child{display:none}
+
+  /* standalone: present as a page, not edge to edge — matches the deck slide proportions */
+  /* Fifteen lanes no longer fit a 16:10 card, so the card keeps its width and
+     grows down the page rather than hiding rows behind an inner scrollbar. */
+  body:not(.embed){background:#e9eaf0;padding:24px;justify-content:flex-start;overflow:auto}
+  body:not(.embed) .top{flex:none;width:min(100%, calc((100vh - 48px) * 1.6), 1600px);margin:0 auto;background:#f6f8fd;
+    border:1px solid var(--line);border-radius:14px;box-shadow:0 24px 60px rgba(16,24,40,.13);overflow:hidden;
+    min-height:calc(100vh - 48px)}
+  body:not(.embed) .left{min-height:0}
+  @media (max-width:760px){
+    /* the chart is the point on a phone — the filters are not */
+    body.embed .controls{display:none}
+    body.embed .stats{flex-wrap:wrap}
+    body.embed .stats .st{flex:1 0 50%;min-width:0;padding:6px 12px}
+    body.embed .stats .st:nth-child(n+5){display:none}
+    body.embed .st .v{font-size:18px}
+    body.embed header{padding:14px 12px 0}
+    /* keep real spacing and scroll sideways, with the page names pinned */
+    body.embed main{overflow-x:auto;overflow-y:hidden;padding:2px 12px 6px}
+    body.embed .axis,body.embed .heat{margin-left:114px;min-width:486px}
+    body.embed .lane{grid-template-columns:114px 1fr;min-width:600px;min-height:31px}
+    body.embed .lname{position:sticky;left:0;background:#fff;z-index:4;padding-right:8px}
+    body.embed .lname b{font-size:11px;line-height:1.15}
+    body.embed .lname em{font-size:9.5px;white-space:nowrap}
+    /* 114px cannot hold "1 of 5 stages · Review next". The count survives,
+       the next-stage clause drops, and nothing overlaps the lane below. */
+    body.embed .lname em .nx{display:none}
+    body.embed .nd{width:20px;height:20px;font-size:10px}
+    body.embed .nd.pub{width:23px;height:23px}
+    body.embed .axis{height:22px}
+    body.embed .axis .tick span{font-size:9px}
+    body.embed .heat{height:14px;margin-bottom:6px}
+    body.embed .key{font-size:10px;gap:12px;flex-wrap:nowrap;overflow-x:auto;white-space:nowrap;padding:8px 12px}
+    body.embed .key span{flex:none}
+    /* the standalone page keeps its own scroll */
+    body:not(.embed) .lane{grid-template-columns:120px 1fr}
+    body:not(.embed) .axis,body:not(.embed) .heat{margin-left:120px}
+  }
+  @media (max-width:900px){ body:not(.embed){padding:0} body:not(.embed) .top{border-radius:0;border:0;box-shadow:none;aspect-ratio:auto;max-height:none} }
+
+  /* smaller sheets: tighten the rhythm so all eight lanes still fit */
+  @media (max-width:1400px){
+    header{padding:16px 24px 0}
+    h1{font-size:26px}
+    .eyebrow{margin-bottom:10px}
+    .stats{margin-top:10px}
+    .st{padding:8px 13px 9px}
+    .st .v{font-size:16px}
+    .controls{padding:10px 14px;gap:16px}
+    main{padding:2px 24px 12px}
+    .lane{height:40px}
+    .track{height:40px}
+    .lname b{font-size:13px}
+    .heat{height:14px;margin-bottom:6px}
+    .axis{height:20px}
+    .key{padding:9px 24px 11px;gap:16px;font-size:11px}
+  }
+</style>
+</head>
+<body>
+<script>if(new URLSearchParams(location.search).has('embed'))document.documentElement.classList.add('pre-embed');</script>
+<div class="top">
+<div class="left">
+<header>
+  <div class="eyebrow">GE Aerospace &middot; Activation Hub redesign</div>
+  <h1>Phase 3 roadmap.</h1>
+  <div class="stats">
+    <div class="st"><div class="k">Milestones</div><div class="v">45</div></div>
+    <div class="st"><div class="k">Complete</div><div class="v">10 of 40</div></div>
+    <div class="st"><div class="k">Still to come</div><div class="v">30</div></div>
+    <div class="st now"><div class="k">Today &middot; Tue Aug 4</div><div class="v">Nothing due</div></div>
+    <div class="st"><div class="k">Next up</div><div class="v">Thu Aug 6</div><div class="k" style="margin:5px 0 0">2 milestones</div></div>
+    <div class="st"><div class="k">Busiest day ahead</div><div class="v">Mon Aug 24</div><div class="k" style="margin:5px 0 0">5 milestones</div></div>
+    <div class="st"><div class="k">Last working day</div><div class="v">Wed Dec 23</div></div>
+  </div>
+</header>
+<div class="blockhd">Schedule</div>
+<div class="controls">
+  <div><div class="gl">Pages</div><div class="opts"><label class="ck"><input type="checkbox" data-page="p3-d5" checked><span class="sw" style="background:#1F7A8C"></span>D5 · Launch support</label><label class="ck"><input type="checkbox" data-page="p3-d6" checked><span class="sw" style="background:#7A8B3C"></span>D6 · Skills Library</label><label class="ck"><input type="checkbox" data-page="p3-d7" checked><span class="sw" style="background:#B5793C"></span>D7 · Skill detail pages</label><label class="ck"><input type="checkbox" data-page="p3-d8" checked><span class="sw" style="background:#2E6FB7"></span>D8 · Guided Prompts for Leaders</label><label class="ck"><input type="checkbox" data-page="p3-d9" checked><span class="sw" style="background:#8A6FE0"></span>D9 · Video Library</label><label class="ck"><input type="checkbox" data-page="p3-d10" checked><span class="sw" style="background:#2FB8A8"></span>D10 · Hub visibility</label><label class="ck"><input type="checkbox" data-page="p3-d11" checked><span class="sw" style="background:#F0913E"></span>D11 · Bookmarks</label><label class="ck"><input type="checkbox" data-page="p3-d12" checked><span class="sw" style="background:#A15C8E"></span>D12 · Guided builder, for GE&rsquo;s agent</label><label class="ck"><input type="checkbox" data-page="p3-integration-store" checked><span class="sw" style="background:#8DC63F"></span>Integration store concept</label></div></div>
+  <div><div class="gl">Stages</div><div class="opts">
+    <label class="ck"><input type="checkbox" data-stage="design" checked><span class="em">📐</span>Design</label>
+    <label class="ck"><input type="checkbox" data-stage="review" checked><span class="em">👀</span>GE review</label>
+    <label class="ck"><input type="checkbox" data-stage="iterate" checked><span class="em">✏️</span>Iterate</label>
+    <label class="ck"><input type="checkbox" data-stage="finalize" checked><span class="em">🏁</span>Design &amp; Dev Finalize</label><label class="ck"><input type="checkbox" data-stage="safety" checked><span class="em">🛡️</span>Safety check</label><label class="ck"><input type="checkbox" data-stage="publish" checked><span class="em">🚀</span>Publish</label>
+  </div></div>
+</div>
+<main>
+  <div class="axis"><div class="tick" style="left:0.0%"><span>Jul 13</span></div><div class="tick" style="left:11.667%"><span>Jul 20</span></div><div class="tick" style="left:23.333%"><span>Jul 27</span></div><div class="tick" style="left:35.0%"><span>Aug 3</span></div><div class="tick" style="left:46.667%"><span>Aug 10</span></div><div class="tick" style="left:58.333%"><span>Aug 17</span></div><div class="tick" style="left:70.0%"><span>Aug 24</span></div><div class="tick" style="left:81.667%"><span>Aug 31</span></div><div class="tick" style="left:93.333%"><span>Sep 7</span></div></div>
+  <div class="heat"><div class="hb" style="left:170.005%;height:67%" title="Fri 23 Oct &middot; 2"><em>2</em></div><div class="hb" style="left:175.005%;height:33%" title="Mon 26 Oct &middot; 1"><em>1</em></div><div class="hb" style="left:178.338%;height:33%" title="Wed 28 Oct &middot; 1"><em>1</em></div><div class="hb" style="left:181.672%;height:33%" title="Fri 30 Oct &middot; 1"><em>1</em></div><div class="hb" style="left:186.672%;height:67%" title="Mon 2 Nov &middot; 2"><em>2</em></div><div class="hb" style="left:188.339%;height:33%" title="Tue 3 Nov &middot; 1"><em>1</em></div><div class="hb" style="left:190.005%;height:33%" title="Wed 4 Nov &middot; 1"><em>1</em></div><div class="hb" style="left:193.339%;height:33%" title="Fri 6 Nov &middot; 1"><em>1</em></div><div class="hb" style="left:198.339%;height:67%" title="Mon 9 Nov &middot; 2"><em>2</em></div><div class="hb" style="left:201.672%;height:33%" title="Wed 11 Nov &middot; 1"><em>1</em></div><div class="hb" style="left:203.339%;height:33%" title="Thu 12 Nov &middot; 1"><em>1</em></div><div class="hb" style="left:205.006%;height:67%" title="Fri 13 Nov &middot; 2"><em>2</em></div><div class="hb" style="left:210.006%;height:33%" title="Mon 16 Nov &middot; 1"><em>1</em></div><div class="hb" style="left:213.339%;height:100%" title="Wed 18 Nov &middot; 3"><em>3</em></div><div class="hb" style="left:215.006%;height:33%" title="Thu 19 Nov &middot; 1"><em>1</em></div><div class="hb" style="left:216.673%;height:67%" title="Fri 20 Nov &middot; 2"><em>2</em></div><div class="hb" style="left:221.673%;height:33%" title="Mon 23 Nov &middot; 1"><em>1</em></div><div class="hb" style="left:235.007%;height:100%" title="Tue 1 Dec &middot; 3"><em>3</em></div><div class="hb" style="left:236.673%;height:33%" title="Wed 2 Dec &middot; 1"><em>1</em></div><div class="hb" style="left:238.34%;height:33%" title="Thu 3 Dec &middot; 1"><em>1</em></div><div class="hb" style="left:240.007%;height:67%" title="Fri 4 Dec &middot; 2"><em>2</em></div><div class="hb" style="left:245.007%;height:67%" title="Mon 7 Dec &middot; 2"><em>2</em></div><div class="hb" style="left:246.674%;height:33%" title="Tue 8 Dec &middot; 1"><em>1</em></div><div class="hb" style="left:248.34%;height:67%" title="Wed 9 Dec &middot; 2"><em>2</em></div><div class="hb" style="left:250.007%;height:67%" title="Thu 10 Dec &middot; 2"><em>2</em></div><div class="hb" style="left:251.674%;height:33%" title="Fri 11 Dec &middot; 1"><em>1</em></div><div class="hb" style="left:256.674%;height:67%" title="Mon 14 Dec &middot; 2"><em>2</em></div><div class="hb" style="left:260.007%;height:33%" title="Wed 16 Dec &middot; 1"><em>1</em></div><div class="hb" style="left:261.674%;height:33%" title="Thu 17 Dec &middot; 1"><em>1</em></div><div class="hb" style="left:263.341%;height:33%" title="Fri 18 Dec &middot; 1"><em>1</em></div><div class="hb" style="left:271.674%;height:33%" title="Wed 23 Dec &middot; 1"><em>1</em></div></div>
+  <div class="chart" id="chart">
+    <div class="gridlines"><i style="left:0.0%"></i><i style="left:11.667%"></i><i style="left:23.333%"></i><i style="left:35.0%"></i><i style="left:46.667%"></i><i style="left:58.333%"></i><i style="left:70.0%"></i><i style="left:81.667%"></i><i style="left:93.333%"></i></div>
+    <div class="todayband" style="left:calc(224px + (100% - 224px) * 0.3667)"></div>
+    <div id="pagelanes">
+
+      <div class="grp"><span>Phase 3 &middot; proposed, ranked</span></div>
+      <div class="lane" data-page="p3-d5" style="--pc:#1F7A8C">
+        <div class="lname"><span class="sw"></span><b title="D5 · Launch support">D5 · Launch support</b><div class="prog"></div><em></em></div>
+        <div class="track"><div class="span" style="left:151.671%;width:120.003%"></div><button class="nd fin" style="left:271.674%" data-page="p3-d5" data-stage="finalize" data-pn="D5 · Launch support" data-sn="Launch support wraps for the year" data-d="Wednesday 23 December" data-seq="1 of 1" data-next="Nothing after this in Phase 3" data-state="Upcoming" data-pc="#1F7A8C">🏁</button></div>
+      </div>
+      <div class="lane" data-page="p3-d6" style="--pc:#7A8B3C">
+        <div class="lname"><span class="sw"></span><b title="D6 · Skills Library">D6 · Skills Library</b><div class="prog"></div><em></em></div>
+        <div class="track"><div class="span" style="left:151.671%;width:65.002%"></div><span class="win rev" data-page="p3-d6" data-d="Monday 26 October" data-days="7" style="left:175.005%;width:11.667%;background:#7A8B3C"></span><button class="nd des" style="left:170.005%" data-page="p3-d6" data-stage="design" data-pn="D6 · Skills Library" data-sn="Design" data-d="Friday 23 October" data-seq="1 of 6" data-next="Review by GE on Monday 26 October" data-state="Upcoming" data-pc="#7A8B3C">📐</button><button class="nd rev" style="left:175.005%" data-page="p3-d6" data-stage="review" data-pn="D6 · Skills Library" data-sn="Review by GE (5 business days)" data-d="Monday 26 October" data-seq="2 of 6" data-next="Iterate on GE feedback on Monday 2 November" data-state="Upcoming" data-pc="#7A8B3C">👀</button><button class="nd ite" style="left:186.672%" data-page="p3-d6" data-stage="iterate" data-pn="D6 · Skills Library" data-sn="Iterate on GE feedback" data-d="Monday 2 November" data-seq="3 of 6" data-next="Built and tested in SharePoint on Friday 13 November" data-state="Upcoming" data-pc="#7A8B3C">✏️</button><button class="nd fin" style="left:205.006%" data-page="p3-d6" data-stage="finalize" data-pn="D6 · Skills Library" data-sn="Built and tested in SharePoint" data-d="Friday 13 November" data-seq="4 of 6" data-next="Safety check on Wednesday 18 November" data-state="Upcoming" data-pc="#7A8B3C">🏁</button><button class="nd saf" style="left:213.339%" data-page="p3-d6" data-stage="safety" data-pn="D6 · Skills Library" data-sn="Safety check" data-d="Wednesday 18 November" data-seq="5 of 6" data-next="Publish on Friday 20 November" data-state="Upcoming" data-pc="#7A8B3C">🛡️</button><button class="nd pub" style="left:216.673%" data-page="p3-d6" data-stage="publish" data-pn="D6 · Skills Library" data-sn="Publish" data-d="Friday 20 November" data-seq="6 of 6" data-next="Nothing after this in Phase 3" data-state="Upcoming" data-pc="#7A8B3C">🚀</button></div>
+      </div>
+      <div class="lane" data-page="p3-d7" style="--pc:#B5793C">
+        <div class="lname"><span class="sw"></span><b title="D7 · Skill detail pages">D7 · Skill detail pages</b><div class="prog"></div><em></em></div>
+        <div class="track"><div class="span" style="left:151.671%;width:86.669%"></div><span class="win rev" data-page="p3-d7" data-d="Monday 2 November" data-days="7" style="left:186.672%;width:11.667%;background:#B5793C"></span><button class="nd des" style="left:178.338%" data-page="p3-d7" data-stage="design" data-pn="D7 · Skill detail pages" data-sn="Design" data-d="Wednesday 28 October" data-seq="1 of 6" data-next="Review by GE on Monday 2 November" data-state="Upcoming" data-pc="#B5793C">📐</button><button class="nd rev" style="left:186.672%" data-page="p3-d7" data-stage="review" data-pn="D7 · Skill detail pages" data-sn="Review by GE (5 business days)" data-d="Monday 2 November" data-seq="2 of 6" data-next="Iterate on GE feedback on Monday 9 November" data-state="Upcoming" data-pc="#B5793C">👀</button><button class="nd ite" style="left:198.339%" data-page="p3-d7" data-stage="iterate" data-pn="D7 · Skill detail pages" data-sn="Iterate on GE feedback" data-d="Monday 9 November" data-seq="3 of 6" data-next="Built and tested in SharePoint on Friday 20 November" data-state="Upcoming" data-pc="#B5793C">✏️</button><button class="nd fin" style="left:216.673%" data-page="p3-d7" data-stage="finalize" data-pn="D7 · Skill detail pages" data-sn="Built and tested in SharePoint" data-d="Friday 20 November" data-seq="4 of 6" data-next="Safety check on Tuesday 1 December" data-state="Upcoming" data-pc="#B5793C">🏁</button><button class="nd saf" style="left:235.007%" data-page="p3-d7" data-stage="safety" data-pn="D7 · Skill detail pages" data-sn="Safety check" data-d="Tuesday 1 December" data-seq="5 of 6" data-next="Publish on Thursday 3 December" data-state="Upcoming" data-pc="#B5793C">🛡️</button><button class="nd pub" style="left:238.34%" data-page="p3-d7" data-stage="publish" data-pn="D7 · Skill detail pages" data-sn="Publish" data-d="Thursday 3 December" data-seq="6 of 6" data-next="Nothing after this in Phase 3" data-state="Upcoming" data-pc="#B5793C">🚀</button></div>
+      </div>
+      <div class="lane" data-page="p3-d8" style="--pc:#2E6FB7">
+        <div class="lname"><span class="sw"></span><b title="D8 · Guided Prompts for Leaders">D8 · Guided Prompts for Leaders</b><div class="prog"></div><em></em></div>
+        <div class="track"><div class="span" style="left:151.671%;width:96.669%"></div><span class="win rev" data-page="p3-d8" data-d="Wednesday 4 November" data-days="7" style="left:190.005%;width:11.667%;background:#2E6FB7"></span><button class="nd des" style="left:181.672%" data-page="p3-d8" data-stage="design" data-pn="D8 · Guided Prompts for Leaders" data-sn="Design" data-d="Friday 30 October" data-seq="1 of 6" data-next="Review by GE on Wednesday 4 November" data-state="Upcoming" data-pc="#2E6FB7">📐</button><button class="nd rev" style="left:190.005%" data-page="p3-d8" data-stage="review" data-pn="D8 · Guided Prompts for Leaders" data-sn="Review by GE (5 business days)" data-d="Wednesday 4 November" data-seq="2 of 6" data-next="Iterate on GE feedback on Wednesday 11 November" data-state="Upcoming" data-pc="#2E6FB7">👀</button><button class="nd ite" style="left:201.672%" data-page="p3-d8" data-stage="iterate" data-pn="D8 · Guided Prompts for Leaders" data-sn="Iterate on GE feedback" data-d="Wednesday 11 November" data-seq="3 of 6" data-next="Built and tested in SharePoint on Wednesday 2 December" data-state="Upcoming" data-pc="#2E6FB7">✏️</button><button class="nd fin" style="left:236.673%" data-page="p3-d8" data-stage="finalize" data-pn="D8 · Guided Prompts for Leaders" data-sn="Built and tested in SharePoint" data-d="Wednesday 2 December" data-seq="4 of 6" data-next="Safety check on Monday 7 December" data-state="Upcoming" data-pc="#2E6FB7">🏁</button><button class="nd saf" style="left:245.007%" data-page="p3-d8" data-stage="safety" data-pn="D8 · Guided Prompts for Leaders" data-sn="Safety check" data-d="Monday 7 December" data-seq="5 of 6" data-next="Publish on Wednesday 9 December" data-state="Upcoming" data-pc="#2E6FB7">🛡️</button><button class="nd pub" style="left:248.34%" data-page="p3-d8" data-stage="publish" data-pn="D8 · Guided Prompts for Leaders" data-sn="Publish" data-d="Wednesday 9 December" data-seq="6 of 6" data-next="Nothing after this in Phase 3" data-state="Upcoming" data-pc="#2E6FB7">🚀</button></div>
+      </div>
+      <div class="lane" data-page="p3-d9" style="--pc:#8A6FE0">
+        <div class="lname"><span class="sw"></span><b title="D9 · Video Library">D9 · Video Library</b><div class="prog"></div><em></em></div>
+        <div class="track"><div class="span" style="left:151.671%;width:105.003%"></div><span class="win rev" data-page="p3-d9" data-d="Monday 9 November" data-days="7" style="left:198.339%;width:11.667%;background:#8A6FE0"></span><button class="nd des" style="left:188.339%" data-page="p3-d9" data-stage="design" data-pn="D9 · Video Library" data-sn="Design" data-d="Tuesday 3 November" data-seq="1 of 6" data-next="Review by GE on Monday 9 November" data-state="Upcoming" data-pc="#8A6FE0">📐</button><button class="nd rev" style="left:198.339%" data-page="p3-d9" data-stage="review" data-pn="D9 · Video Library" data-sn="Review by GE (5 business days)" data-d="Monday 9 November" data-seq="2 of 6" data-next="Iterate on GE feedback on Monday 16 November" data-state="Upcoming" data-pc="#8A6FE0">👀</button><button class="nd ite" style="left:210.006%" data-page="p3-d9" data-stage="iterate" data-pn="D9 · Video Library" data-sn="Iterate on GE feedback" data-d="Monday 16 November" data-seq="3 of 6" data-next="Built and tested in SharePoint on Friday 4 December" data-state="Upcoming" data-pc="#8A6FE0">✏️</button><button class="nd fin" style="left:240.007%" data-page="p3-d9" data-stage="finalize" data-pn="D9 · Video Library" data-sn="Built and tested in SharePoint" data-d="Friday 4 December" data-seq="4 of 6" data-next="Safety check on Thursday 10 December" data-state="Upcoming" data-pc="#8A6FE0">🏁</button><button class="nd saf" style="left:250.007%" data-page="p3-d9" data-stage="safety" data-pn="D9 · Video Library" data-sn="Safety check" data-d="Thursday 10 December" data-seq="5 of 6" data-next="Publish on Monday 14 December" data-state="Upcoming" data-pc="#8A6FE0">🛡️</button><button class="nd pub" style="left:256.674%" data-page="p3-d9" data-stage="publish" data-pn="D9 · Video Library" data-sn="Publish" data-d="Monday 14 December" data-seq="6 of 6" data-next="Nothing after this in Phase 3" data-state="Upcoming" data-pc="#8A6FE0">🚀</button></div>
+      </div>
+      <div class="lane" data-page="p3-d10" style="--pc:#2FB8A8">
+        <div class="lname"><span class="sw"></span><b title="D10 · Hub visibility">D10 · Hub visibility</b><div class="prog"></div><em></em></div>
+        <div class="track"><div class="span" style="left:151.671%;width:108.336%"></div><span class="win rev" data-page="p3-d10" data-d="Monday 23 November" data-days="7" style="left:221.673%;width:11.667%;background:#2FB8A8"></span><button class="nd des" style="left:213.339%" data-page="p3-d10" data-stage="design" data-pn="D10 · Hub visibility" data-sn="Design" data-d="Wednesday 18 November" data-seq="1 of 6" data-next="Review by GE on Monday 23 November" data-state="Upcoming" data-pc="#2FB8A8">📐</button><button class="nd rev" style="left:221.673%" data-page="p3-d10" data-stage="review" data-pn="D10 · Hub visibility" data-sn="Review by GE (5 business days)" data-d="Monday 23 November" data-seq="2 of 6" data-next="Iterate on GE feedback on Tuesday 1 December" data-state="Upcoming" data-pc="#2FB8A8">👀</button><button class="nd ite" style="left:235.007%" data-page="p3-d10" data-stage="iterate" data-pn="D10 · Hub visibility" data-sn="Iterate on GE feedback" data-d="Tuesday 1 December" data-seq="3 of 6" data-next="Built and tested in SharePoint on Wednesday 9 December" data-state="Upcoming" data-pc="#2FB8A8">✏️</button><button class="nd fin" style="left:248.34%" data-page="p3-d10" data-stage="finalize" data-pn="D10 · Hub visibility" data-sn="Built and tested in SharePoint" data-d="Wednesday 9 December" data-seq="4 of 6" data-next="Safety check on Monday 14 December" data-state="Upcoming" data-pc="#2FB8A8">🏁</button><button class="nd saf" style="left:256.674%" data-page="p3-d10" data-stage="safety" data-pn="D10 · Hub visibility" data-sn="Safety check" data-d="Monday 14 December" data-seq="5 of 6" data-next="Publish on Wednesday 16 December" data-state="Upcoming" data-pc="#2FB8A8">🛡️</button><button class="nd pub" style="left:260.007%" data-page="p3-d10" data-stage="publish" data-pn="D10 · Hub visibility" data-sn="Publish" data-d="Wednesday 16 December" data-seq="6 of 6" data-next="Nothing after this in Phase 3" data-state="Upcoming" data-pc="#2FB8A8">🚀</button></div>
+      </div>
+      <div class="lane" data-page="p3-d11" style="--pc:#F0913E">
+        <div class="lname"><span class="sw"></span><b title="D11 · Bookmarks">D11 · Bookmarks</b><div class="prog"></div><em></em></div>
+        <div class="track"><div class="span" style="left:151.671%;width:110.003%"></div><span class="win rev" data-page="p3-d11" data-d="Thursday 12 November" data-days="7" style="left:203.339%;width:11.667%;background:#F0913E"></span><button class="nd saf" style="left:170.005%" data-page="p3-d11" data-stage="safety" data-pn="D11 · Bookmarks" data-sn="Platform check" data-d="Friday 23 October" data-seq="1 of 7" data-next="Design on Friday 6 November" data-state="Upcoming" data-pc="#F0913E">🛡️</button><button class="nd des" style="left:193.339%" data-page="p3-d11" data-stage="design" data-pn="D11 · Bookmarks" data-sn="Design" data-d="Friday 6 November" data-seq="2 of 7" data-next="Review by GE on Thursday 12 November" data-state="Upcoming" data-pc="#F0913E">📐</button><button class="nd rev" style="left:203.339%" data-page="p3-d11" data-stage="review" data-pn="D11 · Bookmarks" data-sn="Review by GE (5 business days)" data-d="Thursday 12 November" data-seq="3 of 7" data-next="Iterate on GE feedback on Thursday 19 November" data-state="Upcoming" data-pc="#F0913E">👀</button><button class="nd ite" style="left:215.006%" data-page="p3-d11" data-stage="iterate" data-pn="D11 · Bookmarks" data-sn="Iterate on GE feedback" data-d="Thursday 19 November" data-seq="4 of 7" data-next="Built and tested in SharePoint on Tuesday 8 December" data-state="Upcoming" data-pc="#F0913E">✏️</button><button class="nd fin" style="left:246.674%" data-page="p3-d11" data-stage="finalize" data-pn="D11 · Bookmarks" data-sn="Built and tested in SharePoint" data-d="Tuesday 8 December" data-seq="5 of 7" data-next="Safety check on Friday 11 December" data-state="Upcoming" data-pc="#F0913E">🏁</button><button class="nd saf" style="left:251.674%" data-page="p3-d11" data-stage="safety" data-pn="D11 · Bookmarks" data-sn="Safety check" data-d="Friday 11 December" data-seq="6 of 7" data-next="Publish on Thursday 17 December" data-state="Upcoming" data-pc="#F0913E">🛡️</button><button class="nd pub" style="left:261.674%" data-page="p3-d11" data-stage="publish" data-pn="D11 · Bookmarks" data-sn="Publish" data-d="Thursday 17 December" data-seq="7 of 7" data-next="Nothing after this in Phase 3" data-state="Upcoming" data-pc="#F0913E">🚀</button></div>
+      </div>
+      <div class="lane" data-page="p3-d12" style="--pc:#A15C8E">
+        <div class="lname"><span class="sw"></span><b title="D12 · Guided builder, for GE&rsquo;s agent">D12 · Guided builder, for GE&rsquo;s agent</b><div class="prog"></div><em></em></div>
+        <div class="track"><div class="span" style="left:151.671%;width:88.336%"></div><span class="win rev" data-page="p3-d12" data-d="Wednesday 18 November" data-days="7" style="left:213.339%;width:11.667%;background:#A15C8E"></span><button class="nd des" style="left:205.006%" data-page="p3-d12" data-stage="design" data-pn="D12 · Guided builder, for GE&rsquo;s agent" data-sn="Design" data-d="Friday 13 November" data-seq="1 of 4" data-next="Review by GE on Wednesday 18 November" data-state="Upcoming" data-pc="#A15C8E">📐</button><button class="nd rev" style="left:213.339%" data-page="p3-d12" data-stage="review" data-pn="D12 · Guided builder, for GE&rsquo;s agent" data-sn="Review by GE (5 business days)" data-d="Wednesday 18 November" data-seq="2 of 4" data-next="Iterate on GE feedback on Tuesday 1 December" data-state="Upcoming" data-pc="#A15C8E">👀</button><button class="nd ite" style="left:235.007%" data-page="p3-d12" data-stage="iterate" data-pn="D12 · Guided builder, for GE&rsquo;s agent" data-sn="Iterate on GE feedback" data-d="Tuesday 1 December" data-seq="3 of 4" data-next="Prototype and specification delivered on Friday 4 December" data-state="Upcoming" data-pc="#A15C8E">✏️</button><button class="nd fin" style="left:240.007%" data-page="p3-d12" data-stage="finalize" data-pn="D12 · Guided builder, for GE&rsquo;s agent" data-sn="Prototype and specification delivered" data-d="Friday 4 December" data-seq="4 of 4" data-next="Nothing after this in Phase 3" data-state="Upcoming" data-pc="#A15C8E">🏁</button></div>
+      </div>
+      <div class="lane" data-page="p3-integration-store" style="--pc:#8DC63F">
+        <div class="lname"><span class="sw"></span><b title="Integration store concept">Integration store concept</b><div class="prog"></div><em></em></div>
+        <div class="track"><div class="span" style="left:151.671%;width:111.67%"></div><span class="win rev" data-page="p3-integration-store" data-d="Thursday 10 December" data-days="7" style="left:250.007%;width:11.667%;background:#8DC63F"></span><button class="nd des" style="left:245.007%" data-page="p3-integration-store" data-stage="design" data-pn="Integration store concept" data-sn="Design" data-d="Monday 7 December" data-seq="1 of 3" data-next="Review by GE on Thursday 10 December" data-state="Upcoming" data-pc="#8DC63F">📐</button><button class="nd rev" style="left:250.007%" data-page="p3-integration-store" data-stage="review" data-pn="Integration store concept" data-sn="Review by GE (5 business days)" data-d="Thursday 10 December" data-seq="2 of 3" data-next="Concept delivered on Friday 18 December" data-state="Upcoming" data-pc="#8DC63F">👀</button><button class="nd fin" style="left:263.341%" data-page="p3-integration-store" data-stage="finalize" data-pn="Integration store concept" data-sn="Concept delivered" data-d="Friday 18 December" data-seq="3 of 3" data-next="Nothing after this in Phase 3" data-state="Upcoming" data-pc="#8DC63F">🏁</button></div>
+      </div>
+    </div>
+  </div>
+</main>
+<div class="key">
+  <span><b class="em">📐</b>Design</span><span><b class="em">👀</b>GE review</span><span><b class="em">✏️</b>Iterate</span>
+  <span><b class="em">🏁</b>Design &amp; Dev Finalize</span><span><b class="em">🛡️</b>Safety check</span><span><b class="em">🚀</b>Publish</span><span><i class="k5"></i>Filled green ring means complete</span>
+  <span>Off: weekends, Thanksgiving Nov 26 &ndash; 27, Dec 24 &ndash; Jan 1</span><span style="margin-left:auto">Click any milestone for detail</span>
+</div>
+</div>
+</div>
+<div class="pop" id="pop"></div>
+<script>
+(function(){
+  if(new URLSearchParams(location.search).has('embed'))document.body.classList.add('embed');
+  var nds=[].slice.call(document.querySelectorAll('.nd'));
+  var lanes=[].slice.call(document.querySelectorAll('.lane'));
+  var pageIn=[].slice.call(document.querySelectorAll('input[data-page]'));
+  var stageIn=[].slice.call(document.querySelectorAll('input[data-stage]'));
+  var panel=document.getElementById('panel');
+  function apply(){
+    var on={},son={};
+    pageIn.forEach(function(i){on[i.dataset.page]=i.checked});
+    stageIn.forEach(function(i){son[i.dataset.stage]=i.checked});
+    lanes.forEach(function(l){ if(l.dataset.page) l.classList.toggle('hide',!on[l.dataset.page]); });
+    nds.forEach(function(n){n.classList.toggle('off', !son[n.dataset.stage] || !on[n.dataset.page])});
+  }
+  pageIn.concat(stageIn).forEach(function(i){i.addEventListener('change',apply)});
+  var pop=document.getElementById('pop');
+  function open(n){
+    nds.forEach(function(x){x.classList.remove('sel')}); n.classList.add('sel');
+    pop.innerHTML =
+      '<button class="x" aria-label="Close">&times;</button>'+
+      '<div class="ph"><div class="pk">Milestone</div><h2>'+n.dataset.pn+'</h2>'+
+      '<div class="stg" style="--sc:'+n.dataset.pc+'"><i></i><span class="em">'+({design:'📐',review:'👀',iterate:'✏️',inform:'📣',finalize:'🏁',safety:'🛡️',publish:'🚀'}[n.dataset.stage]||'')+'</span> '+n.dataset.sn+'</div></div>'+
+      '<div class="pb">'+
+      '<div class="pf"><div class="fk">Date</div><div class="fv">'+n.dataset.d+'</div></div>'+
+      '<div class="pf"><div class="fk">State</div><div class="fv">'+n.dataset.state+'</div></div>'+
+      '<div class="pf"><div class="fk">Step</div><div class="fv">'+n.dataset.seq+' for this page</div></div>'+
+      '<div class="pf"><div class="fk">What follows</div><div class="fv">'+n.dataset.next+'</div></div>'+
+      '</div>';
+    pop.classList.add('on');
+    var r=n.getBoundingClientRect(), w=290, h=pop.offsetHeight;
+    var left=Math.min(Math.max(12, r.left+r.width/2-w/2), window.innerWidth-w-12);
+    var top=(r.bottom+h+14<window.innerHeight) ? r.bottom+12 : r.top-h-12;
+    pop.style.left=left+'px'; pop.style.top=Math.max(12,top)+'px';
+    pop.querySelector('.x').addEventListener('click',close);
+  }
+  function close(){pop.classList.remove('on');nds.forEach(function(x){x.classList.remove('sel')});}
+  document.addEventListener('click',function(e){
+    if(!e.target.closest('.nd')&&!e.target.closest('.pop')) close();
+  });
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
+  nds.forEach(function(n){
+    n.addEventListener('click',function(){open(n)});
+    n.addEventListener('mouseenter',function(){lanes.forEach(function(l){l.classList.toggle('fade', !!l.dataset.page && l.dataset.page!==n.dataset.page)})});
+    n.addEventListener('mouseleave',function(){lanes.forEach(function(l){l.classList.remove('fade')})});
+  });
+  apply();
+})();
+</script>
+
+<script>
+// The roadmap was frozen at Tue Aug 4: the today band, the today card, and the
+// counts were all typed in. Every milestone node carries its own date and state,
+// so derive the lot instead. Now it is right on any day it is opened.
+(function(){
+  var MON={january:0,february:1,march:2,april:3,may:4,june:5,july:6,august:7,september:8,october:9,november:10,december:11};
+  var YEAR=2026, START=new Date(YEAR,6,13), PCT_PER_DAY=11.667/7;
+  // A date may carry its own year (Phase 3 runs to 1 January 2027); otherwise it is YEAR.
+  function parse(d){ var m=(d||'').match(/(\d{1,2})\s+([A-Za-z]+)(?:\s+(\d{4}))?/); if(!m) return null;
+    var mo=MON[m[2].toLowerCase()]; if(mo===undefined) return null; return new Date(m[3]?+m[3]:YEAR,mo,+m[1]); }
+  function days(a,b){ return Math.round((b-a)/86400000); }
+  var now=new Date(), today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  // the band
+  var band=document.querySelector('.todayband');
+  if(band){ var pct=days(START,today)*PCT_PER_DAY;
+    pct=Math.max(0,Math.min(100,pct));
+    band.style.left='calc(224px + (100% - 224px) * '+(pct/100).toFixed(4)+')'; }
+  // the page renders a node per view, so the same milestone appears more than once
+  var seen={}, nodes=[];
+  [].slice.call(document.querySelectorAll('.nd')).forEach(function(n){
+    var k=[n.getAttribute('data-page'),n.getAttribute('data-stage'),n.getAttribute('data-d')].join('|');
+    if(seen[k]) return; seen[k]=1; nodes.push(n);
+  });
+  // Completion is decided HERE, from today, not baked in at build time. The
+  // build stamped a done class from the day it ran, so the deployed chart froze
+  // on 20 August: Standard Work and Problem Solving read 5 of 8 with Comms Review
+  // next on the morning they published, and neither carried its Live tag. A chart
+  // that only tells the truth on the day it was generated is worse than no chart.
+  // A milestone counts as complete once its date has arrived, the same way a
+  // reader reads a dated plan.
+  [].slice.call(document.querySelectorAll('.nd')).forEach(function(n){
+    var d=parse(n.getAttribute('data-d'));
+    if(!d || n.classList.contains('con')) return;
+    n.classList.toggle('done', d<=today);
+    n.setAttribute('data-state', d<=today ? 'Complete' : 'Upcoming');
+  });
+  var dated=nodes.map(function(n){ return {el:n, d:parse(n.getAttribute('data-d')), done:n.classList.contains('done')}; })
+                 .filter(function(x){ return x.d; });
+  var fmt=function(d){ return d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'}); };
+  var fmtShort=function(d){ return d.toLocaleDateString('en-US',{month:'short',day:'numeric'}); };
+  var stats=[].slice.call(document.querySelectorAll('.stats .st'));
+  function set(st,label,value,sub){ if(!st) return;
+    var ks=st.querySelectorAll('.k'), v=st.querySelector('.v');
+    if(ks[0]&&label!=null) ks[0].innerHTML=label;
+    if(v&&value!=null) v.textContent=value;
+    if(ks[1]&&sub!=null) ks[1].textContent=sub; }
+  // the first card is the authority on the total: it counts the undated one too
+  var declared=parseInt((stats[0]&&stats[0].querySelector('.v')||{}).textContent,10);
+  var total=isNaN(declared)? nodes.length : declared;
+  var done=dated.filter(function(x){return x.done;}).length;
+  set(stats[1],'Milestones complete',done+' of '+total);   // the embed hides the Milestones card, so say the unit here
+  set(stats[2],null,String(total-done));
+  /* Lane counts and bar widths compute themselves. They used to be hand-typed
+     inline widths, correct the day they were written and silently wrong after.
+     data-undated declares milestones that exist but carry no date, so no node
+     is ever drawn for them — DVM's review goes out by email. */
+  /* Short stage names, taken from the stage lanes so the label, the legend and
+     the by-stage view can never disagree. data-sn carries the long form
+     ("Review by Learning & Fundamental teams") which is tooltip-length, not
+     label-length. Design has no stage lane of its own. */
+  var SHORT={design:'Design',review:'Reviews',iterate:'Iterate',inform:'Comms Review',finalize:'Finalize',safety:'Safety check',publish:'Publish'};
+  [].forEach.call(document.querySelectorAll('.lane'),function(lane){
+    // The content drop is not one of the eight stages, so it stays out of the
+    // progress bar and the x of 8 counter. It still draws on the lane.
+    var nd=[].slice.call(lane.querySelectorAll('.track .nd')).filter(function(n){
+      return !n.classList.contains('con'); });
+    var undated=parseInt(lane.getAttribute('data-undated'),10)||0;
+    var tot=nd.length+undated;
+    var dn=nd.filter(function(n){ return n.classList.contains('done'); }).length;
+    var byStage=false;
+    var em=lane.querySelector('.lname em'), bar=lane.querySelector('.prog');
+
+    // one segment per milestone, in the order they happen, named on hover
+    if(bar){
+      var segs=nd.map(function(n){
+        var done=n.classList.contains('done');
+        return '<i class="'+(done?'on':'')+'" title="'+
+          (n.getAttribute(byStage?'data-pn':'data-sn')||'')+
+          (n.getAttribute('data-d')?' · '+n.getAttribute('data-d'):'')+
+          (done?' · done':'')+'"></i>';
+      });
+      for(var u=0;u<undated;u++) segs.push('<i title="no date"></i>');
+      bar.innerHTML=segs.join('');
+    }
+
+    // a shipped page carries a Live tag, derived from its own publish node so it
+    // appears the moment that node is marked complete
+    if(!byStage){
+      var pubn=nd.filter(function(n){ return n.getAttribute('data-stage')==='publish'; })[0];
+      var nameEl=lane.querySelector('.lname b');
+      if(pubn && pubn.classList.contains('done') && nameEl && !nameEl.querySelector('.live'))
+        nameEl.insertAdjacentHTML('beforeend','<span class="live">Live</span>');
+    }
+
+    // name the next thing, because "3 of 5" made you go read the legend
+    if(em){
+      var pending=nd.filter(function(n){ return !n.classList.contains('done'); });
+      var nextName=null;
+      if(pending.length) nextName = byStage
+        ? pending[0].getAttribute('data-pn')
+        : (SHORT[pending[0].getAttribute('data-stage')] || pending[0].getAttribute('data-sn'));
+      // A page published under the previous process carries a single milestone,
+      // so "1 of 1 stages" would be noise. Say what it is instead.
+      // A lane with milestones but none dated yet (a Phase 3 add-on) says so, not "done".
+      em.innerHTML = (!byStage && !nd.length && undated)
+        ? 'No date yet'
+        : (!byStage && tot === 1 && dn === 1)
+        ? 'Previous process'
+        : dn+' of '+tot+(byStage?' pages':' stages')+
+          '<span class="nx">' + (nextName ? ' \u00b7 '+nextName+' next' : ' \u00b7 done') + '</span>';
+    }
+  });
+  var dueToday=dated.filter(function(x){ return days(x.d,today)===0; });
+  set(stats[3],'Today &middot; '+fmtShort(today), dueToday.length? dueToday.length+(dueToday.length===1?' milestone':' milestones') : 'Nothing due', null);
+
+  // ---- re-window the chart so the left edge is always today ----------------
+  // Everything is positioned as a percentage of a fixed Jul 13 to Sep 11 scale.
+  // Convert each position back to a date, then re-project it onto today -> end.
+  // Anything already past simply comes off the chart.
+  (function(){
+    var PPD=11.667/7;                                   // old percent per day
+    function pctToDate(p){ return new Date(START.getTime()+Math.round(p/PPD)*86400000); }
+    var last=dated.length? dated.map(function(x){return x.d;}).sort(function(a,b){return b-a;})[0] : null;
+    if(!last || last<=today) return;                    // nothing ahead, leave it alone
+    var end=new Date(last.getTime()+3*86400000);        // a little air after the last publish
+    var span=days(today,end); if(span<7) return;
+    function toPct(d){ return (days(today,d)/span)*100; }
+    function readPct(el){ var m=(el.style.left||'').match(/([-\d.]+)%/); return m? parseFloat(m[1]) : null; }
+
+    // axis + gridlines, rebuilt weekly from today
+    var axis=document.querySelector('.axis'), grid=document.querySelector('.gridlines');
+    if(axis&&grid){
+      axis.innerHTML=''; 
+      var keep=grid.querySelector('.todayband');
+      grid.innerHTML=''; if(keep) grid.appendChild(keep);
+      for(var dd=0; dd<=span; dd+=7){
+        var d=new Date(today.getTime()+dd*86400000), pc=(dd/span)*100;
+        var t=document.createElement('div'); t.className='tick'; t.style.left=pc+'%';
+        t.innerHTML='<span>'+d.toLocaleDateString('en-US',{month:'short',day:'numeric'})+'</span>';
+        axis.appendChild(t);
+        var g=document.createElement('i'); g.style.left=pc+'%'; grid.appendChild(g);
+      }
+    }
+    // the band sits on the left edge
+    // Today is the left edge of the tracks, wherever the name column ends. A fixed 224px was right on
+    // desktop only: on a phone the name column is narrower, so the line sat ahead of the dates.
+    var tb=document.querySelector('.todayband');
+    function placeToday(){ var tr=document.querySelector('.lane:not(.hide) .track'), ch=document.getElementById('chart');
+      if(!tb) return; tb.style.left = (tr&&ch) ? (tr.getBoundingClientRect().left-ch.getBoundingClientRect().left)+'px' : '224px'; }
+    placeToday(); window.addEventListener('resize',placeToday);
+
+    // per-day heat bars
+    [].slice.call(document.querySelectorAll('.hb')).forEach(function(h){
+      var p=readPct(h); if(p===null) return;
+      var d=pctToDate(p);
+      if(d<today){ h.style.display='none'; return; }
+      h.style.left=toPct(d)+'%';
+    });
+    // milestone nodes
+    nodes.forEach(function(n){
+      var p=readPct(n); if(p===null) return;
+      var d=parse(n.getAttribute('data-d')) || pctToDate(p);
+      if(d<today){ n.style.display='none'; return; }
+      n.style.left=toPct(d)+'%';
+    });
+    // and every duplicate the other view renders
+    [].slice.call(document.querySelectorAll('.nd')).forEach(function(n){
+      if(n.style.display==='none'||nodes.indexOf(n)>=0) return;
+      var p=readPct(n); if(p===null) return;
+      var d=parse(n.getAttribute('data-d')) || pctToDate(p);
+      if(d<today){ n.style.display='none'; return; }
+      n.style.left=toPct(d)+'%';
+    });
+    // review and Comms windows carry a start date and a length in days
+    [].slice.call(document.querySelectorAll('.win')).forEach(function(w){
+      var a=parse(w.getAttribute('data-d')); if(!a) return;
+      var b=new Date(a.getTime()+(parseInt(w.getAttribute('data-days'),10)||0)*86400000);
+      if(b<today){ w.style.display='none'; return; }
+      var na=Math.max(0,toPct(a)), nb=Math.min(100,toPct(b));
+      w.style.left=na+'%'; w.style.width=Math.max(0.4,nb-na)+'%';
+    });
+    // lane spans, clipped at today
+    [].slice.call(document.querySelectorAll('.span')).forEach(function(sp){
+      var l=readPct(sp); var wm=(sp.style.width||'').match(/([\d.]+)%/);
+      if(l===null||!wm) return;
+      var a=pctToDate(l), b=pctToDate(l+parseFloat(wm[1]));
+      if(b<today){ sp.style.display='none'; return; }
+      var na=Math.max(0,toPct(a)), nb=Math.min(100,toPct(b));
+      sp.style.left=na+'%'; sp.style.width=Math.max(0,nb-na)+'%';
+    });
+    // Comms and the Safety Check share a Thursday, so they land on the same x.
+    // Nudge ONLY nodes that share a date, never nodes that are merely close, so
+    // no mark is ever drawn under a day it does not belong to.
+    [].slice.call(document.querySelectorAll('.lane .track')).forEach(function(tr){
+      var vis=[].slice.call(tr.querySelectorAll('.nd')).filter(function(n){return n.style.display!=='none';});
+      vis.sort(function(a,b){return parseFloat(a.style.left||0)-parseFloat(b.style.left||0);});
+      var w=tr.getBoundingClientRect().width||1, gap=26/w*100;   // one node width, in percent of this track
+      for(var i=1;i<vis.length;i++){
+        var prev=vis[i-1], cur=vis[i];
+        if(prev.getAttribute('data-d')!==cur.getAttribute('data-d')) continue;   // different days keep their true x
+        var l=Math.min(100, parseFloat(prev.style.left||0)+gap);
+        cur.style.left=l+'%';
+      }
+    });
+  })();
+  /* Milestones a day apart land within a ring of each other on a seven week
+     scale. Moving them apart would put a mark under the wrong date, so every
+     node keeps the position its date earns and instead punches a white ring out
+     of its neighbour, with the later date stacked on top. */
+  function stack(){
+    [].forEach.call(document.querySelectorAll('#pagelanes .track'),function(tr){
+      [].slice.call(tr.querySelectorAll('.nd'))
+        .filter(function(n){ return n.style.display!=='none'; })
+        .sort(function(a,b){ return (parseFloat(a.style.left)||0)-(parseFloat(b.style.left)||0); })
+        .forEach(function(n,i){ n.style.zIndex=2+i; });
+    });
+  }
+  stack();
+
+  var ahead=dated.filter(function(x){ return x.d>today; }).sort(function(a,b){return a.d-b.d;});
+  if(ahead.length){
+    var nd=ahead[0].d, sameDay=ahead.filter(function(x){return days(x.d,nd)===0;}).length;
+    set(stats[4],null,fmt(nd),sameDay+(sameDay===1?' milestone':' milestones'));
+    var byDay={};
+    ahead.forEach(function(x){ var k=x.d.getTime(); byDay[k]=(byDay[k]||0)+1; });
+    var best=Object.keys(byDay).sort(function(a,b){ return byDay[b]-byDay[a] || a-b; })[0];
+    set(stats[5],null,fmt(new Date(+best)),byDay[best]+' milestones');
+  }
+})();
+</script>
+</body>
+</html>

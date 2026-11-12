@@ -1,0 +1,340 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex, nofollow"><title>Guided Recommendation · FLIGHT DECK Tools</title><style>
+/* Guided Recommendation — the dashboard hero + three-question guided path as one standalone component.
+   Markup, styles, and routing logic are identical to /dashboard.html. */
+@font-face{font-family:"GE Sans";font-weight:300;font-style:normal;font-display:swap;src:url("/assets/fonts/ge-sans/sons-light.woff2") format("woff2")}
+@font-face{font-family:"GE Sans";font-weight:400;font-style:normal;font-display:swap;src:url("/assets/fonts/ge-sans/sons-regular.woff2") format("woff2")}
+@font-face{font-family:"GE Sans";font-weight:600;font-style:normal;font-display:swap;src:url("/assets/fonts/ge-sans/sons-semibold.woff2") format("woff2")}
+html,body{margin:0;padding:0;background:#fff}
+#dash{--ink:#00003d;--lav:#75758f;--pill:#ecebf3;--pillh:#e2e1ec;--tint:#f6f6f9;--line:#e6e6ee;--green:#0ad64f;color:var(--ink);background:#fff;font-family:"GE Sans",var(--font-sans,-apple-system,"Helvetica Neue",Arial,sans-serif)}
+#dash .wrap2{max-width:1320px;margin:0 auto;padding:0 40px}
+#dash h2{font-weight:400;font-size:clamp(30px,3.4vw,46px);letter-spacing:-.015em;margin:0 0 12px;color:var(--ink);line-height:1.08}
+#dash section{padding:76px 0 0}
+#dash a{text-decoration:none;color:inherit}
+#dash a:focus-visible,#dash button:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:8px}
+
+/* Scroll-in: one calm fade/rise, only when JS is on */
+#dash.js-anim .rise{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease}
+#dash.js-anim .rise.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){#dash.js-anim .rise{opacity:1;transform:none;transition:none}#dash *{transition-duration:.01ms!important}}
+
+/* ── HERO — full-bleed photography, white sentence-case type low-left ── */
+#dash .hero{position:relative;color:#fff;background:#0a1626 url(/assets/hero/hero-aircraft.jpg?v=2) center 40%/cover no-repeat;min-height:clamp(540px,64vh,700px);display:flex;flex-direction:column;justify-content:flex-end}
+#dash .hero::before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(2,6,20,.28) 0%,rgba(2,6,20,0) 34%,rgba(2,6,20,.34) 100%)}
+#dash .hero .in{position:relative;max-width:1320px;margin:0 auto;width:100%;padding:44px 40px 40px;box-sizing:border-box}
+#dash .hero .greet{position:absolute;top:0;left:0;right:0;max-width:1320px;margin:0 auto;padding:36px 40px 0;box-sizing:border-box;font-size:16px;font-weight:400;color:#fff}
+#dash .hero .hrow{display:grid;grid-template-columns:1.5fr .9fr;gap:24px 64px;align-items:end}
+#dash .hero h1{font-weight:400;font-size:clamp(46px,5.6vw,82px);letter-spacing:-.015em;line-height:1.04;margin:0;color:#fff}
+#dash .hero .hsub{font-size:clamp(17px,1.5vw,21px);color:#fff;line-height:1.4;margin:0 0 8px;max-width:34ch;justify-self:end}
+#dash .hero .hline{border:0;border-top:1px solid rgba(255,255,255,.35);margin:34px 0 0}
+
+/* ── GUIDED PATH — on white, structured by whitespace and hairlines ── */
+#dash .rail-grid{display:grid;grid-template-columns:250px 1fr;gap:24px 56px;align-items:start;border-top:1px solid var(--line);padding-top:28px}
+#dash .rail{font-size:19px;color:var(--ink);font-weight:400}
+#dash .rail .rsub{display:block;font-size:14px;color:var(--lav);margin-top:8px;line-height:1.5;font-weight:400;max-width:24ch}
+#dash .qrow{display:grid;grid-template-columns:56px 1fr;gap:24px;align-items:start;padding:30px 0;border-bottom:1px solid var(--line)}
+#dash .qrow:first-child{padding-top:4px}
+#dash .qnum{font-size:15px;color:var(--lav);padding-top:10px}
+#dash .qhead{font-size:clamp(24px,2.4vw,32px);font-weight:400;letter-spacing:-.01em;color:var(--ink);line-height:1.15;margin:0 0 18px}
+#dash .fpills{display:flex;flex-wrap:wrap;gap:10px}
+#dash .fpill{appearance:none;font-family:inherit;line-height:1.2;padding:11px 22px;font-size:15px;font-weight:400;border-radius:999px;border:0;background:var(--pill);color:var(--ink);white-space:nowrap;cursor:pointer;transition:background .18s,color .18s}
+#dash .fpill:hover{background:var(--pillh)}
+#dash .fpill.on{background:var(--ink);color:#fff}
+
+/* Recommendation — the highlighted row, split: Wingmate handoff leads (the one green action), direct destination second */
+#dash .frec{display:grid;grid-template-columns:1.55fr 1fr;gap:0;align-items:stretch;background:var(--tint);margin-top:44px}
+#dash .frec .fhalf{display:grid;grid-template-columns:1fr auto;gap:28px;align-items:center;padding:36px 40px}
+#dash .frec .fdst{border-left:1px solid var(--line);gap:24px}
+#dash .frec .fmeta{font-size:13.5px;color:var(--ink);margin-bottom:12px}
+#dash .frec .fmeta .dot{display:inline-block;width:4px;height:4px;border-radius:50%;background:#c9c9d6;vertical-align:2px;margin:0 9px}
+#dash .frec .fmeta .fm2{color:var(--lav)}
+#dash .frec-title{font-size:clamp(28px,2.8vw,40px);font-weight:400;letter-spacing:-.015em;line-height:1.1;margin:0 0 10px;color:var(--ink)}
+#dash .frec-body{font-size:16px;line-height:1.55;color:var(--lav);max-width:72ch;margin:0 0 18px}
+#dash .frec-body b{color:var(--ink);font-weight:400}
+#dash .frec-label{font-size:17px;color:var(--ink);border-bottom:1px solid transparent;transition:border-color .18s}
+#dash .frec .fhalf:hover .frec-label{border-bottom-color:var(--ink)}
+#dash .frec .go{display:flex;flex:none;align-items:center;justify-content:center;width:56px;height:56px;border-radius:50%;background:var(--green);color:#fff;font-size:19px}
+#dash .frec .fdst .go{width:44px;height:44px;background:var(--ink);font-size:16px}
+#dash .frec .fwm-q{font-size:15px;line-height:1.55;color:var(--ink);margin:0 0 18px;max-width:60ch}
+#dash .frec .fmain{transition:opacity .15s ease}
+#dash .frec .fmain.swap{opacity:0}
+#dash .pad-btm{padding-bottom:84px}
+
+@media(max-width:1024px){
+  #dash .rail-grid{grid-template-columns:200px 1fr;gap:20px 36px}
+}
+@media(max-width:860px){
+  #dash .wrap2{padding:0 20px}
+  #dash section{padding:56px 0 0}
+  #dash .hero .in{padding:36px 20px 32px}
+  #dash .hero .greet{padding:28px 20px 0}
+  #dash .hero .hrow{grid-template-columns:1fr}
+  #dash .hero .hsub{justify-self:start}
+  #dash .rail-grid{grid-template-columns:1fr;gap:14px}
+  #dash .qrow{grid-template-columns:1fr;gap:6px;padding:24px 0}
+  #dash .qnum{padding-top:0}
+  #dash .frec{grid-template-columns:1fr}
+  #dash .frec .fhalf{grid-template-columns:1fr;gap:18px;padding:26px 22px}
+  #dash .frec .fdst{border-left:0;border-top:1px solid var(--line)}
+  #dash .frec .go{width:48px;height:48px}
+  #dash .frec .fdst .go{width:44px;height:44px}
+}
+
+/* embed mode — clean component inside the Tool Library stage */
+html.embed body{background:#fff}
+html.embed .nav,html.embed .mm-tabs,html.embed .proto-banner{display:none!important}
+</style><script>if(window.top!==window.self||/[?&]embed=1/.test(location.search)){document.documentElement.className+=' embed';}</script><script src="/gate.js"></script></head><body>
+
+<div id="dash">
+  <!-- HERO — full-bleed photography; the UI on top stays quiet -->
+  <section class="hero" style="padding:0">
+    <div class="greet" id="wm-greet">Good morning Aero</div>
+    <div class="in">
+      <div class="hrow">
+        <h1>Ready for departure.</h1>
+        <p class="hsub">Answer three questions and FLIGHT DECK recommends the right Fundamental, template, or tool for where you are today.</p>
+      </div>
+      <hr class="hline">
+    </div>
+  </section>
+
+  <!-- GUIDED PATH — on white, whitespace and hairlines only -->
+  <section class="pad-btm">
+    <div class="wrap2">
+      <h2 class="rise">Answer three questions</h2>
+      <div class="rail-grid rise">
+        <div class="rail">Guided recommendation<span class="rsub">Your answers generate a personalized recommendation below.</span></div>
+        <div>
+          <div class="qrow">
+            <div class="qnum" aria-hidden="true">01</div>
+            <div>
+              <h3 class="qhead" id="gp-q1">Where do you work?</h3>
+              <div class="fpills" data-gp="fn" role="radiogroup" aria-labelledby="gp-q1">
+                <button type="button" class="fpill on" role="radio" aria-checked="true">Manufacturing</button>
+                <button type="button" class="fpill" role="radio" aria-checked="false">Engineering</button>
+                <button type="button" class="fpill" role="radio" aria-checked="false">HR</button>
+                <button type="button" class="fpill" role="radio" aria-checked="false">Supply Chain</button>
+                <button type="button" class="fpill" role="radio" aria-checked="false">Digital Tech</button>
+                <button type="button" class="fpill" role="radio" aria-checked="false">Leadership</button>
+              </div>
+            </div>
+          </div>
+          <div class="qrow">
+            <div class="qnum" aria-hidden="true">02</div>
+            <div>
+              <h3 class="qhead" id="gp-q2">What best describes your team today?</h3>
+              <div class="fpills" data-gp="stage" role="radiogroup" aria-labelledby="gp-q2">
+                <button type="button" class="fpill" role="radio" aria-checked="false">Stabilize</button>
+                <button type="button" class="fpill on" role="radio" aria-checked="true">Standardize</button>
+                <button type="button" class="fpill" role="radio" aria-checked="false">Improve</button>
+              </div>
+            </div>
+          </div>
+          <div class="qrow" style="border-bottom:0">
+            <div class="qnum" aria-hidden="true">03</div>
+            <div>
+              <h3 class="qhead" id="gp-q3">What&rsquo;s your biggest challenge right now?</h3>
+              <div class="fpills" data-gp="prob" role="radiogroup" aria-labelledby="gp-q3">
+                <button type="button" class="fpill on" role="radio" aria-checked="true">Cadence drift</button>
+                <button type="button" class="fpill" role="radio" aria-checked="false">Defect repairs</button>
+                <button type="button" class="fpill" role="radio" aria-checked="false">Onramp confusion</button>
+                <button type="button" class="fpill" role="radio" aria-checked="false">Other</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="frec rise">
+        <a class="fhalf" id="gp-wm" href="/concept-quickstart.html?ask=My+Manufacturing+team+is+in+Standardize+and+cadence+drift+is+our+biggest+challenge.+Help+me+drive+consistency+through+ownership+with+the+Standard+Work+template.&amp;fn=Manufacturing&amp;stage=Standardize&amp;challenge=Cadence+drift&amp;route=sw-template">
+          <div class="fmain" aria-live="polite">
+            <div class="fmeta">Your recommendation<span class="dot"></span><span class="fm2">Updates as you answer</span></div>
+            <div class="frec-title" id="gp-title">Drive consistency through ownership</div>
+            <p class="frec-body" id="gp-body">Pull the <b>Standard Work</b> template and run a 1:1 coaching session with the cell lead. Cadence drift in Standardize stage resolves fastest with named ownership, not new tools.</p>
+            <p class="fwm-q" id="gp-wm-prompt">&ldquo;My Manufacturing team is in Standardize and cadence drift is our biggest challenge. Help me drive consistency through ownership with the Standard Work template.&rdquo;</p>
+            <span class="frec-label">Start with Wingmate</span>
+          </div>
+          <span class="go" aria-hidden="true">&rarr;</span>
+        </a>
+        <a class="fhalf fdst" id="gp-cta" href="/deliverables/standard-work/sw-template-detail.html">
+          <div class="fmain" aria-live="polite">
+            <div class="fmeta">Know where you&rsquo;re headed?</div>
+            <span class="frec-label" id="gp-cta-label">Open the Standard Work template</span>
+          </div>
+          <span class="go" aria-hidden="true">&rarr;</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+(function(){
+  var SW='/deliverables/standard-work/sw-concept-hybrid.1.html',
+      PS='/deliverables/problem-solving/ps-concept-hybrid.1.html',
+      DVM='/deliverables/daily-visual-management/dvm-concept-hybrid.1.html',
+      S5='/deliverables/5s/5s-concept-hybrid.1.html',
+      OC='/deliverables/operating-cadences/oc-concept-hybrid.1.html',
+      VSM='/deliverables/value-stream-management/vsm-concept-hybrid.1.html',
+      AP='/deliverables/action-planning/ap-concept-hybrid.1.html',
+      FP='/deliverables/flow-pull/fp-concept-hybrid.1.html',
+      SIM='/tools/5S/5s-digital-desktop-simulation.html',
+      SWT='/deliverables/standard-work/sw-template-detail.html',
+      PSR='/deliverables/standard-work/sw-template-detail.html?t=Structured+Problem+Solving+Report',
+      DJI='/deliverables/standard-work/sw-template-detail.html?t=Detailed+Job+Instructions';
+
+  // Time-of-day greeting
+  var greet = document.getElementById('wm-greet');
+  if (greet) {
+    var h = new Date().getHours();
+    greet.textContent = (h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening') + ' Aero';
+  }
+
+  // Guided path — three picks compute the recommended next step.
+  // Each route: [title, body, direct href, direct CTA label naming the destination, Wingmate ask clause, route key for the handoff contract]
+  var ROUTES = {
+    'Cadence drift': {
+      'Stabilize':   ['Anchor the day on a visual board', 'Stand up a <b>Cell Daily Management board</b> with a fixed huddle time. In Stabilize, cadence holds when the day is visible — start with Daily &amp; Visual Management.', DVM, 'Open Daily &amp; Visual Management', 'Help me anchor the day with a Cell Daily Management board.', 'dvm'],
+      'Standardize': ['Drive consistency through ownership', 'Pull the <b>Standard Work</b> template and run a 1:1 coaching session with the cell lead. Cadence drift in Standardize stage resolves fastest with named ownership, not new tools.', SWT, 'Open the Standard Work template', 'Help me drive consistency through ownership with the Standard Work template.', 'sw-template'],
+      'Improve':     ['Tune the operating rhythm', 'Reset the meeting stack with <b>Operating Cadences</b> — standard agendas, a bowler, and escalation that actually escalates.', OC, 'Open Operating Cadences', 'Help me reset our operating rhythm with the Operating Cadences templates.', 'oc'],
+    },
+    'Defect repairs': {
+      'Stabilize':   ['Contain it at the point of cause', 'Run <b>At Point Problem Solving</b> on the line, today. Contain first, then work the root cause once the signal is stable.', PS, 'Open Problem Solving', 'Help me contain it at the point of cause with At Point Problem Solving.', 'ps'],
+      'Standardize': ['Work the root cause, not the symptom', 'Open <b>Problem Solving</b> and run a Structured PSR on the top repair driver, then fold the fix back into the work instruction.', PSR, 'Open the PSR template', 'Help me work the root cause with a Structured Problem Solving Report.', 'psr-template'],
+      'Improve':     ['Close the loop on repeat defects', 'Chain Problem Solving into an <b>Action Plan</b>: PSR the top three repeat offenders and put owners and dates on every countermeasure.', AP, 'Open Action Planning', 'Help me close the loop on repeat defects with an Action Plan.', 'ap'],
+    },
+    'Onramp confusion': {
+      'Stabilize':   ['Start with 5S', 'Based on your answers, <b>5S</b> is the fastest way to improve consistency. Organize the workplace first, then layer Standard Work on top. Use the digital simulation to train your team in minutes.', SIM, 'Start the 5S simulation', 'Help me organize the workplace with 5S before layering Standard Work on top.', '5s-sim'],
+      'Standardize': ['Make the best-known way visible', 'Publish <b>Standard Work</b> with Detailed Job Instructions at the point of use. New people follow the standard, not the veteran.', DJI, 'Open the Detailed Job Instructions template', 'Help me make the best-known way visible with Detailed Job Instructions.', 'dji-template'],
+      'Improve':     ['Level the flow of incoming work', 'Use <b>Flow / Pull</b> to smooth the intake: visualize WIP, set limits, and let pull decide what gets started next.', FP, 'Open Flow / Pull', 'Help me level incoming work with Flow / Pull and WIP limits.', 'fp'],
+    },
+    'Other': {
+      'Stabilize':   ['Make the day visible first', 'When the problem is hard to name, start with <b>Daily &amp; Visual Management</b> — a board that separates normal from abnormal names it for you.', DVM, 'Open Daily &amp; Visual Management', 'Help me make the day visible with a Daily Visual Management board.', 'dvm'],
+      'Standardize': ['See the whole system', 'Map it with <b>Value Stream Management</b>. A one-page current-state map usually surfaces the constraint you could not name.', VSM, 'Open Value Stream Management', 'Help me map the whole system with a Value Stream current-state map.', 'vsm'],
+      'Improve':     ['Put owners on the gap', 'Turn what you already know into an <b>Action Plan</b> — owners, dates, and a weekly review cadence so it actually closes.', AP, 'Open Action Planning', 'Help me put owners and dates on the gap with an Action Plan.', 'ap'],
+    }
+  };
+  var FLAVOR = {
+    'Engineering':  ' The non-Mfg variant of every template fits your team.',
+    'HR':           ' The non-Mfg variant of every template fits your team.',
+    'Digital Tech': ' The non-Mfg variant of every template fits your team.',
+    'Leadership':   ' Pair it with <b>Leader Standard Work</b> for your own cadence.'
+  };
+  var pick = { fn: 'Manufacturing', stage: 'Standardize', prob: 'Cadence drift' };
+  var fmains = document.querySelectorAll('#dash .frec .fmain');
+  var wmPrompt = '', wmRoute = '';
+  function buildAsk(r){
+    var probPhrase = pick.prob === 'Other' ? 'our biggest challenge is hard to name' : pick.prob.toLowerCase() + ' is our biggest challenge';
+    return 'My ' + pick.fn + ' team is in ' + pick.stage + ' and ' + probPhrase + '. ' + r[4];
+  }
+  // Wingmate handoff contract: the prompt plus the structured context behind it.
+  // When GE provides the real Wingmate endpoint, only the base URL changes.
+  function wmHandoff(){
+    var q = new URLSearchParams();
+    q.set('ask', wmPrompt);
+    q.set('fn', pick.fn);
+    q.set('stage', pick.stage);
+    q.set('challenge', pick.prob);
+    q.set('route', wmRoute);
+    return q;
+  }
+  function applyRec(){
+    var r = (ROUTES[pick.prob] || ROUTES['Other'])[pick.stage] || ROUTES['Other']['Standardize'];
+    document.getElementById('gp-title').textContent = r[0];
+    document.getElementById('gp-body').innerHTML = r[1] + (FLAVOR[pick.fn] || '');
+    document.getElementById('gp-cta').setAttribute('href', r[2]);
+    document.getElementById('gp-cta-label').innerHTML = r[3];
+    wmPrompt = buildAsk(r);
+    wmRoute = r[5];
+    document.getElementById('gp-wm-prompt').textContent = '“' + wmPrompt + '”';
+    document.getElementById('gp-wm').setAttribute('href', '/dashboard.html?' + wmHandoff().toString());
+  }
+  function renderRec(animate){
+    if (animate && fmains.length) {
+      fmains.forEach(function(m){ m.classList.add('swap'); });
+      setTimeout(function(){ applyRec(); fmains.forEach(function(m){ m.classList.remove('swap'); }); }, 150);
+    } else {
+      applyRec();
+    }
+  }
+  document.querySelectorAll('.fpills').forEach(function(group){
+    var key = group.getAttribute('data-gp');
+    group.querySelectorAll('.fpill').forEach(function(p){
+      p.addEventListener('click', function(){
+        if (p.classList.contains('on')) return;
+        group.querySelectorAll('.fpill').forEach(function(x){ x.classList.remove('on'); x.setAttribute('aria-checked','false'); });
+        p.classList.add('on');
+        p.setAttribute('aria-checked','true');
+        pick[key] = p.textContent.trim();
+        renderRec(true);
+      });
+    });
+  });
+  renderRec();
+
+  // Embedded in the Tool Library stage: open either destination at the top level
+  // so browser back returns to the library, matching the other tool pages.
+  ['gp-cta', 'gp-wm'].forEach(function(id){
+    var cta = document.getElementById(id);
+    if (cta) cta.addEventListener('click', function(e){
+      if (window.top !== window.self) { e.preventDefault(); window.top.location.href = cta.getAttribute('href'); }
+    });
+  });
+
+  // Calm single fade/rise on scroll-in; reduced-motion handled in CSS
+  var dash = document.getElementById('dash');
+  if (dash && 'IntersectionObserver' in window) {
+    dash.classList.add('js-anim');
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, {rootMargin:'0px 0px -8% 0px'});
+    document.querySelectorAll('#dash .rise').forEach(function(el){
+      if (el.getBoundingClientRect().top < window.innerHeight) el.classList.add('in');
+      else io.observe(el);
+    });
+  }
+})();
+</script>
+<style>
+.fd-footer{background:#00010f;color:#fff;margin-top:56px;font-family:"GE Sans",-apple-system,"Helvetica Neue",Arial,sans-serif}
+.fd-footer *{box-sizing:border-box}
+.fd-footer .fdf-in{max-width:1280px;margin:0 auto;padding:48px 28px 40px}
+.fd-footer .fdf-top{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-bottom:26px;border-bottom:1px solid rgba(255,255,255,.12)}
+.fd-footer .fdf-brand{display:flex;align-items:center;gap:11px;font-size:15px;font-weight:600;color:#fff}
+.fd-footer .fdf-chip{background:#fff;color:#00010f;font-size:10px;font-weight:800;letter-spacing:.12em;padding:5px 9px;border-radius:4px;border:1px solid #16b364}
+.fd-footer .fdf-cobrand{font-size:13px;font-weight:600;color:rgba(255,255,255,.7);letter-spacing:.02em}
+.fd-footer .fdf-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;padding:30px 0}
+.fd-footer .fdf-h{font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#7e8aa8;margin-bottom:12px}
+.fd-footer .fdf-col a{display:block;color:rgba(255,255,255,.78);font-size:13.5px;text-decoration:none;padding:5px 0;transition:color .14s}
+.fd-footer .fdf-col a:hover{color:#fff;text-decoration:none}
+.fd-footer .fdf-meta{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:22px;border-top:1px solid rgba(255,255,255,.12);font-size:11.5px;color:rgba(255,255,255,.45);letter-spacing:.02em}
+@media(max-width:720px){.fd-footer .fdf-cols{grid-template-columns:1fr 1fr;gap:24px}}
+@media(max-width:440px){.fd-footer .fdf-cols{grid-template-columns:1fr}}
+</style>
+<footer class="fd-footer">
+  <div class="fdf-in">
+    <div class="fdf-top">
+      <div class="fdf-brand"><span class="fdf-chip">FLIGHT DECK</span>Activation Hub</div>
+      <div class="fdf-cobrand">GE Aerospace</div>
+    </div>
+    <div class="fdf-cols">
+      <div class="fdf-col">
+        <div class="fdf-h">Libraries</div>
+        <a href="/deliverables/standard-work/sw-templates.html">Template Library</a>
+        <a href="/deliverables/standard-work/video-library.html">Video Library</a>
+        <a href="/tools/index.html">Tool Library</a>
+      </div>
+      <div class="fdf-col">
+        <div class="fdf-h">Fundamentals</div>
+        <a href="/deliverables/standard-work/sw-concept-hybrid.1.html">Standard Work</a>
+        <a href="/deliverables/action-planning/ap-concept-hybrid.1.html">Action Planning</a>
+        <a href="/fundamentals/">All Fundamentals</a>
+      </div>
+      <div class="fdf-col">
+        <div class="fdf-h">Hub</div>
+        <a href="/concept-quickstart.html">Hub Home</a>
+        <a href="/deliverables/standard-work/faq.html">FAQ</a>
+      </div>
+    </div>
+    <div class="fdf-meta"><span>FLIGHT DECK Activation Hub</span><span>GE Aerospace Proprietary &middot; Sensitive &middot; authorized distribution only</span></div>
+  </div>
+</footer>
+</body></html>

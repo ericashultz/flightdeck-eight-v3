@@ -1,0 +1,922 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex, nofollow"><link rel="stylesheet" href="/hub/hub.css"><title>Flow &amp; Pull · Concept Hybrid.1 · Flight Deck</title><style>
+body{padding-left:48px!important}
+@media(max-width:700px){body{padding-left:0!important}}
+#fp-h{font-family:"GE Sans",-apple-system,"Helvetica Neue",Arial,sans-serif;color:#00003d;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+#fp-h *{box-sizing:border-box}
+
+/* ─── SHARED PRIMITIVES ─── */
+#fp-h .kick{display:inline-flex;align-items:center;gap:9px;font-size:11.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#2256e6}
+#fp-h .kick::before{content:"";width:7px;height:7px;background:#16b364;border-radius:1px;flex-shrink:0}
+#fp-h .eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#44496e;margin-bottom:18px}
+#fp-h .eyebrow::before{content:"";width:7px;height:7px;background:#16b364;border-radius:1px;flex-shrink:0}
+#fp-h .wrap-mid{max-width:1088px;margin:0 auto;padding:0 24px}
+
+/* ─── HERO (navy, single-audience) ─── */
+#fp-h .hero{position:relative;color:#fff;padding:74px 24px 64px;background:radial-gradient(120% 150% at 18% -10%,rgba(65,129,255,.32),transparent 55%),linear-gradient(120deg,#00010f,#000a2e 58%,#06173f);overflow:hidden}
+#fp-h .hero::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:54px 54px;-webkit-mask-image:radial-gradient(120% 120% at 50% 0,#000,transparent 75%);mask-image:radial-gradient(120% 120% at 50% 0,#000,transparent 75%);opacity:.5}
+#fp-h .hero .in{position:relative;max-width:1040px;margin:0 auto}
+#fp-h .hero .kick{color:#8aa6f0;margin-bottom:20px}
+#fp-h .hero h1{font-size:50px;font-weight:300;letter-spacing:-.03em;margin:0 0 16px;line-height:1.07;max-width:34ch}
+#fp-h .hero p{font-size:18px;color:rgba(255,255,255,.78);margin:0;max-width:60ch;line-height:1.55}
+#fp-h .hero .meta{display:flex;align-items:center;gap:18px;margin-top:30px;font-size:12.5px;font-weight:600;letter-spacing:.02em;color:#9fb4e8;flex-wrap:wrap}
+#fp-h .hero .meta span+span{display:flex;align-items:center;gap:18px}
+#fp-h .hero .meta span+span::before{content:"";width:4px;height:4px;border-radius:50%;background:#4181ff}
+
+/* Wingmate ask bar in hero */
+#fp-h .wm-ask{margin-top:30px;display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);border-radius:100px;padding:8px 8px 8px 20px;max-width:620px;backdrop-filter:blur(6px)}
+#fp-h .wm-ask .wm-spark{font-size:15px}
+#fp-h .wm-ask input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:#fff;font:inherit;font-size:14.5px}
+#fp-h .wm-ask input::placeholder{color:rgba(255,255,255,.55)}
+#fp-h .wm-ask button{flex:none;display:inline-flex;align-items:center;gap:7px;background:#2256e6;color:#fff;border:0;border-radius:100px;padding:10px 18px;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;transition:background .15s}
+#fp-h .wm-ask button:hover{background:#1844cc}
+#fp-h .wm-hint{margin-top:11px;font-size:12px;color:rgba(255,255,255,.5)}
+
+/* ─── SECTION HEAD ─── */
+#fp-h .sec{padding:58px 24px 8px}
+#fp-h .sec .in{max-width:1088px;margin:0 auto}
+#fp-h .sec-head{margin-bottom:30px}
+#fp-h .sec-head h2{font-size:32px;font-weight:300;letter-spacing:-.025em;margin:12px 0 8px;color:#00003d}
+#fp-h .sec-head p{font-size:15.5px;color:#4A506A;margin:0;line-height:1.6;max-width:66ch}
+#fp-h .step-flag{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#2256e6;background:#eef3fd;border:1px solid #d6e3fb;border-radius:100px;padding:5px 13px;margin-bottom:4px}
+
+/* ─── APPLICATION TABS ─── */
+#fp-h .tabs{display:flex;gap:8px;margin:0 0 26px;flex-wrap:wrap}
+#fp-h .tabs button{font-size:13px;font-weight:600;padding:10px 18px;border-radius:100px;border:1px solid #e1e6f2;color:#3a3f63;background:#fff;cursor:pointer;font-family:inherit;transition:background .15s,color .15s,box-shadow .15s,border-color .15s}
+#fp-h .tabs button:hover{border-color:#b0bbd8;background:#f4f6fb}
+#fp-h .tabs button.on{background:#00003d;color:#fff;border-color:#00003d;box-shadow:0 6px 16px -6px rgba(0,0,61,.5)}
+
+/* application cards */
+#fp-h .roles{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:stretch}
+#fp-h[data-fn="production"] .roles,#fp-h[data-fn="replenishment"] .roles,#fp-h[data-fn="office"] .roles{grid-template-columns:1fr}
+#fp-h .role{border:1px solid #e7ebf4;border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 1px 2px rgba(11,26,64,.05),0 18px 40px -26px rgba(11,26,64,.22);display:flex;flex-direction:column;transition:box-shadow .18s,transform .16s,border-color .18s}
+#fp-h .role:hover{box-shadow:0 14px 34px -16px rgba(11,26,64,.34);transform:translateY(-2px)}
+#fp-h .role.dim{display:none}
+#fp-h[data-fn] .role .role-wide{display:none}
+#fp-h[data-fn="production"] .role.production .role-wide,#fp-h[data-fn="replenishment"] .role.replenishment .role-wide,#fp-h[data-fn="office"] .role.office .role-wide{display:grid}
+#fp-h .role h3{margin:0;font-size:17px;font-weight:600;letter-spacing:.01em;color:#fff;padding:18px 22px}
+/* Production = deep navy; Replenishment = mid blue; Office = lighter blue */
+#fp-h .role.production h3{background:linear-gradient(180deg,#1f7a4d,#155e3a)}
+#fp-h .role.replenishment h3{background:linear-gradient(180deg,#3061c2,#244ea6)}
+#fp-h .role.office h3{background:linear-gradient(180deg,#5b7fd6,#4a6bc0)}
+#fp-h .role .body{padding:20px 22px 22px;display:flex;flex-direction:column;flex:1}
+#fp-h .persona-role{font-size:12.5px;font-weight:600;color:#2d3a6b;background:#f4f7fd;border:1px solid #e7ebf4;border-radius:8px;padding:10px 12px;margin-bottom:16px;line-height:1.4;display:flex;align-items:center;gap:8px;flex-wrap:wrap;min-height:60px}
+#fp-h .persona-role .fn-tag{font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#2256e6;background:#eef2fd;border-radius:5px;padding:3px 8px;white-space:nowrap}
+#fp-h .lbl{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#4A506A;margin:16px 0 6px;display:flex;align-items:center;gap:7px}
+#fp-h .lbl::before{content:"";width:5px;height:5px;background:#16b364;border-radius:50%;flex-shrink:0}
+#fp-h .lbl:first-child{margin-top:0}
+#fp-h .ex{font-weight:600;font-size:15px}
+#fp-h .exs{font-size:12.5px;color:#4A506A;margin-top:2px}
+#fp-h ul.bul{margin:6px 0 0;padding:0;list-style:none}
+#fp-h ul.bul li{font-size:13px;color:#44496e;margin-bottom:7px;padding-left:18px;position:relative;line-height:1.45}
+#fp-h ul.bul li::before{content:"";position:absolute;left:0;top:6px;width:7px;height:7px;border:1.5px solid #4181ff;border-radius:50%}
+
+/* recommended template chip */
+#fp-h .rec-tpl{margin-top:14px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:12px 14px}
+#fp-h .rec-tpl .rt-label{font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#16834a;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+#fp-h .rec-tpl a{display:inline-flex;align-items:center;gap:7px;font-size:13.5px;font-weight:700;color:#13693f;text-decoration:none}
+#fp-h .rec-tpl a:hover{text-decoration:underline}
+#fp-h .role .cardfoot{margin-top:auto;padding-top:16px;display:flex;gap:10px;flex-wrap:wrap}
+#fp-h .walkme{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:#fff;background:#2256e6;border:0;border-radius:100px;padding:10px 18px;cursor:pointer;font-family:inherit;text-decoration:none;transition:background .15s}
+#fp-h .walkme:hover{background:#1844cc}
+#fp-h .walkme::after{content:"→"}
+#fp-h .wm-mini{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:#2256e6;background:#fff;border:1px solid #e1e6f2;border-radius:100px;padding:10px 16px;cursor:pointer;font-family:inherit;transition:border-color .15s}
+#fp-h .wm-mini:hover{border-color:#4181ff}
+
+/* role-wide expanded detail */
+#fp-h .role-wide{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid #eef1f8;margin-top:18px;padding-top:0}
+#fp-h .role-wide .rw-col{padding:20px 0 0;padding-right:26px}
+#fp-h .role-wide .rw-col+.rw-col{padding-right:0;padding-left:26px;border-left:1px solid #eef1f8}
+#fp-h .step-list{list-style:none;padding:0;margin:0;counter-reset:steps}
+#fp-h .step-list li{counter-increment:steps;padding:9px 12px 9px 40px;position:relative;font-size:13px;color:#44496e;line-height:1.5;border-bottom:1px solid #f0f3fa}
+#fp-h .step-list li:last-child{border-bottom:none}
+#fp-h .step-list li::before{content:counter(steps);position:absolute;left:8px;top:9px;width:20px;height:20px;background:#eef2fc;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#2256e6}
+
+/* ─── GUIDED PATH ─── */
+#fp-h .guide{background:#f4f7fd;border-top:1px solid #e7ebf4;border-bottom:1px solid #e7ebf4;margin-top:40px}
+#fp-h .guide .in{max-width:1088px;margin:0 auto;padding:48px 24px 40px}
+#fp-h .guide-head{display:flex;align-items:flex-start;justify-content:space-between;gap:28px;flex-wrap:wrap}
+#fp-h .guide-head .gh-copy{flex:1;min-width:300px}
+#fp-h .guide-head h2{font-size:30px;font-weight:300;letter-spacing:-.025em;margin:10px 0 8px;color:#00003d}
+#fp-h .guide-head p{font-size:15px;color:#4A506A;margin:0;line-height:1.6;max-width:60ch}
+#fp-h .scoped{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:#0b2f8f;background:#eef3fd;border:1px solid #d6e3fb;border-radius:100px;padding:6px 14px;margin-top:14px}
+#fp-h .scoped b{font-weight:700}
+#fp-h .three-el{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:18px}
+#fp-h .three-el .te-lead{font-size:13px;font-weight:600;color:#44496e}
+#fp-h .three-el .te-chip{font-size:12.5px;font-weight:700;color:#0b2f8f;background:#eef3fd;border:1px solid #d6e3fb;border-radius:100px;padding:5px 14px}
+
+/* progress panel */
+#fp-h .gprog{background:#00010f;color:#fff;border-radius:14px;padding:20px 22px;min-width:240px;flex:0 0 auto}
+#fp-h .gprog .gp-label{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#8aa6f0;margin-bottom:12px}
+#fp-h .gprog .prog-track{height:6px;background:rgba(255,255,255,.15);border-radius:6px;overflow:hidden}
+#fp-h .gprog .prog-fill{height:100%;width:0;background:linear-gradient(90deg,#4181ff,#16b364);border-radius:6px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+#fp-h .gprog .prog-count{margin-top:10px;font-size:13px;font-weight:600;color:#cfe0fb}
+#fp-h .gprog .gp-reset{margin-top:6px;font-size:11.5px;color:rgba(255,255,255,.5);background:none;border:0;cursor:pointer;font-family:inherit;padding:0}
+#fp-h .gprog .gp-reset:hover{color:#fff}
+
+/* steps */
+#fp-h .steps{margin-top:34px}
+#fp-h .step{display:grid;grid-template-columns:74px 1fr;gap:24px;position:relative;margin-bottom:12px}
+#fp-h .step:not(:last-child)>.step-line{position:absolute;left:36px;top:74px;bottom:-12px;width:2px;background:linear-gradient(#4181ff,#dfe4f2);pointer-events:none}
+#fp-h .num{width:64px;height:64px;border-radius:50%;border:1.5px solid #4181ff;color:#0b2f8f;font-size:24px;font-weight:300;display:flex;align-items:center;justify-content:center;background:#fff;z-index:1;box-shadow:0 10px 24px -10px rgba(11,47,143,.5);flex-shrink:0;transition:border-color .2s,color .2s}
+#fp-h .step.complete .num{border-color:#16b364;color:#16b364}
+#fp-h .step-body{padding-bottom:30px}
+#fp-h .step-body h3{font-size:22px;font-weight:600;letter-spacing:-.015em;margin:10px 0 6px;color:#00003d}
+#fp-h .step-card{background:#fff;border:1px solid #e7ebf4;border-radius:14px;padding:22px 24px 18px;box-shadow:0 1px 2px rgba(11,26,64,.05),0 18px 40px -26px rgba(11,26,64,.22);margin-top:4px}
+#fp-h .step-card .intro{font-size:15px;color:#44496e;margin:0 0 14px;line-height:1.65;max-width:64ch}
+#fp-h .worked{background:#f4f7fd;border-left:3px solid #4181ff;border-radius:0 8px 8px 0;padding:12px 16px;margin:14px 0 16px;font-size:13.5px;color:#44496e;line-height:1.6}
+#fp-h .worked strong{display:block;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#2256e6;margin-bottom:4px}
+#fp-h .meta-row{display:flex;align-items:center;gap:12px;margin:0 0 16px;flex-wrap:wrap}
+#fp-h .time-badge{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:#4A506A;background:#f4f7fd;border:1px solid #e7ebf4;border-radius:100px;padding:5px 12px}
+#fp-h .time-badge::before{content:"⏱";font-size:12px}
+#fp-h .tmpl-badge{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:#2256e6;background:#eef3fd;border:1px solid #d6e3fb;border-radius:100px;padding:5px 12px}
+#fp-h .tmpl-badge::before{content:"📄";font-size:11px}
+#fp-h .wm-badge{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:#1844cc;background:#eef3fd;border:1px solid #d6e3fb;border-radius:100px;padding:5px 12px;cursor:pointer;font-family:inherit;transition:background .15s}
+#fp-h .wm-badge:hover{background:#e3ecff}
+#fp-h .wm-badge::before{content:"✦";font-size:12px}
+#fp-h .checklist{list-style:none;margin:0;padding:14px 0 0;border-top:1px solid #eef1f8}
+#fp-h .checklist li{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid #f2f4fa;cursor:pointer;user-select:none}
+#fp-h .checklist li:last-child{border-bottom:none}
+#fp-h .checklist li:hover .cb{border-color:#4181ff}
+#fp-h .cb{width:18px;height:18px;border:1.5px solid #c4cde0;border-radius:4px;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:background .15s,border-color .15s;background:#fff}
+#fp-h .checklist li.checked .cb{background:#16b364;border-color:#16b364}
+#fp-h .checklist li.checked .cb::after{content:"✓";font-size:11px;color:#fff;font-weight:700}
+#fp-h .checklist li.checked .cl-text{color:#4A506A;text-decoration:line-through;text-decoration-color:#c4cde0}
+#fp-h .cl-text{font-size:13.5px;color:#44496e;line-height:1.5;padding-top:1px}
+#fp-h .act{display:inline-flex;align-items:center;gap:9px;font-size:13.5px;font-weight:600;color:#2256e6;background:#fff;border:1px solid #e1e6f2;border-radius:100px;padding:9px 18px;cursor:pointer;text-decoration:none;margin-top:16px;transition:border-color .2s}
+#fp-h .act:hover{border-color:#4181ff}
+#fp-h .act::after{content:"→";color:#4181ff}
+
+/* guided collapsed state */
+#fp-h .guide.collapsed .steps,#fp-h .guide.collapsed .recap{display:none}
+#fp-h .guide-toggle{margin-top:24px;font-family:inherit;font-size:13.5px;font-weight:700;color:#fff;background:#2256e6;border:0;border-radius:100px;padding:12px 22px;cursor:pointer;display:inline-flex;align-items:center;gap:9px;transition:background .15s}
+#fp-h .guide-toggle:hover{background:#1844cc}
+#fp-h .guide-toggle .gt-caret{font-size:17px;font-weight:300;transition:transform .2s}
+#fp-h .guide:not(.collapsed) .guide-toggle .gt-caret{transform:rotate(45deg)}
+
+/* recap */
+#fp-h .recap{margin-top:8px}
+#fp-h .recap h3{font-size:15px;font-weight:700;color:#00003d;margin:0 0 14px}
+#fp-h .timeline-recap{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));counter-reset:recap}
+#fp-h .tr-item{counter-increment:recap;padding:18px 22px;border-left:2px solid #dfe4f2;position:relative;background:#fff;border-top:1px solid #eef1f8;border-bottom:1px solid #eef1f8}
+#fp-h .tr-item::before{content:counter(recap,"0"counter(recap));font-size:11px;font-weight:700;letter-spacing:.14em;color:#4181ff;display:block;margin-bottom:8px}
+#fp-h .tr-item strong{display:block;font-size:14px;font-weight:700;color:#00003d;margin-bottom:4px}
+#fp-h .tr-item span{font-size:12.5px;color:#4A506A;line-height:1.5;display:block}
+#fp-h .tr-item .t-time{font-size:11px;font-weight:600;color:#16b364;margin-top:6px;display:block}
+
+/* ─── WINGMATE BAND ─── */
+#fp-h .wingband{position:relative;color:#fff;padding:60px 24px;background:radial-gradient(120% 150% at 85% -20%,rgba(65,129,255,.22),transparent 55%),linear-gradient(120deg,#00010f,#000a2e 58%,#06173f);overflow:hidden}
+#fp-h .wingband::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:54px 54px;-webkit-mask-image:radial-gradient(120% 120% at 90% 0,#000,transparent 75%);mask-image:radial-gradient(120% 120% at 90% 0,#000,transparent 75%);opacity:.5}
+#fp-h .wingband .in{position:relative;max-width:1088px;margin:0 auto}
+#fp-h .wingband .kick{color:#8aa6f0}
+#fp-h .wingband .kick::before{background:#16b364}
+#fp-h .wingband h2{font-size:32px;font-weight:300;letter-spacing:-.025em;margin:12px 0 8px;color:#fff;line-height:1.08}
+#fp-h .wingband .wb-sub{font-size:16px;color:rgba(255,255,255,.78);margin:0 0 30px;max-width:62ch;line-height:1.6}
+#fp-h .wb-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+#fp-h .wb-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:20px 20px 18px;transition:border-color .18s,background .18s,transform .16s}
+#fp-h .wb-card:hover{border-color:rgba(65,129,255,.55);background:rgba(255,255,255,.09);transform:translateY(-2px)}
+#fp-h .wb-card .wb-ic{width:38px;height:38px;border-radius:10px;background:rgba(65,129,255,.16);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:14px}
+#fp-h .wb-card strong{display:block;font-size:14.5px;font-weight:700;color:#fff;margin-bottom:5px;letter-spacing:-.01em}
+#fp-h .wb-card p{font-size:12.5px;color:rgba(255,255,255,.66);margin:0 0 16px;line-height:1.55}
+#fp-h .wb-card .wb-when{display:inline-block;margin-top:10px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8aa6f0}
+#fp-h .wb-launch{display:inline-flex;align-items:center;gap:9px;margin-top:30px;background:#2256e6;color:#fff;font-size:14px;font-weight:700;border:0;border-radius:100px;padding:13px 26px;text-decoration:none;cursor:pointer;font-family:inherit;transition:background .15s,transform .15s}
+#fp-h .wb-launch:hover{background:#1844cc;transform:translateY(-1px)}
+@media(max-width:880px){#fp-h .wb-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){#fp-h .wb-grid{grid-template-columns:1fr}}
+
+/* ─── RECOMMENDED TEMPLATES ─── */
+#fp-h .tpl-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+#fp-h .tpl-card{border:1px solid #e7ebf4;border-radius:14px;padding:22px 22px 22px;background:#fff;box-shadow:0 1px 2px rgba(11,26,64,.05),0 18px 40px -26px rgba(11,26,64,.22);display:flex;flex-direction:column;gap:11px;position:relative;transition:border-color .18s,box-shadow .18s,transform .16s}
+#fp-h .tpl-card:hover{border-color:#4181ff;box-shadow:0 12px 30px -14px rgba(34,86,230,.28);transform:translateY(-2px)}
+#fp-h .tpl-card.rec{border-color:#bbf7d0;box-shadow:0 1px 2px rgba(11,26,64,.05),0 18px 40px -26px rgba(16,131,74,.4)}
+#fp-h .tpl-card .rec-flag{position:absolute;top:14px;right:14px;font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#16834a;background:#ecfdf5;border:1px solid #bbf7d0;border-radius:100px;padding:4px 10px;display:none}
+#fp-h .tpl-card.rec .rec-flag{display:inline-block}
+#fp-h .tpl-card .tpl-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;background:#eef2fd}
+#fp-h .tpl-card .tpl-tag{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#2256e6;background:#eef2fd;border-radius:6px;padding:4px 10px;width:fit-content}
+#fp-h .tpl-card h3{font-size:14.5px;font-weight:600;color:#00003d;margin:0;line-height:1.3}
+#fp-h .tpl-card p{font-size:12.5px;color:#4A506A;margin:0;line-height:1.55;flex:1}
+#fp-h .tpl-card a.open{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:#2256e6;text-decoration:none;margin-top:4px;padding-top:12px;border-top:1px solid #eef1f8}
+#fp-h .tpl-card a.open:hover{text-decoration:underline}
+#fp-h .tpl-foot{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:22px}
+#fp-h .tpl-foot a{font-size:13.5px;font-weight:600;color:#2256e6;text-decoration:none}
+#fp-h .tpl-foot a:hover{text-decoration:underline}
+#fp-h .tpl-foot .tf-note{font-size:12.5px;color:#4A506A}
+@media(max-width:980px){#fp-h .tpl-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:540px){#fp-h .tpl-grid,#fp-h .roles{grid-template-columns:1fr}}
+
+/* ─── ACTION BAND (training video) ─── */
+#fp-h .action-band{padding:56px 24px 8px}
+#fp-h .action-band .in{max-width:1088px;margin:0 auto}
+#fp-h .action-band .ab-frame{border-radius:16px;overflow:hidden;box-shadow:0 22px 54px -26px rgba(0,0,0,.32);background:#0a1330;max-width:800px}
+#fp-h .action-band .ab-player{display:block;width:100%;aspect-ratio:16/9;background:#0a1330;border:0}
+
+/* ─── FAQ ─── */
+#fp-h .faq{padding:54px 24px 8px}
+#fp-h .faq .in{max-width:1040px;margin:0 auto}
+#fp-h .faq h2{font-size:30px;font-weight:300;letter-spacing:-.025em;margin:8px 0 28px;color:#00003d}
+#fp-h .faq-item{border-top:1px solid #e7ebf4;padding:20px 0}
+#fp-h .faq-item:last-child{border-bottom:1px solid #e7ebf4}
+#fp-h .faq-q{font-size:15px;font-weight:700;color:#00003d;margin:0;letter-spacing:-.01em;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px}
+#fp-h .faq-q .faq-icon{font-size:16px;color:#4181ff;transition:transform .2s;flex-shrink:0}
+#fp-h .faq-item.open .faq-icon{transform:rotate(45deg)}
+#fp-h .faq-item.open .faq-q{margin-bottom:8px}
+#fp-h .faq-a{font-size:14.5px;color:#44496e;line-height:1.7;margin:0;max-width:66ch;display:none;padding-top:4px}
+#fp-h .faq-item.open .faq-a{display:block}
+
+/* ─── FOOTER ─── */
+.fd-footer{background:#00010f;color:#fff;margin-top:48px;font-family:"GE Sans",-apple-system,"Helvetica Neue",Arial,sans-serif}
+.fd-footer .fdf-in{max-width:1280px;margin:0 auto;padding:48px 28px 40px}
+.fd-footer .fdf-top{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-bottom:26px;border-bottom:1px solid rgba(255,255,255,.12)}
+.fd-footer .fdf-brand{display:flex;align-items:center;gap:11px;font-size:15px;font-weight:600;color:#fff}
+.fd-footer .fdf-chip{background:#fff;color:#00010f;font-size:10px;font-weight:800;letter-spacing:.12em;padding:5px 9px;border-radius:4px;border:1px solid #16b364}
+.fd-footer .fdf-cobrand{font-size:13px;font-weight:600;color:rgba(255,255,255,.7);letter-spacing:.02em}
+.fd-footer .fdf-cobrand i{font-style:normal;opacity:.5;margin:0 5px}
+.fd-footer .fdf-cols{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;padding:30px 0}
+.fd-footer .fdf-h{font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#7e8aa8;margin-bottom:12px}
+.fd-footer .fdf-col a{display:block;color:rgba(255,255,255,.78);font-size:13.5px;text-decoration:none;padding:5px 0}
+.fd-footer .fdf-col a:hover{color:#fff}
+.fd-footer .fdf-meta{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:22px;border-top:1px solid rgba(255,255,255,.12);font-size:11.5px;color:rgba(255,255,255,.45)}
+@media(max-width:720px){.fd-footer .fdf-cols{grid-template-columns:1fr 1fr}}
+@media(max-width:440px){.fd-footer .fdf-cols{grid-template-columns:1fr}}
+
+/* ─── WINGMATE DRAWER ─── */
+#fp-h .wm-drawer{position:fixed;top:0;right:0;bottom:0;width:380px;max-width:92vw;background:#00010f;color:#fff;z-index:120;transform:translateX(100%);transition:transform .28s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;box-shadow:-20px 0 60px -20px rgba(0,0,0,.6)}
+#fp-h .wm-drawer.open{transform:translateX(0)}
+#fp-h .wm-drawer .wmd-head{display:flex;align-items:center;gap:10px;padding:20px 22px;border-bottom:1px solid rgba(255,255,255,.1)}
+#fp-h .wm-drawer .wmd-spark{width:30px;height:30px;border-radius:8px;background:rgba(123,227,173,.18);display:flex;align-items:center;justify-content:center;font-size:15px;color:#7be3ad}
+#fp-h .wm-drawer .wmd-title{font-size:14px;font-weight:700}
+#fp-h .wm-drawer .wmd-title small{display:block;font-size:11px;font-weight:500;color:rgba(255,255,255,.5)}
+#fp-h .wm-drawer .wmd-x{margin-left:auto;background:none;border:0;color:rgba(255,255,255,.6);font-size:20px;cursor:pointer;font-family:inherit}
+#fp-h .wm-drawer .wmd-x:hover{color:#fff}
+#fp-h .wm-drawer .wmd-body{flex:1;overflow-y:auto;padding:20px 22px;display:flex;flex-direction:column;gap:14px}
+#fp-h .wm-msg{font-size:13.5px;line-height:1.55;border-radius:12px;padding:13px 15px;max-width:90%}
+#fp-h .wm-msg.bot{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);align-self:flex-start;color:rgba(255,255,255,.9)}
+#fp-h .wm-msg.user{background:#2256e6;align-self:flex-end;color:#fff}
+#fp-h .wm-msg b{color:#8aa6f0;font-weight:700}
+#fp-h .wm-sugg{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+#fp-h .wm-sugg button{text-align:left;font-family:inherit;font-size:12.5px;color:#cfe0fb;background:rgba(65,129,255,.12);border:1px solid rgba(65,129,255,.3);border-radius:10px;padding:10px 13px;cursor:pointer;transition:background .15s}
+#fp-h .wm-sugg button:hover{background:rgba(65,129,255,.22)}
+#fp-h .wm-drawer .wmd-foot{padding:16px 18px;border-top:1px solid rgba(255,255,255,.1);display:flex;gap:9px}
+#fp-h .wm-drawer .wmd-foot input{flex:1;min-width:0;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:100px;padding:11px 16px;color:#fff;font:inherit;font-size:13.5px;outline:0}
+#fp-h .wm-drawer .wmd-foot input::placeholder{color:rgba(255,255,255,.45)}
+#fp-h .wm-drawer .wmd-foot button{flex:none;background:#2256e6;color:#fff;border:0;border-radius:100px;width:42px;height:42px;font-size:16px;cursor:pointer}
+#fp-h .wm-scrim{position:fixed;inset:0;background:rgba(0,1,15,.4);z-index:119;opacity:0;pointer-events:none;transition:opacity .28s}
+#fp-h .wm-scrim.open{opacity:1;pointer-events:auto}
+
+@media(max-width:760px){
+  #fp-h .hero h1{font-size:38px}
+  #fp-h .guide-head{flex-direction:column}
+  #fp-h .role-wide{grid-template-columns:1fr}
+  #fp-h .role-wide .rw-col+.rw-col{padding-left:0;border-left:0;border-top:1px solid #eef1f8;padding-top:18px}
+}
+</style><script src="/gate.js"></script></head><body>
+<div class="suite"><div class="wrap suite-in">
+  <span class="waffle"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+  <span class="org"><span class="monogram">GE</span>GE Aerospace</span>
+  <span class="sp">SharePoint</span>
+  <input placeholder="Search this site">
+  <span class="icons"><span>&#9881;</span><span class="acct"><span class="av">A</span><span class="nm">Aero</span></span></span>
+</div></div>
+<div class="sprail"><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg></span><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h8l4 4v14H7z"/><path d="M15 3v4h4"/></svg></span><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="15" rx="1.5"/><path d="M3.5 9.5h17M9 9.5v10"/></svg></span><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a1.8 1.8 0 0 1 1.8-1.8H9l2 2h7.2A1.8 1.8 0 0 1 21 9v8.2A1.8 1.8 0 0 1 19.2 19H4.8A1.8 1.8 0 0 1 3 17.2z"/></svg></span><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span></div>
+
+<header class="site">
+  <div class="wrap site-bar">
+    <div class="site-mark"><span class="chip">FLIGHT DECK</span><a href="index.html">FLIGHT DECK Activation Hub</a></div>
+    <nav class="primary">
+      <div><a class="top" href="/concept-quickstart.html">Home</a></div>
+      <div>
+        <a class="top active" href="index.html#fundamentals">Fundamentals<span class="caret">&#9662;</span></a>
+        <div class="menu">
+          <a href="standard-work.html">Standard Work</a>
+          <a href="action-planning.html">Action Planning</a>
+          <a href="daily-visual-management.html">Daily and Visual Management</a>
+          <a href="value-stream-management.html">Value Stream Management</a>
+          <a href="operating-cadences.html">Operating Cadences</a>
+          <a href="problem-solving.html">Problem Solving</a>
+          <a href="5s.html">5S</a>
+          <a href="flow-pull.html">Flow/Pull</a>
+        </div>
+      </div>
+      <div><a class="top" href="behaviors.html">Behaviors<span class="caret">&#9662;</span></a><div class="menu"><a href="/deliverables/respect-for-people/respect-for-people-concept.1.html">Respect for People</a><a href="/deliverables/customer-driven/customer-driven-concept.1.html">Customer Driven</a><a href="/deliverables/continuous-improvement/continuous-improvement-concept.1.html">Continuous Improvement</a></div></div>
+      <div><a class="top" href="sw-templates.html">Templates</a></div>
+      <div><a class="top" href="video-library.html">Video Library</a></div>
+      <div><a class="top" href="/deliverables/standard-work/prompt-library.html">Prompt Library</a></div>
+      <div>
+        <a class="top" href="#">Additional Tools<span class="caret">&#9662;</span></a>
+        <div class="menu">
+          <a href="/tools/index.html">FLIGHT DECK Tool Library</a>
+          <a href="leader-portal.html">FLIGHT DECK Leader Portal</a>
+          <a href="miro.html">FLIGHT DECK on Miro</a>
+          <a href="/programs/index.html">FLIGHT DECK Programs</a>
+          <a href="faq.html">FAQ</a>
+        </div>
+      </div>
+      <div><a class="top" href="https://aifactory-aiwingmate.av.ge.com/?profile=FLIGHTDECK" target="_blank" rel="noopener">FLIGHT DECK Wingmate<span class="caret">&#9662;</span></a></div>
+      
+    </nav>
+    <span class="badge-sensitive">Sensitive &#8964;</span>
+  </div>
+</header>
+
+
+<div id="fp-h" data-fn="all">
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero">
+    <div class="in">
+      <div class="kick">Flight Deck Fundamental · Flow &amp; Pull</div>
+      <h1>Let demand<br>pull the work.</h1>
+      <p>Experienced teams jump to their application and the right template. New teams follow four guided moves to a first pull system. Wingmate sizes the system and watches the signals.</p>
+      <div class="meta"><span>Three applications</span><span>Four guided moves</span><span>Wingmate throughout</span></div>
+      <div class="wm-ask">
+        <span class="wm-spark">✦</span>
+        <input id="wm-hero-input" placeholder="Ask Wingmate: design a pull system for my cell" onkeydown="if(event.key==='Enter')hWingAsk(this.value)">
+        <button onclick="hWingAsk(document.getElementById('wm-hero-input').value)">Ask Wingmate</button>
+      </div>
+      <div class="wm-hint">Wingmate can recommend an application, size a kanban, or evaluate a pull system you already have.</div>
+    </div>
+  </section>
+
+  <!-- ═══ APPLICATION SWITCHER ═══ -->
+  <section class="sec" id="start-here">
+    <div class="in">
+      <div class="sec-head">
+        <div class="step-flag">Choose your application</div>
+        <h2>Start with where the work lives.</h2>
+        <p>Pick the application that matches your environment. Every example, template, and pull signal then speaks to your context, not a generic floor. Choose one to see the full detail, or compare all three.</p>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="Application view">
+        <button class="on" data-fn="all" onclick="hSetFn('all')">Side by side</button>
+        <button data-fn="production" onclick="hSetFn('production')">Production</button>
+        <button data-fn="replenishment" onclick="hSetFn('replenishment')">Replenishment</button>
+        <button data-fn="office" onclick="hSetFn('office')">Office</button>
+      </div>
+
+      <div class="roles">
+        <!-- PRODUCTION -->
+        <div class="role production" data-role="production">
+          <h3>Continuous flow on the line.</h3>
+          <div class="body">
+            <div class="persona-role">For connecting steps so work moves one piece at a time. <span class="fn-tag">Production</span></div>
+            <div class="lbl">Example</div>
+            <div class="ex">Assembly cell one-piece flow</div>
+            <div class="exs">Engine assembly · fabrication line</div>
+            <div class="lbl">What good looks like</div>
+            <ul class="bul">
+              <li>Batches shrink and work moves without piling up</li>
+              <li>The line paces to takt</li>
+              <li>WIP is visible and capped between stations</li>
+            </ul>
+            <div class="rec-tpl">
+              <div class="rt-label">✦ Recommended template</div>
+              <a href="fp-template-detail.html?t=Continuous+Flow+Design&fn=production" target="_blank" rel="noopener">Continuous Flow Design →</a>
+            </div>
+            <div class="role-wide">
+              <div class="rw-col">
+                <div class="lbl">How to design it</div>
+                <ol class="step-list">
+                  <li>Identify the constraint station that sets the pace for the whole cell.</li>
+                  <li>Link adjacent steps so work moves one piece at a time, with no queue between them.</li>
+                  <li>Set WIP caps at each handoff so overflow is visible, not hidden in a buffer.</li>
+                  <li>Balance station times to takt; redeploy capacity from the non-constraint stations.</li>
+                  <li>Post the flow at the line and audit daily for signs of re-batching.</li>
+                </ol>
+              </div>
+              <div class="rw-col">
+                <div class="lbl">Worked example</div>
+                <div class="ex">Assembly cell · Lynn, MA</div>
+                <div class="exs" style="margin-top:6px;line-height:1.55">A four-station assembly cell links steps into one-piece flow and cuts WIP by half. Cycle time drops from 3.2 hours to 2.4 hours because batches no longer queue between stations.</div>
+                <div class="lbl">Who owns it</div>
+                <div class="exs" style="line-height:1.55">Cell lead with manufacturing engineer support. Flow design is revised when takt changes or a station is rebalanced.</div>
+              </div>
+            </div>
+            <div class="cardfoot">
+              <button class="walkme" onclick="hWalkMe('production')">Walk me through it</button>
+              <button class="wm-mini" onclick="hWingScope('production')">✦ Ask Wingmate</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- REPLENISHMENT -->
+        <div class="role replenishment" data-role="replenishment">
+          <h3>A pull and kanban system.</h3>
+          <div class="body">
+            <div class="persona-role">For replacing only what the customer consumed. <span class="fn-tag">Replenishment</span></div>
+            <div class="lbl">Example</div>
+            <div class="ex">Stockroom min/max kanban</div>
+            <div class="exs">Parts replenishment · consumables · raw material</div>
+            <div class="lbl">What good looks like</div>
+            <ul class="bul">
+              <li>Inventory is capped and visible at all times</li>
+              <li>Replenishment is triggered by use, not a forecast</li>
+              <li>Stockouts drop because signals are reliable</li>
+            </ul>
+            <div class="rec-tpl">
+              <div class="rt-label">✦ Recommended template</div>
+              <a href="fp-template-detail.html?t=Kanban+Sizing+Worksheet&fn=replenishment" target="_blank" rel="noopener">Kanban Sizing Worksheet →</a>
+            </div>
+            <div class="role-wide">
+              <div class="rw-col">
+                <div class="lbl">How to design it</div>
+                <ol class="step-list">
+                  <li>Calculate average daily demand and replenishment lead time for each item.</li>
+                  <li>Set a minimum (reorder trigger) and maximum (cap) for each bin or location.</li>
+                  <li>Create a visual signal: empty bin, card, or board that triggers the pull.</li>
+                  <li>Test the signal for one week; adjust min/max if stockouts or overflow occur.</li>
+                  <li>Review sizing quarterly or when demand shifts by more than 20 percent.</li>
+                </ol>
+              </div>
+              <div class="rw-col">
+                <div class="lbl">Worked example</div>
+                <div class="ex">Stockroom · Evendale, OH</div>
+                <div class="exs" style="margin-top:6px;line-height:1.55">A stockroom sets min/max kanban for the 40 highest-velocity parts and removes 30 percent of held inventory within the first month. Stockouts drop from 12 per week to 2 because the signal is visual and reliable.</div>
+                <div class="lbl">Who owns it</div>
+                <div class="exs" style="line-height:1.55">Stockroom supervisor with supply chain analyst support. Sizing is reviewed each quarter.</div>
+              </div>
+            </div>
+            <div class="cardfoot">
+              <button class="walkme" onclick="hWalkMe('replenishment')">Walk me through it</button>
+              <button class="wm-mini" onclick="hWingScope('replenishment')">✦ Ask Wingmate</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- OFFICE -->
+        <div class="role office" data-role="office">
+          <h3>Pull in a transactional flow.</h3>
+          <div class="body">
+            <div class="persona-role">For office work that gets pushed in batches. <span class="fn-tag">Office</span></div>
+            <div class="lbl">Example</div>
+            <div class="ex">Claims team WIP cap</div>
+            <div class="exs">Knowledge work · transactional flows · service cycles</div>
+            <div class="lbl">What good looks like</div>
+            <ul class="bul">
+              <li>Work in progress is limited per person and visible</li>
+              <li>The next item is pulled only when capacity frees</li>
+              <li>Lead time falls because batches stop piling up</li>
+            </ul>
+            <div class="rec-tpl">
+              <div class="rt-label">✦ Recommended template</div>
+              <a href="fp-template-detail.html?t=Transactional+Pull+Board&fn=office" target="_blank" rel="noopener">Transactional Pull Board →</a>
+            </div>
+            <div class="role-wide">
+              <div class="rw-col">
+                <div class="lbl">How to design it</div>
+                <ol class="step-list">
+                  <li>Map the transactional flow and find where work piles up between steps.</li>
+                  <li>Set a WIP cap per person or per step based on realistic capacity.</li>
+                  <li>Create a pull board: each column is a stage; cards move left to right only when downstream is ready.</li>
+                  <li>Run for two weeks; track lead time and spot where work stacks against the cap.</li>
+                  <li>Rebalance the cap at the constraint and reduce it over time as flow improves.</li>
+                </ol>
+              </div>
+              <div class="rw-col">
+                <div class="lbl">Worked example</div>
+                <div class="ex">Claims team · Cincinnati, OH</div>
+                <div class="exs" style="margin-top:6px;line-height:1.55">A claims team caps WIP at three items per person. Within six weeks, lead time drops by a third and rework falls because reviewers are no longer context-switching across eight open cases at once.</div>
+                <div class="lbl">Who owns it</div>
+                <div class="exs" style="line-height:1.55">Team lead with process analyst support. WIP cap is reviewed monthly and tightened as flow stabilizes.</div>
+              </div>
+            </div>
+            <div class="cardfoot">
+              <button class="walkme" onclick="hWalkMe('office')">Walk me through it</button>
+              <button class="wm-mini" onclick="hWingScope('office')">✦ Ask Wingmate</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ GUIDED PATH ═══ -->
+  <div class="guide collapsed" id="guide">
+    <div class="in">
+      <div class="guide-head">
+        <div class="gh-copy">
+          <div class="step-flag">Guided first pull</div>
+          <h2>Set up flow and pull in four moves.</h2>
+          <p>Four moves take you from nothing to a first pull system in about 26 minutes. Each move has a short action, a worked example, the template it points to, and a small checklist. Check items off as you go.</p>
+          <div class="scoped" id="scoped">Scoped to <b id="scoped-fn">all applications</b>. Pick an application above to tailor every example.</div>
+          <div class="three-el">
+            <span class="te-lead">Every pull system controls three things:</span>
+            <span class="te-chip">What triggers the work</span>
+            <span class="te-chip">How much is in progress</span>
+            <span class="te-chip">What the signal looks like</span>
+          </div>
+          <button class="guide-toggle" id="guide-toggle" onclick="hToggleGuide()"><span id="gt-label">Show the four moves</span><span class="gt-caret">+</span></button>
+        </div>
+        <div class="gprog">
+          <div class="gp-label">Your progress</div>
+          <div class="prog-track"><div class="prog-fill" id="prog-fill"></div></div>
+          <div class="prog-count" id="prog-count">0 of 12 tasks complete</div>
+          <button class="gp-reset" onclick="hResetProgress()">Reset</button>
+        </div>
+      </div>
+
+      <div class="steps" id="steps">
+        <!-- STEP 1 -->
+        <div class="step" id="step-1">
+          <div class="step-line"></div>
+          <div class="num">01</div>
+          <div class="step-body">
+            <h3>Find the constraint</h3>
+            <div class="step-card">
+              <p class="intro">Before designing any flow or pull system, locate the one step that sets the pace for everything else. The constraint is where work piles up most, where output is smallest, or where delays originate. Every improvement starts here. Trying to pull from an unidentified constraint produces instability, not flow.</p>
+              <div class="worked"><strong>Worked example</strong><span class="ex-text" data-ex="1">A five-station assembly cell tracks cycle times at each station for three days. Station 3 consistently runs at 2.8 hours while the others clear in 1.8 to 2.2. The constraint is Station 3. All subsequent flow design is paced to that station's output, not the fastest step.</span></div>
+              <div class="meta-row">
+                <span class="time-badge">6 minutes</span>
+                <span class="tmpl-badge rec-badge" data-tpl="1">Constraint Finder</span>
+                <button class="wm-badge" onclick="hWingStep(1)">Find the constraint with Wingmate</button>
+              </div>
+              <ul class="checklist" data-step="1">
+                <li onclick="hCheck(this)"><span class="cb"></span><span class="cl-text">Observe or collect cycle time data at every step in the flow</span></li>
+                <li onclick="hCheck(this)"><span class="cb"></span><span class="cl-text">Identify the single step where work accumulates or output is lowest</span></li>
+                <li onclick="hCheck(this)"><span class="cb"></span><span class="cl-text">Confirm the constraint with the team before moving to flow design</span></li>
+              </ul>
+              <a href="fp-template-detail.html?t=Constraint+Finder" class="act">Open the Constraint Finder</a>
+            </div>
+          </div>
+        </div>
+        <!-- STEP 2 -->
+        <div class="step" id="step-2">
+          <div class="step-line"></div>
+          <div class="num">02</div>
+          <div class="step-body">
+            <h3>Connect the flow</h3>
+            <div class="step-card">
+              <p class="intro">Link the steps in your flow so work moves without batching. One-piece flow means the next step starts as soon as the previous one finishes, with no queue in between. For office or replenishment flows, this means defining who hands off to whom, what triggers the handoff, and how much can be in motion at one time.</p>
+              <div class="worked"><strong>Worked example</strong><span class="ex-text" data-ex="2">The same assembly cell removes the holding shelf between Stations 2 and 3. Parts now move one at a time. Average WIP at that handoff drops from 14 pieces to 1. The team sets a physical cap of 2 pieces maximum between any two stations so flow stays visible.</span></div>
+              <div class="meta-row">
+                <span class="time-badge">8 minutes</span>
+                <span class="tmpl-badge rec-badge" data-tpl="2">Flow Design</span>
+                <button class="wm-badge" onclick="hWingStep(2)">Design the flow with Wingmate</button>
+              </div>
+              <ul class="checklist" data-step="2">
+                <li onclick="hCheck(this)"><span class="cb"></span><span class="cl-text">Remove or limit buffers between steps so work cannot accumulate unseen</span></li>
+                <li onclick="hCheck(this)"><span class="cb"></span><span class="cl-text">Define the handoff trigger between every adjacent step</span></li>
+                <li onclick="hCheck(this)"><span class="cb"></span><span class="cl-text">Set a physical or visual WIP cap at each handoff point</span></li>
+              </ul>
+              <a href="fp-template-detail.html?t=Flow+Design" class="act">Open the Flow Design Template</a>
+            </div>
+          </div>
+        </div>
+        <!-- STEP 3 -->
+        <div class="step" id="step-3">
+          <div class="step-line"></div>
+          <div class="num">03</div>
+          <div class="step-body">
+            <h3>Set the pull signal</h3>
+            <div class="step-card">
+              <p class="intro">A pull signal tells upstream to produce only what downstream consumed. Size the signal based on demand rate, replenishment lead time, and the safety stock you need to cover variation. Too large and you are pushing; too small and you create stockouts. The goal is the smallest amount needed to keep the flow moving reliably.</p>
+              <div class="worked"><strong>Worked example</strong><span class="ex-text" data-ex="3">A stockroom item has average daily demand of 8 units and a 2-day replenishment lead time. Minimum (reorder point) is set at 16 units plus a safety stock of 4, giving a trigger at 20 units. Maximum is set at 40 units, capping the inventory position. The team marks the bin clearly so anyone can see the signal without counting.</span></div>
+              <div class="meta-row">
+                <span class="time-badge">8 minutes</span>
+                <span class="tmpl-badge rec-badge" data-tpl="3">Pull Sizing</span>
+                <button class="wm-badge" onclick="hWingStep(3)">Size the pull signal with Wingmate</button>
+              </div>
+              <ul class="checklist" data-step="3">
+                <li onclick="hCheck(this)"><span class="cb"></span><span class="cl-text">Calculate demand rate and replenishment lead time for each item or step</span></li>
+                <li onclick="hCheck(this)"><span class="cb"></span><span class="cl-text">Set the reorder point (minimum) and the inventory cap (maximum)</span></li>
+                <li onclick="hCheck(this)"><span class="cb"></span><span class="cl-text">Make the signal physical and visible so it cannot be missed</span></li>
+              </ul>
+              <a href="fp-template-detail.html?t=Kanban+Sizing+Worksheet" class="act">Open the Pull Sizing Worksheet</a>
+            </div>
+          </div>
+        </div>
+        <!-- STEP 4 -->
+        <div class="step" id="step-4">
+          <div class="num">04</div>
+          <div class="step-body">
+            <h3>Stabilize and watch</h3>
+            <div class="step-card">
+              <p class="intro">A pull system is only stable if the signals are visible and someone is watching them. Make the board or bin state visible to the whole team. Watch for two failure modes: stockout (signal triggered too late or ignored) and overflow (cap breached without action). Adjust the sizing when demand shifts or lead time changes, not before.</p>
+              <div class="worked"><strong>Worked example</strong><span class="ex-text" data-ex="4">The assembly cell posts the pull board at the daily tier meeting. For the first two weeks, the team tracks every stockout and overflow event. Three adjustments are made to the sizing. After week three, no stockouts occur and the board requires less than five minutes of daily attention to manage.</span></div>
+              <div class="meta-row">
+                <span class="time-badge">4 minutes</span>
+                <span class="tmpl-badge rec-badge" data-tpl="4">Pull Control Board</span>
+                <button class="wm-badge" onclick="hWingStep(4)">Let Wingmate watch the signals</button>
+              </div>
+              <ul class="checklist" data-step="4">
+                <li onclick="hCheck(this)"><span class="cb"></span><span class="cl-text">Post the pull board or bin state where the whole team can see it</span></li>
+                <li onclick="hCheck(this)"><span class="cb"></span><span class="cl-text">Track stockout and overflow events for the first two weeks</span></li>
+                <li onclick="hCheck(this)"><span class="cb"></span><span class="cl-text">Adjust sizing only after seeing two or more events of the same type</span></li>
+              </ul>
+              <a href="fp-template-detail.html?t=Pull+Control+Board" class="act">Open the Pull Control Board</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="recap">
+          <h3>What you just set up, in about 26 minutes</h3>
+          <div class="timeline-recap">
+            <div class="tr-item"><strong>Find the constraint</strong><span>Located the step that paces the whole flow</span><span class="t-time">6 min</span></div>
+            <div class="tr-item"><strong>Connect the flow</strong><span>Linked steps and capped WIP at every handoff</span><span class="t-time">8 min</span></div>
+            <div class="tr-item"><strong>Set the pull signal</strong><span>Sized the kanban or WIP cap from demand data</span><span class="t-time">8 min</span></div>
+            <div class="tr-item"><strong>Stabilize and watch</strong><span>Made the signal visible and set a watch routine</span><span class="t-time">4 min</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ WINGMATE BAND ═══ -->
+  <section class="wingband">
+    <div class="in">
+      <div class="kick">FLIGHT DECK Wingmate</div>
+      <h2>The assistant runs alongside the whole pull system.</h2>
+      <p class="wb-sub">Wingmate is already in Flight Deck. Here it does the heavy lifting on flow and pull design so you spend your time on the judgment, not the math.</p>
+      <div class="wb-grid">
+        <div class="wb-card"><div class="wb-ic">✦</div><strong>Recommends the application and starting point</strong><p>Describe your environment and Wingmate points to the right flow type and first template.</p><span class="wb-when">At navigation</span></div>
+        <div class="wb-card"><div class="wb-ic">📐</div><strong>Sizes the kanban or WIP cap</strong><p>Give it demand rate and lead time and Wingmate calculates min/max or WIP cap for you.</p><span class="wb-when">At step 3</span></div>
+        <div class="wb-card"><div class="wb-ic">🔭</div><strong>Watches the pull signals</strong><p>Describe a stockout or overflow pattern and Wingmate diagnoses sizing or discipline issues.</p><span class="wb-when">At step 4</span></div>
+        <div class="wb-card"><div class="wb-ic">🎓</div><strong>Coaches the flow design</strong><p>Stuck on how to connect two steps? Wingmate explains one-piece flow and handoff triggers in your context.</p><span class="wb-when">Anytime</span></div>
+      </div>
+      <button class="wb-launch" onclick="hWingOpen()">✦ Open Wingmate</button>
+    </div>
+  </section>
+
+  <!-- ═══ RECOMMENDED TEMPLATES ═══ -->
+  <section class="sec" id="templates">
+    <div class="in">
+      <div class="sec-head">
+        <div class="step-flag">Fewer choices, better fit</div>
+        <h2>The templates we recommend.</h2>
+        <p>Four templates cover the core of flow and pull design. The one marked for you matches the application you selected above. Need the rest? The full library is one click away.</p>
+      </div>
+      <div class="tpl-grid">
+        <div class="tpl-card" data-tpl-fn="production">
+          <span class="rec-flag">✦ Recommended for you</span>
+          <div class="tpl-icon">&#9654;</div>
+          <div class="tpl-tag">Production</div>
+          <h3>Continuous Flow Design</h3>
+          <p>Station layout, WIP caps, takt time, and handoff triggers for a one-piece flow cell.</p>
+          <a class="open" href="fp-template-detail.html?t=Continuous+Flow+Design&fn=production" target="_blank" rel="noopener">Open template →</a>
+        </div>
+        <div class="tpl-card" data-tpl-fn="replenishment">
+          <span class="rec-flag">✦ Recommended for you</span>
+          <div class="tpl-icon">&#128230;</div>
+          <div class="tpl-tag">Replenishment</div>
+          <h3>Kanban Sizing Worksheet</h3>
+          <p>Min/max calculation, demand rate, lead time, and safety stock for any bin or location.</p>
+          <a class="open" href="fp-template-detail.html?t=Kanban+Sizing+Worksheet&fn=replenishment" target="_blank" rel="noopener">Open template →</a>
+        </div>
+        <div class="tpl-card" data-tpl-fn="office">
+          <span class="rec-flag">✦ Recommended for you</span>
+          <div class="tpl-icon">&#128203;</div>
+          <div class="tpl-tag">Office</div>
+          <h3>Transactional Pull Board</h3>
+          <p>WIP cap, stage columns, handoff triggers, and lead time tracking for knowledge work flows.</p>
+          <a class="open" href="fp-template-detail.html?t=Transactional+Pull+Board&fn=office" target="_blank" rel="noopener">Open template →</a>
+        </div>
+        <div class="tpl-card" data-tpl-fn="production">
+          <span class="rec-flag">✦ Recommended for you</span>
+          <div class="tpl-icon">&#128200;</div>
+          <div class="tpl-tag">Production</div>
+          <h3>Pull Control Board</h3>
+          <p>Signal status, stockout and overflow log, and daily watch routine for any pull system.</p>
+          <a class="open" href="fp-template-detail.html?t=Pull+Control+Board&fn=production" target="_blank" rel="noopener">Open template →</a>
+        </div>
+      </div>
+      <div class="tpl-foot">
+        <a href="fp-templates.html">Open the full template library →</a>
+        <span class="tf-note">All flow and pull templates, organized by application and work type.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ TRAINING VIDEO ═══ -->
+  <section class="action-band">
+    <div class="in">
+      <div class="sec-head">
+        <div class="eyebrow">Flow &amp; Pull in action</div>
+        <h2 class="sec-head" style="font-size:30px;font-weight:300;letter-spacing:-.025em;margin:8px 0 8px;color:#00003d">See a pull system run.</h2>
+        <p style="font-size:15.5px;color:#4A506A;margin:0 0 24px;line-height:1.6;max-width:66ch">A walkthrough of one-piece flow, kanban sizing, and a transactional pull board in practice.</p>
+      </div>
+      <div class="ab-frame">
+        <video class="ab-player" controls preload="metadata" playsinline>
+          <source src="training/video/flowpull-web.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FAQ ═══ -->
+  <section class="faq">
+    <div class="in">
+      <div class="kick">FAQ</div>
+      <h2>Common questions</h2>
+      <div class="faq-item">
+        <div class="faq-q" onclick="hToggleFaq(this)">What is the difference between push and pull? <span class="faq-icon">+</span></div>
+        <p class="faq-a">Push means producing based on a schedule or forecast regardless of what downstream actually needs. Pull means producing only what downstream consumed, triggered by a signal from the customer or the next step. Push systems build inventory because the schedule is never perfectly accurate. Pull systems cap inventory because nothing is produced without a signal. Most operations are a mix; the goal is to increase the proportion of pull wherever demand is visible enough to signal.</p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="hToggleFaq(this)">What is a kanban? <span class="faq-icon">+</span></div>
+        <p class="faq-a">Kanban is a visual signal that authorizes production or replenishment. The signal can be a card, an empty bin, a marked floor location, or a digital flag. The key property is that nothing is produced or moved without the signal. Kanban sizing sets the minimum (reorder point) and maximum (cap) for each item. When inventory drops to the minimum, the signal triggers replenishment up to the maximum. The math is simple: minimum equals demand during replenishment lead time plus safety stock. Maximum equals minimum plus one replenishment quantity.</p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="hToggleFaq(this)">Do we need flow before pull? <span class="faq-icon">+</span></div>
+        <p class="faq-a">Stable flow makes pull more reliable, but you do not need perfect flow to start. Many teams implement a basic pull signal while flow is still being improved. The sequence that works best is: identify the constraint, stabilize it, then connect flow around it, then size the pull signal. Trying to set kanban quantities when flow is highly variable produces unreliable signals. The practical test is whether you can predict demand well enough to calculate a reorder point. If yes, start with pull. If demand is too erratic, stabilize the process first.</p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="hToggleFaq(this)">Does pull work in an office? <span class="faq-icon">+</span></div>
+        <p class="faq-a">Yes. Transactional pull is the same principle applied to information work. Instead of a bin, the signal is a WIP cap: each person or step can hold only a defined number of items in progress. When an item is completed and passed downstream, the next item is pulled in. The pull board makes the cap and the state of each item visible. The result is shorter lead time because batches stop accumulating and context switching falls. Claims processing, engineering reviews, contract approvals, and close cycles have all benefited from transactional pull boards.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ WINGMATE DRAWER ═══ -->
+  <div class="wm-scrim" id="wm-scrim" onclick="hWingClose()"></div>
+  <aside class="wm-drawer" id="wm-drawer" aria-hidden="true">
+    <div class="wmd-head">
+      <span class="wmd-spark">✦</span>
+      <div class="wmd-title">FLIGHT DECK Wingmate<small>Flow &amp; Pull assistant</small></div>
+      <button class="wmd-x" onclick="hWingClose()">&times;</button>
+    </div>
+    <div class="wmd-body" id="wm-body">
+      <div class="wm-msg bot">Hi. I can help you design a pull system, size a kanban, or evaluate a flow you already have. Tell me about your environment, or pick one below.</div>
+      <div class="wm-sugg">
+        <button onclick="hWingAsk('Recommend an application and starting point for my environment')">Recommend an application and starting point</button>
+        <button onclick="hWingAsk('Help me size a kanban or WIP cap')">Help me size a kanban or WIP cap</button>
+        <button onclick="hWingAsk('Diagnose a stockout or overflow problem')">Diagnose a stockout or overflow problem</button>
+      </div>
+    </div>
+    <div class="wmd-foot">
+      <input id="wm-drawer-input" placeholder="Ask Wingmate…" onkeydown="if(event.key==='Enter')hWingAsk(this.value)">
+      <button onclick="hWingAsk(document.getElementById('wm-drawer-input').value)">→</button>
+    </div>
+  </aside>
+
+</div><!-- /#fp-h -->
+
+<footer class="fd-footer">
+  <div class="fdf-in">
+    <div class="fdf-top">
+      <div class="fdf-brand"><span class="fdf-chip">FLIGHT DECK</span>Activation Hub</div>
+      <div class="fdf-cobrand">GE Aerospace</div>
+    </div>
+    <div class="fdf-cols">
+      <div class="fdf-col"><div class="fdf-h">Fundamentals</div><a href="standard-work.html">Standard Work</a><a href="flow-pull.html">Flow &amp; Pull</a><a href="daily-visual-management.html">Daily &amp; Visual Management</a></div>
+      <div class="fdf-col"><div class="fdf-h">Templates</div><a href="fp-templates.html">Template Library</a><a href="fp-template-detail.html?t=Kanban+Sizing+Worksheet">Kanban Sizing Worksheet</a></div>
+      <div class="fdf-col"><div class="fdf-h">Flow &amp; Pull</div><a href="fp-template-detail.html?t=Continuous+Flow+Design">Continuous Flow Design</a><a href="fp-template-detail.html?t=Pull+Control+Board">Pull Control Board</a></div>
+      <div class="fdf-col"><div class="fdf-h">Hub</div><a href="index.html">Hub Home</a><a href="faq.html">FAQ</a></div>
+    </div>
+    <div class="fdf-meta"><span>FLIGHT DECK Activation Hub</span><span>GE Aerospace Proprietary &middot; Sensitive &middot; authorized distribution only</span></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var root = document.getElementById('fp-h');
+  var TOTAL = 12;
+
+  var FN = {
+    all: {label:'all applications'},
+    production: {
+      label:'Production',
+      ex1:'A five-station assembly cell tracks cycle times for three days. Station 3 consistently runs at 2.8 hours while others clear in 1.8 to 2.2. Station 3 is the constraint. All flow design paces to that station\'s output.',
+      ex2:'The cell removes the holding shelf between Stations 2 and 3. Parts move one at a time. Average WIP at that handoff drops from 14 pieces to 1. A physical cap of 2 pieces maximum is set at every handoff.',
+      ex3:'Takt time is 2.4 hours based on 9.6 hours of available time and a demand of 4 units per day. The pull signal at the pacemaker station is a green/yellow/red card that moves with each unit.',
+      ex4:'The pull board is reviewed at the daily tier meeting. Stockout and overflow events are tracked for two weeks. Three sizing adjustments are made. After week three the board requires under five minutes of daily attention.',
+      t1:'Constraint Finder', t2:'Flow Design', t3:'Pull Sizing', t4:'Pull Control Board'
+    },
+    replenishment: {
+      label:'Replenishment',
+      ex1:'A stockroom analyst maps the 40 highest-velocity parts and collects 30 days of daily demand data. The constraint on replenishment speed is supplier lead time, not internal processing.',
+      ex2:'Each item gets a dedicated bin location with a clear min/max label. The handoff trigger is a visible empty-bin signal: when the lower bin is opened, replenishment is initiated without any paperwork.',
+      ex3:'An item with average daily demand of 8 units and a 2-day lead time gets a reorder point of 20 units (16 demand plus 4 safety stock) and a cap of 40 units. The bin is marked so the signal is visible without counting.',
+      ex4:'After two weeks, three items show repeated stockouts. The reorder points for those items are raised. After month one, the team removes 30 percent of held inventory because capped maximums prevent over-stocking.',
+      t1:'Constraint Finder', t2:'Flow Design', t3:'Kanban Sizing Worksheet', t4:'Pull Control Board'
+    },
+    office: {
+      label:'Office',
+      ex1:'A claims team maps their process and finds work piles up at the review step, where one senior reviewer handles output from four processors. The review step is the constraint.',
+      ex2:'The team creates a pull board with four columns: Backlog, In Progress, Review, Done. Each processor can hold a maximum of three items in In Progress. Nothing moves to In Progress until a slot opens.',
+      ex3:'With three processors each capped at three items, the total WIP cap in the system is nine items. The review step gets a separate cap of five items to signal when the constraint is overloaded.',
+      ex4:'The pull board is reviewed at the team\'s daily standup. Lead time is tracked weekly. After six weeks, lead time drops by a third and the team tightens the WIP cap from three to two items per person.',
+      t1:'Constraint Finder', t2:'Flow Design', t3:'Pull Sizing', t4:'Transactional Pull Board'
+    }
+  };
+
+  // ── Application navigation ──
+  window.hSetFn = function(fn){
+    root.setAttribute('data-fn', fn);
+    document.querySelectorAll('#fp-h .tabs button').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-fn')===fn); });
+    // show/hide role cards
+    document.querySelectorAll('#fp-h .role').forEach(function(r){
+      var key = r.getAttribute('data-role');
+      if(fn==='all'){ r.classList.remove('dim'); }
+      else { r.classList.toggle('dim', key!==fn); }
+    });
+    // recommended template flag
+    document.querySelectorAll('#fp-h .tpl-card').forEach(function(c){
+      c.classList.toggle('rec', fn!=='all' && c.getAttribute('data-tpl-fn')===fn);
+    });
+    // scope the guide
+    var f = FN[fn] || FN.all;
+    document.getElementById('scoped-fn').textContent = f.label;
+    if(fn!=='all'){
+      [1,2,3,4].forEach(function(n){
+        var ex = document.querySelector('#step-'+n+' .ex-text');
+        if(ex && f['ex'+n]) ex.textContent = f['ex'+n];
+        var tb = document.querySelector('#step-'+n+' .rec-badge');
+        if(tb && f['t'+n]) tb.textContent = f['t'+n];
+      });
+    }
+  };
+
+  window.hWalkMe = function(fn){
+    hSetFn(fn);
+    hSetMode('guide');
+    var g = document.getElementById('guide');
+    if(g && g.classList.contains('collapsed')) hToggleGuide();
+    g.scrollIntoView({behavior:'smooth', block:'start'});
+  };
+
+  // ── Mode (null-safe) ──
+  window.hSetMode = function(m){
+    var mn = document.getElementById('mode-nav'); if(mn) mn.classList.toggle('on', m==='nav');
+    var mg = document.getElementById('mode-guide'); if(mg) mg.classList.toggle('on', m==='guide');
+    if(m==='guide'){
+      var g = document.getElementById('guide');
+      if(g && g.classList.contains('collapsed')) hToggleGuide();
+    }
+  };
+  window.hStartGuide = function(){ hSetMode('guide'); var g=document.getElementById('guide'); if(g) g.scrollIntoView({behavior:'smooth',block:'start'}); };
+  window.hScrollTo = function(id){ var el=document.getElementById(id); if(el) el.scrollIntoView({behavior:'smooth',block:'start'}); };
+
+  // ── Guided path ──
+  window.hToggleGuide = function(){
+    var g = document.getElementById('guide');
+    var open = !g.classList.toggle('collapsed');
+    document.getElementById('gt-label').textContent = open ? 'Hide the four moves' : 'Show the four moves';
+  };
+  window.hCheck = function(li){ li.classList.toggle('checked'); hProgress(); };
+  function hProgress(){
+    var done = document.querySelectorAll('#fp-h .checklist li.checked').length;
+    var pct = Math.round(done/TOTAL*100);
+    document.getElementById('prog-fill').style.width = pct + '%';
+    document.getElementById('prog-count').textContent = done + ' of ' + TOTAL + ' tasks complete';
+    [1,2,3,4].forEach(function(n){
+      var items = document.querySelectorAll('#step-'+n+' .checklist li');
+      var ck = Array.prototype.filter.call(items, function(li){ return li.classList.contains('checked'); });
+      document.getElementById('step-'+n).classList.toggle('complete', items.length>0 && ck.length===items.length);
+    });
+  }
+  window.hResetProgress = function(){
+    document.querySelectorAll('#fp-h .checklist li.checked').forEach(function(li){ li.classList.remove('checked'); });
+    hProgress();
+  };
+  window.hToggleFaq = function(q){
+    var item = q.closest('.faq-item');
+    var was = item.classList.contains('open');
+    document.querySelectorAll('#fp-h .faq-item.open').forEach(function(i){ i.classList.remove('open'); });
+    if(!was) item.classList.add('open');
+  };
+
+  // ── Wingmate drawer ──
+  function addMsg(text, who){
+    var body = document.getElementById('wm-body');
+    var sugg = body.querySelector('.wm-sugg'); if(sugg) sugg.remove();
+    var d = document.createElement('div');
+    d.className = 'wm-msg ' + (who||'bot');
+    d.innerHTML = text;
+    body.appendChild(d);
+    body.scrollTop = body.scrollHeight;
+  }
+  window.hWingOpen = function(){
+    document.getElementById('wm-drawer').classList.add('open');
+    document.getElementById('wm-drawer').setAttribute('aria-hidden','false');
+    document.getElementById('wm-scrim').classList.add('open');
+  };
+  window.hWingClose = function(){
+    document.getElementById('wm-drawer').classList.remove('open');
+    document.getElementById('wm-drawer').setAttribute('aria-hidden','true');
+    document.getElementById('wm-scrim').classList.remove('open');
+  };
+  window.hWingAsk = function(text){
+    if(!text || !text.trim()) return;
+    hWingOpen();
+    addMsg(text.replace(/</g,'&lt;'), 'user');
+    var fn = root.getAttribute('data-fn');
+    var f = FN[fn] || FN.all;
+    var tpl = fn==='all' ? 'Kanban Sizing Worksheet' : f.t3;
+    setTimeout(function(){
+      addMsg('For ' + f.label + ', I would start with the <b>' + tpl + '</b> template. Want me to size a pull system from your demand data, or open the template?', 'bot');
+    }, 280);
+    var hi = document.getElementById('wm-hero-input'); if(hi) hi.value='';
+    var di = document.getElementById('wm-drawer-input'); if(di) di.value='';
+  };
+  window.hWingScope = function(fn){ hSetFn(fn); hWingAsk('Help me design a pull system for ' + (FN[fn]||FN.all).label); };
+  window.hWingStep = function(n){
+    var labels = {1:'find the constraint in my flow', 2:'help me connect the flow and set WIP caps', 3:'size the pull signal from my demand data', 4:'watch the pull signals and diagnose any issues'};
+    hWingAsk('Wingmate, ' + labels[n] + '.');
+  };
+
+  // init
+  hSetFn('all');
+  hProgress();
+})();
+</script>
+<script src="/deliverables/search/search-index.js"></script>
+<script src="/hub/omnibox.js"></script>
+</body></html>

@@ -1,0 +1,335 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex, nofollow"><link rel="stylesheet" href="/hub/hub.css"><title>FLIGHT DECK Activation Journey · FLIGHT DECK</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* FOOTER BASE, copied from /hub/hub.css unchanged. The kit strips hub.css on every
+   page, so a page that leans on it for .fd-footer ships stacked links with no columns
+   and no background. Ken saw it on the Template Library and again on the homepage,
+   2 October. This block goes FIRST so a page's own footer overrides still win. */
+.fd-footer{background:#00010f;color:#fff;margin-top:56px;font-family:var(--font-sans,"GE Sans",-apple-system,"Helvetica Neue",Arial,sans-serif)}
+.fd-footer .fdf-in{max-width:1280px;margin:0 auto;padding:48px 28px 40px}
+.fd-footer .fdf-top{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-bottom:26px;border-bottom:1px solid rgba(255,255,255,.12)}
+.fd-footer .fdf-brand{display:flex;align-items:center;gap:11px;font-size:15px;font-weight:600;color:#fff}
+.fd-footer .fdf-chip{background:#fff;color:#00010f;font-size:10px;font-weight:800;letter-spacing:.12em;padding:5px 9px;border-radius:4px;border:1px solid #16b364}
+.fd-footer .fdf-cobrand{font-size:13px;font-weight:600;color:rgba(255,255,255,.7);letter-spacing:.02em}
+.fd-footer .fdf-cobrand i{font-style:normal;opacity:.5;margin:0 5px}
+.fd-footer .fdf-cols{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;padding:30px 0}
+.fd-footer .fdf-h{font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#7e8aa8;margin-bottom:12px}
+.fd-footer .fdf-col a{display:block;color:rgba(255,255,255,.78);font-size:13.5px;text-decoration:none;padding:5px 0;transition:color .14s}
+.fd-footer .fdf-col a:hover{color:#fff;text-decoration:none}
+.fd-footer .fdf-meta{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:22px;border-top:1px solid rgba(255,255,255,.12);font-size:11.5px;color:rgba(255,255,255,.45);letter-spacing:.02em}
+@media(max-width:720px){.fd-footer .fdf-cols{grid-template-columns:1fr 1fr;gap:24px}}
+@media(max-width:440px){.fd-footer .fdf-cols{grid-template-columns:1fr}}
+
+body{padding-left:48px!important}
+@media(max-width:700px){body{padding-left:0!important}}
+#aj{font-family:"GE Sans",-apple-system,"Helvetica Neue",Arial,sans-serif;color:#00003d;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+#aj *{box-sizing:border-box}
+:root{--aj-navy:#00003d;--aj-blue:#2256e6;--aj-blue2:#4181ff;--aj-green:#16b364;--aj-line:#e7ebf4;--aj-mono:"Geist Mono",ui-monospace,Menlo,monospace}
+
+/* ── HERO ── */
+#aj .aj-hero{position:relative;color:#fff;padding:64px 24px 150px;background:radial-gradient(120% 150% at 18% -10%,rgba(65,129,255,.32),transparent 55%),linear-gradient(120deg,#00010f,#000a2e 58%,#06173f);overflow:hidden}
+#aj .aj-hero::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:54px 54px;-webkit-mask-image:radial-gradient(120% 120% at 50% 0,#000,transparent 75%);mask-image:radial-gradient(120% 120% at 50% 0,#000,transparent 75%);opacity:.5}
+#aj .in{max-width:1180px;margin:0 auto;position:relative}
+#aj .kick{display:inline-flex;align-items:center;gap:9px;font-family:var(--aj-mono);font-size:11.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#8aa6f0;margin-bottom:20px}
+#aj .kick::before{content:"";width:7px;height:7px;background:var(--aj-green);border-radius:1px}
+#aj .aj-hero h1{font-size:clamp(38px,5.4vw,62px);font-weight:300;letter-spacing:-.03em;margin:0 0 14px;line-height:1.0}
+#aj .aj-hero p{font-size:clamp(15px,1.3vw,18px);color:rgba(255,255,255,.78);max-width:62ch;line-height:1.55;margin:0}
+
+/* ── SUMMARY BAR (floats over hero/map seam) ── */
+#aj .aj-summary{position:relative;z-index:3;max-width:1180px;margin:-104px auto 0;background:#fff;border:1px solid var(--aj-line);border-radius:18px;box-shadow:0 30px 70px -34px rgba(11,26,64,.4);padding:24px 28px;display:grid;grid-template-columns:auto 1fr auto;gap:28px;align-items:center}
+#aj .aj-stagebadge{display:flex;flex-direction:column;gap:6px}
+#aj .aj-stagebadge .l{font-family:var(--aj-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#8089a6}
+#aj .aj-stagebadge .v{font-size:21px;font-weight:600;letter-spacing:-.01em;color:var(--aj-navy)}
+#aj .aj-meter .mtop{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:8px}
+#aj .aj-meter .mtop .ml{font-family:var(--aj-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#8089a6}
+#aj .aj-meter .mtop .mp{font-size:14px;font-weight:600;color:var(--aj-blue)}
+#aj .aj-track{height:8px;background:#eef1f8;border-radius:8px;overflow:hidden}
+#aj .aj-fill{height:100%;width:0;background:linear-gradient(90deg,var(--aj-green),var(--aj-blue2));border-radius:8px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+#aj .aj-next{display:flex;flex-direction:column;gap:7px;min-width:230px}
+#aj .aj-next .l{font-family:var(--aj-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#8089a6}
+#aj .aj-next a{display:inline-flex;align-items:center;gap:10px;background:var(--aj-navy);color:#fff;border-radius:100px;padding:11px 18px;font-size:14px;font-weight:600;text-decoration:none;transition:.15s}
+#aj .aj-next a:hover{background:#000028;transform:translateY(-1px)}
+#aj .aj-next a .arc{width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:12px}
+#aj .aj-reset{margin-top:2px;font-size:11.5px;color:#8089a6;background:none;border:0;cursor:pointer;font-family:inherit;padding:0;text-align:left}
+#aj .aj-reset:hover{color:var(--aj-blue)}
+@media(max-width:860px){#aj .aj-summary{grid-template-columns:1fr;gap:18px}}
+
+/* ── JOURNEY MAP ── */
+#aj .aj-mapwrap{padding:54px 24px 20px}
+#aj .aj-maphead{max-width:1180px;margin:0 auto 10px}
+#aj .aj-maphead h2{font-size:clamp(24px,2.6vw,32px);font-weight:300;letter-spacing:-.02em;margin:8px 0 6px}
+#aj .aj-maphead p{font-size:15px;color:#6b7392;margin:0;max-width:64ch;line-height:1.6}
+#aj .aj-map{max-width:1180px;margin:34px auto 0;display:grid;grid-template-columns:1.05fr 1.35fr .7fr;gap:22px;align-items:end;position:relative;padding-bottom:172px}
+#aj .aj-rail{position:absolute;inset:0;z-index:0;pointer-events:none}
+#aj .aj-step{position:relative;z-index:1}
+#aj .aj-step.s-stabilize{transform:translateY(150px)}
+#aj .aj-step.s-improve{transform:translateY(72px)}
+#aj .aj-step.s-transform{transform:translateY(-96px)}
+#aj .aj-step-head{margin-bottom:14px}
+#aj .aj-stage-meta{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+#aj .aj-stage-num{font-family:var(--aj-mono);font-size:12px;font-weight:600;color:#fff;background:var(--aj-navy);border-radius:8px;width:34px;height:34px;display:flex;align-items:center;justify-content:center}
+#aj .aj-target{width:30px;height:30px;flex-shrink:0}
+#aj .aj-pdca{display:inline-flex;align-items:center;gap:6px;font-family:var(--aj-mono);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--aj-blue);background:#eef3fd;border:1px solid #d6e3fb;border-radius:100px;padding:4px 11px}
+#aj .aj-pdca svg{width:13px;height:13px}
+#aj .aj-stage-name{font-size:22px;font-weight:600;letter-spacing:-.015em;color:var(--aj-navy)}
+#aj .aj-stage-sub{font-size:13px;color:#6b7392;line-height:1.5;margin-top:3px;max-width:34ch}
+
+#aj .aj-tiles{background:#fff;border:1px solid var(--aj-line);border-radius:18px;padding:16px;box-shadow:0 1px 2px rgba(11,26,64,.05),0 24px 50px -34px rgba(11,26,64,.3);display:flex;flex-direction:column;gap:12px}
+#aj .aj-tile{position:relative;display:grid;grid-template-columns:46px 1fr;grid-template-rows:auto auto;gap:3px 14px;align-items:center;padding:13px 14px;border-radius:13px;border:1px solid var(--aj-line);background:#fbfcfe;transition:border-color .16s,box-shadow .16s,transform .14s}
+#aj .aj-tile:hover{border-color:#c2d0ee;box-shadow:0 10px 24px -14px rgba(34,86,230,.3);transform:translateY(-1px)}
+#aj .aj-tip{position:absolute;left:12px;right:12px;bottom:calc(100% + 9px);z-index:30;background:#00010f;color:#fff;font-size:12px;line-height:1.5;border-radius:11px;padding:12px 14px;box-shadow:0 18px 44px -18px rgba(0,0,30,.65);opacity:0;transform:translateY(5px);pointer-events:none;transition:opacity .16s,transform .16s}
+#aj .aj-tip::after{content:"";position:absolute;left:26px;top:100%;border:6px solid transparent;border-top-color:#00010f}
+#aj .aj-tile:hover .aj-tip{opacity:1;transform:translateY(0)}
+#aj .aj-ic{grid-row:1 / span 2;width:46px;height:46px;border-radius:11px;background:linear-gradient(160deg,#0a1f5c,#00153a);display:flex;align-items:center;justify-content:center}
+#aj .aj-ic svg{width:23px;height:23px;stroke:#37d384;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+#aj .aj-tname{font-size:15px;font-weight:600;color:var(--aj-navy);letter-spacing:-.01em;display:flex;align-items:center;gap:8px}
+#aj .aj-flag{font-family:var(--aj-mono);font-size:8.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-radius:100px;padding:2px 7px}
+#aj .aj-flag.new{color:#16834a;background:#ecfdf5;border:1px solid #bbf7d0}
+#aj .aj-flag.pg{color:#6b7392;background:#f1f3f9;border:1px solid #e2e6f0}
+#aj .aj-row2{grid-column:2;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+#aj .aj-status{font-family:inherit;font-size:11.5px;font-weight:600;border-radius:100px;padding:5px 12px;cursor:pointer;border:1px solid;transition:.14s;display:inline-flex;align-items:center;gap:6px}
+#aj .aj-status::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.9}
+#aj .aj-tile[data-status="0"] .aj-status{color:#8089a6;background:#fff;border-color:#dde2ec}
+#aj .aj-tile[data-status="1"] .aj-status{color:#b45309;background:#fffbeb;border-color:#fde68a}
+#aj .aj-tile[data-status="2"] .aj-status{color:#16834a;background:#ecfdf5;border-color:#bbf7d0}
+#aj .aj-open{font-size:12px;font-weight:600;color:var(--aj-blue);text-decoration:none;display:inline-flex;align-items:center;gap:5px}
+#aj .aj-open:hover{text-decoration:underline}
+#aj .aj-tile.adopted .aj-ic{background:linear-gradient(160deg,#15803d,#0c5a2b)}
+
+/* ── HOW IT WORKS / footer note ── */
+#aj .aj-note{max-width:1180px;margin:60px auto 0;padding:0 24px}
+#aj .aj-note-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:18px}
+#aj .aj-nc{background:#f7f9fe;border:1px solid var(--aj-line);border-radius:14px;padding:22px 22px}
+#aj .aj-nc .n{font-family:var(--aj-mono);font-size:12px;color:var(--aj-blue);font-weight:600;margin-bottom:10px}
+#aj .aj-nc h3{font-size:17px;font-weight:600;color:var(--aj-navy);margin:0 0 6px;letter-spacing:-.01em}
+#aj .aj-nc p{font-size:13.5px;color:#6b7392;line-height:1.55;margin:0}
+@media(max-width:900px){#aj .aj-map{grid-template-columns:1fr;gap:64px;padding-bottom:0}#aj .aj-step.s-stabilize,#aj .aj-step.s-improve,#aj .aj-step.s-transform{transform:none}#aj .aj-rail{display:none}#aj .aj-note-grid{grid-template-columns:1fr}}
+
+/* ── FOOTER ── */
+.fd-footer{background:#00010f;color:#fff;margin-top:64px;font-family:"GE Sans",-apple-system,"Helvetica Neue",Arial,sans-serif}
+.fd-footer .fdf-in{max-width:1280px;margin:0 auto;padding:44px 28px 38px}
+.fd-footer .fdf-top{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-bottom:24px;border-bottom:1px solid rgba(255,255,255,.12)}
+.fd-footer .fdf-brand{display:flex;align-items:center;gap:11px;font-size:15px;font-weight:600}
+.fd-footer .fdf-chip{background:#fff;color:#00010f;font-size:10px;font-weight:800;letter-spacing:.12em;padding:5px 9px;border-radius:4px;border:1px solid var(--aj-green)}
+.fd-footer .fdf-cobrand{font-size:13px;font-weight:600;color:rgba(255,255,255,.7)}
+.fd-footer .fdf-cobrand i{font-style:normal;opacity:.5;margin:0 5px}
+.fd-footer .fdf-meta{font-size:11.5px;color:rgba(255,255,255,.45);padding-top:22px}
+</style>
+<script src="/gate.js"></script></head><body>
+<div class="suite"><div class="wrap suite-in">
+  <span class="waffle"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+  <span class="org"><span class="monogram">GE</span>GE Aerospace</span>
+  <span class="sp">SharePoint</span>
+  <input placeholder="Search this site">
+  <span class="icons"><span>&#9881;</span><span class="acct"><span class="av">A</span><span class="nm">Aero</span></span></span>
+</div></div>
+<div class="sprail"><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg></span><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h8l4 4v14H7z"/><path d="M15 3v4h4"/></svg></span><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="15" rx="1.5"/><path d="M3.5 9.5h17M9 9.5v10"/></svg></span><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a1.8 1.8 0 0 1 1.8-1.8H9l2 2h7.2A1.8 1.8 0 0 1 21 9v8.2A1.8 1.8 0 0 1 19.2 19H4.8A1.8 1.8 0 0 1 3 17.2z"/></svg></span><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span></div>
+
+<header class="site">
+  <div class="wrap site-bar">
+    <div class="site-mark"><span class="chip">FLIGHT DECK</span><a href="index.html">FLIGHT DECK Activation Hub</a></div>
+    <nav class="primary">
+      <div><a class="top" href="/concept-quickstart.html">Home</a></div>
+      <div><a class="top" href="index.html#fundamentals">Fundamentals<span class="caret">&#9662;</span></a></div>
+      <div><a class="top" href="behaviors.html">Behaviors<span class="caret">&#9662;</span></a><div class="menu"><a href="/deliverables/respect-for-people/respect-for-people-concept.1.html">Respect for People</a><a href="/deliverables/continuous-improvement/continuous-improvement-concept.1.html">Continuous Improvement</a><a href="/deliverables/customer-driven/customer-driven-concept.1.html">Customer Driven</a></div></div>
+      <div><a class="top" href="sw-templates.html">Templates</a></div>
+      <div><a class="top" href="video-library.html">Video Library</a></div>
+      <div><a class="top active" href="#">Additional Tools<span class="caret">&#9662;</span></a></div>
+      <div><a class="top" href="https://aifactory-aiwingmate.av.ge.com/?profile=FLIGHTDECK" target="_blank" rel="noopener">FLIGHT DECK Wingmate<span class="caret">&#9662;</span></a></div>
+    </nav>
+    <span class="badge-sensitive">Sensitive &#8964;</span>
+  </div>
+</header>
+
+<div id="aj">
+
+  <!-- HERO -->
+  <section class="aj-hero">
+    <div class="in">
+      <div class="kick">GE Aerospace Operating System</div>
+      <h1>FLIGHT DECK Activation Journey</h1>
+      <p>The path from a stable workplace to a system that pulls value end to end. Mark where your team stands on each fundamental and the tool shows your stage, your maturity, and the single best next move. PDCA runs the whole way.</p>
+    </div>
+  </section>
+
+  <!-- LIVE SUMMARY -->
+  <div class="aj-summary in">
+    <div class="aj-stagebadge"><span class="l">Current stage</span><span class="v" id="aj-stage">Stabilize &amp; Standardize</span></div>
+    <div class="aj-meter">
+      <div class="mtop"><span class="ml">Activation maturity</span><span class="mp" id="aj-pct">0%</span></div>
+      <div class="aj-track"><div class="aj-fill" id="aj-fill"></div></div>
+      <button class="aj-reset" onclick="ajReset()">Reset my progress</button>
+    </div>
+    <div class="aj-next"><span class="l">Your next move</span><a id="aj-nextlink" href="#" target="_blank" rel="noopener">Start 5S <span class="arc">&rarr;</span></a></div>
+  </div>
+
+  <!-- JOURNEY MAP -->
+  <section class="aj-mapwrap">
+    <div class="aj-maphead in">
+      <div class="kick">The journey</div>
+      <h2>Three stages, eight fundamentals, one loop.</h2>
+      <p>Each tile is a fundamental. Click its status to mark Not started, In progress, or Adopted. Open any fundamental to work it. PDCA carries you from one stage to the next.</p>
+    </div>
+
+    <div class="aj-map">
+      <svg class="aj-rail" viewBox="0 0 1180 560" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M120 470 C 300 470 320 300 430 300 L 560 300 L 560 180 L 700 180 C 840 180 880 168 980 158" fill="none" stroke="#cdd7ee" stroke-width="2.5" stroke-dasharray="2 9" stroke-linecap="round"/>
+      </svg>
+
+      <!-- STAGE 1 -->
+      <div class="aj-step s-stabilize">
+        <div class="aj-step-head">
+          <div class="aj-stage-meta">
+            <span class="aj-stage-num">01</span>
+            <span class="aj-pdca"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v4h-4"/></svg>PDCA</span>
+          </div>
+          <div class="aj-stage-name">Stabilize &amp; Standardize</div>
+          <div class="aj-stage-sub">Make the work stable and repeatable before you try to improve it.</div>
+        </div>
+        <div class="aj-tiles" data-stage="stabilize"></div>
+      </div>
+
+      <!-- STAGE 2 -->
+      <div class="aj-step s-improve">
+        <div class="aj-step-head">
+          <div class="aj-stage-meta">
+            <span class="aj-stage-num">02</span>
+            <span class="aj-pdca"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v4h-4"/></svg>PDCA</span>
+          </div>
+          <div class="aj-stage-name">Improve</div>
+          <div class="aj-stage-sub">Find and remove waste, solve problems at the root, run the cadence.</div>
+        </div>
+        <div class="aj-tiles" data-stage="improve"></div>
+      </div>
+
+      <!-- STAGE 3 -->
+      <div class="aj-step s-transform">
+        <div class="aj-step-head">
+          <div class="aj-stage-meta">
+            <span class="aj-stage-num">03</span>
+            <span class="aj-pdca"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v4h-4"/></svg>PDCA</span>
+          </div>
+          <div class="aj-stage-name">Transform</div>
+          <div class="aj-stage-sub">Pull value through the whole system, end to end.</div>
+        </div>
+        <div class="aj-tiles" data-stage="transform"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="aj-note">
+    <div class="kick">How to use it</div>
+    <h2 style="font-size:24px;font-weight:300;letter-spacing:-.02em;margin:8px 0 0">A shared read on where you are.</h2>
+    <div class="aj-note-grid">
+      <div class="aj-nc"><div class="n">01</div><h3>Mark each fundamental</h3><p>Click a tile&rsquo;s status to set Not started, In progress, or Adopted. Your read saves on this device.</p></div>
+      <div class="aj-nc"><div class="n">02</div><h3>Read your stage</h3><p>The summary shows the stage you are working in and your overall activation maturity across all eight.</p></div>
+      <div class="aj-nc"><div class="n">03</div><h3>Take the next move</h3><p>The tool points to the single best next fundamental and links straight to its page. Then run PDCA.</p></div>
+    </div>
+  </section>
+
+</div>
+
+<footer class="fd-footer">
+  <div class="fdf-in">
+    <div class="fdf-top">
+      <div class="fdf-brand"><span class="fdf-chip">FLIGHT DECK</span>Activation Hub</div>
+      <div class="fdf-cobrand">GE Aerospace</div>
+    </div>
+    <div class="fdf-meta">FLIGHT DECK Activation Journey &middot; GE Aerospace Proprietary &middot; Sensitive &middot; authorized distribution only</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var ICON={
+    fivs:'<path d="M12 3v4M5 21v-4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v4M5 21h4M15 21h4M10 7h4v4h-4z"/>',
+    sw:'<rect x="5" y="4" width="14" height="17" rx="1.5"/><path d="M9 3h6v3H9zM8.5 11h7M8.5 15h7"/>',
+    dvm:'<rect x="4" y="5" width="16" height="15" rx="1.5"/><path d="M4 9h16M8 3v4M16 3v4M9.5 14.5l1.5 1.5 3-3"/>',
+    oc:'<path d="M12 7v5l3 2"/><path d="M20 12a8 8 0 1 1-2.3-5.6"/><path d="M20 4v3h-3"/>',
+    vsm:'<path d="M4 9h12l-3-3M20 15H8l3 3"/>',
+    ps:'<path d="M9 18h6M10 21h4M12 3a6 6 0 0 1 4 10.5c-.8.7-1 1.2-1 2.5H9c0-1.3-.2-1.8-1-2.5A6 6 0 0 1 12 3z"/>',
+    ap:'<rect x="5" y="4" width="14" height="17" rx="1.5"/><path d="M9 3h6v3H9zM8.5 11l1.5 1.5L13 9M8.5 16l1.5 1.5L13 14"/>',
+    fp:'<circle cx="6" cy="12" r="2.4"/><circle cx="18" cy="6" r="2.4"/><circle cx="18" cy="18" r="2.4"/><path d="M8.2 11l7.6-3.8M8.2 13l7.6 3.8"/>'
+  };
+  // journey order matters: next-move walks this list
+  var DATA=[
+    {key:'fivs', name:'5S', stage:'stabilize', icon:'fivs', href:'deliverables/5s/5s-hybrid.1.html', flag:'new', desc:'Sort, set in order, shine, standardize, sustain. Organize the workplace so problems are visible. The place GE says to start.'},
+    {key:'sw', name:'Standard Work', stage:'stabilize', icon:'sw', href:'deliverables/standard-work/sw-concept-hybrid.1.html', flag:'new', desc:'One agreed, repeatable way to run the job, every time. The baseline every improvement is measured against.'},
+    {key:'dvm', name:'Daily & Visual Mgmt', stage:'stabilize', icon:'dvm', href:'deliverables/daily-visual-management/dvm-hybrid.1.html', flag:'new', desc:'Boards and routines that make performance visible and surface problems every day.'},
+    {key:'oc', name:'Operating Cadence', stage:'improve', icon:'oc', href:'deliverables/operating-cadences/oc-hybrid.1.html', flag:'new', desc:'The rhythm of tiered daily, weekly, and monthly reviews that keeps the team aligned and actions moving.'},
+    {key:'vsm', name:'Value Stream Mgmt', stage:'improve', icon:'vsm', href:'deliverables/value-stream-management/vsm-hybrid.1.html', flag:'new', desc:'See and manage the end-to-end flow of value. Map the stream, expose the waste, design the future state.'},
+    {key:'ps', name:'Problem Solving', stage:'improve', icon:'ps', href:'deliverables/problem-solving/ps-hybrid.1.html', flag:'new', desc:'From a clear problem statement to a verified countermeasure. Find the root cause, not the symptom.'},
+    {key:'ap', name:'Action Planning', stage:'improve', icon:'ap', href:'deliverables/action-planning/ap-hybrid.1.html', flag:'new', desc:'Turn goals and solved problems into owned, dated, tracked actions that actually get done.'},
+    {key:'fp', name:'Flow & Pull', stage:'transform', icon:'fp', href:'deliverables/flow-pull/fp-hybrid.1.html', flag:'new', desc:'Make value flow continuously and let customer demand pull it through, instead of pushing batches.'}
+  ];
+  var STAGE_NAME={stabilize:'Stabilize & Standardize', improve:'Improve', transform:'Transform'};
+  var FLAG_LABEL={'new':'Redesigned','pg':'Page','fp':'Page'};
+  var KEY='fd-activation-journey-v1';
+  var state={};
+  try{ state=JSON.parse(localStorage.getItem(KEY)||'{}'); }catch(e){ state={}; }
+
+  function statusLabel(s){ return s===2?'Adopted':s===1?'In progress':'Not started'; }
+
+  function render(){
+    ['stabilize','improve','transform'].forEach(function(stg){
+      var box=document.querySelector('#aj .aj-tiles[data-stage="'+stg+'"]');
+      box.innerHTML='';
+      DATA.filter(function(d){return d.stage===stg;}).forEach(function(d){
+        var s=state[d.key]||0;
+        var t=document.createElement('div');
+        t.className='aj-tile'+(s===2?' adopted':'');
+        t.setAttribute('data-status', s);
+        t.setAttribute('data-key', d.key);
+        t.innerHTML=''
+          +'<div class="aj-ic"><svg viewBox="0 0 24 24">'+ICON[d.icon]+'</svg></div>'
+          +'<div class="aj-tname">'+d.name+' <span class="aj-flag '+(d.flag==='new'?'new':'pg')+'">'+(d.flag==='new'?'Redesigned':'Page')+'</span></div>'
+          +'<div class="aj-row2">'
+            +'<button class="aj-status" aria-label="Cycle status">'+statusLabel(s)+'</button>'
+            +'<a class="aj-open" href="'+d.href+'" target="_blank" rel="noopener">Open &#8599;</a>'
+          +'</div>'
+          +'<span class="aj-tip">'+d.desc+'</span>';
+        t.querySelector('.aj-status').addEventListener('click', function(){ cycle(d.key); });
+        box.appendChild(t);
+      });
+    });
+    summary();
+  }
+  function cycle(key){ state[key]=((state[key]||0)+1)%3; save(); render(); }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  window.ajReset=function(){ state={}; save(); render(); };
+
+  function summary(){
+    var adopted=0, partial=0;
+    DATA.forEach(function(d){ var s=state[d.key]||0; if(s===2) adopted++; else if(s===1) partial++; });
+    var pct=Math.round(((adopted + partial*0.5)/DATA.length)*100);
+    document.getElementById('aj-pct').textContent=pct+'%';
+    document.getElementById('aj-fill').style.width=pct+'%';
+    // current stage = first stage that is not fully adopted; if all adopted -> Transform (complete)
+    var stageOrder=['stabilize','improve','transform'], cur=null;
+    for(var i=0;i<stageOrder.length;i++){
+      var stg=stageOrder[i];
+      var all=DATA.filter(function(d){return d.stage===stg;}).every(function(d){return (state[d.key]||0)===2;});
+      if(!all){ cur=stg; break; }
+    }
+    document.getElementById('aj-stage').textContent= cur? STAGE_NAME[cur] : 'System pull · complete';
+    // next move = first fundamental in order not adopted
+    var nm=DATA.filter(function(d){return (state[d.key]||0)<2;})[0];
+    var link=document.getElementById('aj-nextlink');
+    if(nm){
+      var verb=(state[nm.key]||0)===1?'Continue ':'Start ';
+      link.innerHTML=verb+nm.name+' <span class="arc">&rarr;</span>';
+      link.setAttribute('href', nm.href);
+    } else {
+      link.innerHTML='Every fundamental adopted <span class="arc">&#10003;</span>';
+      link.setAttribute('href','#');
+    }
+  }
+
+  render();
+})();
+</script>
+<script src="/deliverables/search/search-index.js"></script>
+<script src="/hub/omnibox.js"></script>
+</body></html>

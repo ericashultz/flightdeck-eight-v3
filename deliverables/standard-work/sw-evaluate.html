@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="/hub/hub.css">
+<title>Standard Work · Evaluate or Update</title>
+<style>
+/* FOOTER BASE, copied from /hub/hub.css unchanged. The kit strips hub.css on every
+   page, so a page that leans on it for .fd-footer ships stacked links with no columns
+   and no background. Ken saw it on the Template Library and again on the homepage,
+   2 October. This block goes FIRST so a page's own footer overrides still win. */
+.fd-footer{background:#00010f;color:#fff;margin-top:56px;font-family:var(--font-sans,"GE Sans",-apple-system,"Helvetica Neue",Arial,sans-serif)}
+.fd-footer .fdf-in{max-width:1280px;margin:0 auto;padding:48px 28px 40px}
+.fd-footer .fdf-top{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-bottom:26px;border-bottom:1px solid rgba(255,255,255,.12)}
+.fd-footer .fdf-brand{display:flex;align-items:center;gap:11px;font-size:15px;font-weight:600;color:#fff}
+.fd-footer .fdf-chip{background:#fff;color:#00010f;font-size:10px;font-weight:800;letter-spacing:.12em;padding:5px 9px;border-radius:4px;border:1px solid #16b364}
+.fd-footer .fdf-cobrand{font-size:13px;font-weight:600;color:rgba(255,255,255,.7);letter-spacing:.02em}
+.fd-footer .fdf-cobrand i{font-style:normal;opacity:.5;margin:0 5px}
+.fd-footer .fdf-cols{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;padding:30px 0}
+.fd-footer .fdf-h{font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#7e8aa8;margin-bottom:12px}
+.fd-footer .fdf-col a{display:block;color:rgba(255,255,255,.78);font-size:13.5px;text-decoration:none;padding:5px 0;transition:color .14s}
+.fd-footer .fdf-col a:hover{color:#fff;text-decoration:none}
+.fd-footer .fdf-meta{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:22px;border-top:1px solid rgba(255,255,255,.12);font-size:11.5px;color:rgba(255,255,255,.45);letter-spacing:.02em}
+@media(max-width:720px){.fd-footer .fdf-cols{grid-template-columns:1fr 1fr;gap:24px}}
+@media(max-width:440px){.fd-footer .fdf-cols{grid-template-columns:1fr}}
+
+body{padding-left:48px!important}
+@media(max-width:700px){body{padding-left:0!important}}
+#sw-ev{font-family:"GE Sans",-apple-system,"Helvetica Neue",Arial,sans-serif;color:#00003d;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+#sw-ev .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+#sw-ev a{color:inherit}
+#sw-ev .eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#44496e;margin-bottom:14px}
+#sw-ev .eyebrow::before{content:"";width:7px;height:7px;background:#16b364;border-radius:1px;flex-shrink:0}
+
+/* breadcrumb + hero */
+#sw-ev .crumb{font-size:13px;color:#6b7392;padding:22px 0 0}
+#sw-ev .crumb a{color:#2256e6;font-weight:600;text-decoration:none}
+#sw-ev .crumb b{color:#00003d;font-weight:600}
+#sw-ev .hero{padding:18px 0 30px;border-bottom:1px solid #e7ebf4}
+#sw-ev .hero h1{font-size:38px;font-weight:300;letter-spacing:-.03em;margin:6px 0 14px;line-height:1.05}
+#sw-ev .tags{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+#sw-ev .fn-tag{font-size:11px;font-weight:700;letter-spacing:.04em;border-radius:100px;padding:4px 11px;color:#2256e6;background:#eaf0fd}
+#sw-ev .tmeta{font-size:11.5px;font-weight:600;color:#4A506A;background:#f1f4fb;border:1px solid #e7ebf4;border-radius:100px;padding:4px 11px}
+#sw-ev .mu{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#16b364;background:#ecfdf5;border:1px solid #bbf7d0;border-radius:100px;padding:4px 10px}
+
+/* layout */
+#sw-ev .grid{display:grid;grid-template-columns:1fr 340px;gap:44px;align-items:start;padding:36px 0 70px}
+#sw-ev .back{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;color:#2256e6;text-decoration:none;margin:0 0 14px}
+#sw-ev .lead{font-size:17px;color:#44496e;line-height:1.6;margin:0 0 30px;max-width:62ch}
+#sw-ev h2{font-size:13px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:#4A506A;margin:0 0 14px;display:flex;align-items:center;gap:8px}
+#sw-ev h2::before{content:"";width:6px;height:6px;background:#16b364;border-radius:50%}
+#sw-ev .sec{padding:0 0 34px}
+
+#sw-ev .inside{display:grid;grid-template-columns:1fr 1fr;gap:10px 26px}
+#sw-ev .inside .it{display:flex;gap:11px;align-items:flex-start;font-size:14px;color:#44496e;line-height:1.5;padding:9px 0;border-top:1px solid #f0f3fa}
+#sw-ev .inside .it .n{width:20px;height:20px;border-radius:50%;background:#ecfdf5;color:#16b364;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+#sw-ev .inside .it b{color:#00003d;font-weight:600}
+
+#sw-ev .steps{list-style:none;margin:0;padding:0;counter-reset:s}
+#sw-ev .steps li{counter-increment:s;position:relative;padding:0 0 18px 46px;font-size:14.5px;color:#44496e;line-height:1.55}
+#sw-ev .steps li::before{content:counter(s,decimal-leading-zero);position:absolute;left:0;top:-2px;font-size:15px;font-weight:300;color:#2256e6;border:1.5px solid #cfe0fb;border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center}
+#sw-ev .steps li:not(:last-child)::after{content:"";position:absolute;left:15px;top:32px;bottom:2px;width:1.5px;background:#e7edf7}
+#sw-ev .steps li b{color:#00003d;font-weight:600}
+
+#sw-ev .worked{background:#f4f7fd;border-left:3px solid #4181ff;border-radius:0 10px 10px 0;padding:18px 22px;margin-top:16px}
+#sw-ev .worked .wl{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#2256e6;margin-bottom:7px}
+#sw-ev .worked p{font-size:14px;color:#44496e;line-height:1.6;margin:0}
+
+#sw-ev .related{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+#sw-ev .rel{display:block;border:1px solid #e7ebf4;border-radius:12px;padding:16px 18px;text-decoration:none;background:#fff;box-shadow:0 1px 2px rgba(11,26,64,.05),0 14px 30px -28px rgba(11,26,64,.22);transition:border-color .2s,box-shadow .2s}
+#sw-ev .rel:hover{border-color:#4181ff;box-shadow:0 8px 22px -10px rgba(34,86,230,.2)}
+#sw-ev .rel .rn{font-size:14px;font-weight:600;color:#00003d;margin-bottom:3px;letter-spacing:-.01em}
+#sw-ev .rel .rd{font-size:12.5px;color:#6b7392;line-height:1.5}
+
+/* aside */
+#sw-ev .aside{position:sticky;top:18px;border:1px solid #e7ebf4;border-radius:16px;background:#fff;overflow:hidden;box-shadow:0 1px 2px rgba(11,26,64,.05),0 22px 50px -30px rgba(11,26,64,.3)}
+#sw-ev .aside .ahead{background:radial-gradient(120% 150% at 12% -20%,rgba(65,129,255,.45),transparent 55%),linear-gradient(120deg,#00010f,#0b2f8f);color:#fff;padding:22px}
+#sw-ev .aside .ahead .ah-k{font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:8px}
+#sw-ev .aside .ahead h3{font-size:20px;font-weight:300;letter-spacing:-.02em;margin:0}
+#sw-ev .aside .abody{padding:20px}
+#sw-ev .aside .abody p{font-size:13.5px;color:#44496e;line-height:1.55;margin:0 0 16px}
+#sw-ev .aside .dl{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;font-size:14px;font-weight:600;color:#fff;background:#2256e6;border:0;border-radius:100px;padding:13px;cursor:pointer;text-decoration:none}
+#sw-ev .aside .dl:hover{background:#1c49c4}
+#sw-ev .aside .meta-list{margin:18px 0 0;border-top:1px solid #f0f3fa;padding-top:16px}
+#sw-ev .aside .ml{display:flex;justify-content:space-between;font-size:13px;padding:6px 0;color:#6b7392}
+#sw-ev .aside .ml b{color:#00003d;font-weight:600}
+#sw-ev .aside .arow{display:flex;gap:8px;margin-top:16px}
+#sw-ev .aside .ab{flex:1;font-size:12.5px;font-weight:600;color:#2256e6;background:#fff;border:1px solid #e1e6f2;border-radius:100px;padding:9px;cursor:pointer;text-align:center;text-decoration:none}
+#sw-ev .aside .ab:hover{border-color:#4181ff}
+
+@media(max-width:900px){#sw-ev .grid{grid-template-columns:1fr}#sw-ev .aside{position:static}#sw-ev .inside,#sw-ev .related{grid-template-columns:1fr}}
+</style>
+<script src="/gate.js"></script>
+</head>
+<body>
+<div class="suite"><div class="wrap suite-in">
+  <span class="waffle"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+  <span class="org"><span class="monogram">GE</span>GE Aerospace</span>
+  <span class="sp">SharePoint</span>
+  <input placeholder="Search this site">
+  <span class="icons"><span>&#9881;</span><span class="acct"><span class="av">A</span><span class="nm">Aero</span></span></span>
+</div></div>
+<div class="sprail"><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg></span><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h8l4 4v14H7z"/><path d="M15 3v4h4"/></svg></span><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="15" rx="1.5"/><path d="M3.5 9.5h17M9 9.5v10"/></svg></span><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a1.8 1.8 0 0 1 1.8-1.8H9l2 2h7.2A1.8 1.8 0 0 1 21 9v8.2A1.8 1.8 0 0 1 19.2 19H4.8A1.8 1.8 0 0 1 3 17.2z"/></svg></span><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span></div>
+
+<header class="site">
+  <div class="wrap site-bar">
+    <div class="site-mark"><span class="chip">FLIGHT DECK</span><a href="index.html">FLIGHT DECK Activation Hub</a></div>
+    <nav class="primary">
+      <div><a class="top" href="/concept-quickstart.html">Home</a></div>
+      <div><a class="top active" href="index.html#fundamentals">Fundamentals<span class="caret">&#9662;</span></a></div>
+      <div><a class="top" href="index.html#behaviors">Behaviors<span class="caret">&#9662;</span></a></div>
+      <div><a class="top" href="sw-templates.html">Templates</a></div>
+      <div><a class="top" href="not-captured.html">Video Library</a></div>
+      <div><a class="top" href="/deliverables/standard-work/prompt-library.html">Prompt Library</a></div>
+      <div><a class="top" href="#">Additional Tools<span class="caret">&#9662;</span></a></div>
+      <div><a class="top" href="not-captured.html">FLIGHT DECK Wingmate<span class="caret">&#9662;</span></a></div>
+      
+    </nav>
+    <span class="badge-sensitive">Sensitive &#8964;</span>
+  </div>
+</header>
+
+
+<div id="sw-ev"><div class="wrap">
+
+  <div class="crumb"><a href="index.html#fundamentals">Fundamentals</a> &nbsp;&rsaquo;&nbsp; <a href="standard-work.html">Standard Work</a> &nbsp;&rsaquo;&nbsp; <b>Evaluate or Update</b></div>
+
+  <section class="hero">
+    <div class="eyebrow">Flight Deck Fundamental · Standard Work</div>
+    <h1>Evaluate or Update Standard Work</h1>
+    <div class="tags"><span class="fn-tag">All functions</span><span class="tmeta">~5 min check</span><span class="mu">Sustain</span></div>
+  </section>
+
+  <div class="grid">
+    <div class="main">
+      <a class="back" href="standard-work.html">&larr; Standard Work</a>
+      <p class="lead">Check an existing standard against what good looks like, then revise it. The same six tests apply whether the standard is for manufacturing, transactional, or engineering work.</p>
+
+      <div class="sec">
+        <h2>What good looks like</h2>
+        <div class="inside">
+          <div class="it"><span class="n">&#10003;</span><div><b>Visible where the work happens.</b> Posted at the point of use, not filed in a drive no one opens.</div></div>
+          <div class="it"><span class="n">&#10003;</span><div><b>Sequenced and timed to demand.</b> Steps in real order with time values that hold against takt.</div></div>
+          <div class="it"><span class="n">&#10003;</span><div><b>Owner and sign-off named.</b> One accountable owner, with safety and quality review on the sheet.</div></div>
+          <div class="it"><span class="n">&#10003;</span><div><b>Current with the process.</b> Updated within a set window of any confirmed method change; old version retired.</div></div>
+          <div class="it"><span class="n">&#10003;</span><div><b>Followable on day one.</b> A new teammate can run it without asking, in their own words.</div></div>
+          <div class="it"><span class="n">&#10003;</span><div><b>Reviewed on a rhythm.</b> A recurring review is scheduled, not left to memory.</div></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <h2>How to update it</h2>
+        <ul class="steps">
+          <li><b>Find the gap.</b> Anything above you cannot check is the place to start.</li>
+          <li><b>Capture the current best way.</b> Observe the work as it actually happens today, not the ideal.</li>
+          <li><b>Revise the standard.</b> Generate a fresh draft, or open the template for your function and edit it.</li>
+          <li><b>Re-post and set a review date.</b> Replace the old version everywhere and schedule the next check.</li>
+        </ul>
+        <div class="worked"><div class="wl">Worked example</div><p>A cell lead finds the grinder standard was never refreshed after a fixture change. They re-time the two affected steps, re-flag a safety point, re-post at the bench, and set a monthly review. The next operator follows the current method on day one.</p></div>
+      </div>
+
+      <div class="sec">
+        <h2>Related</h2>
+        <div class="related">
+          <a class="rel" href="sw-templates.html"><div class="rn">Template Library</div><div class="rd">Every standard work format, by work type.</div></a>
+          <a class="rel" href="sw-flow.html"><div class="rn">Template Flow</div><div class="rd">From a page to a downloadable template.</div></a>
+          <a class="rel" href="training/index.html"><div class="rn">Standard Work in Action</div><div class="rd">The training and Greenville field example.</div></a>
+        </div>
+      </div>
+    </div>
+
+    <aside class="aside">
+      <div class="ahead">
+        <div class="ah-k">Ready to revise?</div>
+        <h3>Update your standard</h3>
+      </div>
+      <div class="abody">
+        <p>Turn a recording or a written description into a FLIGHT DECK-aligned first draft, or open the library to start from a template.</p>
+        <a class="dl" href="draft-generator.html" target="_blank" rel="noopener">Start with the Draft Generator</a>
+        <div class="meta-list">
+          <div class="ml"><span>Applies to</span><b>All functions</b></div>
+          <div class="ml"><span>Time to check</span><b>~5 minutes</b></div>
+          <div class="ml"><span>Review cadence</span><b>Monthly</b></div>
+        </div>
+        <div class="arow">
+          <a class="ab" href="sw-templates.html">Template library</a>
+          <a class="ab" href="sw-flow.html">Template flow</a>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+</div></div>
+
+<footer class="fd-footer">
+  <div class="fdf-in">
+    <div class="fdf-top">
+      <div class="fdf-brand"><span class="fdf-chip">FLIGHT DECK</span>Activation Hub</div>
+      <div class="fdf-cobrand">GE Aerospace</div>
+    </div>
+    <div class="fdf-cols">
+      <div class="fdf-col"><div class="fdf-h">Fundamentals</div><a href="standard-work.html">Standard Work</a><a href="daily-visual-management.html">Daily &amp; Visual Management</a></div>
+      <div class="fdf-col"><div class="fdf-h">Templates</div><a href="sw-templates.html">Template Library</a><a href="sw-flow.html">Template Flow</a></div>
+      <div class="fdf-col"><div class="fdf-h">Standard Work</div><a href="sw-evaluate.html">Evaluate or Update</a><a href="training/index.html">Standard Work in Action</a></div>
+      <div class="fdf-col"><div class="fdf-h">Hub</div><a href="index.html">Hub Home</a><a href="faq.html">FAQ</a></div>
+    </div>
+    <div class="fdf-meta"><span>FLIGHT DECK Activation Hub</span><span>GE Aerospace Proprietary &middot; Sensitive &middot; authorized distribution only</span></div>
+  </div>
+</footer>
+<script src="/deliverables/search/search-index.js"></script>
+<script src="/hub/omnibox.js"></script>
+</body>
+</html>

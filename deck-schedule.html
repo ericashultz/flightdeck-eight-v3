@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="/gate.js"></script>
+<meta name="robots" content="noindex, nofollow">
+<title>The publication schedule &middot; Activation Hub Redesign</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  @font-face{font-family:"GE Sans";font-weight:300;font-style:normal;font-display:swap;src:url("assets/fonts/ge-sans/sons-light.woff2") format("woff2")}
+  @font-face{font-family:"GE Sans";font-weight:400;font-style:normal;font-display:swap;src:url("assets/fonts/ge-sans/sons-regular.woff2") format("woff2")}
+  @font-face{font-family:"GE Sans";font-weight:600;font-style:normal;font-display:swap;src:url("assets/fonts/ge-sans/sons-semibold.woff2") format("woff2")}
+  :root{
+    --bg:#fff;--card:#fff;--ink:#00003d;--ink-soft:#23234a;--muted:#4A506A;
+    --line:#e7ebf4;--line-soft:#eef1f8;--accent:#00003D;--accent-soft:#ececf2;--accent-deep:#000028;
+    --cap:#3d3d63;--surface:#f1f1f6;--test:#c6c9da;--voc:#8a93b5;--today:#c9a227;--warn:#b45309;
+    --font-sans:"GE Sans","Geist",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+    --font-mono:"Geist Mono",ui-monospace,SFMono-Regular,"Menlo",monospace;
+    --font-display:"GE Sans","Geist",-apple-system,"Helvetica Neue",Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:var(--font-sans);background:var(--bg);color:var(--ink);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow:hidden}
+  a{color:inherit;text-decoration:none}
+  img{display:block;max-width:100%}
+
+  .stage{position:fixed;inset:0}
+  .slide{position:absolute;inset:0;display:none;flex-direction:column;justify-content:safe center;padding:9vh 6.5vw;overflow-y:auto;opacity:0;transition:opacity .3s ease}
+  .slide.active{display:flex;opacity:1}
+  .inner{width:100%;max-width:1480px;margin:0 auto}
+  .slide.dark{background:var(--ink);color:#fff}
+
+  .eyebrow{font-family:var(--font-sans);font-size:12.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--cap);font-weight:600;display:flex;align-items:center;gap:9px}
+  .slide.dark .eyebrow{color:#9aa0c7}
+  h1{font-family:var(--font-display);font-weight:400;font-size:clamp(46px,6.2vw,84px);line-height:1.0;letter-spacing:-.03em;color:var(--ink)}
+  h2{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,3.4vw,44px);line-height:1.04;letter-spacing:-.025em;color:var(--ink)}
+  .slide.dark h1,.slide.dark h2{color:#fff}
+  .lede{font-size:clamp(15px,1.2vw,18px);color:var(--muted);line-height:1.5;max-width:76ch}
+  .slide.dark .lede{color:#cbd5e1}
+  .shead{margin-bottom:26px}
+  .shead .eyebrow{margin-bottom:16px}
+  .shead .lede{margin-top:15px}
+  b,strong{font-weight:600;color:var(--ink)}
+  .slide.dark b{color:#fff}
+
+  .topbar{position:fixed;top:0;left:0;right:0;z-index:60;background:linear-gradient(180deg,rgba(249,250,251,.92) 55%,rgba(249,250,251,0));-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);padding:34px 6.5vw 18px;font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);pointer-events:none}
+  .topbar .tb-in{width:100%;max-width:1480px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+  a.tb-brand{pointer-events:auto;display:inline-flex;align-items:center;gap:11px;transition:color .14s}
+  .cobrand .x{color:var(--muted);font-size:13px;opacity:.6}
+  .ge-logo{display:inline-block;height:22px;width:93px;background-color:var(--ink);-webkit-mask:url(assets/brand/ge-aerospace-logo.svg) left center/contain no-repeat;mask:url(assets/brand/ge-aerospace-logo.svg) left center/contain no-repeat;vertical-align:middle}
+  .slide-dark-active .ge-logo{background-color:#fff}
+  .bttr-logo{display:inline-block;height:13px;width:31px;background-color:var(--ink);-webkit-mask:url(assets/brand/bttr-logo.svg) left center/contain no-repeat;mask:url(assets/brand/bttr-logo.svg) left center/contain no-repeat;vertical-align:middle}
+  .slide-dark-active .bttr-logo{background-color:#fff}
+  .slide-dark-active .topbar{color:#99a1af;background:linear-gradient(180deg,rgba(0,0,22,.7) 55%,rgba(0,0,22,0))}
+
+  .nav{position:fixed;bottom:28px;right:32px;display:flex;align-items:center;gap:13px;z-index:70}
+  .nav #counter{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;color:var(--muted)}
+  .slide-dark-active .nav #counter{color:#99a1af}
+  .nav button{font-family:var(--font-sans);font-size:17px;line-height:1;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;transition:.16s;display:flex;align-items:center;justify-content:center}
+  .nav button:hover{border-color:var(--ink);background:#e7e7f0}
+  .nav #next{background:var(--ink);border-color:var(--ink);color:#fff}
+  .slide-dark-active .nav button{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.22);color:#fff}
+  .slide-dark-active .nav #next{background:#fff;border-color:#fff;color:var(--ink)}
+  .exportbtn{position:fixed;bottom:30px;left:32px;z-index:70;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);background:transparent;border:1px solid var(--line);border-radius:100px;padding:8px 15px;cursor:pointer;transition:.16s}
+  .exportbtn:hover{border-color:var(--ink);color:var(--ink)}
+  .slide-dark-active .exportbtn{color:#99a1af;border-color:rgba(255,255,255,.22)}
+  .progressbar{position:fixed;top:0;left:0;height:3px;background:var(--accent);z-index:80;width:0;transition:width .3s ease}
+
+  /* cover */
+  .slide.hero{padding:0;overflow:hidden;background:var(--ink)}
+  .hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+  /* two scrims: a left wash so the title never lands on a bright video frame, plus the base vertical fade */
+  .hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,26,.86) 0%,rgba(0,0,26,.62) 34%,rgba(0,0,26,.16) 62%,rgba(0,0,26,.04) 100%),linear-gradient(180deg,rgba(0,0,28,.55) 0%,rgba(0,0,28,.12) 28%,rgba(0,0,30,.32) 55%,rgba(0,0,34,.94) 100%)}
+  .hero-bg{position:absolute;inset:0;z-index:1}
+  .hero-inner{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:flex-end;padding:48px max(40px,5.5%) 96px;color:#fff}
+  .hero-body{max-width:1180px}
+  .slide.hero .eyebrow{color:rgba(255,255,255,.7);margin-bottom:20px}
+  .slide.hero h1{color:#fff;font-size:clamp(50px,7.4vw,104px);letter-spacing:-.035em;line-height:.95}
+  .hero-sub{margin-top:20px;font-size:clamp(18px,1.65vw,23px);color:rgba(255,255,255,.74);max-width:62ch;line-height:1.42}
+  .hero-meta{display:flex;flex-wrap:wrap;gap:52px;margin-top:42px;border-top:1px solid rgba(255,255,255,.22);padding-top:24px}
+  .hero-meta .k{font-size:11px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:8px}
+  .hero-meta .v{font-size:18px;color:#fff;letter-spacing:-.01em}
+
+  /* ---------- step flow (slide 3) ---------- */
+  .flowwrap{display:grid;grid-template-columns:minmax(0,1fr) 296px;gap:34px;align-items:start}
+  .flow{overflow-x:auto}
+  .flow table{border-collapse:separate;border-spacing:0 6px;width:100%;min-width:1040px}
+  .flow th{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:500;text-align:left;padding:0 9px 6px 0;vertical-align:bottom;line-height:1.4}
+  .flow th.pgh{width:196px}
+  .flow td{padding:0 9px 0 0;vertical-align:middle}
+  .flow td.pgc{padding-right:18px}
+  .pgname{border-left:2px solid var(--ink);padding:5px 0 5px 12px;font-weight:600;font-size:14.5px;line-height:1.2;letter-spacing:-.005em}
+  .pgname i{display:block;font-family:var(--font-mono);font-style:normal;font-size:9.5px;letter-spacing:.13em;color:var(--muted);font-weight:500;margin-bottom:2px}
+  .cell{border:1px solid var(--line);border-radius:6px;padding:7px 11px 8px;background:var(--surface)}
+  .cell .cd{font-size:14px;font-weight:600;letter-spacing:-.005em;white-space:nowrap;line-height:1.2}
+  .cell .cw{font-family:var(--font-mono);font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:2px}
+  .cell.review{background:#fff;border-color:var(--ink)}
+  .cell.iterate{background:var(--ink);border-color:var(--ink)}
+  .cell.iterate .cd{color:#fff}
+  .cell.iterate .cw{color:#b9bcd4}
+  .cell.inform{background:var(--test);border-color:#a9adc4}
+  .cell.publish{background:var(--accent-soft);border-color:var(--ink);border-width:2px}
+  .cell.promote{background:#fff;border-style:dashed;border-color:var(--voc)}
+  .cell.promote .cd{color:var(--voc);font-weight:500}
+  .flow td.gap{padding:0 4px 0 0;vertical-align:middle;width:96px}
+  .flow th.gaph{width:96px;padding:0}
+  .gapl{display:block;text-align:center;padding:0 3px}
+  .gapl span{display:block;font-family:var(--font-mono);font-size:8.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);white-space:nowrap;margin-bottom:5px}
+  .gapl .track{height:4px;border-radius:2px;background:#e9ebf2}
+  .gapl .track i{display:block;height:100%;border-radius:2px;background:#9aa0bb}
+  .gapl .track b{display:block;width:4px;height:100%;border-radius:2px;background:#9aa0bb}
+  .gapl.hi span{color:var(--ink);font-weight:600}
+  .gapl.hi .track{background:#dcdfea}
+  .gapl.hi .track i,.gapl.hi .track b{background:var(--ink)}
+  .barkey{margin-top:12px;font-family:var(--font-mono);font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+
+  .side{padding:0 0 0 34px;border-left:1px solid var(--line);background:transparent}
+  .side h3{font-size:17px;font-weight:600;letter-spacing:-.01em;margin-bottom:10px}
+  .side ul{list-style:none;margin-bottom:22px}
+  .side li{font-size:13.5px;color:var(--ink-soft);line-height:1.45;padding:7px 0;border-bottom:1px solid var(--line-soft);display:flex;gap:12px}
+  .side li:last-child{border-bottom:0}
+  .side li b{font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;white-space:nowrap;flex:none;min-width:74px}
+  .side p{font-size:13.5px;color:var(--muted);line-height:1.5}
+
+  /* ---------- gantt (slide 2) ---------- */
+  .fullplan{padding:18px 0 0;background:transparent;overflow-x:auto}
+  .fullplan-hd{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-bottom:10px}
+  .fp-title{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);font-weight:600}
+  .fp-legend{display:flex;align-items:center;gap:16px;font-family:var(--font-mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+  .fp-legend i{display:inline-block;width:15px;height:9px;border-radius:1px;margin-right:6px;vertical-align:middle;font-style:normal;background:var(--ink)}
+  .fp-legend i.design{background:var(--accent-soft);border:1px solid var(--ink)}
+  .fp-legend i.inform{background:var(--test);width:8px;height:8px;border:1px solid #7f849e;border-radius:1px}
+  .fp-legend i.pub{background:var(--ink);width:7px;height:7px;border-radius:50%}
+  .fp-legend i.prom{background:#fff;border:1.2px dashed var(--voc);width:7px;height:7px;border-radius:50%}
+  .fp-legend i.today{background:none;border-left:1px solid var(--today);width:0;height:12px;border-radius:0}
+
+  .gantt{display:grid;grid-template-columns:238px minmax(760px,1fr);margin-top:12px}
+  .g-labs{display:flex;flex-direction:column;position:sticky;left:0;z-index:5;background:var(--card)}
+  .g-lab{font-size:13px;font-weight:600;color:var(--ink);height:34px;display:flex;align-items:center;border-bottom:1px solid var(--line-soft);padding-right:14px;white-space:nowrap}
+  .g-lab.glt{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);font-weight:600;border-bottom:1px solid var(--line);height:26px;background:var(--surface)}
+  .g-lab.ghd{height:32px;border-bottom:1px solid var(--line)}
+  .g-rows{position:relative}
+  .g-grid{position:absolute;inset:0;pointer-events:none;z-index:0}
+  .g-grid i{position:absolute;top:0;bottom:0;width:1px;background:var(--line)}
+  .g-today{position:absolute;top:0;bottom:0;width:0;border-left:1px solid var(--today);z-index:1}
+  .g-hd{position:relative;height:32px;border-bottom:1px solid var(--line);z-index:3}
+  .g-hd span{position:absolute;top:9px;font-family:var(--font-mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);transform:translateX(6px)}
+  .g-row:nth-of-type(even){background:rgba(20,111,248,.035)}
+  .g-row{position:relative;height:34px;border-bottom:1px solid var(--line-soft);z-index:2}
+  .g-row.gt{height:26px;border-bottom:1px solid var(--line);background:rgba(0,0,61,.028)}
+  .bar{position:absolute;top:11px;height:12px;background:var(--ink);border-radius:1px}
+  .bar.design{background:var(--accent-soft);border:1px solid var(--ink)}
+  .mk{position:absolute;top:13px;width:8px;height:8px;border-radius:50%;background:var(--ink);transform:translateX(-4px);z-index:4}
+  .mk.inform{width:10px;height:10px;border-radius:2px;background:#fff;border:1.5px solid var(--ink);top:12px;transform:translateX(-5.5px);z-index:5}
+  .gtxt{position:absolute;top:11px;font-family:var(--font-mono);font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink);transform:translateX(11px);white-space:nowrap;z-index:4;line-height:12px}
+
+  /* ---------- date table (slide 4) ---------- */
+  /* live roadmap embed */
+  .slide.wide{padding:8.6vh 6.5vw 4.4vh}
+  .slide.wide .inner{max-width:none}
+  .slide.wide .shead{margin-bottom:12px}
+  .slide.wide h2{font-size:clamp(24px,2.4vw,32px)}
+  .embed{position:relative;overflow:hidden;background:transparent;margin:0 auto}
+  .embed iframe{border:0;display:block}
+  .openrow{display:flex;align-items:center;gap:16px;margin-top:18px;flex-wrap:wrap}
+  .openbtn{display:inline-flex;align-items:center;gap:12px;background:var(--ink);color:#fff;border-radius:100px;
+    padding:12px 20px 12px 22px;font-size:14.5px;font-weight:600;letter-spacing:-.01em;text-decoration:none}
+  .openbtn .ar{width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.18);display:inline-flex;align-items:center;justify-content:center;font-size:12px}
+  .openurl{font-family:var(--font-mono);font-size:11px;letter-spacing:.05em;color:var(--muted)}
+  .datewrap{overflow-x:auto}
+  table.dates{width:100%;min-width:900px;border-collapse:collapse}
+  table.dates th{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:500;text-align:left;padding:9px 14px 8px 0;border-bottom:1px solid var(--ink)}
+  table.dates td{padding:11px 14px 11px 0;border-bottom:1px solid var(--line-soft);font-size:15px;color:var(--ink-soft);font-variant-numeric:tabular-nums;white-space:nowrap}
+  table.dates td.pg{font-weight:600;color:var(--ink)}
+  table.dates td.id{font-family:var(--font-mono);font-size:11px;color:var(--muted);width:30px}
+  table.dates td.na{color:#4A506A}
+  .cell.nodate .cd{font-size:13.5px;letter-spacing:-.005em;color:var(--muted)}
+  table.dates tr:last-child td{border-bottom:0}
+
+
+
+  /* ---------- responsive ---------- */
+  @media (max-height:960px){
+    .slide:not(.wide){padding:7.4vh 6vw}
+    .shead{margin-bottom:18px}
+    .cell{padding:5px 9px 6px}
+    .cell .cd{font-size:13px}
+    .flow table{border-spacing:0 4px}
+    .gapl span{margin-bottom:4px}
+    table.dates td{padding:8px 14px 8px 0;font-size:14px}
+  }
+  @media (max-width:1180px){
+    .slide{padding:104px 5vw 92px;justify-content:flex-start}
+    .slide.wide{padding:104px 5vw 84px}
+    .flowwrap{grid-template-columns:minmax(0,1fr);gap:30px}
+    .side{padding:24px 0 0;border-left:0;border-top:1px solid var(--line)}
+    .side ul{margin-bottom:18px}
+    .gantt{grid-template-columns:190px minmax(660px,1fr)}
+  }
+  @media (max-width:860px){
+    .topbar{padding:18px 20px 13px;font-size:9.5px;letter-spacing:.1em}
+    .topbar .tb-in>span{display:none}
+    .slide{padding:78px 20px 82px}
+    .slide.wide{padding:78px 20px 76px}
+    h1{font-size:clamp(34px,9vw,50px)}
+    h2{font-size:clamp(25px,6.6vw,34px)}
+    .slide.wide h2{font-size:clamp(22px,5.6vw,28px)}
+    .slide.hero h1{font-size:clamp(38px,11.5vw,62px)}
+    .lede{font-size:15px}
+    .hero-sub{font-size:16.5px;margin-top:16px}
+    .hero-meta{gap:20px 34px;margin-top:28px;padding-top:20px}
+    .shead{margin-bottom:20px}
+    .shead .eyebrow{margin-bottom:12px}
+    .nav{bottom:16px;right:16px;gap:10px}
+    .nav button{width:38px;height:38px;font-size:15px}
+    .nav #counter{display:none}
+    .exportbtn{bottom:19px;left:16px;font-size:9.5px;padding:7px 12px}
+    .fp-legend{gap:11px;font-size:9px}
+    .fullplan-hd{gap:12px}
+    .gantt{grid-template-columns:148px minmax(600px,1fr)}
+    .g-lab{font-size:12px;height:32px;padding-right:10px}
+    table.dates td{font-size:13.5px;padding:9px 12px 9px 0}
+    .side li{font-size:13px}
+    .scrollcue{display:block}
+  }
+  @media (max-width:860px) and (orientation:portrait){
+    .slide{overflow-y:auto}
+  }
+  .scrollcue{display:none;margin-top:10px;font-family:var(--font-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+
+  @media print{
+    @page{size:1600px 1000px;margin:0}
+    html,body{height:auto;overflow:visible;background:#fff}
+    .topbar,.nav,.progressbar,.exportbtn{display:none}
+    .stage{position:static;inset:auto}
+    .slide{position:relative;inset:auto;display:flex!important;opacity:1!important;height:1000px;overflow:hidden;padding:8vh 6vw;break-after:page;page-break-after:always;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .slide:last-child{break-after:auto;page-break-after:auto}
+    /* the video frame is nondeterministic in print — pin the cover to its poster */
+    .slide.hero .hero-video{display:none}
+    .slide.hero{background:#00003d url("assets/hero/geaero-cover-poster.jpg") center center/cover no-repeat}
+    .slide.hero .hero-inner{padding-bottom:56px}
+    .flow,.fullplan,.datewrap{overflow:visible}
+    /* Chromium's PDF rasterizer flattens blurred shadows into hard grey blocks — drop them */
+    *{box-shadow:none!important}
+  }
+
+  /* ---------- the eight steps ---------- */
+  .chain{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:8px;margin-top:6px}
+  /* The publication path: four steps, read left to right. */
+  .path{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:26px}
+  .path .step{position:relative;border:1px solid var(--line);border-radius:12px;padding:20px 20px 46px;background:var(--surface);min-height:0;display:block}
+  .path .step+.step::before{content:"";position:absolute;left:-11px;top:50%;width:6px;height:6px;border-top:1.5px solid #c2c9dc;border-right:1.5px solid #c2c9dc;transform:translateY(-50%) rotate(45deg)}
+  .path .when{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+  .path h3{font-size:19px;font-weight:600;letter-spacing:-.015em;line-height:1.25;margin:0 0 8px;color:var(--ink)}
+  .path p{font-size:13.5px;line-height:1.55;color:var(--muted);margin:0}
+  .path .who-tag{position:absolute;left:20px;bottom:16px;font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#2256e6;background:#eef2ff;border-radius:999px;padding:4px 10px}
+  .path .who-tag.bttr{color:#5b6178;background:#f1f2f6}
+  .path .step.live{border-color:#16b364;box-shadow:0 0 0 3px rgba(22,179,100,.10)}
+  .path .step.live h3{color:#0f7a46}
+  .step{border:1px solid var(--line);border-radius:7px;padding:11px 12px 12px;background:var(--surface);display:flex;flex-direction:column;gap:5px;min-height:118px}
+  .step .n{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.13em;color:var(--muted)}
+  .step .t{font-size:14px;font-weight:600;letter-spacing:-.01em;line-height:1.22}
+  .step .w{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:auto}
+  .step.pin{background:var(--ink);border-color:var(--ink)}
+  .step.pin .t{color:#fff} .step.pin .n,.step.pin .w{color:#b9bcd4}
+  .step.winw{background:#fff;border-color:var(--ink)}
+  .pinkey{display:flex;gap:22px;flex-wrap:wrap;margin-top:16px;font-family:var(--font-mono);font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted)}
+  .pinkey i{display:inline-block;width:14px;height:9px;border-radius:1px;margin-right:7px;vertical-align:middle;font-style:normal;border:1px solid var(--line);background:var(--surface)}
+  .pinkey i.pin{background:var(--ink);border-color:var(--ink)}
+  .pinkey i.winw{background:#fff;border-color:var(--ink)}
+
+  /* ---------- the week ---------- */
+  .week{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:4px}
+  .day{border-top:2px solid var(--ink);padding:14px 0 0}
+  .day.quiet{border-top-color:var(--line)}
+  .day h3{font-size:19px;font-weight:600;letter-spacing:-.015em;margin-bottom:3px}
+  .day .sub{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:13px}
+  .day ul{list-style:none}
+  .day li{font-size:14px;color:var(--ink-soft);line-height:1.4;padding:8px 0;border-bottom:1px solid var(--line-soft)}
+  .day li:last-child{border-bottom:0}
+  .day li b{display:block;font-weight:600;color:var(--ink);font-size:14px}
+  .day li span{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+
+  /* ---------- load ---------- */
+  .loadwrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:44px;margin-top:8px}
+  .loadcol h3{font-size:16px;font-weight:600;margin-bottom:4px;letter-spacing:-.01em}
+  .loadcol .cap{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+  .lrow{display:flex;align-items:center;gap:12px;padding:5px 0}
+  .lrow .d{font-family:var(--font-mono);font-size:10.5px;color:var(--muted);width:80px;flex:none;letter-spacing:.05em}
+  .lrow .b{height:13px;border-radius:2px;background:var(--ink)}
+  .lrow .b.ok{background:#9aa0bb}
+  .lrow .v{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+  .peak{margin-top:18px;padding-top:14px;border-top:1px solid var(--line);font-size:14px;color:var(--ink-soft)}
+  .peak b{font-size:26px;font-weight:400;letter-spacing:-.02em;display:block;margin-bottom:2px}
+
+  /* ---------- owner split ---------- */
+  .owns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px;margin-top:6px}
+  .own{border-top:2px solid var(--ink);padding-top:16px}
+  .own .who{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+  .own h3{font-size:22px;font-weight:400;letter-spacing:-.02em;margin-bottom:14px;line-height:1.15}
+  .own ul{list-style:none}
+  .own li{font-size:14.5px;color:var(--ink-soft);line-height:1.45;padding:10px 0;border-bottom:1px solid var(--line-soft);display:flex;gap:14px}
+  .own li:last-child{border-bottom:0}
+  .own li b{flex:none;min-width:104px;font-weight:600;color:var(--ink)}
+  table.dates td.sl{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  table.dates td.hi{font-weight:600;color:var(--ink)}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="tb-in">
+    <a class="tb-brand" href="index.html" title="Back to the FLIGHT DECK hub"><span class="ge-logo" role="img" aria-label="GE Aerospace"></span></a>
+    <span>The publication schedule &middot; Activation Hub redesign</span>
+  </div>
+</div>
+<div class="progressbar" id="progressbar"></div>
+
+<div class="stage" id="stage">
+
+  <section class="slide hero">
+    <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="assets/hero/geaero-cover-poster.jpg" src="assets/hero/geaero-cover-loop.mp4"></video>
+    <div class="hero-bg"></div>
+    <div class="hero-inner">
+      <div class="hero-body">
+        <div class="eyebrow">Activation Hub redesign &middot; Schedule</div>
+        <h1>The publication<br>schedule.</h1>
+        <p class="hero-sub">Pages go live on Tuesdays, most weeks two at once. Each one needs two GE reviews: one week with the Fundamental team, then 48 hours with Comms.</p>
+        <div class="hero-meta">
+          <div><div class="k">GE reviews</div><div class="v">Twice a page</div></div>
+          <div><div class="k">Publishes</div><div class="v">Every Tuesday</div></div>
+          <div><div class="k">Next live</div><div class="v">Operating Cadences and Behaviors and Template Library and Search &middot; Fri 9 Oct</div></div>
+          <div><div class="k">Last page live</div><div class="v">Fri 16 Oct</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="slide">
+    <div class="inner">
+      <div class="shead">
+        <div class="eyebrow">How one page gets published</div>
+        <h2>Three weeks, start to live.</h2>
+        <p class="lede">Every page follows exactly this path. GE reviews twice: one week with the Fundamental team, then 48 hours with Comms.</p>
+      </div>
+
+      <div class="path">
+  <div class="step"><div class="when">Week 1 &middot; Monday or Wednesday</div>
+    <h3>The Fundamental team reviews the page.</h3>
+    <p>One full week to read it and leave comments in MarkUp. Reviews open two days apart, so no two pages start together.</p>
+    <div class="who-tag">Learning and Fundamental teams</div></div>
+  <div class="step"><div class="when">Week 2 &middot; Monday or Wednesday</div>
+    <h3>Bttr makes the changes.</h3>
+    <p>We work through every comment, then lock the build.</p>
+    <div class="who-tag bttr">Bttr</div></div>
+  <div class="step"><div class="when">Week 2 &middot; Thursday</div>
+    <h3>Comms reviews it, Bttr runs the safety check.</h3>
+    <p>Comms gets 48 hours, Thursday to Saturday. We check the page the same afternoon.</p>
+    <div class="who-tag">Comms team</div></div>
+  <div class="step live"><div class="when">Week 3 &middot; Tuesday</div>
+    <h3>The page goes live.</h3>
+    <p>Every page publishes on a Tuesday, most weeks two at once.</p>
+    <div class="who-tag bttr">Bttr</div></div>
+</div>
+    </div>
+  </section>
+  <section class="slide">
+    <div class="inner">
+      <div class="shead">
+        <div class="eyebrow">When each page goes live</div>
+        <h2>Every publish is a Tuesday.</h2>
+      </div>
+
+      <div class="datewrap"><table class="dates"><thead><tr><th>Page</th><th>Reviews open</th><th>Comms opens</th><th>Goes live</th></tr></thead><tbody><tr><td class="pg">Action Planning</td><td class="sl">&mdash;</td><td class="sl">&mdash;</td><td class="sl"><b>Live</b></td></tr><tr><td class="pg">Standard Work</td><td class="sl">&mdash;</td><td class="sl">&mdash;</td><td class="sl"><b>Live</b></td></tr><tr><td class="pg">Problem Solving</td><td class="sl">&mdash;</td><td class="sl">&mdash;</td><td class="sl"><b>Live</b></td></tr><tr><td class="pg">5S</td><td class="sl">&mdash;</td><td class="sl">&mdash;</td><td class="sl"><b>Live</b></td></tr><tr><td class="pg">Daily &amp; Visual Mgmt</td><td class="sl">&mdash;</td><td class="sl">&mdash;</td><td class="sl"><b>Live</b></td></tr><tr><td class="pg">Flow / Pull</td><td class="sl">&mdash;</td><td class="sl">&mdash;</td><td class="sl"><b>Live</b></td></tr><tr><td class="pg">Value Stream Mgmt</td><td class="sl">&mdash;</td><td class="sl">&mdash;</td><td class="sl"><b>Live</b></td></tr><tr><td class="pg">Template detail pages</td><td class="sl">&mdash;</td><td class="sl">&mdash;</td><td class="sl"><b>Live</b></td></tr><tr><td class="pg">Operating Cadences</td><td class="sl">Wed 23 Sep</td><td class="sl">Sun 4 Oct</td><td class="sl"><b>Fri 9 Oct</b></td></tr><tr><td class="pg">Behaviors</td><td class="sl">Sat 19 Sep</td><td class="sl">Sun 4 Oct</td><td class="sl"><b>Fri 9 Oct</b></td></tr><tr><td class="pg">Template Library</td><td class="sl">Thu 17 Sep</td><td class="sl">Sun 4 Oct</td><td class="sl"><b>Fri 9 Oct</b></td></tr><tr><td class="pg">Search</td><td class="sl">Mon 21 Sep</td><td class="sl">Sun 4 Oct</td><td class="sl"><b>Fri 9 Oct</b></td></tr><tr><td class="pg">Homepage</td><td class="sl">Thu 27 Aug</td><td class="sl">Sun 11 Oct</td><td class="sl"><b>Fri 16 Oct</b></td></tr></tbody></table></div><p class="lede" style="margin-top:14px;font-size:13px">Every other milestone sits on the roadmap in the hub. Action Planning published under the previous process, so it carries no dates here.</p>
+    </div>
+  </section>
+  <section class="slide wide">
+    <div class="inner">
+      <div class="shead">
+        <div class="eyebrow">The roadmap</div>
+        <h2>Every milestone, always current.</h2>
+      </div>
+      <div class="embed" id="embed">
+        <iframe src="publication-timeline.html?embed=1" title="Fundamental publication roadmap"></iframe>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<button class="exportbtn" id="exportbtn">Print &middot; PDF</button>
+<div class="nav"><span id="counter">01 / 4</span><button id="prev" aria-label="Previous">&larr;</button><button id="next" aria-label="Next">&rarr;</button></div>
+
+<script>
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.slide'));
+  var n=slides.length,cur=0;
+  var counter=document.getElementById('counter');
+  var pbar=document.getElementById('progressbar');
+  function pad(x){return (x<10?'0':'')+x;}
+  function show(idx){
+    cur=Math.max(0,Math.min(n-1,idx));
+    slides.forEach(function(s,k){s.classList.toggle('active',k===cur);});
+    counter.textContent=pad(cur+1)+' / '+pad(n);
+    if(pbar)pbar.style.width=((cur+1)/n*100)+'%';
+    document.body.classList.toggle('slide-dark-active',slides[cur].classList.contains('dark')||slides[cur].classList.contains('hero'));
+    if(slides[cur]) slides[cur].scrollTop=0;
+    if(window.fdFit) setTimeout(window.fdFit,20);
+    history.replaceState(null,'','#s'+(cur+1));
+  }
+  function nextS(){show(cur+1);} function prevS(){show(cur-1);}
+  document.getElementById('next').addEventListener('click',function(ev){ev.stopPropagation();nextS();});
+  document.getElementById('prev').addEventListener('click',function(ev){ev.stopPropagation();prevS();});
+  var eb=document.getElementById('exportbtn');if(eb)eb.addEventListener('click',function(ev){ev.stopPropagation();window.print();});
+  document.addEventListener('keydown',function(ev){
+    if(ev.key==='ArrowRight'||ev.key==='PageDown'||ev.key===' '){ev.preventDefault();nextS();}
+    else if(ev.key==='ArrowLeft'||ev.key==='PageUp'){ev.preventDefault();prevS();}
+    else if(ev.key==='Home'){show(0);} else if(ev.key==='End'){show(n-1);}
+  });
+  document.getElementById('stage').addEventListener('click',function(ev){
+    if(ev.target.closest('a,button'))return;
+    if(ev.clientX > window.innerWidth*0.5) nextS(); else prevS();
+  });
+
+  (function(){
+    function fit(){
+      var box=document.getElementById('embed'); if(!box) return;
+      var fr=box.querySelector('iframe');
+      var inner=box.closest('.inner'), slide=box.closest('.slide');
+      if(!inner||!inner.clientWidth) return;
+      var head=box.previousElementSibling;
+      var pad=slide?parseFloat(getComputedStyle(slide).paddingTop)*2:100;
+      var used=(head?head.offsetHeight:0)+18;
+      var w=inner.clientWidth;
+      var h=Math.max(window.innerWidth<=860?520:420,(slide?slide.clientHeight:900)-used-pad);
+      fr.style.transform='none';
+      fr.style.width=w+'px'; fr.style.height=h+'px';
+      box.style.width=w+'px'; box.style.height=h+'px';
+    }
+    window.fdFit=fit; window.addEventListener('resize',fit); setTimeout(fit,80);
+  })();
+  var m=(location.hash||'').match(/^#s(\d+)$/);
+  show(m?parseInt(m[1],10)-1:0);
+})();
+
+  (function(){
+    var x0=null,y0=null;
+    addEventListener('touchstart',function(e){var t=e.changedTouches[0];x0=t.clientX;y0=t.clientY;},{passive:true});
+    addEventListener('touchend',function(e){
+      if(x0===null) return;
+      var t=e.changedTouches[0], dx=t.clientX-x0, dy=t.clientY-y0;
+      x0=null;
+      if(Math.abs(dx)<58||Math.abs(dx)<Math.abs(dy)*1.6) return;
+      if(e.target.closest('.flow,.fullplan,.datewrap,.embed')) return;
+      dx<0?nextS():prevS();
+    },{passive:true});
+  })();
+</script>
+</body>
+</html>

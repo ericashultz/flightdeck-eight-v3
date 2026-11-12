@@ -1,0 +1,1587 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex, nofollow"><link rel="stylesheet" href="/hub/hub.css"><title>Standard Work · Flight Deck Fundamental</title>
+<style>
+body{padding-left:48px!important}
+@media(max-width:700px){body{padding-left:0!important}}
+/* contain the header nav between 700 and 1040px so the page never scrolls sideways */
+@media(max-width:1040px) and (min-width:701px){nav.primary{overflow-x:auto;padding-bottom:4px}}
+@media(max-width:940px){.cmdbar .cmd-in{overflow-x:auto;flex-wrap:nowrap;white-space:nowrap}}
+#sw-b{font-family:"GE Sans",-apple-system,"Helvetica Neue",Arial,sans-serif;color:#00003d;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+
+/* ── Hero ── */
+#sw-b .hero{position:relative;color:#fff;padding:44px 24px;background:radial-gradient(120% 150% at 18% -10%,rgba(65,129,255,.32),transparent 55%),linear-gradient(120deg,#00010f,#000a2e 58%,#06173f);overflow:hidden}
+#sw-b .hero::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:54px 54px;-webkit-mask-image:radial-gradient(120% 120% at 50% 0,#000,transparent 75%);mask-image:radial-gradient(120% 120% at 50% 0,#000,transparent 75%);opacity:.5}
+#sw-b .hero .in{position:relative;max-width:1040px;margin:0 auto}
+#sw-b .kick{display:inline-flex;align-items:center;gap:9px;font-size:11.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#8aa6f0;margin-bottom:20px}
+#sw-b .kick::before{content:"";width:7px;height:7px;background:#16b364;border-radius:1px;flex-shrink:0}
+#sw-b .hero h1{font-size:52px;font-weight:300;letter-spacing:-.03em;margin:0 0 16px;line-height:1.02}
+#sw-b .hero p{font-size:18px;color:rgba(255,255,255,.78);margin:0;max-width:56ch;line-height:1.55}
+#sw-b .hero .meta{display:flex;align-items:center;gap:18px;margin-top:32px;font-size:12.5px;font-weight:600;letter-spacing:.02em;color:#9fb4e8;flex-wrap:wrap}
+#sw-b .hero .meta span+span{display:flex;align-items:center;gap:18px}
+#sw-b .hero .meta span+span::before{content:"";width:4px;height:4px;border-radius:50%;background:#4181ff}
+
+/* ── Progress bar (hero) ── */
+#sw-b .hero-progress{margin-top:28px;display:flex;align-items:center;gap:14px}
+#sw-b .prog-track{flex:1;max-width:260px;height:4px;background:rgba(255,255,255,.15);border-radius:4px;overflow:hidden}
+#sw-b .prog-fill{height:100%;width:0%;background:linear-gradient(90deg,#4181ff,#16b364);border-radius:4px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+#sw-b .prog-label{font-size:12px;font-weight:600;color:#8aa6f0;white-space:nowrap}
+
+/* ── "Is this you?" newcomer panel ── */
+#sw-b .onramp{background:#f4f7fd;border-top:1px solid #e7ebf4;padding:48px 24px}
+#sw-b .onramp .in{max-width:1040px;margin:0 auto}
+#sw-b .eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#44496e;margin-bottom:20px}
+#sw-b .eyebrow::before{content:"";width:7px;height:7px;background:#16b364;border-radius:1px;flex-shrink:0}
+#sw-b .onramp h2{font-size:32px;font-weight:300;letter-spacing:-.025em;margin:0 0 10px;color:#00003d}
+#sw-b .onramp .sub{font-size:16px;color:#4A506A;margin:0 0 32px;max-width:60ch;line-height:1.6}
+#sw-b .audience-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+#sw-b .audience-card{background:#fff;border:1px solid #e7ebf4;border-radius:14px;padding:22px 24px;box-shadow:0 1px 2px rgba(11,26,64,.05),0 18px 40px -26px rgba(11,26,64,.22);display:flex;gap:16px;align-items:flex-start;cursor:pointer;transition:border-color .18s,box-shadow .18s,transform .16s}
+#sw-b .audience-card:hover{border-color:#4181ff;box-shadow:0 10px 26px -10px rgba(34,86,230,.28);transform:translateY(-2px)}
+#sw-b .audience-card .icon{width:42px;height:42px;border-radius:10px;background:#eef3fd;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+#sw-b .audience-card strong{display:block;font-size:14px;font-weight:700;color:#00003d;margin-bottom:5px;letter-spacing:-.01em}
+#sw-b .audience-card p{font-size:13.5px;color:#44496e;margin:0;line-height:1.55}
+
+/* ── Survey call-out bar ── */
+#sw-b .survey-bar{background:#fff;border-top:1px solid #e7ebf4;border-bottom:1px solid #e7ebf4;padding:20px 24px}
+#sw-b .survey-bar .in{max-width:1040px;margin:0 auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+#sw-b .survey-bar .s-label{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#16b364;white-space:nowrap}
+#sw-b .survey-bar .s-items{display:flex;gap:10px;flex-wrap:wrap}
+#sw-b .survey-bar .s-chip{background:#f4f7fd;border:1px solid #dde4f0;border-radius:100px;padding:5px 13px;font-size:12px;font-weight:600;color:#44496e}
+#sw-b .survey-bar .s-chip span{color:#2256e6;font-weight:700}
+
+/* ── Path (4 steps) ── */
+#sw-b .path{max-width:1088px;margin:0 auto;padding:60px 24px 16px;position:relative}
+#sw-b .path-header{margin-bottom:44px}
+#sw-b .path-header h2{font-size:30px;font-weight:300;letter-spacing:-.025em;margin:0 0 8px;color:#00003d}
+#sw-b .path-header p{font-size:15px;color:#4A506A;margin:0;line-height:1.6}
+#sw-b .three-el{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:18px}
+#sw-b .three-el .te-lead{font-size:13px;font-weight:600;color:#44496e}
+#sw-b .three-el .te-chip{font-size:12.5px;font-weight:700;color:#0b2f8f;background:#eef3fd;border:1px solid #d6e3fb;border-radius:100px;padding:5px 14px}
+
+#sw-b .step{display:grid;grid-template-columns:84px 1fr;gap:26px;padding:0 0 8px;position:relative;margin-bottom:12px}
+#sw-b .step:not(:last-child)>.step-line{position:absolute;left:41px;top:78px;bottom:-12px;width:2px;background:linear-gradient(#4181ff,#dfe4f2);pointer-events:none}
+#sw-b .num{width:74px;height:74px;border-radius:50%;border:1.5px solid #4181ff;color:#0b2f8f;font-size:27px;font-weight:300;display:flex;align-items:center;justify-content:center;background:#fff;z-index:1;box-shadow:0 10px 24px -10px rgba(11,47,143,.5);cursor:pointer;transition:border-color .2s,box-shadow .2s;flex-shrink:0}
+#sw-b .step.complete .num{border-color:#16b364;color:#16b364;box-shadow:0 10px 24px -10px rgba(22,179,100,.4)}
+#sw-b .step-body{padding-bottom:36px}
+#sw-b .step h3{font-size:23px;font-weight:600;letter-spacing:-.015em;margin:14px 0 6px;color:#00003d}
+
+/* Step card */
+#sw-b .step-card{background:#fff;border:1px solid #e7ebf4;border-radius:14px;padding:24px 26px 20px;box-shadow:0 1px 2px rgba(11,26,64,.05),0 18px 40px -26px rgba(11,26,64,.22);margin-top:4px}
+#sw-b .step-card .intro{font-size:15px;color:#44496e;margin:0 0 14px;line-height:1.65}
+#sw-b .step-card .callout{background:#fdf7e9;border:1px solid #f3e6c4;border-radius:10px;padding:12px 16px;margin:14px 0 18px;font-size:13.5px;color:#7a6a3f;line-height:1.6}
+#sw-b .step-card .callout strong{display:block;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#a9812a;margin-bottom:5px}
+#sw-b .step-card .worked{background:#f4f7fd;border-left:3px solid #4181ff;border-radius:0 8px 8px 0;padding:12px 16px;margin:14px 0 18px;font-size:13.5px;color:#44496e;line-height:1.6}
+#sw-b .step-card .worked strong{display:block;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#2256e6;margin-bottom:4px}
+#sw-b .step-card .meta-row{display:flex;align-items:center;gap:20px;margin:0 0 18px;flex-wrap:wrap}
+#sw-b .step-card .time-badge{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:#4A506A;background:#f4f7fd;border:1px solid #e7ebf4;border-radius:100px;padding:5px 12px}
+#sw-b .step-card .time-badge::before{content:"⏱";font-size:12px}
+#sw-b .step-card .tmpl-badge{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:#2256e6;background:#eef3fd;border:1px solid #d6e3fb;border-radius:100px;padding:5px 12px}
+#sw-b .step-card .tmpl-badge::before{content:"📄";font-size:11px}
+
+/* Checklist */
+#sw-b .checklist{list-style:none;margin:0;padding:0;border-top:1px solid #eef1f8;padding-top:16px}
+#sw-b .checklist li{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid #f2f4fa;cursor:pointer;user-select:none;transition:opacity .15s}
+#sw-b .checklist li:last-child{border-bottom:none}
+#sw-b .checklist li:hover .cb{border-color:#4181ff}
+#sw-b .cb{width:18px;height:18px;border:1.5px solid #c4cde0;border-radius:4px;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:background .15s,border-color .15s;background:#fff}
+#sw-b .checklist li.checked .cb{background:#16b364;border-color:#16b364}
+#sw-b .checklist li.checked .cb::after{content:"✓";font-size:11px;color:#fff;font-weight:700}
+#sw-b .checklist li.checked .cl-text{color:#4A506A;text-decoration:line-through;text-decoration-color:#c4cde0}
+#sw-b .cl-text{font-size:13.5px;color:#44496e;line-height:1.5;padding-top:1px}
+
+/* Action button */
+#sw-b .act{display:inline-flex;align-items:center;gap:9px;font-size:13.5px;font-weight:600;color:#2256e6;background:#fff;border:1px solid #e1e6f2;border-radius:100px;padding:9px 18px;box-shadow:0 1px 2px rgba(11,26,64,.04);cursor:pointer;text-decoration:none;margin-top:16px;transition:border-color .2s,box-shadow .2s}
+#sw-b .act:hover{border-color:#4181ff;box-shadow:0 4px 12px -4px rgba(34,86,230,.18)}
+#sw-b .act::after{content:"→";color:#4181ff}
+
+/* ── Recap / "Your first standard" ── */
+#sw-b .recap{background:#f4f7fd;border-top:1px solid #e7ebf4;padding:56px 24px}
+#sw-b .recap .in{max-width:1040px;margin:0 auto}
+#sw-b .recap h2{font-size:32px;font-weight:300;letter-spacing:-.025em;margin:0 0 10px;color:#00003d}
+#sw-b .recap .sub{font-size:16px;color:#4A506A;margin:0 0 36px;max-width:58ch;line-height:1.6}
+#sw-b .timeline-recap{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0;counter-reset:recap}
+#sw-b .tr-item{counter-increment:recap;padding:20px 24px;border-left:2px solid #e7ebf4;position:relative}
+#sw-b .tr-item::before{content:counter(recap,"0"counter(recap));font-size:11px;font-weight:700;letter-spacing:.14em;color:#4181ff;display:block;margin-bottom:8px}
+#sw-b .tr-item strong{display:block;font-size:14px;font-weight:700;color:#00003d;margin-bottom:4px}
+#sw-b .tr-item span{font-size:12.5px;color:#4A506A;line-height:1.5;display:block}
+#sw-b .tr-item .t-time{font-size:11px;font-weight:600;color:#16b364;margin-top:6px;display:block}
+
+/* ── Starter Kit ── */
+#sw-b .kit-band{background:#fff;border-top:1px solid #e7ebf4;border-bottom:1px solid #e7ebf4;padding:44px 24px;position:relative}
+#sw-b .kit-band .in{max-width:1040px;margin:0 auto;display:flex;align-items:flex-start;gap:40px;flex-wrap:wrap;position:relative}
+#sw-b .kit-copy{flex:1;min-width:260px}
+#sw-b .kit-copy h2{font-size:28px;font-weight:300;letter-spacing:-.025em;margin:0 0 8px;color:#00003d}
+#sw-b .kit-copy p{font-size:15px;color:#4A506A;margin:0;line-height:1.6;max-width:52ch}
+#sw-b .kit-files{flex:1;min-width:260px;display:flex;flex-direction:column;gap:10px}
+#sw-b .kit-file{display:flex;align-items:center;gap:14px;background:#f4f7fd;border:1px solid #e7ebf4;border-radius:12px;padding:14px 18px;text-decoration:none;transition:border-color .2s,box-shadow .2s}
+#sw-b .kit-file:hover{border-color:#4181ff;box-shadow:0 4px 12px -4px rgba(34,86,230,.14)}
+#sw-b .kit-file .kf-icon{width:38px;height:38px;background:#eef3fd;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+#sw-b .kit-file .kf-name{font-size:13.5px;font-weight:600;color:#00003d;display:block;margin-bottom:2px}
+#sw-b .kit-file .kf-desc{font-size:12px;color:#4A506A;display:block}
+#sw-b .kit-file .kf-dl{margin-left:auto;font-size:12px;font-weight:600;color:#2256e6;white-space:nowrap}
+
+/* ── FAQ ── */
+#sw-b .faq{padding:56px 24px;background:#fff}
+#sw-b .faq .in{max-width:1040px;margin:0 auto}
+#sw-b .faq h2{font-size:30px;font-weight:300;letter-spacing:-.025em;margin:0 0 32px;color:#00003d}
+#sw-b .faq-item{border-top:1px solid #e7ebf4;padding:20px 0}
+#sw-b .faq-item:last-child{border-bottom:1px solid #e7ebf4}
+#sw-b .faq-q{font-size:15px;font-weight:700;color:#00003d;margin:0 0 8px;letter-spacing:-.01em;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px}
+#sw-b .faq-q .faq-icon{font-size:16px;color:#4181ff;transition:transform .2s;flex-shrink:0}
+#sw-b .faq-item.open .faq-icon{transform:rotate(45deg)}
+#sw-b .faq-a{font-size:14.5px;color:#44496e;line-height:1.7;margin:0;max-width:66ch;display:none;padding-top:4px}
+#sw-b .faq-item.open .faq-a{display:block}
+
+/* ── "What's next" band ── */
+#sw-b .next-band{background:radial-gradient(120% 120% at 0% 100%,rgba(65,129,255,.12),transparent 60%),linear-gradient(135deg,#f4f7fd,#eef3fd);border-top:1px solid #e7ebf4;padding:56px 24px;position:relative}
+#sw-b .next-band .in{max-width:1040px;margin:0 auto;position:relative}
+#sw-b .next-band h2{font-size:28px;font-weight:300;letter-spacing:-.025em;margin:0 0 8px;color:#00003d}
+#sw-b .next-band .sub{font-size:15px;color:#4A506A;margin:0 0 32px;max-width:55ch;line-height:1.6}
+#sw-b .next-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+#sw-b .next-card{background:#fff;border:1px solid #e7ebf4;border-radius:14px;padding:22px 22px 18px;box-shadow:0 1px 2px rgba(11,26,64,.05),0 18px 40px -26px rgba(11,26,64,.22);text-decoration:none;display:flex;flex-direction:column;transition:border-color .2s,box-shadow .2s}
+#sw-b .next-card:hover{border-color:#4181ff;box-shadow:0 8px 24px -8px rgba(34,86,230,.2)}
+#sw-b .next-card .nc-eyebrow{font-size:10.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#16b364;margin-bottom:8px;display:block}
+#sw-b .next-card .nc-title{font-size:15px;font-weight:700;color:#00003d;margin:0 0 6px;letter-spacing:-.01em}
+#sw-b .next-card .nc-desc{font-size:13px;color:#4A506A;margin:0;line-height:1.55}
+#sw-b .next-card .nc-arrow{font-size:14px;color:#4181ff;margin-top:14px;display:block;font-weight:600}
+/* Resource-type cover image (icon on a tinted band) — requested so tiles aren't all-text */
+#sw-b .next-card .nc-cover{width:calc(100% + 44px);aspect-ratio:16/9;height:auto;margin:-22px -22px 16px;border-radius:14px 14px 0 0;background:#0a1330;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;cursor:pointer}
+
+/* GE, 21 Aug, asked for the fixed 16/9 cover; Sam, 21 Aug, asked that a card with
+   no summary expand into the space rather than leave it blank. Both hold if the
+   ratio is a floor rather than a fixed value: the cover keeps 16/9 as its base
+   size and grows only on a card whose Describe column is empty. An empty
+   description element also stops contributing its own margin. */
+#sw-b .next-card:has(.nc-desc:empty) .nc-cover{flex:1 1 auto}
+#sw-b .next-card .nc-desc:empty{display:none}
+#sw-b .next-card .nc-cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .3s ease}
+#sw-b .next-card .nc-cover:hover img{transform:scale(1.05)}
+#sw-b .next-card .nc-cover::before{content:"\2922  Preview";position:absolute;z-index:2;bottom:12px;left:50%;transform:translateX(-50%) translateY(6px);opacity:0;transition:opacity .18s,transform .18s;font-size:11px;font-weight:700;letter-spacing:.03em;color:#fff;background:rgba(0,0,10,.62);padding:5px 12px;border-radius:100px;pointer-events:none;white-space:nowrap}
+#sw-b .next-card .nc-cover:hover::before{opacity:1;transform:translateX(-50%) translateY(0)}
+#sw-b .next-card.nc-disabled .nc-cover{cursor:default}
+#sw-b .next-card .nc-cover::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,10,34,.20),rgba(3,10,34,.58))}
+#sw-b .next-card .nc-cover svg{position:relative;z-index:1;width:34px;height:34px;stroke:#fff;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 1px 4px rgba(0,0,0,.45))}
+/* Preview action row + pill button — each tile now has its own primary link plus
+   a Preview trigger, instead of the whole card being one link (matches the
+   Templates page's Download/Preview/Report pattern: explicit controls, not a
+   giant nested-anchor click target). */
+#sw-b .next-card{cursor:default}
+#sw-b .nc-actions{display:flex;align-items:center;gap:14px;margin-top:auto;padding-top:14px;flex-wrap:wrap}
+#sw-b .next-card .nc-actions .nc-arrow,#sw-b .next-card .nc-actions .nc-soon{margin-top:0}
+#sw-b .nc-preview{font-size:12.5px;font-weight:600;color:#4A506A;background:#fff;border:1px solid #d8deee;border-radius:100px;padding:6px 14px;cursor:pointer;transition:border-color .15s,color .15s}
+#sw-b .nc-preview:hover{border-color:#4181ff;color:#2256e6}
+/* Preview modal — same shell as the Templates page preview (mbox/mhead/mbody/
+   mprev/mwgl/mfor/mdl/mfull), reused here with an lrn- prefix. The thumbnail
+   reuses each tile's own icon (truthful for a video/PDF/deck) instead of the
+   Templates page's fake spreadsheet mockup. */
+#lrn-modal{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;padding:40px;background:rgba(2,6,23,.62);font-family:"GE Sans",-apple-system,"Helvetica Neue",Arial,sans-serif}
+#lrn-modal.open{display:flex}
+#lrn-modal .lmbox{background:#fff;border-radius:16px;max-width:640px;width:100%;overflow:hidden;box-shadow:0 40px 90px rgba(2,6,23,.5)}
+#lrn-modal .lmhead{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 24px;border-bottom:1px solid #eef1f8}
+#lrn-modal .lmhead h3{font-size:18px;font-weight:600;margin:0;color:#00003d}
+#lrn-modal .lmhead .x{font-size:22px;color:#9aa3bd;background:none;border:0;cursor:pointer;line-height:1}
+#lrn-modal .lmbody{padding:26px 24px;display:grid;grid-template-columns:200px 1fr;gap:24px;align-items:start}
+#lrn-modal .lmprev{height:240px;border-radius:10px;background:#0a1330;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+#lrn-modal .lmprev img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#lrn-modal .lmprev::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,10,34,.16),rgba(3,10,34,.5))}
+#lrn-modal .lmprev svg{position:relative;z-index:1;width:56px;height:56px;stroke:#fff;fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 1px 5px rgba(0,0,0,.5))}
+#lrn-modal .lwgl{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#16b364;margin:0 0 8px}
+#lrn-modal .lmbody .lfor{font-size:14px;color:#44496e;line-height:1.6;margin:0 0 16px}
+#lrn-modal .lmbody .ldl{display:inline-flex;font-size:13.5px;font-weight:600;color:#fff;background:#2256e6;border:0;border-radius:100px;padding:10px 20px;cursor:pointer;text-decoration:none}
+#lrn-modal .lmbody .ldl.disabled{background:#e7ebf4;color:#8891ab;cursor:default;pointer-events:none}
+#lrn-modal .lmbody .lfull{display:inline-block;margin-left:16px;font-size:13.5px;font-weight:600;color:#2256e6;text-decoration:none}
+#lrn-modal .lmbody .lfull:hover{text-decoration:underline}
+#lrn-modal .lmeta{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+#lrn-modal .lmeta .chip{display:inline-flex;align-items:baseline;gap:5px;font-size:11.5px;color:#6b728e;background:#f1f5fd;border:1px solid #e2e9f7;border-radius:100px;padding:5px 12px;letter-spacing:.01em}
+#lrn-modal .lmeta .chip b{font-weight:700;color:#00003d;letter-spacing:0}
+#lrn-modal .luse{font-size:13px;color:#5a6180;line-height:1.6;margin:0 0 18px;padding-top:15px;border-top:1px solid #eef1f8}
+#lrn-modal .luse:empty{display:none;border:0;padding:0}
+@media(max-width:900px){#lrn-modal .lmbody{grid-template-columns:1fr}}
+/* Learn It: two labeled groups (Build Your Foundation / Elevate Your Impact) inside one band */
+#sw-b .learn-group{margin-top:36px}
+#sw-b .learn-group:first-of-type{margin-top:24px}
+#sw-b .learn-group h3{font-size:18px;font-weight:700;color:#00003d;margin:0 0 6px;letter-spacing:-.01em}
+#sw-b .learn-group .sub{font-size:14px;color:#4A506A;margin:0 0 20px;max-width:60ch;line-height:1.6}
+/* Not-yet-built resource: same card shape, no link — a quiet placeholder, not a dead end */
+#sw-b .next-card.nc-disabled{cursor:default;opacity:.62;box-shadow:none}
+#sw-b .next-card.nc-disabled:hover{border-color:#e7ebf4;box-shadow:none}
+#sw-b .next-card .nc-soon{font-size:13px;color:#8891ab;margin-top:14px;display:block;font-weight:600}
+/* Two-link resource (e.g. slides + facilitator guide) */
+#sw-b .next-card.nc-multi{padding-bottom:18px}
+#sw-b .next-card.nc-multi .nc-links{display:flex;align-items:center;gap:16px;margin-top:auto;padding-top:14px;flex-wrap:wrap}
+#sw-b .next-card.nc-multi .nc-links a{font-size:14px;color:#4181ff;font-weight:600;text-decoration:none}
+#sw-b .next-card.nc-multi .nc-links a:hover{text-decoration:underline}
+
+/* ══ ADAPTIVE STATE · "remembers you" ══ */
+#sw-b .statebar{position:sticky;top:0;z-index:30;background:#00010f;border-bottom:1px solid rgba(255,255,255,.1);padding:12px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+#sw-b .ft-btn{margin-left:auto;font-family:inherit;font-size:13px;font-weight:600;color:#00010f;background:#fff;border:0;border-radius:100px;padding:9px 22px;cursor:pointer;transition:background .15s}
+#sw-b .ft-btn:hover{background:#dfe6f3}
+
+/* hero variants per state */
+#sw-b .hv{display:none}
+#sw-b[data-state="new"] .hv-new{display:block}
+#sw-b[data-state="default"] .hv-default{display:block}
+
+/* quick-start reveal-on-click: page loads with only hero + quick start + FAQ + footer;
+   each card reveals its own group in place */
+#sw-b [data-qs]{display:none}
+#sw-b.qs-learn [data-qs="learn"]{display:block}
+#sw-b.qs-start [data-qs="start"]{display:block}
+#sw-b.qs-browse [data-qs="browse"]{display:block}
+#sw-b.qs-wingmate [data-qs="wingmate"]{display:block}
+#sw-b .qs-close{position:absolute;top:24px;right:24px;z-index:5;height:34px;padding:0 15px;border-radius:100px;border:1px solid #e1e6f2;background:#fff;color:#5c5ca8;font-size:13px;font-weight:600;line-height:1;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:background .15s,border-color .15s,color .15s}
+#sw-b .qs-close span{font-size:16px}
+#sw-b .qs-close:hover{background:#f4f7fd;border-color:#c7d2eb;color:#2256e6}
+#sw-b-kit .qs-close{top:24px}
+
+/* newcomer-only sections */
+#sw-b:not([data-state="new"]) .onramp,
+#sw-b:not([data-state="new"]) .survey-bar,
+#sw-b:not([data-state="new"]) .recap{display:none}
+
+/* default quick-actions module */
+#sw-b .smod{display:none;padding:40px 24px;border-top:1px solid #e7ebf4}
+#sw-b[data-state="default"] .smod-default{display:block}
+#sw-b .smod-default{background:radial-gradient(120% 150% at 85% -20%,rgba(65,129,255,.16),transparent 55%),#f4f7fd}
+#sw-b .smod .in{max-width:1040px;margin:0 auto}
+#sw-b .smod h2{font-size:30px;font-weight:300;letter-spacing:-.025em;margin:0 0 8px;color:#00003d}
+#sw-b .smod .sm-sub{font-size:15.5px;color:#4A506A;margin:0 0 28px;max-width:60ch;line-height:1.6}
+#sw-b .sm-actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+#sw-b .sm-action{display:flex;gap:14px;align-items:flex-start;background:#fff;border:1px solid #e7ebf4;border-radius:14px;padding:18px 20px;text-decoration:none;box-shadow:0 1px 2px rgba(11,26,64,.05),0 18px 40px -26px rgba(11,26,64,.22);transition:border-color .2s,box-shadow .2s}
+#sw-b .sm-action:hover{border-color:#4181ff;box-shadow:0 8px 24px -8px rgba(34,86,230,.2)}
+#sw-b .sm-action .sa-ic{width:40px;height:40px;border-radius:10px;background:#eef3fd;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+#sw-b .sm-action strong{display:block;font-size:14px;color:#00003d;margin-bottom:4px;letter-spacing:-.01em}
+#sw-b .sm-action p{font-size:12.5px;color:#4A506A;margin:0;line-height:1.5}
+#sw-b .sm-action .sa-tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#16b364;background:#ecfdf5;border:1px solid #bbf7d0;border-radius:100px;padding:3px 9px;margin-top:8px}
+
+/* collapsed steps in the default view */
+#sw-b:not([data-state="new"]) .path-header{display:block}
+#sw-b .path-collapse{display:none}
+#sw-b:not([data-state="new"]) .path-collapse{display:flex;align-items:center;gap:16px;background:#f4f7fd;border:1px solid #e7ebf4;border-radius:12px;padding:16px 20px;margin-bottom:8px}
+#sw-b .path-collapse .pc-text{font-size:14px;color:#44496e;line-height:1.5}
+#sw-b .path-collapse .pc-text b{color:#00003d;font-weight:600}
+#sw-b .path-collapse .pc-toggle{margin-left:auto;font-size:13px;font-weight:600;color:#2256e6;background:#fff;border:1px solid #e1e6f2;border-radius:100px;padding:8px 16px;cursor:pointer;white-space:nowrap;flex-shrink:0}
+#sw-b .path-collapse .pc-toggle:hover{border-color:#4181ff}
+#sw-b:not([data-state="new"]) .step{display:none}
+#sw-b.steps-open:not([data-state="new"]) .step{display:grid}
+/* ── Journey stage pills ── */
+#sw-b .journey{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 22px}
+#sw-b .journey .j-lead{font-size:12px;font-weight:700;letter-spacing:.04em;color:#4A506A;margin-right:4px}
+#sw-b .j-pill{font-size:12.5px;font-weight:600;padding:6px 14px;border-radius:100px;border:1px solid #e1e6f2;color:#3a3f63;background:#fff;cursor:pointer;font-family:inherit;transition:background .15s,color .15s,border-color .15s}
+#sw-b .j-pill:hover{border-color:#b0bbd8;background:#f4f6fb}
+#sw-b .j-pill.on{background:#16b364;color:#fff;border-color:#16b364}
+/* journey pills drive page content */
+#sw-b .statebar{display:none}
+/* clear the sticky site header (60px) so jump links don't tuck section headers under the nav */
+#sw-b .step,#sw-b .path-tree,#sw-b-worktype,#sw-b-kit,#sw-b-learn,#sw-b-wing,#sw-b .path{scroll-margin-top:76px}
+#sw-b .j-note{display:none;font-size:13.5px;color:#2d3a6b;background:#eef3fd;border:1px solid #d6e3fb;border-radius:8px;padding:10px 14px;margin:0 0 26px;line-height:1.5;max-width:62ch}
+#sw-b[data-journey="new"] .j-note.jn-new{display:block}
+#sw-b[data-journey="growing"] .j-note.jn-growing{display:block}
+#sw-b[data-journey="exp"] .j-note.jn-exp{display:block}
+#sw-b[data-journey="growing"] .path,
+#sw-b[data-journey="exp"] .path{display:none}
+/* ── Standard Work in Action (featured training row) ── */
+#sw-b .action-band{background:#fff;border-top:1px solid #e7ebf4;padding:48px 24px;position:relative}
+#sw-b .action-band .in{max-width:1040px;margin:0 auto}
+#sw-b .ab-head{margin-bottom:22px;position:relative}
+#sw-b .ab-head h2{font-size:28px;font-weight:300;letter-spacing:-.025em;margin:6px 0 10px;color:#00003d}
+#sw-b .ab-head p{font-size:15px;color:#4A506A;margin:0;line-height:1.6;max-width:64ch}
+#sw-b .ab-media{position:relative;display:block;max-width:1040px;width:100%;margin:0 auto;border-radius:16px;overflow:hidden;box-shadow:0 1px 2px rgba(11,26,64,.05),0 26px 60px -30px rgba(11,26,64,.5);aspect-ratio:16/9}
+#sw-b .ab-media img{width:100%;height:100%;object-fit:cover;display:block}
+#sw-b .ab-play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:66px;height:66px;border-radius:50%;background:rgba(255,255,255,.94);color:#0b2f8f;display:flex;align-items:center;justify-content:center;font-size:21px;box-shadow:0 6px 18px -4px rgba(0,0,0,.4)}
+#sw-b .ab-foot{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-top:22px}
+#sw-b .ab-highlights{display:flex;gap:22px;flex-wrap:wrap;margin:0}
+#sw-b .ab-highlights span{position:relative;padding-left:24px;font-size:13.5px;color:#44496e;line-height:1.45}
+#sw-b .ab-highlights span::before{content:"\2713";position:absolute;left:0;top:0;width:16px;height:16px;background:#ecfdf5;border-radius:50%;color:#16b364;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center}
+@media(max-width:560px){#sw-b .ab-foot{flex-direction:column;align-items:flex-start;gap:16px}}
+#sw-b .ab-templates{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:1040px;margin:32px auto 0}
+#sw-b .ab-tpl{border:1px solid #e7ebf4;border-radius:12px;background:#f9fbfe;overflow:hidden;text-decoration:none;display:block;transition:border-color .18s,box-shadow .18s,transform .16s}
+#sw-b .ab-tpl:hover{border-color:#4181ff;box-shadow:0 8px 24px -10px rgba(34,86,230,.22);transform:translateY(-2px)}
+#sw-b .ab-tpl .abt-thumb{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:11px 11px 0 0;border-bottom:1px solid #e7ebf4}
+#sw-b .ab-tpl .abt-in{padding:16px 20px 18px}
+#sw-b .ab-tpl .abt-n{font-family:ui-monospace,Menlo,monospace;font-size:12px;font-weight:700;color:#4181ff;display:block;margin-bottom:6px}
+#sw-b .ab-tpl h3{font-size:15px;font-weight:700;color:#00003d;margin:0 0 6px;letter-spacing:-.01em}
+#sw-b .ab-tpl p{font-size:12.5px;color:#4A506A;margin:0;line-height:1.5}
+@media(max-width:820px){#sw-b .ab-templates{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){#sw-b .ab-templates{grid-template-columns:1fr}}
+#sw-b .eval-checks{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:10px 28px}
+#sw-b .eval-checks li{position:relative;padding:10px 0 10px 28px;border-top:1px solid #f0f3fa;font-size:14px;color:#44496e;line-height:1.5}
+#sw-b .eval-checks li::before{content:"\2713";position:absolute;left:0;top:11px;width:18px;height:18px;background:#ecfdf5;color:#16b364;border-radius:50%;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center}
+#sw-b .eval-checks li b{color:#00003d;font-weight:600}
+@media(max-width:640px){#sw-b .eval-checks{grid-template-columns:1fr}}
+#sw-b .ed-grid{display:grid;grid-template-columns:1fr 340px;gap:44px;align-items:start}
+#sw-b .ed-label{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#16834a;margin:0 0 10px;display:flex;align-items:center;gap:7px}
+#sw-b .ed-label::before{content:"";width:6px;height:6px;background:#16b364;border-radius:50%}
+#sw-b .ed-main h4,#sw-b .ed-aside h4{font-size:17px;font-weight:700;color:#00003d;margin:0 0 8px}
+#sw-b .ed-main>p{font-size:14px;color:#44496e;line-height:1.6;margin:0 0 24px;max-width:60ch}
+#sw-b .ed-main .ed-label:not(:first-child){margin-top:8px}
+#sw-b .ed-steps{list-style:none;margin:0;padding:0;counter-reset:es}
+#sw-b .ed-steps li{counter-increment:es;position:relative;padding:12px 0 12px 44px;border-top:1px solid #f0f3fa;font-size:14px;color:#44496e;line-height:1.5}
+#sw-b .ed-steps li::before{content:counter(es);position:absolute;left:0;top:10px;width:26px;height:26px;border:1.5px solid #cfe0fb;border-radius:50%;color:#2256e6;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center}
+#sw-b .ed-aside{border:1px solid #e7ebf4;border-radius:14px;padding:22px;background:#f9fbfe}
+#sw-b .ed-aside>p{font-size:13.5px;color:#44496e;line-height:1.55;margin:0 0 16px}
+#sw-b .ed-dl{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;font-size:13.5px;font-weight:700;color:#fff;background:#00003d;border-radius:100px;padding:12px;text-decoration:none}
+#sw-b .ed-dl:hover{background:#2256e6}
+#sw-b .ed-full{display:inline-block;margin:14px 0 4px;font-size:13px;font-weight:600;color:#2256e6;text-decoration:none}
+#sw-b .ed-full:hover{text-decoration:underline}
+#sw-b .ed-good{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}
+#sw-b .ed-good li{position:relative;padding-left:24px;font-size:13px;color:#44496e;line-height:1.45}
+#sw-b .ed-good li::before{content:"\2713";position:absolute;left:0;top:0;width:16px;height:16px;background:#ecfdf5;color:#16b364;border-radius:50%;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center}
+#sw-b .ed-glance{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-direction:column;gap:7px}
+#sw-b .ed-glance li{position:relative;padding-left:16px;font-size:12.5px;color:#5c5ca8;line-height:1.4}
+#sw-b .ed-glance li::before{content:"";position:absolute;left:0;top:6px;width:5px;height:5px;border-radius:50%;background:#b0bbd8}
+#sw-b .ed-owner{margin-top:16px;background:#eef3fd;border-radius:10px;padding:14px 16px}
+#sw-b .ed-owner-h{font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#2256e6;margin-bottom:6px}
+#sw-b .ed-owner p{font-size:13px;color:#2d3a6b;line-height:1.5;margin:0}
+@media(max-width:860px){#sw-b .ed-grid{grid-template-columns:1fr}}
+#sw-b-action .ab-head{display:flex;align-items:center;gap:40px;justify-content:space-between}
+#sw-b-action .ab-head-copy{flex:1;min-width:0}
+#sw-b-action .ab-head-thumb{position:relative;flex:0 0 340px;max-width:340px;aspect-ratio:16/9;border-radius:14px;overflow:hidden;display:block;cursor:pointer;box-shadow:0 1px 2px rgba(11,26,64,.05),0 18px 40px -26px rgba(11,26,64,.3)}
+#sw-b-action .ab-head-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+#sw-b-action .ab-head-thumb::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,3,40,0) 45%,rgba(0,3,40,.45))}
+#sw-b-action .ab-head-play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,.95);color:#0b2f8f;display:flex;align-items:center;justify-content:center;font-size:18px;padding-left:2px;z-index:2;box-shadow:0 8px 22px -6px rgba(0,0,0,.45)}
+#sw-b-action.open .ab-head-thumb{display:none}
+@media(max-width:720px){#sw-b-action .ab-head{flex-direction:column;align-items:flex-start}#sw-b-action .ab-head-thumb{flex:1 1 100%;max-width:none;width:100%}}
+#sw-b .ab-toggle{margin-top:16px;font-family:inherit;font-size:13.5px;font-weight:600;color:#2256e6;background:#fff;border:1px solid #e1e6f2;border-radius:100px;padding:9px 18px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:border-color .15s,box-shadow .15s}
+#sw-b .ab-toggle:hover{border-color:#4181ff;box-shadow:0 4px 12px -4px rgba(34,86,230,.18)}
+#sw-b .ab-toggle .abt-caret{font-size:18px;line-height:1;font-weight:300;transition:transform .2s}
+#sw-b .action-band.open .ab-toggle .abt-caret{transform:rotate(45deg)}
+#sw-b.steps-open .path-header .ab-toggle .abt-caret{transform:rotate(45deg)}
+#sw-b .ab-body{display:none}
+#sw-b .action-band.open .ab-body{display:block;margin-top:26px}
+/* checklist shown as plain bullets, no checkboxes */
+#sw-b .checklist .cb{display:none}
+#sw-b .checklist li{cursor:default}
+#sw-b .checklist li .cl-text{position:relative;padding-left:18px}
+#sw-b .checklist li .cl-text::before{content:"";position:absolute;left:0;top:7px;width:6px;height:6px;border-radius:50%;background:#4181ff}
+#sw-b .checklist li.checked .cl-text{color:#44496e;text-decoration:none}
+/* ── Explore templates CTA band ── */
+#sw-b .explore-band{position:relative;color:#fff;padding:64px 24px;background:radial-gradient(120% 150% at 82% -20%,rgba(65,129,255,.32),transparent 55%),linear-gradient(120deg,#00010f,#000a2e 58%,#06173f);overflow:hidden}
+#sw-b .explore-band::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:54px 54px;-webkit-mask-image:radial-gradient(120% 120% at 100% 0,#000,transparent 75%);mask-image:radial-gradient(120% 120% at 100% 0,#000,transparent 75%);opacity:.5}
+#sw-b .explore-band .in{position:relative;max-width:1040px;margin:0 auto}
+#sw-b .explore-band .eyebrow{color:#8aa6f0}
+#sw-b .explore-band h2{font-size:34px;font-weight:300;letter-spacing:-.025em;margin:0 0 10px;color:#fff;line-height:1.05}
+#sw-b .explore-band .ex-sub{font-size:16px;color:rgba(255,255,255,.78);margin:0 0 28px;max-width:58ch;line-height:1.6}
+#sw-b .explore-band .demo{display:inline-flex;align-items:center;gap:9px;font-size:14px;font-weight:600;color:#00010f;background:#fff;border:0;border-radius:100px;padding:13px 26px;text-decoration:none;transition:background .15s,transform .15s}
+#sw-b .explore-band .demo:hover{background:#dfe6f3;transform:translateY(-1px)}
+/* ── Footer ── */
+.sw-footer{background:#00010f;color:#fff;padding:34px 24px}
+.sw-footer .swf-in{max-width:1040px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.sw-footer .swf-brand{font-size:14px;font-weight:600;color:#fff;display:flex;align-items:center;gap:10px}
+.sw-footer .swf-chip{background:#fff;color:#00010f;font-size:10px;font-weight:800;letter-spacing:.08em;padding:4px 8px;border-radius:4px}
+.sw-footer .swf-links{display:flex;gap:22px;flex-wrap:wrap}
+.sw-footer .swf-links a{color:rgba(255,255,255,.72);font-size:13px;text-decoration:none}
+.sw-footer .swf-links a:hover{color:#fff}
+.sw-footer .swf-meta{font-size:12px;color:rgba(255,255,255,.5)}
+.fd-footer{background:#00010f;color:#fff;margin-top:0;font-family:"GE Sans",-apple-system,"Helvetica Neue",Arial,sans-serif}
+.fd-footer .fdf-in{max-width:1280px;margin:0 auto;padding:48px 28px 40px}
+.fd-footer .fdf-top{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-bottom:26px;border-bottom:1px solid rgba(255,255,255,.12)}
+.fd-footer .fdf-brand{display:flex;align-items:center;gap:11px;font-size:15px;font-weight:600;color:#fff}
+.fd-footer .fdf-chip{background:#fff;color:#00010f;font-size:10px;font-weight:800;letter-spacing:.12em;padding:5px 9px;border-radius:4px;border:1px solid #16b364}
+.fd-footer .fdf-cobrand{font-size:13px;font-weight:600;color:rgba(255,255,255,.7);letter-spacing:.02em}
+.fd-footer .fdf-cobrand i{font-style:normal;opacity:.5;margin:0 5px}
+.fd-footer .fdf-cols{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;padding:30px 0}
+.fd-footer .fdf-h{font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#7e8aa8;margin-bottom:12px}
+.fd-footer .fdf-col a{display:block;color:rgba(255,255,255,.78);font-size:13.5px;text-decoration:none;padding:5px 0}
+.fd-footer .fdf-col a:hover{color:#fff}
+.fd-footer .fdf-meta{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:22px;border-top:1px solid rgba(255,255,255,.12);font-size:11.5px;color:rgba(255,255,255,.45)}
+@media(max-width:720px){.fd-footer .fdf-cols{grid-template-columns:1fr 1fr}}
+@media(max-width:440px){.fd-footer .fdf-cols{grid-template-columns:1fr}}
+
+/* work-type selector (lives inside the four-moves header) */
+#sw-b .worktype{margin:26px 0 8px}
+#sw-b .worktype .wt-kick{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#2256e6;display:block;margin-bottom:8px}
+#sw-b .worktype h3{font-size:21px;font-weight:700;color:#00003d;margin:0 0 4px;letter-spacing:-.01em}
+#sw-b .worktype .wt-sub{font-size:14.5px;color:#4A506A;margin:0 0 18px;line-height:1.6;max-width:62ch}
+#sw-b .wt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:820px){#sw-b .wt-grid{grid-template-columns:1fr}}
+#sw-b .wt-card{display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:9px;background:#fff;border:1.5px solid #e1e6f2;border-radius:16px;padding:24px;cursor:pointer;font-family:inherit;transition:border-color .15s,box-shadow .15s,transform .15s}
+#sw-b .wt-card:hover{border-color:#4181ff;transform:translateY(-2px);box-shadow:0 18px 40px -24px rgba(34,86,230,.4)}
+#sw-b .wt-card .wt-ic{width:42px;height:42px;border-radius:11px;background:#eef2fd;display:flex;align-items:center;justify-content:center;font-size:20px}
+#sw-b .wt-card strong{font-size:18px;color:#00003d;letter-spacing:-.01em}
+#sw-b .wt-card .wt-desc{font-size:13.5px;color:#4A506A;line-height:1.5}
+#sw-b .wt-card .wt-go{margin-top:4px;font-size:13px;font-weight:700;color:#2256e6}
+#sw-b[data-work="mfg"] .wt-card[data-work="mfg"],#sw-b[data-work="nonmfg"] .wt-card[data-work="nonmfg"],#sw-b[data-work="leader"] .wt-card[data-work="leader"]{border-color:#16b364;box-shadow:0 0 0 1.5px #16b364,0 18px 40px -24px rgba(22,179,100,.45)}
+@media(max-width:640px){#sw-b .wt-grid{grid-template-columns:1fr}}
+/* action-band (See it run) styles live in the block next to its markup below */
+
+
+#sw-b .path-tree{display:none}
+#sw-b[data-work="mfg"] .path-tree[data-work="mfg"]{display:block}
+#sw-b[data-work="nonmfg"] .path-tree[data-work="nonmfg"]{display:block}
+#sw-b[data-work="leader"] .path-tree[data-work="leader"]{display:block}
+#sw-b .path-hint{margin:14px 0 0;padding:22px 0;color:#4A506A;font-size:14px}
+#sw-b[data-work] .path-hint{display:none}
+/* progressive reveal: each step reveals the next via its own "Next" button */
+#sw-b .path-tree .step:not(:first-of-type):not(.revealed){display:none}
+#sw-b .step:not(.advanced) > .step-line{display:none}
+#sw-b .step-next{margin-top:18px;display:inline-flex;align-items:center;gap:9px;background:#2256e6;color:#fff;border:0;border-radius:100px;padding:11px 24px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:background .15s,transform .12s}
+#sw-b .step-next:hover{background:#1a45c4}
+#sw-b .step-next:active{transform:translateY(1px)}
+#sw-b .step.advanced .step-next{display:none}
+
+#sw-b .wingband{position:relative;color:#fff;padding:74px 24px 96px;background:linear-gradient(180deg,#000005 0%,#00010f 34%,#000d3e 56%,#0a36a0 78%,#2f72e6 89%,#bcd9ff 96%,#eaf3ff 99%);overflow:hidden}
+#sw-b .wingband::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:54px 54px;-webkit-mask-image:radial-gradient(120% 80% at 50% 0,#000,transparent 68%);mask-image:radial-gradient(120% 80% at 50% 0,#000,transparent 68%);opacity:.4}
+#sw-b .wingband .in{position:relative;max-width:1088px;margin:0 auto}
+#sw-b .wingband .kick{color:#8aa6f0}
+#sw-b .wingband .kick::before{background:#16b364}
+#sw-b .wingband h2{font-size:32px;font-weight:300;letter-spacing:-.025em;margin:12px 0 8px;color:#fff;line-height:1.08}
+#sw-b .wingband .wb-sub{font-size:16px;color:rgba(255,255,255,.78);margin:0 0 30px;max-width:62ch;line-height:1.6}
+#sw-b .wb-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+#sw-b .wb-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:20px 20px 18px;transition:border-color .18s,background .18s,transform .16s}
+#sw-b .wb-card:hover{border-color:rgba(65,129,255,.55);background:rgba(255,255,255,.09);transform:translateY(-2px)}
+#sw-b .wb-card .wb-ic{width:38px;height:38px;border-radius:10px;background:rgba(65,129,255,.16);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:14px}
+#sw-b .wb-card strong{display:block;font-size:14.5px;font-weight:700;color:#fff;margin-bottom:5px;letter-spacing:-.01em}
+#sw-b .wb-card p{font-size:12.5px;color:rgba(255,255,255,.66);margin:0 0 16px;line-height:1.55}
+#sw-b .wb-card .wb-when{display:inline-block;margin-top:10px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8aa6f0}
+#sw-b .wb-launch{display:inline-flex;align-items:center;gap:9px;margin-top:30px;background:#2256e6;color:#fff;font-size:14px;font-weight:700;border:0;border-radius:100px;padding:13px 26px;text-decoration:none;cursor:pointer;font-family:inherit;transition:background .15s,transform .15s}
+#sw-b .wb-launch:hover{background:#1844cc;transform:translateY(-1px)}
+@media(max-width:880px){#sw-b .wb-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){#sw-b .wb-grid{grid-template-columns:1fr}}
+
+/* Levels of Detail — hierarchy: each level zooms in on the one above */
+#sw-b .lvl-stack{display:flex;flex-direction:column;gap:10px;margin:16px 0 4px;max-width:600px}
+#sw-b .lvl-cap{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2,#5c5ca8);margin:0 0 12px}
+#sw-b .lvl-card{position:relative;display:flex;align-items:center;gap:14px;background:var(--white,#fff);border:1px solid var(--line,#e1dfdd);border-radius:12px;padding:14px 18px;color:var(--ink,#00003D);transition:border-color .15s,box-shadow .15s}
+#sw-b .lvl-card:nth-child(2){margin-left:36px}
+#sw-b .lvl-card:nth-child(3){margin-left:72px}
+#sw-b .lvl-card:nth-child(n+2)::before{content:"";position:absolute;left:-22px;top:-12px;width:18px;height:34px;border-left:2px solid #cfd5e6;border-bottom:2px solid #cfd5e6;border-bottom-left-radius:9px}
+#sw-b .lvl-card:hover{border-color:#c7d2eb;box-shadow:0 8px 24px -16px rgba(0,0,40,.3)}
+#sw-b .lvl-num{flex:none;width:22px;height:22px;border-radius:50%;background:var(--sky-lighter,#e0ebff);color:#2256e6;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}
+#sw-b .lvl-txt{flex:1;display:flex;flex-direction:column;line-height:1.3}
+#sw-b .lvl-txt strong{font-size:14.5px;font-weight:700;color:var(--ink,#00003D)}
+#sw-b .lvl-txt span{font-size:12px;color:var(--ink-2,#5c5ca8)}
+#sw-b .lvl-icon{flex:none;width:24px;height:24px;stroke:#2256e6;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;opacity:.6}
+/* Four key questions (step 1 — static, no interaction) */
+#sw-b .fourq{list-style:none;margin:14px 0 4px;padding:0;display:flex;flex-direction:column;gap:8px;max-width:560px}
+#sw-b .fourq li{display:flex;align-items:center;gap:14px;background:var(--white,#fff);border:1px solid var(--line,#e1dfdd);border-radius:12px;padding:14px 18px;font-size:14.5px;font-weight:600;color:var(--ink,#00003D)}
+#sw-b .fourq .fq-n{flex:none;width:22px;height:22px;border-radius:50%;background:var(--sky-lighter,#e0ebff);color:#2256e6;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}
+#sw-b .fourq-note{font-size:13px;color:var(--ink-2,#5c5ca8);margin:12px 0 0;line-height:1.55}
+/* Three elements (step 3) */
+#sw-b .elem-stack{display:flex;flex-direction:column;gap:8px;margin:14px 0 4px;max-width:600px}
+#sw-b .elem{background:var(--white,#fff);border:1px solid var(--line,#e1dfdd);border-left:3px solid #2256e6;border-radius:10px;padding:13px 18px}
+#sw-b .elem strong{display:block;font-size:14px;font-weight:700;color:var(--ink,#00003D);margin:0 0 3px}
+#sw-b .elem p{margin:0;font-size:13px;line-height:1.55;color:var(--ink-2,#5c5ca8)}
+</style><script src="/gate.js"></script></head><body>
+<div class="suite"><div class="wrap suite-in">
+  <span class="waffle"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+  <span class="org"><span class="monogram">GE</span>GE Aerospace</span>
+  <span class="sp">SharePoint</span>
+  <input placeholder="Search this site">
+  <span class="icons"><span>&#9881;</span><span class="acct"><span class="av">A</span><span class="nm">Aero</span></span></span>
+</div></div>
+<div class="sprail"><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg></span><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h8l4 4v14H7z"/><path d="M15 3v4h4"/></svg></span><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="15" rx="1.5"/><path d="M3.5 9.5h17M9 9.5v10"/></svg></span><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a1.8 1.8 0 0 1 1.8-1.8H9l2 2h7.2A1.8 1.8 0 0 1 21 9v8.2A1.8 1.8 0 0 1 19.2 19H4.8A1.8 1.8 0 0 1 3 17.2z"/></svg></span><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span></div>
+
+<header class="site">
+  <div class="wrap site-bar">
+    <div class="site-mark"><span class="chip">FLIGHT DECK</span><a href="/concept-quickstart.html">FLIGHT DECK Activation Hub</a></div>
+    <nav class="primary">
+      <div><a class="top" href="/concept-quickstart.html">Home</a></div>
+      <div>
+        <a class="top active" href="index.html#fundamentals">Fundamentals<span class="caret">▾</span></a>
+        <div class="menu">
+          <a href="standard-work.html">Standard Work</a>
+          <a href="action-planning.html">Action Planning</a>
+          <a href="daily-visual-management.html">Daily and Visual Management</a>
+          <a href="value-stream-management.html">Value Stream Management</a>
+          <a href="operating-cadences.html">Operating Cadences</a>
+          <a href="problem-solving.html">Problem Solving</a>
+          <a href="5s.html">5S</a>
+          <a href="flow-pull.html">Flow/Pull</a>
+        </div>
+      </div>
+      <div><a class="top" href="behaviors.html">Behaviors<span class="caret">▾</span></a></div>
+      <div><a class="top" href="sw-templates.html">Templates</a></div>
+      <div><a class="top" href="video-library.html">Video Library</a></div>
+      <div><a class="top" href="/deliverables/standard-work/prompt-library.html">Prompt Library</a></div>
+      <div>
+        <a class="top" href="#">Additional Tools<span class="caret">▾</span></a>
+        <div class="menu">
+          <a href="/tools/index.html">FLIGHT DECK Tool Library</a>
+          <a href="leader-portal.html">FLIGHT DECK Leader Portal</a>
+          <a href="miro.html">FLIGHT DECK on Miro</a>
+          <a href="/programs/index.html">FLIGHT DECK Programs</a>
+          <a href="faq.html">FAQ</a>
+        </div>
+      </div>
+      
+    </nav>
+    <span class="badge-sensitive">Sensitive &#8964;</span>
+  </div>
+</header>
+
+
+<div id="sw-b" data-state="default" data-journey="new">
+
+<!-- ═══ FIRST-TIME TOGGLE ═══ -->
+<div class="statebar">
+  <button class="ft-btn" id="ftBtn" onclick="toggleFirstTime(this)">First Time?</button>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="in">
+    <div class="kick">Flight Deck Fundamental</div>
+    <h1>Standard Work</h1>
+    <div class="hv hv-new">
+      <p>New to this? You are in the right place. Follow the actions to write your first standard. Nothing to know in advance.</p>
+      <div class="meta"><span>4 steps</span><span>About 20 minutes</span><span>No prior Flight Deck knowledge needed</span></div>
+      <div class="hero-progress">
+        <div class="prog-track"><div class="prog-fill" id="prog-fill"></div></div>
+        <div class="prog-label" id="prog-label">0 of 15 tasks complete</div>
+      </div>
+    </div>
+    <div class="hv hv-default">
+      <p>Your Standard Work home. Start a new standard, grab a template, or open the full walkthrough whenever you need it.</p>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ═══ DEFAULT QUICK ACTIONS ═══ -->
+<section class="smod smod-default">
+  <div class="in">
+    <div class="eyebrow">Quick start</div>
+    <h2>What do you need today?</h2>
+    <div class="sm-actions">
+      <a href="#sw-b-learn" class="sm-action sa-learn" onclick="document.getElementById('sw-b').classList.add('qs-learn');var s=document.getElementById('sw-b-learn');if(s)s.scrollIntoView({behavior:'smooth',block:'start'});return false;"><div class="sa-ic">📘</div><div><strong>Learn It</strong><p>Watch, read, and go deeper on the fundamentals.</p></div></a>
+      <a href="#sw-b-worktype" class="sm-action sa-start" onclick="document.getElementById('sw-b').classList.add('qs-start');var s=document.querySelector('#sw-b .path');if(s)s.scrollIntoView({behavior:'smooth',block:'start'});return false;"><div class="sa-ic">➕</div><div><strong>Start a Standard</strong><p>Build your first standard step by step.</p></div></a>
+      <a href="#sw-b-kit" class="sm-action sa-browse" onclick="document.getElementById('sw-b').classList.add('qs-browse');var s=document.getElementById('sw-b-kit');if(s){s.scrollIntoView({behavior:'smooth',block:'start'});}return false;"><div class="sa-ic">📄</div><div><strong>Browse Templates</strong><p>Browse ready to use standard work templates.</p></div></a>
+      <a href="#sw-b-wing" class="sm-action sa-wing" onclick="document.getElementById('sw-b').classList.add('qs-wingmate');var s=document.getElementById('sw-b-wing');if(s)s.scrollIntoView({behavior:'smooth',block:'start'});return false;"><div class="sa-ic">✦</div><div><strong>Standard Work AI Coach</strong><p>See how the assistant helps at every step.</p></div></a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ IS THIS YOU? ═══ -->
+<section class="onramp" style="display:none">
+  <div class="in">
+    <div class="eyebrow">Who this is for</div>
+    <h2>Is this you?</h2>
+    <p class="sub">This page is built for the first 90 days. Pick the description that fits closest. All paths lead to the same actions to take.</p>
+    <div class="audience-grid">
+      <div class="audience-card" onclick="scrollToStep(1)" role="button" tabindex="0">
+        <div class="icon">🛬</div>
+        <div>
+          <strong>First 90 days at GE Aerospace</strong>
+          <p>You have heard "standard work" in a brief but have never written one. This page starts from zero.</p>
+        </div>
+      </div>
+      <div class="audience-card" onclick="scrollToStep(1)" role="button" tabindex="0">
+        <div class="icon">🖥</div>
+        <div>
+          <strong>Office or engineering team</strong>
+          <p>Most standard work examples show the factory floor. Your work is non-manufacturing or knowledge-based. This guide covers that too.</p>
+        </div>
+      </div>
+      <div class="audience-card" onclick="scrollToStep(1)" role="button" tabindex="0">
+        <div class="icon">🗺</div>
+        <div>
+          <strong>New to Flight Deck</strong>
+          <p>You may have a GE background but Flight Deck is unfamiliar. Standard work is the best entry point into the whole system.</p>
+        </div>
+      </div>
+      <div class="audience-card" onclick="scrollToStep(1)" role="button" tabindex="0">
+        <div class="icon">✍️</div>
+        <div>
+          <strong>Never written a standard</strong>
+          <p>You understand what consistent work looks like but have not formalized it before. The actions below take about 20 minutes.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ LEARNING RESOURCES ═══ -->
+<section class="next-band" id="sw-b-learn" data-qs="learn" style="background:#fff">
+  <div class="in">
+    <button class="qs-close" aria-label="Close" onclick="document.getElementById('sw-b').classList.remove('qs-learn');document.querySelector('#sw-b .smod-default').scrollIntoView({behavior:'smooth',block:'start'});">Close <span aria-hidden="true">&times;</span></button>
+    <div class="eyebrow">Learning resources</div>
+    <h2>Learn It</h2>
+
+    <div class="learn-group">
+      <h3>Build Your Foundation</h3>
+      <p class="sub">Learn the basics and turn your knowledge into consistent practice and results.</p>
+      <div class="next-grid">
+        <div class="next-card">
+          <div class="nc-cover" role="button" tabindex="0" aria-label="Preview resource" onclick="openLearnPreview(this)"><img src="/assets/learn/learn-01-overview.jpg" alt=""><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M10 8.3l6 3.7-6 3.7z"/></svg></div>
+          <span class="nc-eyebrow">Overview Video</span>
+          <div class="nc-title">Standard Work in One Minute</div>
+          <p class="nc-desc">Learn what Standard Work is and why it matters.</p>
+          <div class="nc-actions">
+            <a class="nc-arrow" href="https://geaerospace.vimeo.work/1203980054?share=copy&fl=sv&fe=ci" target="_blank" rel="noopener">Watch →</a>
+          </div>
+        </div>
+        <div class="next-card">
+          <div class="nc-cover" role="button" tabindex="0" aria-label="Preview resource" onclick="openLearnPreview(this)"><img src="/assets/learn/learn-02-elearning.jpg" alt=""><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4.5" width="18" height="12.5" rx="1.5"/><path d="M8.5 20.5h7M12 17v3.5"/></svg></div>
+          <span class="nc-eyebrow">eLearning Module</span>
+          <div class="nc-title">Introduction to Standard Work Online</div>
+          <p class="nc-desc">Self-paced, 20 minute introductory course.</p>
+          <div class="nc-actions">
+            <a class="nc-arrow" href="https://ge.sumtotal.host/rcore/c/pillarRedirect?relyingParty=LM&url=app/management/LMS_ActDetails.aspx%3FActivityId%3d568956%26UserMode%3d0" target="_blank" rel="noopener">Launch →</a>
+          </div>
+        </div>
+        <div class="next-card">
+          <div class="nc-cover" role="button" tabindex="0" aria-label="Preview resource" onclick="openLearnPreview(this)"><img src="/assets/learn/learn-03-workbook.jpg" alt=""><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5c2.3-1.1 5.4-1.1 8 0v13c-2.6-1.1-5.7-1.1-8 0z"/><path d="M20 5.5c-2.3-1.1-5.4-1.1-8 0v13c2.6-1.1 5.7-1.1 8 0z"/></svg></div>
+          <span class="nc-eyebrow">Learning Workbook</span>
+          <div class="nc-title">Introduction to Standard Work Offline</div>
+          <p class="nc-desc">Self-paced, printable introductory course.</p>
+          <div class="nc-actions">
+            <a class="nc-arrow" href="https://ge.sharepoint.us/sites/flight-deck-activation-hub/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2Fflight%2Ddeck%2Dactivation%2Dhub%2FShared%20Documents%2FDocument%20Library%2FStandard%20Work%5FPrinted%5FWorkbook%2Epdf&parent=%2Fsites%2Fflight%2Ddeck%2Dactivation%2Dhub%2FShared%20Documents%2FDocument%20Library" target="_blank" rel="noopener">Download →</a>
+          </div>
+        </div>
+        <div class="next-card">
+          <div class="nc-cover" role="button" tabindex="0" aria-label="Preview resource" onclick="openLearnPreview(this)"><img src="/assets/learn/learn-04-discussion.jpg" alt=""><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 5.5h17A1.5 1.5 0 0 1 22 7v9a1.5 1.5 0 0 1-1.5 1.5H9l-4 3.5v-3.5H3.5A1.5 1.5 0 0 1 2 16V7a1.5 1.5 0 0 1 1.5-1.5z"/><circle cx="8.5" cy="11" r=".9" fill="#fff" stroke="none"/><circle cx="12" cy="11" r=".9" fill="#fff" stroke="none"/><circle cx="15.5" cy="11" r=".9" fill="#fff" stroke="none"/></svg></div>
+          <span class="nc-eyebrow">Group Discussion</span>
+          <div class="nc-title">Team Discussion Guide on Standard Work</div>
+          <p class="nc-desc">Lead a team conversation to start or improve standard work.</p>
+          <div class="nc-actions">
+            <a class="nc-arrow" href="https://ge.sharepoint.us/sites/flight-deck-activation-hub/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2Fflight%2Ddeck%2Dactivation%2Dhub%2FShared%20Documents%2FDocument%20Library%2FStandard%20Work%20Team%20Discussion%20Guide%2Epdf&parent=%2Fsites%2Fflight%2Ddeck%2Dactivation%2Dhub%2FShared%20Documents%2FDocument%20Library" target="_blank" rel="noopener">Download →</a>
+          </div>
+        </div>
+        <div class="next-card">
+          <div class="nc-cover" role="button" tabindex="0" aria-label="Preview resource" onclick="openLearnPreview(this)"><img src="/assets/learn/learn-05-reference.jpg" alt=""><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"/></svg></div>
+          <span class="nc-eyebrow">Reference Guide</span>
+          <div class="nc-title">Standard Work Reference Guide</div>
+          <p class="nc-desc">Quickly reference key concepts and models when you need them.</p>
+          <div class="nc-actions">
+            <a class="nc-arrow" href="https://ge.sharepoint.us/sites/flight-deck-activation-hub/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2Fflight%2Ddeck%2Dactivation%2Dhub%2FShared%20Documents%2FDocument%20Library%2FStandard%20Work%20Fundamental%5F1%20Pager%5FDec2025%2Epdf&parent=%2Fsites%2Fflight%2Ddeck%2Dactivation%2Dhub%2FShared%20Documents%2FDocument%20Library" target="_blank" rel="noopener">Download →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="learn-group">
+      <h3>Elevate Your Impact</h3>
+      <div class="next-grid">
+        <div class="next-card nc-multi">
+          <div class="nc-cover" role="button" tabindex="0" aria-label="Preview resource" onclick="openLearnPreview(this)"><img src="/assets/learn/learn-06-practitioner.jpg" alt=""><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4.5" width="18" height="12.5" rx="1.5"/><path d="M8.5 20.5h7M12 17v3.5"/><path d="M6.5 13.5l3-3.4 2.5 2.3L17.5 8" /></svg></div>
+          <span class="nc-eyebrow">Practitioner Resource</span>
+          <div class="nc-title">Business Process Awareness Training</div>
+          <p class="nc-desc">Activate and facilitate learning for others — slides and facilitator guide.</p>
+          <div class="nc-links">
+            <a href="https://ge.sharepoint.us/:p:/r/sites/flight-deck-activation-hub/_layouts/15/Doc.aspx?sourcedoc=%7B5BC26DDF-C1B3-47B0-9B09-FFA322578BD6%7D&file=Business%20Process%20Standard%20Work%20Awareness%20Training%20%20with%20Slido%20-%206%20Mar%202026.pptx&action=edit&mobileredirect=true" target="_blank" rel="noopener">Slides →</a>
+            <a href="https://ge.sharepoint.us/:w:/r/sites/flight-deck-activation-hub/_layouts/15/Doc.aspx?sourcedoc=%7B9033CC12-7656-4902-8457-4382FC334926%7D&file=Business%20Process%20Standard%20Work%20-%20Awareness%20Training%20-%20Facilitator%20Guide.docx&action=default&mobileredirect=true" target="_blank" rel="noopener">Facilitator guide →</a>
+          </div>
+        </div>
+        <div class="next-card">
+          <div class="nc-cover" role="button" tabindex="0" aria-label="Preview resource" onclick="openLearnPreview(this)"><img src="/assets/learn/learn-07-leader.jpg" alt=""><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15.2 8.8l-2.1 5-5 2.1 2.1-5z"/></svg></div>
+          <span class="nc-eyebrow">Leader Resource</span>
+          <div class="nc-title">Leader Standard Work Reference Guide</div>
+          <p class="nc-desc">Quickly reference concepts for Leader Standard Work.</p>
+          <div class="nc-actions">
+            <a class="nc-arrow" href="https://ge.sharepoint.us/sites/flight-deck-activation-hub/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2Fflight%2Ddeck%2Dactivation%2Dhub%2FShared%20Documents%2FDocument%20Library%2FLeader%20Standard%20Work%20%2D%20Guide%2Epdf&parent=%2Fsites%2Fflight%2Ddeck%2Dactivation%2Dhub%2FShared%20Documents%2FDocument%20Library" target="_blank" rel="noopener">Download →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Standard Work in Action — 21-min chaptered walkthrough with inline player + template chapters. -->
+    <style>
+    #sw-b .ab-tile{max-width:1180px;margin:0 auto;background:radial-gradient(120% 150% at 18% -10%,rgba(65,129,255,.30),transparent 55%),linear-gradient(120deg,#00010f,#000a2e 58%,#06173f);border-radius:24px;padding:46px 50px;overflow:hidden}
+    #sw-b .ab-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:34px;align-items:stretch}
+    #sw-b .ab-tile .eyebrow{color:#8aa6f0}
+    #sw-b .ab-copy{display:flex;flex-direction:column}
+    #sw-b .ab-copy h2{font-size:34px;font-weight:300;letter-spacing:-.025em;color:#fff;margin:12px 0 8px;line-height:1.1}
+    #sw-b .ab-copy p{font-size:15px;color:rgba(255,255,255,.82);line-height:1.6;margin:0 0 18px;max-width:54ch}
+    #sw-b .ab-frame{border-radius:16px;overflow:hidden;box-shadow:0 22px 54px -26px rgba(0,0,0,.65);background:#0a1330;flex:1;min-height:300px}
+    #sw-b .ab-player{display:block;width:100%;height:100%;object-fit:cover;background:#0a1330;border:0}
+    #sw-b .ab-thumbs{display:flex;flex-direction:column;gap:10px}
+    #sw-b .ab-th{display:flex;flex-direction:row;align-items:center;gap:14px;text-align:left;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);border-radius:12px;overflow:hidden;padding:14px 18px;cursor:pointer;font-family:inherit;transition:border-color .15s,background .15s}
+    #sw-b .ab-th:hover{border-color:rgba(126,184,255,.7);background:rgba(255,255,255,.1)}
+    #sw-b .ab-th.is-current{border-color:#7eb8ff;background:rgba(126,184,255,.16)}
+    #sw-b .ab-th-meta{flex:1;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;min-width:0}
+    #sw-b .ab-th-tx{display:flex;flex-direction:column;gap:4px;min-width:0}
+    #sw-b .ab-th-t{font-size:14px;font-weight:600;color:#fff;line-height:1.3}
+    #sw-b .ab-th-d{font-size:12px;font-weight:400;color:#a9c2e6;line-height:1.45}
+    #sw-b .ab-th-n{font-size:12px;font-weight:700;color:#7eb8ff;font-variant-numeric:tabular-nums;flex:none;line-height:1.3}
+    @media(max-width:880px){#sw-b .ab-grid{grid-template-columns:1fr}}
+    </style>
+    <div class="learn-group">
+      <div class="ab-tile">
+        <div class="ab-grid">
+          <div class="ab-copy">
+            <div class="eyebrow">See it in Action</div>
+            <h2>See it run on the floor</h2>
+            <p>A 21-minute walkthrough of the six standard work templates, then the Greenville field example where the team puts them to work.</p>
+            <div class="ab-frame"><video class="ab-player" controls preload="metadata" poster="/deliverables/standard-work/training/poster.jpg" playsinline><source src="/deliverables/standard-work/training/video/standardwork2-web.mp4" type="video/mp4"></video></div>
+          </div>
+          <div class="ab-thumbs">
+            <button class="ab-th" onclick="swSeek(this,26)"><span class="ab-th-meta"><span class="ab-th-tx"><span class="ab-th-t">Time Measurement</span><span class="ab-th-d">Capture observed cycle times for each work element to expose variation and the task's true pace.</span></span><span class="ab-th-n">0:26</span></span></button>
+            <button class="ab-th" onclick="swSeek(this,295)"><span class="ab-th-meta"><span class="ab-th-tx"><span class="ab-th-t">Machine Capacity</span><span class="ab-th-d">Compare each machine's capability against demand to find bottlenecks and spare headroom.</span></span><span class="ab-th-n">4:55</span></span></button>
+            <button class="ab-th" onclick="swSeek(this,487)"><span class="ab-th-meta"><span class="ab-th-tx"><span class="ab-th-t">Balance Chart</span><span class="ab-th-d">Plot each operator's workload against takt time to balance the line and remove waste.</span></span><span class="ab-th-n">8:07</span></span></button>
+            <button class="ab-th" onclick="swSeek(this,637)"><span class="ab-th-meta"><span class="ab-th-tx"><span class="ab-th-t">Combination Sheet</span><span class="ab-th-d">Map manual, walk, and machine time together to see how the work combines in one cycle.</span></span><span class="ab-th-n">10:37</span></span></button>
+            <button class="ab-th" onclick="swSeek(this,848)"><span class="ab-th-meta"><span class="ab-th-tx"><span class="ab-th-t">Process Scroll</span><span class="ab-th-d">Lay out the whole process end to end to see sequence, flow, and the handoffs between steps.</span></span><span class="ab-th-n">14:08</span></span></button>
+            <button class="ab-th" onclick="swSeek(this,942)"><span class="ab-th-meta"><span class="ab-th-tx"><span class="ab-th-t">Standard Worksheet</span><span class="ab-th-d">The single sheet that captures the agreed standard: layout, sequence, WIP, and takt.</span></span><span class="ab-th-n">15:42</span></span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PREVIEW MODAL (Learn It) — same shell as the Templates page preview, one
+     shared instance populated from whichever tile's Preview button was clicked. -->
+<style>
+#lrn-modal .lmact{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:2px 0 4px}
+#lrn-modal .lbtn{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:#2256e6;background:#eef3fd;border:1px solid #dde6fb;border-radius:100px;padding:9px 16px;cursor:pointer;text-decoration:none;font-family:inherit}
+#lrn-modal .lbtn:hover{background:#e2ecfd}
+#lrn-modal #lrn-share.copied{color:#0c6b3f;background:#e6f6ee;border-color:#c9ecd8}
+</style>
+<div id="lrn-modal" onclick="if(event.target===this)closeLearnPreview()">
+  <div class="lmbox">
+    <div class="lmhead"><h3 id="lrn-title">Resource</h3><button class="x" aria-label="Close" onclick="closeLearnPreview()">&times;</button></div>
+    <div class="lmbody">
+      <div class="lmprev" id="lrn-thumb"></div>
+      <div><div class="lwgl" id="lrn-eyebrow"></div><p class="lfor" id="lrn-desc"></p><div class="lmeta" id="lrn-meta"></div><p class="luse" id="lrn-use"></p>
+        <div class="lmact">
+          <a class="ldl" id="lrn-cta" href="#" target="_blank" rel="noopener">Open</a>
+          <a class="lbtn" id="lrn-download" href="#" target="_blank" rel="noopener">&#8595; Download</a>
+          <button class="lbtn" id="lrn-share" type="button" onclick="copyLearnLink()">&#10697; Copy link</button>
+        </div>
+        <a class="lfull" id="lrn-full" href="#" target="_blank" rel="noopener">Open full details &#8599;</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Takt Time & Target Cycle Time — opens the calculator in a modal (falls back to sw-takt.html without JS) -->
+<style>
+#takt-modal{position:fixed;inset:0;z-index:210;display:none;align-items:center;justify-content:center;padding:28px;background:rgba(2,6,23,.62)}
+#takt-modal.open{display:flex}
+#takt-modal .tkbox{background:#fff;border-radius:16px;width:100%;max-width:1120px;height:92vh;max-height:940px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 40px 90px rgba(2,6,23,.5)}
+#takt-modal .tkhead{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:15px 20px;border-bottom:1px solid #eef1f8;flex-shrink:0}
+#takt-modal .tkhead .tkt{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600;color:#00003d}
+#takt-modal .tkhead .tkt .dot{width:8px;height:8px;border-radius:2px;background:#16b364;display:inline-block}
+#takt-modal .tkhead .tka{display:flex;align-items:center;gap:16px}
+#takt-modal .tkhead .open-full{font-size:12.5px;font-weight:600;color:#2256e6;text-decoration:none}
+#takt-modal .tkhead .open-full:hover{text-decoration:underline}
+#takt-modal .tkhead .x{font-size:24px;color:#9aa3bd;background:none;border:0;cursor:pointer;line-height:1}
+#takt-modal iframe{flex:1;width:100%;border:0;display:block;background:#fff}
+@media(max-width:640px){#takt-modal{padding:0}#takt-modal .tkbox{height:100vh;max-height:none;border-radius:0}}
+</style>
+<div id="takt-modal" onclick="if(event.target===this)closeTakt()">
+  <div class="tkbox">
+    <div class="tkhead">
+      <span class="tkt"><span class="dot"></span>Takt Time &amp; Target Cycle Time</span>
+      <span class="tka">
+        <a class="open-full" href="sw-takt.html" target="_blank" rel="noopener">Open full page &#8599;</a>
+        <button class="x" aria-label="Close" onclick="closeTakt()">&times;</button>
+      </span>
+    </div>
+    <iframe id="takt-frame" title="Takt Time and Target Cycle Time calculator" loading="lazy"></iframe>
+  </div>
+</div>
+<script>
+  window.openTakt=function(e){ if(e&&e.preventDefault)e.preventDefault();
+    var m=document.getElementById('takt-modal'), f=document.getElementById('takt-frame');
+    if(!f.getAttribute('src')) f.setAttribute('src','sw-takt.html?embed=1');
+    m.classList.add('open'); document.body.style.overflow='hidden'; };
+  window.closeTakt=function(){ document.getElementById('takt-modal').classList.remove('open'); document.body.style.overflow=''; };
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeTakt(); });
+</script>
+
+<script>
+(function(){
+  // Factual resource metadata (format / length / audience / how to use), keyed by card title.
+  var LRN_META = {
+    'Standard Work in One Minute':                        { format:'Video',                    length:'1 min',      audience:'Everyone',    use:'A 60-second overview of what Standard Work is and why it matters. The fastest way to get oriented before you go deeper.' },
+    'Standard Work in Action':                            { format:'Video',                    length:'21 min',     audience:'Everyone',    use:'A 21-minute walkthrough of every Manufacturing Standard Work template, step by step. Use the chapters to skip to the one you need.' },
+    'Introduction to Standard Work Online':               { format:'eLearning',                length:'20 min',     audience:'Everyone',    use:'A self-paced introductory course you take online. Covers the fundamentals end to end at your own pace.' },
+    'Introduction to Standard Work Offline':              { format:'PDF workbook',             length:'Self-paced', audience:'Everyone',    use:'A printable version of the introductory course. Download, print, and work through it away from a screen.' },
+    'Team Discussion Guide on Standard Work':             { format:'PDF guide',                length:'Facilitated', audience:'Teams',      use:'A structured guide for leading a team conversation to start or improve Standard Work in your area.' },
+    'Standard Work Reference Guide':                      { format:'PDF · 1-pager',            length:'Reference',  audience:'Everyone',    use:'A one-page quick reference for the key concepts and models. Keep it handy while you build or review a standard.' },
+    'Business Process Awareness Training':                { format:'Slides + Facilitator guide', length:'Facilitated', audience:'Practitioners', use:'Everything you need to run an awareness session for others: the presentation slides plus a facilitator guide to lead it.' },
+    'Leader Standard Work Reference Guide':               { format:'PDF guide',                length:'Reference',  audience:'Leaders',     use:'A quick reference for Leader Standard Work concepts and the routines a leader runs day to day.' }
+  };
+  window.openLearnPreview = function(el){
+    var card = el.closest('.next-card');
+    var title = card.querySelector('.nc-title').textContent;
+    var eyebrow = card.querySelector('.nc-eyebrow').textContent;
+    var desc = card.querySelector('.nc-desc').textContent;
+    var icon = card.querySelector('.nc-cover').innerHTML;
+    document.getElementById('lrn-title').textContent = title;
+    document.getElementById('lrn-eyebrow').textContent = eyebrow;
+    document.getElementById('lrn-desc').textContent = desc;
+    document.getElementById('lrn-thumb').innerHTML = icon;
+
+    // metadata chips (Format / Length / Audience) + how-to-use, from the keyed map
+    var m = LRN_META[title] || {};
+    var chips = [
+      ['Format', m.format],
+      ['Length', m.length],
+      ['For', m.audience]
+    ].filter(function(p){ return p[1]; })
+     .map(function(p){ return '<span class="chip">' + p[0] + ' <b>' + p[1] + '</b></span>'; });
+    document.getElementById('lrn-meta').innerHTML = chips.join('');
+    document.getElementById('lrn-use').textContent = m.use || '';
+
+    var cta = document.getElementById('lrn-cta');
+    var full = document.getElementById('lrn-full');
+    var dl = document.getElementById('lrn-download');
+    cta.classList.remove('disabled');
+    full.style.display = 'none';
+    dl.style.display = 'inline-flex';
+    var mainHref = '#';
+
+    if (card.classList.contains('nc-disabled')) {
+      cta.textContent = 'In development';
+      cta.removeAttribute('href');
+      cta.classList.add('disabled');
+      dl.style.display = 'none';
+    } else if (card.classList.contains('nc-multi')) {
+      var links = card.querySelectorAll('.nc-links a');
+      cta.textContent = links[0].textContent.replace('→', '').trim();
+      cta.setAttribute('href', links[0].getAttribute('href'));
+      full.textContent = links[1].textContent.replace('→', '').trim();
+      full.setAttribute('href', links[1].getAttribute('href'));
+      full.style.display = 'inline-block';
+      mainHref = links[0].getAttribute('href');
+      dl.style.display = 'none'; // slides/facilitator open in-app, not a download
+    } else {
+      var mainLink = card.querySelector('.nc-arrow');
+      cta.textContent = mainLink.textContent.replace('→', '').trim();
+      cta.setAttribute('href', mainLink.getAttribute('href'));
+      mainHref = mainLink.getAttribute('href');
+    }
+    window.__lrnLink = mainHref;
+    dl.setAttribute('href', mainHref);
+    if (cta.textContent && cta.textContent.trim().toLowerCase() === 'download') dl.style.display = 'none';
+    document.getElementById('lrn-modal').classList.add('open');
+  };
+  window.copyLearnLink = function(){
+    var url = (window.__lrnLink && window.__lrnLink !== '#') ? window.__lrnLink : location.href;
+    var abs = url; try { abs = new URL(url, location.href).href; } catch(e){}
+    var btn = document.getElementById('lrn-share');
+    var done = function(){ btn.textContent = '✓ Copied'; btn.classList.add('copied'); setTimeout(function(){ btn.innerHTML = '⤉ Copy link'; btn.classList.remove('copied'); }, 1800); };
+    if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(abs).then(done, done); } else { done(); }
+  };
+  window.openActionVideo = function(){
+    document.getElementById('lrn-title').textContent = 'Standard Work in Action';
+    document.getElementById('lrn-eyebrow').textContent = 'In Action Video';
+    document.getElementById('lrn-desc').textContent = 'A 21-minute walkthrough of every Manufacturing Standard Work template, step by step.';
+    document.getElementById('lrn-thumb').innerHTML = '<iframe src="https://player.geaerospace.vimeo.work/video/1203980054" style="position:absolute;inset:0;width:100%;height:100%;border:0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>';
+    var m = LRN_META['Standard Work in Action'] || {};
+    document.getElementById('lrn-meta').innerHTML = [['Format',m.format],['Length',m.length],['For',m.audience]].filter(function(p){return p[1];}).map(function(p){return '<span class="chip">'+p[0]+' <b>'+p[1]+'</b></span>';}).join('');
+    document.getElementById('lrn-use').textContent = m.use || '';
+    var cta = document.getElementById('lrn-cta'); cta.textContent = 'Watch'; cta.setAttribute('href','https://geaerospace.vimeo.work/1203980054'); cta.classList.remove('disabled');
+    document.getElementById('lrn-full').style.display = 'none';
+    var dl = document.getElementById('lrn-download'); dl.style.display = 'inline-flex'; dl.setAttribute('href','https://geaerospace.vimeo.work/1203980054');
+    window.__lrnLink = 'https://geaerospace.vimeo.work/1203980054';
+    document.getElementById('lrn-modal').classList.add('open');
+  };
+  window.closeLearnPreview = function(){ document.getElementById('lrn-modal').classList.remove('open'); };
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeLearnPreview(); });
+})();
+</script>
+
+<!-- ═══ THE FOUR STEPS ═══ -->
+<div class="path" data-qs="start">
+  <button class="qs-close" aria-label="Close" onclick="document.getElementById('sw-b').classList.remove('qs-start');document.querySelector('#sw-b .smod-default').scrollIntoView({behavior:'smooth',block:'start'});">Close <span aria-hidden="true">&times;</span></button>
+  <div class="path-header">
+    <div class="eyebrow">Start a Standard</div>
+    <h2>Your first standard, step by step</h2>
+    <p>First, pick your world below so the steps fit — every example and template matches your work, and you can switch anytime. Each step then has a short action, a worked example, the template it points to, and a small checklist.</p>
+    <div class="worktype" id="sw-b-worktype">
+      <div class="wt-grid">
+        <button class="wt-card" data-work="mfg" onclick="swSetWork('mfg')">
+          <strong>Manufacturing</strong>
+          <span class="wt-desc">Shop-floor work paced to cycle time and takt. You build standards with Combination Tables and Process Scrolls.</span>
+        </button>
+        <button class="wt-card" data-work="nonmfg" onclick="swSetWork('nonmfg')">
+          <strong>Non-Manufacturing</strong>
+          <span class="wt-desc">Office, service, or engineering work. You build standards with SOPs, Master Instructions (MI), and Detailed Job Instructions (DJI).</span>
+        </button>
+        <button class="wt-card" data-work="leader" onclick="swSetWork('leader')">
+          <strong>Leader</strong>
+          <span class="wt-desc">The daily and weekly routines a team leader runs. You build standards with Leader Standard Work (LSW) forms and a review cadence.</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <p class="path-hint">Pick Manufacturing, Non-Manufacturing, or Leader above to reveal your steps.</p>
+  <div class="path-tree" data-work="mfg">
+  <!-- STEP 01 -->
+  <div class="step" id="step-1">
+    <div class="step-line"></div>
+    <div class="num" data-step="1" onclick="scrollToStep(1)" title="Jump to step 1">01</div>
+    <div class="step-body">
+      <h3>Go to Genba and grasp the work as-is</h3>
+      <div class="step-card">
+        <p class="intro">Get to where the work happens. Introduce yourself to the operator, watch about ten minutes before you start timing, and understand the content and sequence of the current best-known method. Grasp reality with <b>facts, not data</b> &mdash; don&rsquo;t rely on automated reports for operator cycle times, and don&rsquo;t train the observer.</p>
+        <div class="callout"><strong>Eliminate waste first</strong>Before you document, reduce waste (DOWNTIME), unevenness (Mura), and overburden (Muri). If you standardize the mess, you standardize the waste.</div>
+        <p class="lvl-cap">Before you leave Genba</p>
+        <ul class="checklist" data-step="1">
+          <li onclick="toggleCheck(this)"><span class="cb"></span><span class="cl-text">Introduced myself to the operator and explained why I&rsquo;m observing.</span></li>
+          <li onclick="toggleCheck(this)"><span class="cb"></span><span class="cl-text">Observed roughly 10 minutes before timing anything.</span></li>
+          <li onclick="toggleCheck(this)"><span class="cb"></span><span class="cl-text">Noted the elements, hand motions, and any waste / safety concerns.</span></li>
+          <li onclick="toggleCheck(this)"><span class="cb"></span><span class="cl-text">Confirmed 5S is in place enough to see normal vs. abnormal.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 02 -->
+  <div class="step" id="step-2">
+    <div class="step-line"></div>
+    <div class="num" data-step="2" onclick="scrollToStep(2)" title="Jump to step 2">02</div>
+    <div class="step-body">
+      <h3>Calculate Takt Time and Target Cycle Time</h3>
+      <div class="step-card">
+        <p class="intro">Set the pace before you set the sequence. <b>Takt Time</b> is the rate the customer requires; <b>Target Cycle Time</b> adjusts Takt for planned losses &mdash; machine OEE (changeover, scrap, downtime) and manual yield (operator, inspection, rework) &mdash; so the standard is achievable in the real world.</p>
+        <div class="worked">
+          <strong>Worked example</strong>
+          480 min shift &minus; 20 min breaks &minus; 30 min lunch = <b>430 min net</b>.<br>
+          430 min &times; 60 &divide; 800 parts demand = <b>32.3 s Takt Time</b>.<br>
+          32.3 s &times; 90% combined planned effectiveness &asymp; <b>29.0 s Target Cycle Time</b>.
+        </div>
+        <div class="callout"><strong>Keep Takt and Cycle Time separate</strong>Takt is <i>calculated</i> from demand. Cycle Time is <i>actual</i> time taken. The goal: Cycle Time &le; Takt.</div>
+        <a href="sw-takt.html" class="act" onclick="openTakt(event)">Calculate Takt and Target Cycle Time</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 03 -->
+  <div class="step" id="step-3">
+    <div class="step-line"></div>
+    <div class="num" data-step="3" onclick="scrollToStep(3)" title="Jump to step 3">03</div>
+    <div class="step-body">
+      <h3>Time-study the work using the Time Measurement Form</h3>
+      <div class="step-card">
+        <p class="intro">Break the operator&rsquo;s work into logical <b>elements</b> (verb + noun) of reasonable duration. Time <b>7&ndash;10 cycles</b> with a running stopwatch, exclude irregular processes, and best done in pairs &mdash; one times, one records.</p>
+        <p class="intro">For each element, pick the <b>lowest repeatable time</b> &mdash; the lowest elapsed time that has occurred more than once. <b>Do not use the average.</b> Sum the elements to derive one cycle time you can defend at Genba.</p>
+        <p class="lvl-cap">Time-study rules</p>
+        <ul class="checklist" data-step="3">
+          <li onclick="toggleCheck(this)"><span class="cb"></span><span class="cl-text">Broke the work into verb/noun elements of reasonable size.</span></li>
+          <li onclick="toggleCheck(this)"><span class="cb"></span><span class="cl-text">Timed 7&ndash;10 clean cycles, excluding irregular events.</span></li>
+          <li onclick="toggleCheck(this)"><span class="cb"></span><span class="cl-text">Used lowest repeatable time per element &mdash; not the average.</span></li>
+          <li onclick="toggleCheck(this)"><span class="cb"></span><span class="cl-text">Two people: one timed, one recorded.</span></li>
+        </ul>
+        <a href="sw-templates.html" class="act">Open the Time Measurement Form</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 04 -->
+  <div class="step" id="step-4">
+    <div class="step-line"></div>
+    <div class="num" data-step="4" onclick="scrollToStep(4)" title="Jump to step 4">04</div>
+    <div class="step-body">
+      <h3>Document Content, Sequence, Timing &mdash; and SWIP</h3>
+      <div class="step-card">
+        <p class="intro">Your standard isn&rsquo;t complete until all three elements are captured &mdash; <b>Content</b> (what to do), <b>Sequence</b> (the order), and <b>Timing</b> (how long it takes). In manufacturing, also set <b>SWIP</b> (Standard Work In-Process): the minimum quantity of parts in the process that keeps one-piece flow.</p>
+        <p class="intro">Use the six Operations templates in the order the deck recommends. Start with templates <b>1, 2, 3, and 6</b>. Add templates 4 and 5 three to six months later as the team matures.</p>
+        <p class="lvl-cap">Templates to build now</p>
+        <div class="elem-stack">
+          <div class="elem"><strong>01 &middot; Time Measurement Form</strong><p>As-is duration of steps, over 7&ndash;10 reps. Lowest repeatable time.</p></div>
+          <div class="elem"><strong>02 &middot; Machine Capacity Sheet</strong><p>Availability &times; Performance &times; Quality. Sets Planned OEE and finds excess capacity.</p></div>
+          <div class="elem"><strong>03 &middot; Balance Chart (Yamazumi)</strong><p>Stacked load per operator vs. Takt; splits VA / NVA-necessary / Waste to expose kaizen.</p></div>
+          <div class="elem"><strong>06 &middot; Standard Work Sheet</strong><p>Operator movement, SWIP quantity/location, layout, quality checks, safety precautions.</p></div>
+        </div>
+        <p class="lvl-cap">Add later (3&ndash;6 months)</p>
+        <div class="elem-stack">
+          <div class="elem"><strong>04 &middot; Standard Work Combination Sheet (SWCS)</strong><p>One operator&rsquo;s Manual / Auto / Walk / Waiting time against Takt.</p></div>
+          <div class="elem"><strong>05 &middot; Process Scroll</strong><p>Layout view: elements, Takt, output, resource needs, material flow, bottlenecks.</p></div>
+        </div>
+        <div class="callout"><strong>Leave specs and tolerances in the QMS</strong>Standard Work supports the QMS, it doesn&rsquo;t duplicate it. Keep drawings, specs, and tolerances in the controlled quality docs; red-line the standard when it changes and update the QMS-side docs to match.</div>
+        <a href="sw-templates.html" class="act">Open the Manufacturing template pack</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 05 -->
+  <div class="step" id="step-5">
+    <div class="num" data-step="5" onclick="scrollToStep(5)" title="Jump to step 5">05</div>
+    <div class="step-body">
+      <h3>Make it visible, train the team, then follow and improve it</h3>
+      <div class="step-card">
+        <p class="intro">A standard that lives in a folder isn&rsquo;t a standard. Post the Balance Chart and Standard Work Sheet where the work is performed. A good standard can be trained in <b>under 15 minutes</b> and makes normal vs. abnormal obvious at a glance.</p>
+        <p class="intro">Build a Daily Management go-and-see rhythm around it &mdash; a Genba walk, <b>not an audit</b>. When a KPI goes red, confirm the standard is being followed first, then run Problem Solving. When a better way is found, revise the standard and retrain. That&rsquo;s the never-ending loop.</p>
+        <p class="lvl-cap">Sustainment checklist</p>
+        <ul class="checklist" data-step="5">
+          <li onclick="toggleCheck(this)"><span class="cb"></span><span class="cl-text">Balance Chart and Standard Work Sheet posted at Genba.</span></li>
+          <li onclick="toggleCheck(this)"><span class="cb"></span><span class="cl-text">Training schedule covers all shifts; each operator can be trained in &lt; 15 min.</span></li>
+          <li onclick="toggleCheck(this)"><span class="cb"></span><span class="cl-text">Daily Management routine includes go-and-see against the standard.</span></li>
+          <li onclick="toggleCheck(this)"><span class="cb"></span><span class="cl-text">Balance Charts planned for different mixes / Takt scenarios.</span></li>
+          <li onclick="toggleCheck(this)"><span class="cb"></span><span class="cl-text">QMS documents red-lined and re-signed where the standard changed anything controlled.</span></li>
+        </ul>
+        <p class="lvl-cap">The four confirmation questions</p>
+        <ol class="fourq">
+          <li><span class="fq-n">1</span> Is there a standard?</li>
+          <li><span class="fq-n">2</span> Is the standard up to date?</li>
+          <li><span class="fq-n">3</span> Do the employees know the standard?</li>
+          <li><span class="fq-n">4</span> Is work carried out according to the standard?</li>
+        </ol>
+        <p class="fourq-note">All four should be &ldquo;yes&rdquo; for the standard to be leading you toward True North.</p>
+        <a href="sw-templates.html" class="act">Open Templates Library</a>
+        <a href="#sw-b-worktype" class="act" style="margin-top:10px" onclick="swSetWork('leader');document.getElementById('sw-b-worktype').scrollIntoView({behavior:'smooth',block:'start'});return false;">Open Leader Standard Work</a>
+      </div>
+    </div>
+  </div>
+  </div>
+  <div class="path-tree" data-work="nonmfg">
+  <!-- STEP N01 -->
+  <div class="step" id="step-n1">
+    <div class="step-line"></div>
+    <div class="num" data-step="1" onclick="scrollToStep('n1')" title="Jump to step 1">01</div>
+    <div class="step-body">
+      <h3>Start with the four questions</h3>
+      <div class="step-card">
+        <p class="intro">Standard Work documents and visualizes the best-known way to complete a task or process today. It is not a set-and-forget document; it is the starting point for your next improvement. Before you build your first standard, get oriented around the four questions every standard has to answer. You will return to these to check your work &mdash; for now, just know what good looks like.</p>
+        <p class="lvl-cap">The four key questions</p>
+        <ol class="fourq">
+          <li><span class="fq-n">1</span> Is there a standard?</li>
+          <li><span class="fq-n">2</span> Is it up to date?</li>
+          <li><span class="fq-n">3</span> Does the team know it?</li>
+          <li><span class="fq-n">4</span> Is it being followed?</li>
+        </ol>
+        <p class="fourq-note">If the answer to any of these is "no," you have a Standard Work opportunity. The steps that follow help you build it.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP N02 -->
+  <div class="step" id="step-n2">
+    <div class="step-line"></div>
+    <div class="num" data-step="2" onclick="scrollToStep('n2')" title="Jump to step 2">02</div>
+    <div class="step-body">
+      <h3>Determine the right level of detail</h3>
+      <div class="step-card">
+        <p class="intro">Before you document anything, decide how granular it needs to be. Standard Work operates at three levels: Process (high level), Key Steps (intermediary), and Activities (detailed / DJI). In non-manufacturing or office environments, the principle is the same: making &lsquo;invisible&rsquo; digital work visible through clear, documented standards that the team can follow and improve. Set the level of detail to match the work, and go deep only where exact detail prevents errors.</p>
+        <p class="lvl-cap">Levels of Detail</p>
+        <div class="lvl-stack" aria-label="Levels of Detail">
+          <div class="lvl-card">
+            <span class="lvl-num">1</span>
+            <div class="lvl-txt"><strong>Process</strong><span>high level</span></div>
+            <svg class="lvl-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="4" width="8" height="6" rx="1.5"/><rect x="13.5" y="14" width="8" height="6" rx="1.5"/><path d="M10.5 7h3.5v10"/></svg>
+          </div>
+          <div class="lvl-card">
+            <span class="lvl-num">2</span>
+            <div class="lvl-txt"><strong>Key Steps</strong><span>intermediary</span></div>
+            <svg class="lvl-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5l5 4.5-5 4.5M10 5l5 4.5-5 4.5"/><path d="M16.5 14.5l2 2 4-4"/></svg>
+          </div>
+          <div class="lvl-card">
+            <span class="lvl-num">3</span>
+            <div class="lvl-txt"><strong>Activities</strong><span>detailed / DJI</span></div>
+            <svg class="lvl-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="1.5"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>
+          </div>
+        </div>
+        <div class="worked">
+          <strong>Worked example</strong>
+          The analyst maps the month-end close at the Key Steps level so anyone in the cycle can follow it, then drops to the Activities level only for the reconciliation steps where a missed detail causes rework.
+        </div>
+        <ul class="checklist" data-step="2">
+          <li onclick="toggleCheck(this)"><span class="cb"></span><span class="cl-text">Pick the level of detail for each part: Process, Key Steps, or Activities</span></li>
+          <li onclick="toggleCheck(this)"><span class="cb"></span><span class="cl-text">Drop to Activities (detailed / DJI) only where exact detail prevents errors</span></li>
+          <li onclick="toggleCheck(this)"><span class="cb"></span><span class="cl-text">Keep the Process view high-level so anyone can step in and understand it</span></li>
+        </ul>
+        <a href="sw-templates.html" class="act">Open the Template Hub</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP N03 -->
+  <div class="step" id="step-n3">
+    <div class="step-line"></div>
+    <div class="num" data-step="3" onclick="scrollToStep('n3')" title="Jump to step 3">03</div>
+    <div class="step-body">
+      <h3>Select the right template</h3>
+      <div class="step-card">
+        <p class="intro">With the level of detail set, select the template that fits your work. Office, service, or engineering work uses Standard Operating Procedures (SOPs), Master Instructions (MI), and Detailed Job Instructions (DJI). As you fill it in, apply the three elements of effective Standard Work &mdash; together they define how fast the work must go, in what order, and with how much in process at any time.</p>
+        <p class="lvl-cap">Apply the three elements</p>
+        <div class="elem-stack">
+          <div class="elem"><strong>Timing</strong><p>Do you know the rate at which your customer expects output? How closely does your current pace match that demand?</p></div>
+          <div class="elem"><strong>Work Sequence</strong><p>Is the order of tasks in your process clearly defined? Does everyone follow the same sequence?</p></div>
+          <div class="elem"><strong>Content</strong><p>Do you have the right amount of work-in-process to maintain flow? Is there too much, or too little?</p></div>
+        </div>
+        <ul class="checklist" data-step="3">
+          <li onclick="toggleCheck(this)"><span class="cb"></span><span class="cl-text">Match the template to your work: SOP, MI, or DJI</span></li>
+          <li onclick="toggleCheck(this)"><span class="cb"></span><span class="cl-text">Timing: confirm the customer rate and how your pace compares</span></li>
+          <li onclick="toggleCheck(this)"><span class="cb"></span><span class="cl-text">Work Sequence: define the order so everyone follows the same one</span></li>
+          <li onclick="toggleCheck(this)"><span class="cb"></span><span class="cl-text">Content: set the work-in-process needed to keep flow &mdash; not too much, not too little</span></li>
+        </ul>
+        <a href="sw-templates.html" class="act">Open the Template Hub</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP N04 -->
+  <div class="step" id="step-n4">
+    <div class="step-line"></div>
+    <div class="num" data-step="4" onclick="scrollToStep('n4')" title="Jump to step 4">04</div>
+    <div class="step-body">
+      <h3>Generate the first draft</h3>
+      <div class="step-card">
+        <p class="intro">Now generate the first draft of your standard work. Standard Work provides the structure for consistent, repeatable outcomes &mdash; the format may differ by environment, but the purpose is the same. Open the Non-Manufacturing template and capture the best-known way today: the sequence, the hand-offs, the owners, and the time for each step. Aim for a draft, not a final.</p>
+        <div class="worked">
+          <strong>Worked example</strong>
+          The analyst opens the Non-Manufacturing Standard Work template and captures each hand-off, owner, and target time across the close cycle. A draft in eight minutes. She does not wait for it to be perfect.
+        </div>
+        <ul class="checklist" data-step="4">
+          <li onclick="toggleCheck(this)"><span class="cb"></span><span class="cl-text">Open the template for your environment and start the draft</span></li>
+          <li onclick="toggleCheck(this)"><span class="cb"></span><span class="cl-text">Capture the sequence and hand-offs in the real order they happen</span></li>
+          <li onclick="toggleCheck(this)"><span class="cb"></span><span class="cl-text">Record the time per step and flag any control- or quality-critical points</span></li>
+          <li onclick="toggleCheck(this)"><span class="cb"></span><span class="cl-text">Save it as a draft to refine, not a finished document</span></li>
+        </ul>
+        <a href="sw-template-detail.html" class="act">Open the Non-Manufacturing Standard Work Template</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP N05 -->
+  <div class="step" id="step-n5">
+    <div class="num" data-step="5" onclick="scrollToStep('n5')" title="Jump to step 5">05</div>
+    <div class="step-body">
+      <h3>Release &amp; Sustain It</h3>
+      <div class="step-card">
+        <p class="intro">Release the standard through the FLIGHT DECK Release Process, then keep it alive. Roles: use a RACI to name who is Responsible and Accountable for creating, training, and sustaining it. Repository: store it where the team can reach it, centralized and accessible. Sustainment: review it on a 30-60-90 day rhythm and fold it into your Daily and Visual Management routines so adherence &mdash; and any deviation &mdash; stays visible.</p>
+        <div class="worked">
+          <strong>Worked example</strong>
+          The analyst names who is Responsible and Accountable, stores the standard on the team page, and sets a monthly review after each close that uses the standard as its agenda. After a quarter the standard has been updated twice.
+        </div>
+        <ul class="checklist" data-step="5">
+          <li onclick="toggleCheck(this)"><span class="cb"></span><span class="cl-text">Roles: assign who is Responsible and Accountable with a RACI</span></li>
+          <li onclick="toggleCheck(this)"><span class="cb"></span><span class="cl-text">Repository: store it where the team can reach it</span></li>
+          <li onclick="toggleCheck(this)"><span class="cb"></span><span class="cl-text">Sustainment: set a 30-60-90 rhythm and add it to Daily &amp; Visual Management</span></li>
+          <li onclick="toggleCheck(this)"><span class="cb"></span><span class="cl-text">Re-check the four questions: standard, up to date, known, followed</span></li>
+        </ul>
+        <a href="sw-templates.html" class="act">Open Templates Library</a>
+        <a href="#sw-b-worktype" class="act" style="margin-top:10px" onclick="swSetWork('leader');document.getElementById('sw-b-worktype').scrollIntoView({behavior:'smooth',block:'start'});return false;">Open Leader Standard Work</a>
+      </div>
+    </div>
+  </div>
+  </div>
+  <div class="path-tree" data-work="leader">
+  <!-- STEP L01 -->
+  <div class="step" id="step-l1">
+    <div class="step-line"></div>
+    <div class="num" data-step="1" onclick="scrollToStep('l1')" title="Jump to step 1">01</div>
+    <div class="step-body">
+      <h3>Pick the Routine</h3>
+      <div class="step-card">
+        <p class="intro">A leader's standard is a routine, not a task. Name the single recurring routine you want to standardize &mdash; the daily Genba walk, the tier board review, the weekly one-on-one &mdash; and the best-known way you run it today. One routine, one owner, the real cadence.</p>
+        <div class="worked">
+          <strong>Worked example</strong>
+          A cell leader wants to standardize the daily tier-one review: "Lead the 8:30 board review." They note the cadence it must keep &mdash; every day, before the shift settles &mdash; so the routine is sized to how the team actually runs. One routine, one owner, current best practice only.
+        </div>
+        <ul class="checklist" data-step="1">
+          <li onclick="toggleCheck(this)"><span class="cb"></span><span class="cl-text">Name the routine in one sentence (verb first, e.g. "Lead," "Review," "Walk")</span></li>
+          <li onclick="toggleCheck(this)"><span class="cb"></span><span class="cl-text">Confirm you are the owner of this routine right now</span></li>
+          <li onclick="toggleCheck(this)"><span class="cb"></span><span class="cl-text">Confirm this is how you really run it today, not the ideal</span></li>
+          <li onclick="toggleCheck(this)"><span class="cb"></span><span class="cl-text">Note the cadence the routine must keep &mdash; daily, weekly, or monthly</span></li>
+        </ul>
+        <a href="sw-template-detail.html" class="act">Open the Standard Work Template</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP L02 -->
+  <div class="step" id="step-l2">
+    <div class="step-line"></div>
+    <div class="num" data-step="2" onclick="scrollToStep('l2')" title="Jump to step 2">02</div>
+    <div class="step-body">
+      <h3>Analyze how you spend your time</h3>
+      <div class="step-card">
+        <p class="intro">Analyze how you currently spend your time. Before building a future-state routine, review your calendar for the last eight weeks so you can see where the time actually goes and decide what to free up. This is the baseline your standard routine improves on.</p>
+        <div class="worked">
+          <strong>Worked example</strong>
+          A cell leader exports eight weeks of calendar, tags each block (Genba, meetings, email, firefighting), and finds nine hours a week of low-value meetings to reclaim for tier reviews and coaching.
+        </div>
+        <ul class="checklist" data-step="2">
+          <li onclick="toggleCheck(this)"><span class="cb"></span><span class="cl-text">Pull your calendar for the last eight weeks</span></li>
+          <li onclick="toggleCheck(this)"><span class="cb"></span><span class="cl-text">Tag each block by type so you can see where the time goes</span></li>
+          <li onclick="toggleCheck(this)"><span class="cb"></span><span class="cl-text">Identify the low-value time to free up for the routine</span></li>
+        </ul>
+        <a href="sw-templates.html" class="act">Open the Calendar Analysis</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP L03 -->
+  <div class="step" id="step-l3">
+    <div class="step-line"></div>
+    <div class="num" data-step="3" onclick="scrollToStep('l3')" title="Jump to step 3">03</div>
+    <div class="step-body">
+      <h3>Schedule and Execute It Consistently</h3>
+      <div class="step-card">
+        <p class="intro">Put the routine on the calendar and post it where the team can see the leader's cadence. A Calendar Analysis shows where your time actually goes; a recurring scheduler protects the routine. Visualizing it makes the leader's standard work as visible as the team's.</p>
+        <div class="worked">
+          <strong>Worked example</strong>
+          The leader runs a Calendar Analysis, blocks the tier reviews on a recurring scheduler, and posts the LSW on the team board so everyone knows when the leader checks what. One placement at the Genba, zero extra tools.
+        </div>
+        <ul class="checklist" data-step="3">
+          <li onclick="toggleCheck(this)"><span class="cb"></span><span class="cl-text">Post the LSW at the Genba &mdash; the team board where work happens</span></li>
+          <li onclick="toggleCheck(this)"><span class="cb"></span><span class="cl-text">Block the routine on a recurring calendar or scheduler</span></li>
+          <li onclick="toggleCheck(this)"><span class="cb"></span><span class="cl-text">Run a Calendar Analysis to protect the time from drift</span></li>
+        </ul>
+        <a href="daily-visual-management.html" class="act">Open the Daily Visual Management Template</a>
+        <a href="wingmate.html" class="act" style="margin-top:10px">Ask Wingmate for help</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP L04 -->
+  <div class="step" id="step-l4">
+    <div class="num" data-step="4" onclick="scrollToStep('l4')" title="Jump to step 4">04</div>
+    <div class="step-body">
+      <h3>Sustain it</h3>
+      <div class="step-card">
+        <p class="intro">Maximize how you spend your time. A leader's routine is never finished; it is the starting point for the next improvement. Follow the Release Process: name who covers the routine when you are out (RACI), keep the LSW in a repository the team can reach, and review it on a 30-60-90 day rhythm so adherence &mdash; and any deviation &mdash; stays visible.</p>
+        <div class="worked">
+          <strong>Worked example</strong>
+          The leader names who runs the routine when they are out, sets a monthly review of their own LSW, and uses it as the agenda for that review. After a quarter the routine has been tightened twice and the coverage plan has held.
+        </div>
+        <ul class="checklist" data-step="4">
+          <li onclick="toggleCheck(this)"><span class="cb"></span><span class="cl-text">Assign who is Responsible and Accountable (RACI), including a backup</span></li>
+          <li onclick="toggleCheck(this)"><span class="cb"></span><span class="cl-text">Set a 30-60-90 day review rhythm for your own LSW</span></li>
+          <li onclick="toggleCheck(this)"><span class="cb"></span><span class="cl-text">Check it against the four questions: is there a standard, is it up to date, does the team know it, is it being followed?</span></li>
+        </ul>
+        <a href="sw-evaluate.html" class="act">Open the Leader Standard Work Template</a>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
+
+<!-- ═══ RECAP ═══ -->
+<section class="recap" data-qs="start">
+  <div class="in">
+    <div class="eyebrow">What you just did</div>
+    <h2>Your first standard in about 20 minutes</h2>
+    <p class="sub">Each step builds on the last. This sequence works whether you are on the factory floor, in an engineering lab, or in a shared service center.</p>
+    <div class="timeline-recap">
+      <div class="tr-item">
+        <strong>Define the task</strong>
+        <span>Named the work and the current best way</span>
+        <span class="t-time">5 min</span>
+      </div>
+      <div class="tr-item">
+        <strong>Document it</strong>
+        <span>Captured sequence, timing, and key points</span>
+        <span class="t-time">8 min</span>
+      </div>
+      <div class="tr-item">
+        <strong>Visualize it</strong>
+        <span>Posted where the work happens</span>
+        <span class="t-time">3 min</span>
+      </div>
+      <div class="tr-item">
+        <strong>Sustain it</strong>
+        <span>Scheduled a review and named an owner</span>
+        <span class="t-time">2 min</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ BROWSE TEMPLATES · TOP 5 ═══
+     Mirrors the GE SharePoint library folder "Browse Templates- Top 5".
+     Each .t5-thumb frame is the slot for the SharePoint list's auto-generated
+     document thumbnail (bind: <img src="{list item thumbnail}">) — the CSS
+     placeholder page renders until real thumbnails are wired. Names, Preview,
+     and Download hrefs bind to the same list item. -->
+<section class="kit-band" id="sw-b-kit" data-qs="browse">
+  <div class="in" style="display:block">
+    <button class="qs-close" aria-label="Close" onclick="document.getElementById('sw-b').classList.remove('qs-browse');document.querySelector('#sw-b .smod-default').scrollIntoView({behavior:'smooth',block:'start'});">Close <span aria-hidden="true">&times;</span></button>
+    <style>
+    #sw-b .t5-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:22px}
+    #sw-b .t5-head p{font-size:15px;color:#4A506A;margin:6px 0 0;line-height:1.6;max-width:60ch}
+    #sw-b .t5-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
+    #sw-b .t5-card{background:#fff;border:1px solid #e7ebf4;border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:border-color .2s,box-shadow .2s,transform .2s}
+    #sw-b .t5-card:hover{border-color:#4181ff;box-shadow:0 14px 30px -14px rgba(34,86,230,.22);transform:translateY(-2px)}
+    #sw-b .t5-thumb{position:relative;background:#eef1f8;padding:16px 20px 0;height:132px;overflow:hidden;cursor:pointer}
+    #sw-b .t5-thumb img{position:absolute;inset:16px 20px 0;width:calc(100% - 40px);height:auto;border-radius:4px 4px 0 0;box-shadow:0 2px 10px rgba(11,26,64,.18)}
+    #sw-b .t5-page{position:relative;height:100%;background:#fff;border-radius:4px 4px 0 0;box-shadow:0 2px 10px rgba(11,26,64,.14);padding:12px 12px 0;overflow:hidden}
+    #sw-b .t5-page::before{content:"";position:absolute;inset:34px 12px auto;height:5px;background:#dfe5f1;border-radius:2px;box-shadow:0 12px 0 #e9edf6,0 24px 0 #e9edf6,0 36px 0 #e9edf6,0 48px 0 #e9edf6,0 60px 0 #e9edf6}
+    #sw-b .t5-page b{display:block;font-size:8.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#8891ab;border-bottom:1.5px solid #2256e6;padding-bottom:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    #sw-b .t5-meta{padding:13px 16px 14px;display:flex;flex-direction:column;flex:1}
+    #sw-b .t5-name{font-size:13px;font-weight:600;color:#00003d;line-height:1.35;margin:0 0 12px}
+    #sw-b .t5-acts{margin-top:auto;display:flex;gap:8px}
+    #sw-b .t5-acts a{display:inline-flex;align-items:center;gap:5px;white-space:nowrap;font-size:11.5px;font-weight:600;text-decoration:none;border-radius:100px;padding:6px 12px}
+    #sw-b .t5-acts .pv{color:#2256e6;background:#eef3fd;border:1px solid #dde6fb}
+    #sw-b .t5-acts .pv:hover{background:#e2ecfd}
+    #sw-b .t5-acts .dl{color:#fff;background:#2256e6}
+    #sw-b .t5-acts .dl:hover{background:#1c47c2}
+    @media(max-width:1000px){#sw-b .t5-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:560px){#sw-b .t5-grid{grid-template-columns:1fr}}
+    </style>
+    <div class="t5-head">
+      <div>
+        <div class="eyebrow">Browse Templates</div>
+        <h2 style="font-size:28px;font-weight:300;letter-spacing:-.025em;margin:0;color:#00003d">The five templates teams pull most</h2>
+        <p>Preview any template before you commit, or download it straight into Excel or SharePoint. The full library holds the rest.</p>
+      </div>
+      <a href="sw-templates.html" class="act">Full template library</a>
+    </div>
+    <div class="t5-grid">
+      <div class="t5-card">
+        <div class="t5-thumb"><div class="t5-page"><b>Manufacturing Standard Work Sheet</b></div></div>
+        <div class="t5-meta"><p class="t5-name">Manufacturing Standard Work Sheet</p><div class="t5-acts"><a class="pv" href="sw-template-detail.html?t=Manufacturing+Standard+Work+Sheet">Preview</a><a class="dl" href="sw-templates.html">&#8595; Download</a></div></div>
+      </div>
+      <div class="t5-card">
+        <div class="t5-thumb"><div class="t5-page"><b>Standard Work Combination Table</b></div></div>
+        <div class="t5-meta"><p class="t5-name">Standard Work Combination Table</p><div class="t5-acts"><a class="pv" href="sw-template-detail.html?t=Standard+Work+Combination+Table">Preview</a><a class="dl" href="sw-templates.html">&#8595; Download</a></div></div>
+      </div>
+      <div class="t5-card">
+        <div class="t5-thumb"><div class="t5-page"><b>Process Scroll</b></div></div>
+        <div class="t5-meta"><p class="t5-name">Process Scroll</p><div class="t5-acts"><a class="pv" href="sw-template-detail.html?t=Process+Scroll">Preview</a><a class="dl" href="sw-templates.html">&#8595; Download</a></div></div>
+      </div>
+      <div class="t5-card">
+        <div class="t5-thumb"><div class="t5-page"><b>Non-Manufacturing Standard Work</b></div></div>
+        <div class="t5-meta"><p class="t5-name">Non-Manufacturing Standard Work</p><div class="t5-acts"><a class="pv" href="sw-template-detail.html?t=Non-Manufacturing+Standard+Work">Preview</a><a class="dl" href="sw-templates.html">&#8595; Download</a></div></div>
+      </div>
+      <div class="t5-card">
+        <div class="t5-thumb"><div class="t5-page"><b>Leader Standard Work</b></div></div>
+        <div class="t5-meta"><p class="t5-name">Leader Standard Work</p><div class="t5-acts"><a class="pv" href="sw-template-detail.html?t=Leader+Standard+Work">Preview</a><a class="dl" href="sw-templates.html">&#8595; Download</a></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ STANDARD WORK WINGMATE ═══ -->
+<section class="wingband" id="sw-b-wing" data-qs="wingmate">
+  <div class="in">
+    <button class="qs-close" aria-label="Close" onclick="document.getElementById('sw-b').classList.remove('qs-wingmate');document.querySelector('#sw-b .smod-default').scrollIntoView({behavior:'smooth',block:'start'});">Close <span aria-hidden="true">&times;</span></button>
+    <div class="kick">FLIGHT DECK Wingmate</div>
+    <h2>The assistant runs alongside every standard.</h2>
+    <p class="wb-sub">Wingmate is already in Flight Deck. Here it reduces the setup friction on Standard Work so you spend your time on the judgment, not the paperwork.</p>
+    <button type="button" class="wb-open" onclick="wmOpen()" aria-haspopup="dialog" aria-controls="wm-drawer">✦ Ask Wingmate <i aria-hidden="true">&rarr;</i></button>
+    <!-- Wingmate CTAs — copy provided by Anam Khan (GE), used verbatim. Cards 3 and 4 link TBD from GE. -->
+    <style>
+    #sw-b .wb-card .wb-run{display:inline-flex;align-items:center;margin-top:14px;background:#2f6bff;color:#fff;font-size:12px;font-weight:700;letter-spacing:.08em;border-radius:100px;padding:8px 20px;text-decoration:none;transition:background .15s}
+    #sw-b .wb-card .wb-run:hover{background:#4a80ff}
+    #sw-b .wb-card .wb-run.tbd{background:rgba(255,255,255,.12);color:rgba(255,255,255,.55);cursor:default;pointer-events:none}
+    </style>
+    <div class="wb-grid">
+      <div class="wb-card"><strong>Generate a first draft</strong><p>Turns process recordings or written descriptions into a FLIGHT DECK-aligned first draft of standard work.</p><button type="button" class="wb-run wm-live" onclick="wmAsk('Generate a first draft of my standard work')">RUN</button></div>
+      <div class="wb-card"><strong>Evaluate/Update your Manufacturing Standard Work</strong><p>Get FLIGHT DECK aligned coaching from Wingmate to improve your Standard</p><button type="button" class="wb-run wm-live" onclick="wmAsk('Evaluate my Manufacturing Standard Work')">RUN</button></div>
+      <div class="wb-card"><strong>Evaluate/Update your Non-Manufacturing Standard Work</strong><p>Get FLIGHT DECK aligned coaching from Wingmate to improve your Standard</p><button type="button" class="wb-run tbd wm-live" title="GE link coming — opens the Wingmate demo chat" onclick="wmAsk('Evaluate my Non-Manufacturing Standard Work')">RUN</button></div>
+      <div class="wb-card"><strong>Review your Leader Standard Work Routine</strong><p>Upload your current LSW routine to review and improve leadership time allocation aligned to FLIGHT DECK.</p><button type="button" class="wb-run tbd wm-live" title="GE link coming — opens the Wingmate demo chat" onclick="wmAsk('Review my Leader Standard Work routine')">RUN</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ THE SYSTEM, MAPPED (Sam's mindmap) ═══
+     Shell is live; when GE delivers Sam's mindmap, drop it in as
+     <img class="mm-img" src="..."> inside .mm-frame (replacing .mm-pending)
+     and the zoom lightbox picks it up automatically. -->
+<section class="mm-band" id="sw-b-map">
+  <div class="in">
+    <style>
+    #sw-b .mm-band{background:#fff;border-top:0;padding:34px 24px 52px}
+    #sw-b .mm-band .in{max-width:1040px;margin:0 auto}
+    #sw-b .mm-band h2{font-size:28px;font-weight:300;letter-spacing:-.025em;margin:6px 0 8px;color:#00003d}
+    #sw-b .mm-band .sub{font-size:15px;color:#4A506A;line-height:1.6;margin:0 0 24px;max-width:70ch}
+    #sw-b .mm-frame{position:relative;border:1px solid #dfe5f1;border-radius:16px;background:#fff;box-shadow:0 1px 2px rgba(11,26,64,.05),0 18px 40px -26px rgba(11,26,64,.18);overflow:hidden;cursor:zoom-in}
+    #sw-b .mm-frame.mm-live{cursor:default;border:0;background:transparent;box-shadow:none;border-radius:0;overflow:visible}
+    #sw-b .mm-live iframe{display:block;width:100%;height:800px;border:0;background:transparent}
+    @media(max-width:900px){#sw-b .mm-live iframe{height:1040px}}
+    #sw-b .mm-frame .mm-img{display:block;width:100%;height:auto}
+    #sw-b .mm-pending{height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:linear-gradient(#f9fbff,#f2f5fc),repeating-linear-gradient(0deg,transparent,transparent 23px,#eef2fa 24px),repeating-linear-gradient(90deg,transparent,transparent 23px,#eef2fa 24px);cursor:default}
+    #sw-b .mm-pending svg{width:44px;height:44px;stroke:#9aa8cc;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+    #sw-b .mm-pending b{font-size:14px;font-weight:600;color:#44496e}
+    #sw-b .mm-pending span{font-size:12.5px;color:#8891ab}
+    #sw-b .mm-zoom{position:absolute;right:14px;bottom:12px;font-size:11.5px;font-weight:700;letter-spacing:.03em;color:#fff;background:rgba(0,0,10,.55);padding:6px 13px;border-radius:100px;pointer-events:none;display:none}
+    #sw-b .mm-frame:has(.mm-img) .mm-zoom{display:block}
+    #mm-lightbox{position:fixed;inset:0;z-index:210;display:none;align-items:center;justify-content:center;padding:36px;background:rgba(2,6,23,.78);cursor:zoom-out}
+    #mm-lightbox.open{display:flex}
+    #mm-lightbox img{max-width:96%;max-height:92vh;border-radius:10px;box-shadow:0 40px 90px rgba(0,0,0,.5)}
+    </style>
+    <div class="eyebrow">The system, mapped</div>
+    <h2>How Standard Work connects</h2>
+    <p class="sub">Integration Points: Standard Work at the center, wired to the seven other Fundamentals and the 3 Behaviors. Hover over any node to see how they meet in practice.</p>
+    <div class="mm-frame mm-live">
+      <iframe src="sw-integration-map.html?embed=1" title="Standard Work Integration Points — hover any node to see how it connects" loading="lazy"></iframe>
+    </div>
+  </div>
+</section>
+<div id="mm-lightbox" onclick="this.classList.remove('open')"><img src="" alt="Standard Work mind map, zoomed"></div>
+
+<!-- ═══ COMMON QUESTIONS ═══ -->
+<section class="faq">
+  <div class="in">
+    <div class="eyebrow">Common questions</div>
+    <h2>Common questions</h2>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">My work is not repetitive. Does standard work apply? <span class="faq-icon">+</span></div>
+      <p class="faq-a">Yes. Standard work applies to any task that repeats at least once. Even knowledge work has sequences: how you structure a report, how you run a design review, how you hand off a drawing. You are not locking in a rigid script. You are capturing the best known approach so you have a baseline to improve from. The standard changes when you find a better way.</p>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">How detailed does the standard need to be? <span class="faq-icon">+</span></div>
+      <p class="faq-a">Detailed enough that someone new could follow it on day one without asking questions. That is the test. Most first drafts are too long. Aim for the steps that actually affect quality, safety, or timing. Everything else can live in a supporting note or link.</p>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">What is the difference between Manufacturing SW, Non-Manufacturing SW, and Leader SW? <span class="faq-icon">+</span></div>
+      <p class="faq-a">Manufacturing Standard Work captures physical steps at a workstation with cycle times and takt time. Non-Manufacturing Standard Work captures sequences for office, service, or engineering tasks where the work is information-based, not physical. Leader Standard Work captures the daily and weekly routines a team leader follows to observe, develop, and sustain a system. If you are not on the shop floor, start with Non-Manufacturing.</p>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">How often should I update a standard? <span class="faq-icon">+</span></div>
+      <p class="faq-a">Update it whenever the process changes, whenever you find a better way, or whenever training someone reveals a gap. For stable processes, a monthly review is enough. A standard that has not been reviewed in six months is almost certainly out of date.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ WHERE DO I FIND HELP ═══  TODO: swap placeholder avatars for real GE directory headshots -->
+<style>
+#sw-b .help-band{border-top:1px solid #eef1f8;background:#f6f8fd}
+#sw-b .help-band .in{max-width:1088px;margin:0 auto;padding:52px 24px 62px}
+#sw-b .help-sub{font-size:15.5px;color:#4A506A;line-height:1.7;margin:0 0 30px;max-width:82ch}
+#sw-b .help-people{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 44px;max-width:900px}
+#sw-b .person{display:flex;align-items:center;gap:16px}
+#sw-b .person .avatar{width:56px;height:56px;flex:none;border-radius:50%;overflow:hidden;background:#e7ebf4;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 2px rgba(11,26,64,.08)}
+#sw-b .person .avatar img{width:100%;height:100%;object-fit:cover}
+#sw-b .person .avatar svg{width:34px;height:34px;fill:#b3bdd6}
+#sw-b .person .pmeta b{display:block;font-size:15.5px;font-weight:700;color:#00003d;letter-spacing:-.01em;line-height:1.3}
+#sw-b .person .pmeta span{font-size:13.5px;color:#4A506A}
+@media(max-width:640px){#sw-b .help-people{grid-template-columns:1fr}}
+</style>
+<section class="help-band">
+  <div class="in">
+    <h2>Where Do I Find Help?</h2>
+    <p class="help-sub">Your first port of call should be your FLIGHT DECK Leader - if you need additional help, below are some of our most experienced leaders in this fundamental</p>
+    <div class="help-people">
+      <div class="person"><span class="avatar"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7z"/></svg></span><span class="pmeta"><b>Levandowski, Brian (GE Aerospace, US)</b><span>Global Supply Chain FLIGHT DECK Leader</span></span></div>
+      <div class="person"><span class="avatar"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7z"/></svg></span><span class="pmeta"><b>Heltsley, Robert (GE Aerospace, US)</b><span>Executive FLIGHT DECK Leader</span></span></div>
+      <div class="person"><span class="avatar"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7z"/></svg></span><span class="pmeta"><b>Townsend, Damian (GE Aerospace, US)</b><span>Executive - Plant Management</span></span></div>
+      <div class="person"><span class="avatar"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7z"/></svg></span><span class="pmeta"><b>Pietrzak, Paulina (GE Aerospace, US)</b><span>Senior FLIGHT DECK Leader</span></span></div>
+      <div class="person"><span class="avatar"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7z"/></svg></span><span class="pmeta"><b>Fry, Shawn (GE Aerospace, US)</b><span>Executive FLIGHT DECK Leader</span></span></div>
+      <div class="person"><span class="avatar"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7z"/></svg></span><span class="pmeta"><b>Shefsky, Douglas (GE Aerospace, US)</b><span>Executive FLIGHT DECK Leader</span></span></div>
+    </div>
+  </div>
+</section>
+
+</div><!-- end #sw-b -->
+
+<!-- ═══ WINGMATE CHAT DRAWER · design recovered from the original hybrid Wingmate build ═══ -->
+<style>
+/* ── Wingmate banner ── */
+#sw-b .wm-band{position:relative;color:#fff;background:radial-gradient(120% 170% at 18% -20%,rgba(65,129,255,.26),transparent 55%),linear-gradient(120deg,#00010f,#000a2e 58%,#06173f);border-top:1px solid rgba(255,255,255,.06);padding:0 24px}
+#sw-b .wm-band .in{max-width:1040px;margin:0 auto;display:flex;align-items:center;gap:16px;padding:19px 0;cursor:pointer;outline:none}
+#sw-b .wm-band .wm-spark{width:40px;height:40px;flex:none;border-radius:10px;background:rgba(123,227,173,.16);display:flex;align-items:center;justify-content:center;font-size:17px;color:#7be3ad}
+#sw-b .wm-band .wm-copy{display:flex;flex-direction:column;gap:2px;min-width:0}
+#sw-b .wm-band .wm-copy strong{font-size:15px;font-weight:700;letter-spacing:-.01em;color:#fff}
+#sw-b .wm-band .wm-copy span{font-size:13px;color:rgba(255,255,255,.66);line-height:1.5}
+#sw-b .wm-band .wm-cta{margin-left:auto;flex:none;display:inline-flex;align-items:center;gap:8px;background:#16b364;color:#001b0f;font-size:13px;font-weight:700;border-radius:100px;padding:11px 22px;transition:background .15s,transform .15s}
+#sw-b .wm-band .in:hover .wm-cta{background:#13a059;transform:translateY(-1px)}
+#sw-b .wm-band .in:focus-visible .wm-cta{box-shadow:0 0 0 3px rgba(65,129,255,.65)}
+@media(max-width:1024px){#sw-b .wm-band .wm-copy span{font-size:12.5px}}
+@media(max-width:860px){#sw-b .wm-band .in{flex-wrap:wrap;padding:17px 0}#sw-b .wm-band .wm-cta{margin-left:56px}}
+
+/* ── TBD wingband cards route into the drawer ── */
+#sw-b .wb-card .wb-run.tbd.wm-live{pointer-events:auto;cursor:pointer;border:0;font-family:inherit;transition:background .15s,color .15s}
+#sw-b .wb-card .wb-run.wm-live{cursor:pointer;border:0;font-family:inherit}
+#sw-b .wb-card .wb-run.tbd.wm-live:hover{background:rgba(255,255,255,.2);color:rgba(255,255,255,.8)}
+#sw-b .wingband .wb-open{display:inline-flex;align-items:center;gap:9px;background:#16b364;color:#fff;border:0;font-family:inherit;font-size:13.5px;font-weight:600;letter-spacing:.01em;border-radius:100px;padding:12px 24px;cursor:pointer;margin:0 0 34px;transition:background .15s}
+#sw-b .wingband .wb-open:hover{background:#12a058}
+#sw-b .wingband .wb-open i{font-style:normal}
+.ad-press{outline:3px solid #16b364 !important;outline-offset:3px;transform:scale(.98);transition:transform .2s,outline .2s;border-radius:14px}
+
+</style>
+
+<footer class="fd-footer">
+  <div class="fdf-in">
+    <div class="fdf-top">
+      <div class="fdf-brand"><span class="fdf-chip">FLIGHT DECK</span>Activation Hub</div>
+      <div class="fdf-cobrand">GE Aerospace</div>
+    </div>
+    <div class="fdf-cols">
+      <div class="fdf-col"><div class="fdf-h">Fundamentals</div><a href="standard-work.html">Standard Work</a><a href="daily-visual-management.html">Daily &amp; Visual Management</a></div>
+      <div class="fdf-col"><div class="fdf-h">Templates</div><a href="sw-templates.html">Template Library</a><a href="sw-flow.html">Template Flow</a></div>
+      <div class="fdf-col"><div class="fdf-h">Standard Work</div><a href="sw-evaluate.html">Evaluate or Update</a><a href="training/index.html">Standard Work in Action</a></div>
+      <div class="fdf-col"><div class="fdf-h">Hub</div><a href="/concept-quickstart.html">Hub Home</a><a href="faq.html">FAQ</a><a href="sw-page-links.html">Page Links</a></div>
+    </div>
+    <div class="fdf-meta"><span>FLIGHT DECK Activation Hub</span><span>GE Aerospace Proprietary &middot; Sensitive &middot; authorized distribution only</span></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var TOTAL = 12;
+
+  function activeTree(){var w=(document.getElementById('sw-b').getAttribute('data-work'))||'mfg';return document.querySelector('.path-tree[data-work="'+w+'"]');}
+  function countChecked(){var t=activeTree();return t?t.querySelectorAll('.checklist li.checked').length:0;}
+
+  function updateProgress(){
+    var fill = document.getElementById('prog-fill');
+    var label = document.getElementById('prog-label');
+    if(!fill || !label) return;
+    var tree = activeTree(); if(!tree){fill.style.width='0%';label.textContent='Pick your work type to begin';return;}
+    var all = tree.querySelectorAll('.checklist li'); var done = tree.querySelectorAll('.checklist li.checked').length; var total = all.length||1;
+    fill.style.width = Math.round(done/total*100) + '%';
+    label.textContent = done + ' of ' + total + ' tasks complete';
+    tree.querySelectorAll('.step').forEach(function(step){var li=step.querySelectorAll('.checklist li');var dn=step.querySelectorAll('.checklist li.checked');if(li.length && dn.length===li.length){step.classList.add('complete');}else{step.classList.remove('complete');}});
+    window.__swUpdateProgress = updateProgress;
+  }
+
+  window.toggleCheck = function(li){
+    li.classList.toggle('checked');
+    updateProgress();
+  };
+
+  window.scrollToStep = function(n){
+    var el = document.getElementById('step-' + n);
+    if(el){ el.scrollIntoView({behavior:'smooth', block:'start'}); }
+  };
+
+  window.toggleFaq = function(qEl){
+    var item = qEl.closest('.faq-item');
+    var wasOpen = item.classList.contains('open');
+    // Close all
+    document.querySelectorAll('#sw-b .faq-item.open').forEach(function(i){ i.classList.remove('open'); });
+    if(!wasOpen){ item.classList.add('open'); }
+  };
+
+  window.setState = function(s){
+    var root = document.getElementById('sw-b');
+    root.setAttribute('data-state', s);
+    root.classList.remove('steps-open');
+    var t = document.querySelector('#sw-b .pc-toggle');
+    if(t){ t.textContent = 'Show the steps'; }
+    window.scrollTo({top:0, behavior:'smooth'});
+  };
+
+  window.toggleFirstTime = function(btn){
+    var isNew = document.getElementById('sw-b').getAttribute('data-state') === 'new';
+    setState(isNew ? 'default' : 'new');
+    if(btn){ btn.textContent = isNew ? 'First Time?' : '← Standard view'; }
+  };
+
+  window.toggleSteps = function(btn){
+    var root = document.getElementById('sw-b');
+    var open = root.classList.toggle('steps-open');
+    var l = root.querySelector('.path-header .ab-toggle .abt-label');
+    if(l){ l.textContent = open ? 'Hide the steps' : 'Show the steps'; }
+  };
+
+  window.setJourney = function(el, stage){
+    document.querySelectorAll('#sw-b .j-pill').forEach(function(p){ p.classList.remove('on'); });
+    el.classList.add('on');
+    document.getElementById('sw-b').setAttribute('data-journey', stage);
+  };
+
+  window.toggleAB = function(btn){
+    var band = btn.closest('.action-band');
+    var open = band.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    var lbl = btn.querySelector('.abt-label');
+    if(lbl){ lbl.textContent = open ? 'Hide the training' : 'Show the training'; }
+  };
+
+  // Init
+  updateProgress();
+})();
+</script>
+
+<script>
+window.swSetWork = function(w){var r=document.getElementById('sw-b');if(r){r.setAttribute('data-work',w);r.classList.add('steps-open');}var t=document.querySelector('.path-tree[data-work="'+w+'"]');if(t)t.scrollIntoView({behavior:'smooth',block:'start'});if(window.__swUpdateProgress)window.__swUpdateProgress();};
+(function(){var w=new URLSearchParams(location.search).get('w');if(w&&/^(mfg|nonmfg|leader)$/.test(w)){var r=document.getElementById('sw-b');if(r){r.setAttribute('data-work',w);r.classList.add('steps-open');}if(window.__swUpdateProgress)window.__swUpdateProgress();}})();
+window.swSeek = function(b,t){var s=b.closest('.ab-tile');if(s){var th=s.querySelectorAll('.ab-th');for(var i=0;i<th.length;i++)th[i].classList.toggle('is-current',th[i]===b);var v=s.querySelector('.ab-player');if(v){v.currentTime=t;v.play();}}};
+(function(){function initReveal(){var trees=document.querySelectorAll('#sw-b .path-tree');for(var i=0;i<trees.length;i++){(function(t){var steps=[].slice.call(t.querySelectorAll('.step'));for(var k=0;k<steps.length-1;k++){(function(step,idx){var card=step.querySelector('.step-card')||step.querySelector('.step-body')||step;if(card.querySelector('.step-next'))return;var b=document.createElement('button');b.type='button';b.className='step-next';b.innerHTML='Next <span aria-hidden="true">&rarr;</span>';b.addEventListener('click',function(){step.classList.add('advanced');var next=steps[idx+1];if(next){next.classList.add('revealed');next.scrollIntoView({behavior:'smooth',block:'start'});}if(window.__swUpdateProgress)window.__swUpdateProgress();});card.appendChild(b);})(steps[k],k);}})(trees[i]);}}if(document.readyState!=='loading')initReveal();else document.addEventListener('DOMContentLoaded',initReveal);})();
+(function(){function init(){var v=document.querySelector('#sw-b .ab-player');if(!v)return;var th=[].slice.call(document.querySelectorAll('#sw-b .ab-th'));var ts=th.map(function(e){var m=(e.getAttribute('onclick')||e.getAttribute('data-on-click')||'').match(/,(\d+)\)/);return m?parseInt(m[1],10):0;});v.addEventListener('timeupdate',function(){var c=v.currentTime,idx=0;for(var i=0;i<ts.length;i++){if(c>=ts[i])idx=i;}for(var j=0;j<th.length;j++)th[j].classList.toggle('is-current',j===idx);});}if(document.readyState!=='loading')init();else document.addEventListener('DOMContentLoaded',init);})();
+</script>
+<script src="/hub/wingmate-chat.js"></script>
+<script src="/hub/wingmate-drawer.js"></script>
+<script src="/deliverables/search/search-index.js"></script>
+<script src="/hub/omnibox.js">
+</script>
+</body></html>

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Standard Work · Choose a design · GE Aerospace</title>
+<script src="/gate.js"></script>
+<style>
+  @font-face{font-family:"GE Sans";font-weight:300;font-style:normal;font-display:swap;src:url("/assets/fonts/ge-sans/sons-light.woff2") format("woff2")}
+  @font-face{font-family:"GE Sans";font-weight:400;font-style:normal;font-display:swap;src:url("/assets/fonts/ge-sans/sons-regular.woff2") format("woff2")}
+  @font-face{font-family:"GE Sans";font-weight:600;font-style:normal;font-display:swap;src:url("/assets/fonts/ge-sans/sons-semibold.woff2") format("woff2")}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:"GE Sans","Geist",-apple-system,"Helvetica Neue",Arial,sans-serif;color:#fff;-webkit-font-smoothing:antialiased;
+    background:radial-gradient(120% 120% at 80% -10%,rgba(65,129,255,.26),transparent 58%),linear-gradient(120deg,#000010,#000a2e 60%,#06163c);
+    display:flex;align-items:center;justify-content:center;min-height:100%;text-align:center;padding:8vh 6.5vw}
+  .cs{max-width:62ch}
+  .eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:12.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:#9fb4e8;margin-bottom:22px}
+  .eyebrow .m{width:7px;height:7px;background:#16b364;border-radius:1px;display:inline-block}
+  h1{font-weight:300;font-size:clamp(40px,6vw,72px);letter-spacing:-.03em;line-height:1.02;margin-bottom:16px}
+  .intro{font-size:clamp(16px,1.4vw,20px);color:rgba(255,255,255,.7);line-height:1.55;margin-bottom:40px}
+  .choices{display:grid;grid-template-columns:1fr 1fr;gap:18px;text-align:left}
+  @media(max-width:680px){.choices{grid-template-columns:1fr}}
+  .choice{display:flex;flex-direction:column;text-decoration:none;color:inherit;
+    background:rgba(255,255,255,.04);border:1px solid rgba(159,180,232,.22);border-radius:18px;
+    padding:26px 26px 24px;transition:border-color .16s,transform .16s,background .16s,box-shadow .16s}
+  .choice:hover{border-color:#4181ff;background:rgba(65,129,255,.08);transform:translateY(-3px);box-shadow:0 22px 48px -24px rgba(34,86,230,.6)}
+  .choice .tag{font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#4181ff;margin-bottom:12px}
+  .choice h2{font-size:22px;font-weight:600;letter-spacing:-.015em;margin:0 0 8px;color:#fff}
+  .choice p{font-size:14.5px;color:rgba(255,255,255,.66);line-height:1.55;margin:0;flex:1}
+  .choice .go{margin-top:20px;font-size:13px;font-weight:700;color:#4181ff;display:inline-flex;align-items:center;gap:6px}
+  .bigback{position:fixed;top:24px;left:50%;transform:translateX(-50%);z-index:50;display:inline-flex;align-items:center;gap:10px;font-family:"GE Sans","Geist",-apple-system,Arial,sans-serif;font-size:16px;font-weight:600;color:#fff;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.22);border-radius:100px;padding:13px 26px;text-decoration:none;backdrop-filter:blur(8px);transition:background .15s,border-color .15s}
+  .bigback:hover{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.4)}
+</style>
+</head>
+<body>
+  <a class="bigback" href="standard-work.html" onclick="if(history.length>1){history.back();return false;}">&larr; Back</a>
+  <div class="cs">
+    <div class="eyebrow"><span class="m"></span>GE Aerospace &middot; Flight Deck Fundamental</div>
+    <h1>Standard Work</h1>
+    <p class="intro">Two designs in test. Open either to explore.</p>
+    <div class="choices">
+      <a class="choice" href="/deliverables/standard-work/sw-concept-a.1.html" target="_blank" rel="noopener">
+        <span class="tag">A &middot; Function Design</span>
+        <h2>Function Design</h2>
+        <p>One Standard Work page that speaks every function's language.</p>
+        <span class="go">Open Concept A &#8599;</span>
+      </a>
+      <a class="choice" href="/deliverables/standard-work/sw-concept-b.1.html" target="_blank" rel="noopener">
+        <span class="tag">B &middot; Onramp Design</span>
+        <h2>Onramp Design</h2>
+        <p>A guided first standard, start to finish in about twenty minutes.</p>
+        <span class="go">Open Concept B &#8599;</span>
+      </a>
+      <a class="choice" href="/deliverables/standard-work/sw-concept-hybrid.1.html" target="_blank" rel="noopener">
+        <span class="tag">C &middot; Hybrid Design</span>
+        <h2>Hybrid Design</h2>
+        <p>The onramp guide split into Manufacturing and Non-Manufacturing paths, with training and Wingmate built in.</p>
+        <span class="go">Open Concept Hybrid &#8599;</span>
+      </a>
+    </div>
+  </div>
+</body>
+</html>

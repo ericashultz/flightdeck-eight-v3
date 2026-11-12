@@ -1,0 +1,187 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ask Wingmate · Flight Deck Search</title>
+<style>
+  :root{
+    --bg:#f6f7f9;--surface:#fff;--ink:#00003d;--body:#3b4157;--muted:#6b7183;--line:#dcdfe8;
+    --sky:#4181ff;--sky-soft:#eaf1ff;--navy:#00003d;--navy-deep:#000028;--good:#16b364;--amber:#b45309;--radius:12px;
+    --sans:"GE Sans","Geist",-apple-system,"Helvetica Neue","Segoe UI",Arial,sans-serif;
+    --mono:"Geist Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 var(--sans);-webkit-font-smoothing:antialiased;
+    height:100vh;display:flex;flex-direction:column}
+  /* top bar */
+  .bar{background:var(--navy-deep);color:#fff;flex:none}
+  .bar-in{max-width:860px;margin:0 auto;display:flex;align-items:center;gap:12px;padding:0 22px;height:54px}
+  .brand{display:flex;align-items:center;gap:9px;font-weight:600;font-size:14px;text-decoration:none;color:#fff;white-space:nowrap}
+  .spark{width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,#4181ff,#7aa8ff);display:grid;place-items:center;color:#fff;font-size:13px}
+  .rt{margin-left:auto;font-size:12.5px;color:rgba(255,255,255,.6)}
+  .rt a{color:rgba(255,255,255,.85);text-decoration:none}.rt a:hover{color:#fff}
+  /* thread */
+  .thread{flex:1;overflow-y:auto;padding:28px 22px 20px}
+  .thread-in{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+  .intro{text-align:center;padding:26px 10px 8px}
+  .intro .eye{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#2256e6;margin:0 0 12px}
+  .intro h1{font-size:clamp(24px,3.4vw,34px);font-weight:600;letter-spacing:-.02em;margin:0 0 10px}
+  .intro p{color:var(--muted);max-width:52ch;margin:0 auto}
+  .chips{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin-top:22px;max-width:640px;margin-left:auto;margin-right:auto}
+  .chip{font-size:13.5px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:8px 15px;cursor:pointer}
+  .chip:hover{border-color:var(--sky);color:var(--sky)}
+  .msg{display:flex;gap:12px;align-items:flex-start;max-width:100%}
+  .msg.user{flex-direction:row-reverse}
+  .av{width:30px;height:30px;border-radius:8px;flex:none;display:grid;place-items:center;font-size:14px}
+  .av.w{background:linear-gradient(135deg,#4181ff,#7aa8ff);color:#fff}
+  .av.u{background:#e7e9f0;color:var(--muted)}
+  .bub{border-radius:12px;padding:12px 15px;max-width:78%;font-size:14.5px;line-height:1.55}
+  .msg.wing .bub{background:var(--surface);border:1px solid var(--line);border-top-left-radius:4px}
+  .msg.user .bub{background:var(--navy);color:#fff;border-top-right-radius:4px}
+  .res{display:flex;gap:12px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:10px;
+    padding:11px 13px;text-decoration:none;color:inherit;margin-top:9px;transition:border-color .12s}
+  .res:hover{border-color:var(--sky)}
+  .ic{width:30px;height:30px;border-radius:7px;display:grid;place-items:center;font-size:15px;flex:none;background:var(--sky-soft)}
+  .ic.b{background:#e7f7ee}.ic.t{background:#eef1fa}.ic.o{background:#fff3e6}.ic.r{background:#fdeaea}
+  .res .ti{font-weight:600;font-size:14.5px}
+  .res .de{color:var(--muted);font-size:12.5px;margin-top:1px}
+  .badge{font-size:9.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:2px 7px;border-radius:20px;white-space:nowrap;margin-top:5px;display:inline-block}
+  .badge.f{background:var(--sky-soft);color:var(--sky)}.badge.b{background:#e7f7ee;color:var(--good)}
+  .badge.t{background:#eef1fa;color:var(--navy)}.badge.o{background:#fff3e6;color:var(--amber)}.badge.r{background:#fdeaea;color:#b91c1c}
+  .foot-q{margin-top:11px;color:var(--muted);font-size:13.5px}
+  /* composer */
+  .composer{flex:none;border-top:1px solid var(--line);background:var(--surface);padding:14px 22px}
+  /* The one pill the drawer uses: field, mic and a round send inside it. Rules copied
+     from sw-wingmate-demo.html so the panel and this page read as one product. */
+  .composer-in{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:6px;background:#f4f7fd;border:1px solid var(--line);border-radius:100px;padding:5px 5px 5px 6px;transition:border-color .15s,box-shadow .15s}
+  .composer-in:focus-within{border-color:var(--sky);box-shadow:0 0 0 3px rgba(65,129,255,.14)}
+  #q{flex:1;min-width:0;font:15px/1.5 var(--sans);color:var(--ink);background:none;border:0;padding:10px 4px 10px 12px;resize:none;max-height:120px;outline:none}
+  #mic{flex:none;background:none;border:0;border-radius:100px;width:34px;height:34px;padding:0;color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:color .15s}
+  #mic svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  #mic:hover{color:var(--ink)}
+  #mic.on{color:var(--good)}
+  #send{flex:none;width:36px;height:36px;padding:0;border-radius:50%;border:none;background:var(--good);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  #send svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  #send:hover{background:#13a059}
+  .hint{max-width:760px;margin:8px auto 0;font-size:11.5px;color:var(--muted);text-align:center}
+  .hint a{color:var(--sky);text-decoration:none}
+</style></head><body>
+
+<div class="bar"><div class="bar-in">
+  <a class="brand" href="../../index.html"><span class="spark">✦</span> FLIGHT&nbsp;DECK Wingmate</a>
+  <span class="rt">Guided search &middot; <a href="./">Structured search &rarr;</a></span>
+</div></div>
+
+<div class="thread"><div class="thread-in" id="thread">
+  <div class="intro">
+    <p class="eye">Ask Wingmate</p>
+    <h1>Tell me what you&rsquo;re trying to do.</h1>
+    <p>Describe it in your own words — no need to know the right term. I&rsquo;ll point you to the fundamental, template, or tool that fits, and where to start.</p>
+    <div class="chips" id="chips"></div>
+  </div>
+</div></div>
+
+<div class="composer"><div class="composer-in">
+  <textarea id="q" rows="1" placeholder="e.g. My team keeps missing action items…" aria-label="Ask Wingmate"></textarea>
+  <button id="mic" type="button" hidden aria-label="Search by voice"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="7" y="2.5" width="6" height="9" rx="3"/><path d="M4.5 9.2a5.5 5.5 0 0 0 11 0"/><path d="M10 14.7V17.5"/></svg></button>
+  <button id="send" aria-label="Send"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 16V4.5"/><path d="M5 9.5L10 4.5l5 5"/></svg></button>
+</div>
+<p class="hint">Wingmate is guided search. Prefer to browse? <a href="./">Open structured search</a>.</p>
+</div>
+
+<script>
+const IDX=[
+ {t:"Standard Work",d:"The current best, agreed way to do a task — documented, followed, improved.",ty:"f",tyl:"Fundamental",u:"../standard-work/sw-concept-hybrid.1.html",tags:"sop procedure baseline step best known method how do i do this consistent repeatable"},
+ {t:"Problem Solving",d:"Structured root-cause problem solving — A3, andon, verified countermeasures.",ty:"f",tyl:"Fundamental",u:"../problem-solving/ps-concept-hybrid.1.html",tags:"a3 root cause andon countermeasure 5 why defect keeps happening broken fix recurring"},
+ {t:"Daily and Visual Management",d:"Make the work and its status visible; run the day from the tier board.",ty:"f",tyl:"Fundamental",u:"../daily-visual-management/dvm-concept-hybrid.1.html",tags:"dvm tier board visual huddle standup status daily meeting see the work"},
+ {t:"5S",d:"Sort, set, shine, standardize, sustain — a stable, organized workplace.",ty:"f",tyl:"Fundamental",u:"../5s/5s-concept-hybrid.1.html",tags:"sort set shine standardize sustain messy workplace organization cleanup audit"},
+ {t:"Operating Cadences",d:"The rhythm of standups and reviews that keeps the system running.",ty:"f",tyl:"Fundamental",u:"../operating-cadences/oc-concept-hybrid.1.html",tags:"standup review rhythm cadence escalation meeting recurring huddle"},
+ {t:"Value Stream Management",d:"See and improve the end-to-end flow of value to the customer.",ty:"f",tyl:"Fundamental",u:"../value-stream-management/vsm-concept-hybrid.1.html",tags:"vsm flow map waste lead time value stream end to end slow process"},
+ {t:"Action Planning",d:"Turn goals and countermeasures into owned, dated, tracked actions.",ty:"f",tyl:"Fundamental",u:"../action-planning/ap-concept-hybrid.1.html",tags:"action plan owner due date hoshin follow-up missing action items nobody owns falling through"},
+ {t:"Flow/Pull",d:"Move work smoothly and pull to demand instead of pushing batches.",ty:"f",tyl:"Fundamental",u:"../flow-pull/fp-concept-hybrid.1.html",tags:"flow pull kanban wip demand batch bottleneck piling up backlog"},
+ {t:"Customer Driven",d:"Start from customer value and let it pull every decision.",ty:"b",tyl:"Behavior",u:"../customer-driven/",tags:"customer value voice of customer voc"},
+ {t:"Respect for People",d:"Develop people, surface problems safely, improve the work together.",ty:"b",tyl:"Behavior",u:"../respect-for-people/",tags:"respect people development safety coaching gemba"},
+ {t:"Continuous Improvement",d:"Small, relentless improvement everywhere, every day.",ty:"b",tyl:"Behavior",u:"../continuous-improvement/",tags:"kaizen ci improvement pdca"},
+ {t:"Step 1 Starter Worksheet",d:"The first-time worksheet to write your first standard.",ty:"t",tyl:"Template",u:"../standard-work/sw-templates.html",tags:"template starter first standard where do i start beginning new"},
+ {t:"Manufacturing Standard Work",d:"Step-by-step standard for a manufacturing operation.",ty:"t",tyl:"Template",u:"../standard-work/sw-templates.html",tags:"template manufacturing operation cell line"},
+ {t:"Kaizen Action Plan",d:"Countermeasure tracking with owner, due date, status, verification.",ty:"t",tyl:"Template",u:"../standard-work/sw-templates.html",tags:"template kaizen action plan countermeasure owner track"},
+ {t:"Line Changeover Checklist",d:"Checklist for a repeatable line changeover.",ty:"t",tyl:"Template",u:"../standard-work/sw-templates.html",tags:"template changeover smed checklist line setup"},
+ {t:"Guided Recommendation",d:"Answer a few questions and get pointed to the right fundamental and template.",ty:"o",tyl:"Tool",u:"../../tools/guided-recommendation/",tags:"tool guide recommend wizard where to start not sure help me choose"},
+ {t:"Action Planning 2×2",d:"Build the plan on the impact / effort 2×2.",ty:"o",tyl:"Tool",u:"../../tools/Action Planning/",tags:"tool action planning 2x2 impact effort prioritize"},
+ {t:"5S Assessment",d:"Score a workplace against the five S's.",ty:"o",tyl:"Tool",u:"../../tools/5S/",tags:"tool 5s assessment audit score"},
+ {t:"DVM Board Builder",d:"Lay out a tier board for daily visual management.",ty:"o",tyl:"Tool",u:"../../tools/DVM/",tags:"tool dvm board builder tier huddle"},
+ {t:"Action Planning walkthrough (Amanda McCauley)",d:"Video — see an action plan built and run end to end.",ty:"r",tyl:"Video",u:"../action-planning/ap-concept-hybrid.1.html",tags:"video walkthrough action planning see it in action example"},
+ {t:"Standard Work how-to walkthrough",d:"Video — writing and following a standard, on screen.",ty:"r",tyl:"Video",u:"../standard-work/sw-concept-hybrid.1.html",tags:"video how-to walkthrough standard work example"},
+];
+const ICON={f:"📘",b:"🤝",t:"📄",o:"🛠",r:"▶"};
+const CHIPS=["Where do I start?","I need to write my first standard","My team keeps missing action items","How do I run a daily huddle?","A defect keeps coming back"];
+const thread=document.getElementById("thread"), q=document.getElementById("q");
+
+function esc(s){return s.replace(/[&<>]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[m]))}
+function score(x,terms){let s=0;const T=(x.t+" "+x.d+" "+x.tags).toLowerCase();
+  for(const t of terms){if(t.length<3)continue;if(T.includes(t)){s+=1;if(x.t.toLowerCase().includes(t))s+=6;}}
+  return s;}
+function match(query){
+  const terms=query.toLowerCase().replace(/[^a-z0-9 ]/g," ").split(/\s+/).filter(Boolean);
+  let list=IDX.map(x=>({x,s:score(x,terms)})).filter(o=>o.s>0).sort((a,b)=>b.s-a.s).map(o=>o.x);
+  if(!list.length)list=[IDX.find(x=>x.t==="Guided Recommendation"),IDX.find(x=>x.t==="Standard Work")];
+  return list.slice(0,3);
+}
+function lead(results,query){
+  const top=results[0];
+  if(!top)return "Let me point you somewhere to start.";
+  if(/start|begin|new|not sure|where/i.test(query)) return "Newer to this? Here’s the shortest path in — start with the first one.";
+  const kind={f:"the fundamental behind that",t:"a template you can use today",o:"a tool that does exactly this",r:"a short video that shows it",b:"the behavior that drives it"}[top.ty];
+  return `Sounds like you want ${kind}. Here’s what fits:`;
+}
+function follow(results){
+  const t=results[0]; if(!t)return "";
+  return t.ty==="f" ? `Want the template or the tool for ${t.t} too? Just ask.`
+       : t.ty==="t" ? "Want me to open the fundamental it comes from, or a walkthrough?"
+       : "Want me to widen it, or show the fundamental behind it?";
+}
+function card(x){return `<a class="res" href="${x.u}"><span class="ic ${x.ty}">${ICON[x.ty]}</span>
+  <span style="flex:1;min-width:0"><span class="ti">${esc(x.t)}</span><div class="de">${esc(x.d)}</div>
+  <span class="badge ${x.ty}">${x.tyl}</span></span></a>`;}
+function addUser(text){
+  const el=document.createElement("div");el.className="msg user";
+  el.innerHTML=`<div class="av u">You</div><div class="bub">${esc(text)}</div>`;
+  document.querySelector(".intro")?.remove();
+  thread.appendChild(el);scrollEnd();
+}
+function addWing(query){
+  const results=match(query);
+  const el=document.createElement("div");el.className="msg wing";
+  el.innerHTML=`<div class="av w">✦</div><div class="bub">${lead(results,query)}
+    ${results.map(card).join("")}
+    <div class="foot-q">${follow(results)}</div></div>`;
+  thread.appendChild(el);scrollEnd();
+}
+function scrollEnd(){const t=document.querySelector(".thread");t.scrollTop=t.scrollHeight;}
+function ask(text){text=text.trim();if(!text)return;addUser(text);q.value="";autosize();setTimeout(()=>addWing(text),260);}
+
+document.getElementById("send").onclick=()=>ask(q.value);
+/* Voice, the drawer's function with this page's field. The browser turns speech into
+   text before anything is sent, so it needs nothing from the Wingmate API. */
+(function(){
+  var SR=window.SpeechRecognition||window.webkitSpeechRecognition, btn=document.getElementById("mic");
+  if(!SR||!btn) return;
+  btn.hidden=false;
+  btn.onclick=function(){
+    if(btn._rec){ btn._rec.stop(); return; }
+    var r=new SR(); r.lang="en-US"; r.interimResults=true; r.continuous=false;
+    btn._rec=r; btn.classList.add("on");
+    r.onresult=function(e){ var t=""; for(var i=0;i<e.results.length;i++) t+=e.results[i][0].transcript; q.value=t; autosize(); };
+    r.onerror=function(){ btn.classList.remove("on"); btn._rec=null; };
+    r.onend=function(){ btn.classList.remove("on"); btn._rec=null; q.focus(); };
+    try{ r.start(); }catch(e){ btn.classList.remove("on"); btn._rec=null; }
+  };
+})();
+q.addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();ask(q.value)}});
+function autosize(){q.style.height="auto";q.style.height=Math.min(q.scrollHeight,120)+"px"}
+q.addEventListener("input",autosize);
+const chips=document.getElementById("chips");
+CHIPS.forEach(c=>{const b=document.createElement("button");b.className="chip";b.textContent=c;b.onclick=()=>ask(c);chips.appendChild(b)});
+// Handed off from the search box (…— Ask Wingmate / ⌘+Return): auto-ask the query
+const handoff=new URLSearchParams(location.search).get("q");
+if(handoff&&handoff.trim()){ask(handoff);} else {q.focus();}
+</script>
+</body></html>

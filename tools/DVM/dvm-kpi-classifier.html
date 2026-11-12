@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/gate.js"></script>
+<script>if(location.search.indexOf('embed=1')>-1)document.documentElement.classList.add('embed');</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KPI Selector — Leading vs. Lagging · FLIGHT DECK</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Inter", -apple-system, "Helvetica Neue", Arial, sans-serif;
+  background: #f4f7fd;
+  color: #00003d;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+/* ── header ── */
+.hd {
+  background: #fff;
+  border-bottom: 1px solid #e7ebf4;
+  padding: 14px 28px;
+  display: flex; align-items: center; gap: 14px;
+  position: sticky; top: 0; z-index: 50;
+}
+.hd-chip {
+  font-size: 10px; font-weight: 800; letter-spacing: .14em;
+  text-transform: uppercase; background: #00003d; color: #fff;
+  padding: 3px 8px; border-radius: 4px;
+}
+.hd-title { font-size: 14px; font-weight: 700; color: #00003d; }
+.hd-sub   { font-size: 12px; color: #8891ab; }
+.hd-sep   { flex: 1; }
+.hd-steps {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 600; color: #8891ab;
+}
+.hd-step { padding: 4px 10px; border-radius: 100px; transition: all .2s; }
+.hd-step.active { background: #eef3fd; color: #2256e6; }
+.hd-step.done   { color: #16b364; }
+
+/* ── layout ── */
+.page { max-width: 1060px; margin: 0 auto; padding: 40px 28px 64px; }
+html.embed body{background:transparent;min-height:0}
+html.embed .hd{display:none}
+html.embed .page{padding:2px 0 10px;max-width:none}
+html.embed .intro-wrap > .eyebrow, html.embed .intro-wrap > .section-h, html.embed .intro-wrap > .section-sub{display:none}
+html.embed .intro-deck{max-width:none;margin:4px 0 0}
+html.embed .is-two{gap:18px}
+html.embed .swipe-stage{max-width:680px}
+
+/* ── section headings ── */
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 11px; font-weight: 700; letter-spacing: .18em;
+  text-transform: uppercase; color: #2256e6; margin-bottom: 10px;
+}
+.eyebrow::before {
+  content: ""; width: 6px; height: 6px;
+  background: #16b364; border-radius: 1px; flex-shrink: 0;
+}
+.section-h { font-size: 26px; font-weight: 300; letter-spacing: -.025em; color: #00003d; margin-bottom: 6px; }
+.section-sub { font-size: 14.5px; color: #4A506A; line-height: 1.65; max-width: 62ch; }
+
+/* ── concept panels ── */
+.concept-row {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  margin: 28px 0 20px;
+}
+.concept-panel {
+  background: #fff; border: 1px solid #e7ebf4; border-radius: 14px;
+  padding: 22px 24px;
+  box-shadow: 0 1px 2px rgba(11,26,64,.04), 0 18px 40px -26px rgba(11,26,64,.18);
+}
+.concept-panel.lead { border-top: 3px solid #16b364; }
+.concept-panel.lag  { border-top: 3px solid #8891ab; }
+.cp-tag {
+  font-size: 10.5px; font-weight: 700; letter-spacing: .14em;
+  text-transform: uppercase; margin-bottom: 8px;
+}
+.concept-panel.lead .cp-tag { color: #16b364; }
+.concept-panel.lag  .cp-tag { color: #8891ab; }
+.cp-name {
+  font-size: 17px; font-weight: 700; color: #00003d;
+  margin-bottom: 8px; letter-spacing: -.01em;
+}
+.cp-def {
+  font-size: 13.5px; color: #4A506A; line-height: 1.65; margin-bottom: 14px;
+}
+.cp-example {
+  background: #f4f7fd; border-left: 3px solid;
+  border-radius: 0 8px 8px 0; padding: 10px 14px;
+  font-size: 13px; color: #44496e; line-height: 1.55;
+}
+.concept-panel.lead .cp-example { border-color: #16b364; }
+.concept-panel.lag  .cp-example { border-color: #c4cde0; }
+.cp-example strong { color: #00003d; font-weight: 600; }
+
+/* ── doctrine callout ── */
+.doctrine {
+  background: #fdf7e9; border: 1px solid #f3e6c4;
+  border-radius: 12px; padding: 16px 20px; margin-bottom: 28px;
+}
+.doctrine-tag {
+  font-size: 10px; font-weight: 700; letter-spacing: .14em;
+  text-transform: uppercase; color: #a9812a; margin-bottom: 6px;
+}
+.doctrine p {
+  font-size: 13.5px; color: #7a6a3f; line-height: 1.65; margin: 0;
+}
+.doctrine strong { color: #5a4a1f; }
+
+/* ── start button ── */
+.start-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: #2256e6; color: #fff;
+  font-family: inherit; font-size: 14px; font-weight: 700;
+  border: 0; border-radius: 100px; padding: 12px 28px;
+  cursor: pointer; transition: background .15s, transform .12s;
+}
+.start-btn:hover { background: #1a45c4; transform: translateY(-1px); }
+
+/* ── game screen ── */
+.game-wrap { display: none; }
+.game-wrap.active { display: block; }
+.intro-wrap { display: block; }
+.intro-wrap.hidden { display: none; }
+
+/* progress */
+.progress-row {
+  display: flex; align-items: center; gap: 14px; margin-bottom: 28px;
+}
+.progress-track {
+  flex: 1; height: 5px; background: #e7ebf4;
+  border-radius: 100px; overflow: hidden;
+}
+.progress-fill {
+  height: 100%; width: 0%;
+  background: linear-gradient(90deg, #2256e6, #16b364);
+  border-radius: 100px; transition: width .45s cubic-bezier(.4,0,.2,1);
+}
+.progress-label { font-size: 12px; font-weight: 600; color: #8891ab; white-space: nowrap; }
+
+/* current KPI card */
+.kpi-spotlight {
+  background: #fff; border: 1px solid #e7ebf4; border-radius: 16px;
+  padding: 28px 32px;
+  box-shadow: 0 1px 2px rgba(11,26,64,.04), 0 18px 40px -26px rgba(11,26,64,.18);
+  margin-bottom: 20px;
+}
+.kpi-spotlight-top {
+  display: flex; align-items: flex-start;
+  justify-content: space-between; gap: 24px; flex-wrap: wrap;
+}
+.kpi-meta { flex: 1; min-width: 240px; }
+.kpi-pillar-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 10.5px; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; padding: 3px 10px;
+  border-radius: 100px; margin-bottom: 12px;
+}
+.pb-s { background: rgba(29,78,216,.08);  color: #1d4ed8; }
+.pb-q { background: rgba(124,58,237,.08); color: #7c3aed; }
+.pb-d { background: rgba(8,145,178,.08);  color: #0891b2; }
+.pb-i { background: rgba(180,83,9,.08);   color: #b45309; }
+.pb-p { background: rgba(6,95,70,.08);    color: #065f46; }
+
+.kpi-name {
+  font-size: 22px; font-weight: 700; color: #00003d;
+  letter-spacing: -.02em; margin-bottom: 4px; line-height: 1.2;
+}
+.kpi-calc { font-size: 12px; color: #8891ab; margin-bottom: 12px; font-variant-numeric: tabular-nums; }
+.kpi-desc { font-size: 14px; color: #44496e; line-height: 1.7; max-width: 52ch; }
+
+/* classify buttons */
+.classify-btns {
+  display: flex; flex-direction: column; gap: 10px; flex-shrink: 0;
+}
+.cl-btn {
+  display: flex; align-items: center; gap: 10px;
+  padding: 14px 22px; border-radius: 12px; border: 1.5px solid;
+  font-family: inherit; cursor: pointer; transition: all .15s;
+  min-width: 190px; text-align: left;
+}
+.cl-btn-icon {
+  width: 32px; height: 32px; border-radius: 8px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 700;
+}
+.cl-btn-text strong { display: block; font-size: 13.5px; font-weight: 700; color: #00003d; }
+.cl-btn-text span   { font-size: 11.5px; color: #8891ab; }
+
+.cl-btn.lead {
+  background: #fff; border-color: #c4d9c9;
+}
+.cl-btn.lead .cl-btn-icon { background: #ecfdf5; color: #16b364; }
+.cl-btn.lead:hover {
+  border-color: #16b364;
+  box-shadow: 0 4px 14px -4px rgba(22,179,100,.22);
+  transform: translateY(-1px);
+}
+.cl-btn.lag {
+  background: #fff; border-color: #dde4f0;
+}
+.cl-btn.lag .cl-btn-icon { background: #f4f7fd; color: #8891ab; }
+.cl-btn.lag:hover {
+  border-color: #8891ab;
+  box-shadow: 0 4px 14px -4px rgba(100,116,139,.18);
+  transform: translateY(-1px);
+}
+.cl-btn:disabled { opacity: .45; pointer-events: none; }
+
+/* feedback strip — appears below the spotlight after answering */
+.feedback-strip {
+  border-radius: 10px; padding: 14px 18px;
+  display: none; margin-bottom: 20px;
+  font-size: 13.5px; line-height: 1.6;
+}
+.feedback-strip.show { display: flex; gap: 12px; align-items: flex-start; }
+.feedback-strip.correct  { background: #ecfdf5; border: 1px solid #bbf7d0; }
+.feedback-strip.incorrect{ background: #fff1f2; border: 1px solid #fecdd3; }
+.feedback-strip.mixed    { background: #fefce8; border: 1px solid #fde68a; }
+.fb-icon {
+  width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; margin-top: 1px;
+}
+.feedback-strip.correct  .fb-icon { background: #16b364; color: #fff; }
+.feedback-strip.incorrect .fb-icon { background: #ef4444; color: #fff; }
+.feedback-strip.mixed    .fb-icon { background: #f59e0b; color: #fff; }
+.fb-body { flex: 1; }
+.fb-label {
+  font-size: 10.5px; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; margin-bottom: 3px;
+}
+.feedback-strip.correct  .fb-label { color: #166534; }
+.feedback-strip.incorrect .fb-label { color: #991b1b; }
+.feedback-strip.mixed    .fb-label { color: #92400e; }
+.fb-text { color: #44496e; }
+.fb-text strong { color: #00003d; }
+
+/* answered list */
+.answered-list {
+  background: #fff; border: 1px solid #e7ebf4; border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(11,26,64,.04);
+}
+.al-header {
+  padding: 11px 20px; background: #f4f7fd;
+  border-bottom: 1px solid #e7ebf4;
+  font-size: 11px; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; color: #8891ab;
+}
+.al-empty {
+  padding: 16px 20px; font-size: 13px; color: #b0bbd8; font-style: italic;
+}
+.al-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 20px; border-bottom: 1px solid #f2f4fa;
+  font-size: 13px;
+}
+.al-row:last-child { border-bottom: none; }
+.al-icon { font-size: 13px; width: 18px; text-align: center; flex-shrink: 0; }
+.al-name { flex: 1; font-weight: 600; color: #00003d; }
+.al-tag {
+  font-size: 10.5px; font-weight: 700; letter-spacing: .06em;
+  text-transform: uppercase; padding: 2px 9px; border-radius: 100px;
+}
+.al-tag.correct-leading { background: #ecfdf5; color: #16b364; }
+.al-tag.correct-lagging { background: #f1f5f9; color: #64748b; }
+.al-tag.wrong   { background: #fff1f2; color: #ef4444; }
+.al-tag.mixed   { background: #fefce8; color: #b45309; }
+
+/* ── verdict screen ── */
+.verdict-wrap { display: none; }
+.verdict-wrap.active { display: block; }
+
+.verdict-score-card {
+  background: #fff; border: 1px solid #e7ebf4; border-radius: 16px;
+  padding: 30px 36px;
+  box-shadow: 0 1px 2px rgba(11,26,64,.04), 0 18px 40px -26px rgba(11,26,64,.18);
+  display: flex; align-items: center; gap: 32px;
+  margin-bottom: 24px; flex-wrap: wrap;
+}
+.v-grade {
+  font-size: 72px; font-weight: 300; line-height: 1;
+  letter-spacing: -.04em;
+}
+.v-grade.gd  { color: #ef4444; }
+.v-grade.gc  { color: #f59e0b; }
+.v-grade.gb  { color: #eab308; }
+.v-grade.ga  { color: #16b364; }
+.v-grade.ga-plus { color: #16b364; }
+
+.v-score-detail { flex: 1; min-width: 200px; }
+.v-score-eyebrow {
+  font-size: 10.5px; font-weight: 700; letter-spacing: .14em;
+  text-transform: uppercase; color: #8891ab; margin-bottom: 4px;
+}
+.v-score-num {
+  font-size: 28px; font-weight: 700; color: #00003d;
+  letter-spacing: -.02em; margin-bottom: 6px;
+}
+.v-score-msg { font-size: 14px; color: #4A506A; line-height: 1.6; max-width: 50ch; }
+
+/* leading nudge */
+.v-nudge {
+  background: #fefce8; border: 1px solid #fde68a;
+  border-radius: 12px; padding: 14px 18px; margin-bottom: 20px;
+}
+.v-nudge-tag {
+  font-size: 10px; font-weight: 700; letter-spacing: .14em;
+  text-transform: uppercase; color: #92400e; margin-bottom: 5px;
+}
+.v-nudge p { font-size: 13.5px; color: #78350f; line-height: 1.6; }
+.v-nudge strong { color: #451a03; }
+
+/* doctrine grid */
+.doctrine-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+  margin-bottom: 24px;
+}
+.d-card {
+  background: #fff; border: 1px solid #e7ebf4; border-radius: 14px;
+  padding: 20px 22px;
+  box-shadow: 0 1px 2px rgba(11,26,64,.04), 0 18px 40px -26px rgba(11,26,64,.16);
+}
+.d-card-tag {
+  font-size: 10px; font-weight: 700; letter-spacing: .14em;
+  text-transform: uppercase; color: #16b364; margin-bottom: 7px;
+}
+.d-card-title {
+  font-size: 14.5px; font-weight: 700; color: #00003d;
+  margin-bottom: 7px; letter-spacing: -.01em; line-height: 1.3;
+}
+.d-card-body {
+  font-size: 13px; color: #4A506A; line-height: 1.65;
+}
+.d-card-body strong { color: #00003d; font-weight: 600; }
+
+/* full review */
+.review-table {
+  background: #fff; border: 1px solid #e7ebf4; border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(11,26,64,.04);
+  margin-bottom: 24px;
+}
+.rt-header {
+  padding: 11px 20px; background: #f4f7fd;
+  border-bottom: 1px solid #e7ebf4;
+  font-size: 11px; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; color: #8891ab;
+}
+.rt-row {
+  display: grid; grid-template-columns: 22px 1fr auto; gap: 12px;
+  align-items: flex-start; padding: 14px 20px;
+  border-bottom: 1px solid #f2f4fa;
+}
+.rt-row:last-child { border-bottom: none; }
+.rt-icon { font-size: 13px; padding-top: 2px; }
+.rt-body {}
+.rt-name { font-size: 14px; font-weight: 700; color: #00003d; margin-bottom: 2px; }
+.rt-explain { font-size: 12.5px; color: #64748b; line-height: 1.55; }
+.rt-explain strong { color: #44496e; }
+.rt-tag {
+  font-size: 10.5px; font-weight: 700; letter-spacing: .06em;
+  text-transform: uppercase; padding: 3px 10px; border-radius: 100px;
+  white-space: nowrap; align-self: flex-start;
+}
+.rt-tag.v-leading  { background: #ecfdf5; color: #16b364; }
+.rt-tag.v-lagging  { background: #f1f5f9; color: #64748b; }
+.rt-tag.v-wrong    { background: #fff1f2; color: #ef4444; }
+.rt-tag.v-mixed    { background: #fefce8; color: #b45309; }
+
+/* actions */
+.verdict-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn-restart {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: #2256e6; color: #fff;
+  font-family: inherit; font-size: 13.5px; font-weight: 700;
+  border: 0; border-radius: 100px; padding: 11px 24px;
+  cursor: pointer; transition: background .15s;
+}
+.btn-restart:hover { background: #1a45c4; }
+.btn-nav {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: #fff; color: #2256e6;
+  font-family: inherit; font-size: 13.5px; font-weight: 600;
+  border: 1px solid #d6e3fb; border-radius: 100px; padding: 11px 24px;
+  cursor: pointer; transition: border-color .15s, box-shadow .15s;
+}
+.btn-nav:hover { border-color: #4181ff; box-shadow: 0 4px 12px -4px rgba(34,86,230,.18); }
+
+@media (max-width: 780px) {
+  .concept-row { grid-template-columns: 1fr; }
+  .doctrine-grid { grid-template-columns: 1fr; }
+  .kpi-spotlight-top { flex-direction: column; }
+  .classify-btns { flex-direction: row; flex-wrap: wrap; }
+  .cl-btn { flex: 1; min-width: 140px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; }
+}
+
+/* ── classic swipe deck ── */
+.swipe-stage{max-width:560px;margin:0 auto 8px}
+.deck-wrap{position:relative;padding-bottom:26px}
+.deck-wrap::before,.deck-wrap::after{content:"";position:absolute;left:0;right:0;top:0;bottom:26px;background:#fff;border:1px solid #e7ebf4;border-radius:18px;z-index:0}
+.deck-wrap::before{transform:translateY(11px) scale(.955);opacity:.7}
+.deck-wrap::after{transform:translateY(22px) scale(.91);opacity:.4}
+.kpi-spotlight{position:relative;z-index:2;border-radius:18px;padding:34px 34px 38px;margin-bottom:0;min-height:280px;display:flex;align-items:center}
+.kpi-spotlight .kpi-meta{min-width:0}
+.kpi-name{font-size:26px}
+.kpi-desc{max-width:none}
+.swipe-actions{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin:22px 6px 0}
+.sa-col{display:flex;flex-direction:column;align-items:center;gap:10px;flex:1;max-width:170px}
+.swipe-actions .cl-btn{width:64px;height:64px;min-width:0;padding:0;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;border-width:2px}
+.swipe-actions .cl-btn.lead{color:#16b364}
+.swipe-actions .cl-btn.lag{color:#64748b}
+.swipe-actions .cl-btn.lead:hover{background:#ecfdf5}
+.swipe-actions .cl-btn.lag:hover{background:#f4f7fd}
+.sa-label{text-align:center}
+.sa-label strong{display:block;font-size:13.5px;font-weight:700;color:#00003d}
+.sa-label span{font-size:11.5px;color:#8891ab}
+.sa-hint{align-self:center;font-family:ui-monospace,Menlo,monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#9aa0b4;text-align:center;line-height:1.8}
+.feedback-strip,.answered-list{max-width:560px;margin-left:auto;margin-right:auto}
+
+/* how-it-works — the drill explained before you start */
+.howto{background:#fff;border:1px solid #e7ebf4;border-radius:14px;padding:22px 26px;margin:26px 0 22px;box-shadow:0 1px 2px rgba(11,26,64,.04)}
+.howto-cap{font-family:ui-monospace,Menlo,monospace;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#6b7183;margin-bottom:14px}
+.howto-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.ht-step{display:flex;gap:12px;align-items:flex-start}
+.ht-n{flex:none;width:24px;height:24px;border-radius:50%;background:#2f6bff;color:#fff;font-family:ui-monospace,Menlo,monospace;font-size:11.5px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.ht-step strong{display:block;font-size:13.5px;color:#00003d;margin-bottom:3px}
+.ht-step span{font-size:12.5px;color:#4A506A;line-height:1.5}
+.howto-note{margin-top:16px;padding-top:14px;border-top:1px solid #eef1f8;font-size:12.5px;color:#6b7183}
+@media(max-width:760px){.howto-steps{grid-template-columns:1fr}}
+
+/* ── stepped intro ── */
+.intro-deck{max-width:640px;margin:30px auto 0;background:#fff;border:1px solid #e7ebf4;border-radius:18px;padding:34px 38px 20px;box-shadow:0 1px 2px rgba(11,26,64,.04),0 18px 40px -26px rgba(11,26,64,.18)}
+.istep{display:none}
+.istep.active{display:block;animation:istep-in .25s ease}
+@keyframes istep-in{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
+.is-tag{font-family:ui-monospace,Menlo,monospace;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#6b7183;margin-bottom:10px}
+.is-h{font-size:24px;font-weight:700;color:#00003d;letter-spacing:-.02em;margin:0 0 20px}
+.is-two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.is-mini{border:1.5px solid #e7ebf4;border-radius:14px;padding:18px 20px;position:relative}
+.is-mini.lead{border-color:#bfe6cd}
+.is-mini.lag{border-color:#dde4f0}
+.is-mini .mini-dir{position:absolute;top:14px;right:16px;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700}
+.is-mini.lead .mini-dir{background:#ecfdf5;color:#16b364}
+.is-mini.lag .mini-dir{background:#f4f7fd;color:#64748b}
+.is-mini strong{display:block;font-size:16px;color:#00003d;margin-bottom:2px}
+.is-mini em{display:block;font-style:normal;font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px}
+.is-mini.lead em{color:#16b364}
+.is-mini.lag em{color:#64748b}
+.is-mini p{font-size:13px;color:#44496e;line-height:1.6;margin:0}
+.is-mini p b{color:#00003d}
+.is-swipe-demo{display:flex;align-items:center;justify-content:center;gap:22px;margin:6px 0 18px}
+.is-swipe-demo .demo-card{width:86px;height:112px;background:#fff;border:1.5px solid #cdd6ea;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:700;color:#00003d;box-shadow:0 10px 24px -14px rgba(11,26,64,.35);animation:demo-sway 2.4s ease-in-out infinite}
+@keyframes demo-sway{0%,100%{transform:translateX(0) rotate(0)}25%{transform:translateX(14px) rotate(3deg)}75%{transform:translateX(-14px) rotate(-3deg)}}
+.is-swipe-demo .dir{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.is-swipe-demo .dir.lead{color:#16b364}
+.is-swipe-demo .dir.lag{color:#64748b}
+.is-p{font-size:14px;color:#44496e;line-height:1.65;margin:0 0 20px;text-align:center}
+.istep .start-btn{display:block;margin:0 auto 8px}
+.intro-nav{display:flex;align-items:center;gap:14px;border-top:1px solid #eef1f8;margin-top:22px;padding:14px 0 6px}
+.inav-back,.inav-next{font-family:inherit;font-size:13px;font-weight:600;color:#2f6bff;background:none;border:0;cursor:pointer;padding:6px 4px}
+.inav-back:disabled{color:#c2c6d4;cursor:default}
+.inav-dots{display:flex;gap:7px;margin:0 auto}
+.inav-dots i{width:7px;height:7px;border-radius:50%;background:#dde4f0}
+.inav-dots i.on{background:#2f6bff}
+.inav-skip{font-family:inherit;font-size:12px;font-weight:600;color:#8891ab;background:none;border:0;cursor:pointer;padding:6px 4px}
+.inav-skip:hover{color:#2f6bff}
+@media(max-width:640px){.is-two{grid-template-columns:1fr}.intro-deck{padding:26px 22px 16px}}
+</style>
+</head>
+<body>
+
+<!-- header -->
+<header class="hd">
+  <div class="hd-chip">FLIGHT DECK</div>
+  <div>
+    <span class="hd-title">KPI Selector</span>
+    <span class="hd-sub"> · Leading vs. Lagging</span>
+  </div>
+  <div class="hd-sep"></div>
+  <div class="hd-steps">
+    <span class="hd-step active" id="step-lbl-1">Learn</span>
+    <span style="color:#d8deee">·</span>
+    <span class="hd-step" id="step-lbl-2">Classify</span>
+    <span style="color:#d8deee">·</span>
+    <span class="hd-step" id="step-lbl-3">Review</span>
+  </div>
+</header>
+
+<div class="page">
+
+  <!-- ══ INTRO ══ -->
+  <div class="intro-wrap" id="intro-wrap">
+
+    <div class="eyebrow">Daily &amp; Visual Management</div>
+    <h1 class="section-h">What kind of KPI are you tracking?</h1>
+    <p class="section-sub">Learn the one distinction every board depends on &mdash; in three quick steps &mdash; then call it yourself on 12 real KPIs.</p>
+
+    <div class="intro-deck">
+
+      <div class="istep active" data-step="1">
+        <div class="is-tag">1 of 3 &middot; The idea</div>
+        <h2 class="is-h">There are two kinds of KPI.</h2>
+        <div class="is-two">
+          <div class="is-mini lead">
+            <span class="mini-dir">&#8594;</span>
+            <strong>Leading</strong><em>Predicts the result</em>
+            <p>Measured <b>before</b> the outcome. The team still has time to act.</p>
+          </div>
+          <div class="is-mini lag">
+            <span class="mini-dir">&#8592;</span>
+            <strong>Lagging</strong><em>Confirms the result</em>
+            <p>Measured <b>after</b> the outcome. The miss already happened.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="istep" data-step="2">
+        <div class="is-tag">2 of 3 &middot; One example of each</div>
+        <h2 class="is-h">Same board, different power.</h2>
+        <div class="is-two">
+          <div class="is-mini lead">
+            <em>Leading</em><strong>Standard WIP (SWIP)</strong>
+            <p>Inventory drops below target this shift &mdash; a delivery miss is coming. You still have time to replenish and act.</p>
+          </div>
+          <div class="is-mini lag">
+            <em>Lagging</em><strong>Safety Incidents</strong>
+            <p>Records that an injury occurred. Vital to count &mdash; but prevention needs a leading signal upstream.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="istep" data-step="3">
+        <div class="is-tag">3 of 3 &middot; Your turn</div>
+        <h2 class="is-h">Swipe to call it.</h2>
+        <div class="is-swipe-demo">
+          <span class="dir lag">&#8592; Lagging</span>
+          <span class="demo-card">KPI</span>
+          <span class="dir lead">Leading &#8594;</span>
+        </div>
+        <p class="is-p">Twelve real KPIs, one card at a time. Drag right if it predicts, left if it confirms &mdash; instant feedback on every call.</p>
+        <button class="start-btn" onclick="startGame()">Classify 12 KPIs &#8594;</button>
+      </div>
+
+      <div class="intro-nav">
+        <button class="inav-back" id="inav-back" onclick="introStep(-1)" disabled>&#8592; Back</button>
+        <div class="inav-dots" id="inav-dots"><i class="on"></i><i></i><i></i></div>
+        <button class="inav-next" id="inav-next" onclick="introStep(1)">Next &#8594;</button>
+        <button class="inav-skip" onclick="startGame()">Skip &middot; I know this &#8594;</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══ GAME ══ -->
+  <div class="game-wrap" id="game-wrap">
+
+    <div class="progress-row">
+      <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
+      <div class="progress-label" id="prog-label">0 of 12</div>
+    </div>
+
+    <!-- spotlight · classic swipe deck -->
+    <div class="swipe-stage">
+      <div class="deck-wrap">
+        <div class="kpi-spotlight" id="spotlight">
+          <div class="kpi-meta">
+            <div class="kpi-pillar-badge" id="cur-pillar"></div>
+            <div class="kpi-name" id="cur-name">&mdash;</div>
+            <div class="kpi-calc" id="cur-calc"></div>
+            <div class="kpi-desc" id="cur-desc"></div>
+          </div>
+        </div>
+      </div>
+      <div class="swipe-actions">
+        <div class="sa-col">
+          <button class="cl-btn lag" id="btn-lag" onclick="classify('lagging')" aria-label="Lagging — confirms the result"><span>&#8592;</span></button>
+          <div class="sa-label lag"><strong>Lagging</strong><span>Confirms the result</span></div>
+        </div>
+        <div class="sa-hint">swipe the card<br>or use &#8592; &#8594; keys</div>
+        <div class="sa-col">
+          <button class="cl-btn lead" id="btn-lead" onclick="classify('leading')" aria-label="Leading — predicts the result"><span>&#8594;</span></button>
+          <div class="sa-label lead"><strong>Leading</strong><span>Predicts the result</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- feedback -->
+    <div class="feedback-strip" id="feedback-strip">
+      <div class="fb-icon" id="fb-icon"></div>
+      <div class="fb-body">
+        <div class="fb-label" id="fb-label"></div>
+        <div class="fb-text" id="fb-text"></div>
+      </div>
+    </div>
+
+    <!-- answered -->
+    <div class="answered-list">
+      <div class="al-header">Answered so far</div>
+      <div id="al-rows"><div class="al-empty">Your answers will appear here.</div></div>
+    </div>
+
+  </div>
+
+  <!-- ══ VERDICT ══ -->
+  <div class="verdict-wrap" id="verdict-wrap">
+
+    <div class="doctrine">
+      <div class="doctrine-tag">FLIGHT DECK Doctrine</div>
+      <p>Frontline KPIs should be the <strong>critical few measures the team can directly influence at genba</strong>. At minimum, they should function as a <strong>leading indicator of the future result</strong> &mdash; or be a <strong>lagging indicator that can be resolved rapidly the same day</strong>. Daily Management is about talking about the <strong>changes needed to improve</strong>, not just the score.</p>
+    </div>
+
+
+    <div class="verdict-score-card">
+      <div class="v-grade" id="v-grade">—</div>
+      <div class="v-score-detail">
+        <div class="v-score-eyebrow">Score</div>
+        <div class="v-score-num" id="v-score-num">— / 12</div>
+        <div class="v-score-msg" id="v-score-msg"></div>
+      </div>
+    </div>
+
+    <div class="v-nudge" id="v-nudge" style="display:none">
+      <div class="v-nudge-tag">Watch out</div>
+      <p id="v-nudge-text"></p>
+    </div>
+
+    <div class="doctrine-grid">
+      <div class="d-card">
+        <div class="d-card-tag">FLIGHT DECK Doctrine</div>
+        <div class="d-card-title">Leading OR lagging with rapid resolution</div>
+        <div class="d-card-body">Not every KPI on your board needs to be leading. A lagging indicator is valuable <strong>if the team can resolve the gap the same day it appears</strong>. The danger is a board full of lagging KPIs where problems compound before the team can act.</div>
+      </div>
+      <div class="d-card">
+        <div class="d-card-tag">FLIGHT DECK Doctrine</div>
+        <div class="d-card-title">The critical few, not the exhaustive many</div>
+        <div class="d-card-body">Don't load the board with every leading metric you can find. Use the <strong>critical few KPIs the team can directly influence at genba</strong> — with fast visibility to gaps and same-day recovery actions.</div>
+      </div>
+      <div class="d-card">
+        <div class="d-card-tag">FLIGHT DECK Doctrine</div>
+        <div class="d-card-title">Three questions every DMS answers</div>
+        <div class="d-card-body"><strong>1. Did we win today vs. target?</strong><br><strong>2. What factors caused the miss?</strong><br><strong>3. What are we doing now to recover at the root?</strong><br>A board without leading indicators can only answer #1 — after it's too late.</div>
+      </div>
+      <div class="d-card">
+        <div class="d-card-tag">FLIGHT DECK Doctrine</div>
+        <div class="d-card-title">Run chart → Pareto → Problem Solving</div>
+        <div class="d-card-body">KPIs that log a <strong>reason with every miss</strong> are Pareto-ready. That reason log, sorted by frequency, shows which root cause drives 80% of the problem. <strong>Rate-only KPIs can't do this</strong> — they give you a score, not a diagnosis.</div>
+      </div>
+    </div>
+
+    <div class="review-table">
+      <div class="rt-header">Full review</div>
+      <div id="rt-rows"></div>
+    </div>
+
+    <div class="verdict-actions">
+      <button class="btn-restart" onclick="restart()">Try again</button>
+      <button class="btn-nav" onclick="window.open('/deliverables/daily-visual-management/dvm-concept-hybrid.1.html','_blank')">Back to Daily &amp; Visual Management →</button>
+    </div>
+
+  </div>
+
+</div><!-- /page -->
+
+<script>
+// ── KPI DATA ──────────────────────────────────────────
+const KPIs = [
+  {
+    pillar:'S', pillarClass:'pb-s',
+    name:'Safety Incidents',
+    calc:'Recordables + First Aid events',
+    desc:'Counts the number of safety events — recordable injuries and first-aid cases — that occurred in the period.',
+    answer:'lagging',
+    why:{
+      correct:'Correct. <strong>Safety Incidents is a lagging indicator.</strong> The harm has already occurred by the time it\'s counted. To prevent the next incident you need a leading signal upstream — like concern closure rate — that tells you whether hazards are being resolved before they cause injury.',
+      wrong:'<strong>Safety Incidents is a lagging indicator.</strong> The injury has already occurred by the time it appears on your board. A leading signal for safety (e.g. concern closure rate, near-miss count) tells you whether the conditions for an incident are building — before it\'s too late.'
+    }
+  },
+  {
+    pillar:'I', pillarClass:'pb-i',
+    name:'Standard WIP (SWIP)',
+    calc:'Actual WIP vs. calculated SWIP target',
+    desc:'Compares the actual inventory in a cell against the calculated standard required to keep flow moving, checked every shift.',
+    answer:'leading',
+    why:{
+      correct:'Correct. <strong>SWIP is a leading indicator.</strong> A WIP level below target tells you a delivery miss is coming — before the output gap appears on the board. The team still has time to replenish and prevent the miss.',
+      wrong:'<strong>SWIP is a leading indicator.</strong> It measures a process condition (current inventory level) that predicts an upcoming delivery miss — before the output gap appears. Seeing SWIP drop today gives the team time to act before tomorrow\'s output is affected.'
+    }
+  },
+  {
+    pillar:'Q', pillarClass:'pb-q',
+    name:'Defects Per Unit (DPU)',
+    calc:'Total defects ÷ Units produced',
+    desc:'Measures the average number of defects found per unit produced in the shift. Each defect is logged with a reason.',
+    answer:'lagging',
+    why:{
+      correct:'Correct. <strong>DPU is a lagging indicator.</strong> The defect has already been built by the time it\'s counted. It\'s valuable at DMS level because each defect is logged with a reason — enabling a same-day Pareto by defect type and rapid root-cause action.',
+      wrong:'<strong>DPU is a lagging indicator.</strong> It records quality outcomes after they\'ve occurred. Its power at DMS level comes from logging a reason with each defect — building a same-day Pareto that turns a score into a problem-solving conversation.'
+    }
+  },
+  {
+    pillar:'I', pillarClass:'pb-i',
+    name:'Plan For Every Part (PFEP) Attainment',
+    calc:'Actual replenishments ÷ Planned replenishments × 100%',
+    desc:'Measures whether the material replenishment system delivered to the cell as planned — did every pull signal get fulfilled on time?',
+    answer:'leading',
+    why:{
+      correct:'Correct. <strong>PFEP Attainment is a leading indicator.</strong> A missed replenishment predicts a future WIP shortage and output miss. It measures the health of the supply process before the production impact is felt.',
+      wrong:'<strong>PFEP Attainment is a leading indicator.</strong> It measures whether the material supply system is feeding the cell correctly. A missed route means a WIP shortage is coming before output is affected — the team can act before the miss happens.'
+    }
+  },
+  {
+    pillar:'D', pillarClass:'pb-d',
+    name:'On-Time Delivery',
+    calc:'On-time deliveries ÷ Total deliveries × 100%',
+    desc:'Measures the percentage of customer or internal commitments delivered on time in the period.',
+    answer:'lagging',
+    why:{
+      correct:'Correct. <strong>OTD is a lagging indicator.</strong> A late delivery is already late by the time it\'s counted. At DMS level, OTD should be paired with a leading signal (like output-vs-plan) so the team sees a delivery problem coming before the shipment is due.',
+      wrong:'<strong>OTD is a lagging indicator.</strong> It records delivery outcomes that have already occurred. You need an upstream leading indicator — like daily output vs. plan or SWIP — to catch delivery problems before they become late shipments.'
+    }
+  },
+  {
+    pillar:'S', pillarClass:'pb-s',
+    name:'Safety Concern Closure Rate',
+    calc:'Closed concerns ÷ Total open concerns × 100%',
+    desc:'Measures the percentage of safety concerns raised at genba that have been properly closed with a verified countermeasure.',
+    answer:'leading',
+    why:{
+      correct:'Correct. <strong>Safety Concern Closure Rate is a leading indicator.</strong> It measures whether identified hazards are being resolved before they cause an incident — a low closure rate signals the next safety event is building.',
+      wrong:'<strong>Safety Concern Closure Rate is a leading indicator.</strong> It tells you whether the safety management process is working to eliminate hazards before they cause harm. This is the upstream signal that Safety Incidents (a lagging measure) lacks.'
+    }
+  },
+  {
+    pillar:'Q', pillarClass:'pb-q',
+    name:'Overall Equipment Effectiveness (OEE) %',
+    calc:'Availability × Performance × Quality',
+    desc:'An aggregate measure of equipment effectiveness combining machine availability, run-rate performance, and quality output into one percentage.',
+    answer:'mixed',
+    why:{
+      correct:'Good call — <strong>OEE is mixed.</strong> Availability (is the machine ready?) has a leading quality: low availability predicts an output miss before it happens. Performance and Quality are more lagging — they record what the machine actually produced. OEE is useful but needs decomposition to drive daily action.',
+      wrong:'<strong>OEE is actually mixed — neither purely leading nor lagging.</strong> Availability has a leading quality (machine readiness predicts output), while Performance and Quality are more lagging. Both answers are reasonable; what matters is decomposing OEE to find the actionable signal each day.'
+    }
+  },
+  {
+    pillar:'Q', pillarClass:'pb-q',
+    name:'Error / Rework Rate',
+    calc:'Outputs requiring rework ÷ Total outputs × 100%',
+    desc:'For transactional teams — measures the proportion of work outputs (documents, submissions, reports) that required rework before acceptance.',
+    answer:'lagging',
+    why:{
+      correct:'Correct. <strong>Error Rate is a lagging indicator.</strong> The error has already occurred. Its value at DMS level comes from logging a reason with each error — building a same-day Pareto of error types that drives targeted countermeasures.',
+      wrong:'<strong>Error Rate is a lagging indicator.</strong> It records quality outcomes after the fact. Like DPU in manufacturing, its power comes from logging a reason with each error — turning a score into a Pareto that drives structured problem solving.'
+    }
+  },
+  {
+    pillar:'D', pillarClass:'pb-d',
+    name:'Cycle Time vs. Standard',
+    calc:'Actual cycle time ÷ Standard cycle time',
+    desc:'Compares how long a task or process step is actually taking against the designed standard time — is the process running at the designed speed?',
+    answer:'leading',
+    why:{
+      correct:'Correct. <strong>Cycle Time vs. Standard is a leading indicator.</strong> If tasks are taking longer than standard right now, a delivery miss is coming. The team can see the signal before any deadline is breached.',
+      wrong:'<strong>Cycle Time vs. Standard is a leading indicator.</strong> A growing gap between actual and standard cycle time predicts an upcoming delivery miss. Seeing it today gives the team time to act — unlike OTD, which only confirms the miss after delivery.'
+    }
+  },
+  {
+    pillar:'I', pillarClass:'pb-i',
+    name:'WIP Queue Depth',
+    calc:'Open items in queue vs. target queue depth',
+    desc:'For transactional teams — measures how many work items are waiting to be processed against the target queue depth.',
+    answer:'leading',
+    why:{
+      correct:'Correct. <strong>WIP Queue Depth is a leading indicator.</strong> A queue above target tells you a delivery miss is building before any deadlines are breached. The team can rebalance workload before customers or downstream processes are affected.',
+      wrong:'<strong>WIP Queue Depth is a leading indicator.</strong> A growing queue signals that demand is outpacing processing capacity — before any deadline is missed. It\'s the transactional equivalent of SWIP in manufacturing: a process condition that predicts a delivery outcome.'
+    }
+  },
+  {
+    pillar:'P', pillarClass:'pb-p',
+    name:'Output per Full-Time Equivalent (FTE)',
+    calc:'Units or transactions ÷ Direct headcount',
+    desc:'Measures how many units or transactions each team member produced in the period — a daily productivity check.',
+    answer:'lagging',
+    why:{
+      correct:'Correct. <strong>Output per FTE is a lagging indicator.</strong> It records what the team produced after the shift ends. Its value comes from logging a reason each day below target — building a Pareto of productivity losses (changeover, coverage gaps, training time).',
+      wrong:'<strong>Output per FTE is a lagging indicator.</strong> It measures what was produced, not what\'s coming. The key is treating below-target days as Pareto data — logging the reason each time so the pattern of productivity losses becomes visible and actionable.'
+    }
+  },
+  {
+    pillar:'P', pillarClass:'pb-p',
+    name:'Direct Labor Efficiency',
+    calc:'Standard hours earned ÷ Actual hours × 100%',
+    desc:'Measures whether the team produced output in less time, the same time, or more time than the engineering standard. Above 100% means faster than standard.',
+    answer:'lagging',
+    why:{
+      correct:'Correct. <strong>Direct Labor Efficiency is a lagging indicator.</strong> It records how efficiently the team worked — after the shift is complete. Useful for trend analysis, but it doesn\'t signal a problem before it occurs. Labor Minutes per Part or Cycle Time vs. Standard are more actionable at DMS level.',
+      wrong:'<strong>Direct Labor Efficiency is a lagging indicator.</strong> It records what happened after the fact. A ratio like this doesn\'t signal a coming problem — it confirms how efficient the period was. For a leading signal on productivity, track Cycle Time vs. Standard instead.'
+    }
+  }
+];
+
+// ── STATE ─────────────────────────────────────────────
+let cur = 0, answers = [], feedbackTimer = null;
+
+const pillarNames = { S:'Safety', Q:'Quality', D:'Delivery', I:'Inventory', P:'Productivity' };
+
+// ── NAVIGATION ────────────────────────────────────────
+function setHeaderStep(n) {
+  [1,2,3].forEach(i => {
+    const el = document.getElementById('step-lbl-' + i);
+    el.className = 'hd-step' + (i === n ? ' active' : i < n ? ' done' : '');
+  });
+}
+
+function startGame() {
+  cur = 0; answers = [];
+  document.getElementById('intro-wrap').classList.add('hidden');
+  document.getElementById('game-wrap').classList.add('active');
+  document.getElementById('al-rows').innerHTML = '<div class="al-empty">Your answers will appear here.</div>';
+  setHeaderStep(2);
+  renderCard();
+  updateProgress();
+}
+
+function restart() {
+  document.getElementById('verdict-wrap').classList.remove('active');
+  document.getElementById('game-wrap').classList.remove('active');
+  document.getElementById('intro-wrap').classList.remove('hidden');
+  setHeaderStep(1);
+  window.scrollTo(0, 0);
+}
+
+// ── GAME ──────────────────────────────────────────────
+function renderCard() {
+  if (cur >= KPIs.length) { showVerdict(); return; }
+  const k = KPIs[cur];
+  const pillarEl = document.getElementById('cur-pillar');
+  pillarEl.textContent = pillarNames[k.pillar];
+  pillarEl.className = 'kpi-pillar-badge ' + k.pillarClass;
+  document.getElementById('cur-name').textContent = k.name;
+  document.getElementById('cur-calc').textContent = k.calc;
+  document.getElementById('cur-desc').textContent = k.desc;
+
+  // reset feedback
+  const fb = document.getElementById('feedback-strip');
+  fb.className = 'feedback-strip';
+
+  // re-enable buttons
+  document.getElementById('btn-lead').disabled = false;
+  document.getElementById('btn-lag').disabled  = false;
+  updateProgress();
+}
+
+function updateProgress() {
+  const pct = Math.round((answers.length / KPIs.length) * 100);
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-label').textContent = answers.length + ' of ' + KPIs.length;
+}
+
+function classify(pick) {
+  const k = KPIs[cur];
+  document.getElementById('btn-lead').disabled = true;
+  document.getElementById('btn-lag').disabled  = true;
+
+  const isMixed   = k.answer === 'mixed';
+  const isCorrect = isMixed || pick === k.answer;
+  const type      = isMixed ? 'mixed' : isCorrect ? 'correct' : 'incorrect';
+
+  answers.push({ k, pick, isCorrect, type });
+  showFeedback(k, pick, isCorrect, type);
+  addAnsweredRow(k, pick, isCorrect, type);
+  updateProgress();
+
+  if (feedbackTimer) clearTimeout(feedbackTimer);
+  feedbackTimer = setTimeout(() => {
+    cur++;
+    renderCard();
+  }, 2200);
+}
+
+function showFeedback(k, pick, isCorrect, type) {
+  const strip = document.getElementById('feedback-strip');
+  const icon  = document.getElementById('fb-icon');
+  const label = document.getElementById('fb-label');
+  const text  = document.getElementById('fb-text');
+
+  if (type === 'mixed') {
+    strip.className = 'feedback-strip show mixed';
+    icon.textContent = '◎';
+    label.textContent = 'Mixed indicator';
+  } else if (isCorrect) {
+    strip.className = 'feedback-strip show correct';
+    icon.textContent = '✓';
+    label.textContent = 'Correct';
+  } else {
+    strip.className = 'feedback-strip show incorrect';
+    icon.textContent = '✗';
+    label.textContent = 'Not quite';
+  }
+  const key = (isCorrect || type === 'mixed') ? 'correct' : 'wrong';
+  text.innerHTML = k.why[key];
+}
+
+function addAnsweredRow(k, pick, isCorrect, type) {
+  const container = document.getElementById('al-rows');
+  const empty = container.querySelector('.al-empty');
+  if (empty) empty.remove();
+
+  const tagClass = type === 'mixed' ? 'mixed' : isCorrect
+    ? (pick === 'leading' ? 'correct-leading' : 'correct-lagging') : 'wrong';
+  const icon = type === 'mixed' ? '◎' : isCorrect ? '✓' : '✗';
+
+  const row = document.createElement('div');
+  row.className = 'al-row';
+  row.innerHTML = `
+    <div class="al-icon">${icon}</div>
+    <div class="al-name">${k.name}</div>
+    <div class="al-tag ${tagClass}">${pick === 'leading' ? 'Leading' : 'Lagging'}</div>
+  `;
+  container.appendChild(row);
+  row.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// ── VERDICT ───────────────────────────────────────────
+function showVerdict() {
+  document.getElementById('game-wrap').classList.remove('active');
+  document.getElementById('verdict-wrap').classList.add('active');
+  setHeaderStep(3);
+
+  const total   = KPIs.length;
+  const correct = answers.filter(a => a.isCorrect).length;
+  const pct     = Math.round((correct / total) * 100);
+
+  let grade, gradeClass, msg;
+  if (pct >= 92)      { grade = 'A+'; gradeClass = 'ga-plus'; msg = 'Outstanding — you have a firm grasp of what separates a leading signal from a lagging outcome.'; }
+  else if (pct >= 75) { grade = 'A';  gradeClass = 'ga';      msg = 'Excellent. You understand the core distinction. Review any you missed to sharpen the edge cases.'; }
+  else if (pct >= 60) { grade = 'B';  gradeClass = 'gb';      msg = 'Good, with a few gaps. Focus on the process-input vs. outcome test — that\'s the key distinction.'; }
+  else if (pct >= 40) { grade = 'C';  gradeClass = 'gc';      msg = 'Developing. Look at the feedback for the ones you missed — there\'s a pattern worth understanding.'; }
+  else                { grade = 'D';  gradeClass = 'gd';      msg = 'Start with this question: does this KPI measure a process condition before the miss, or an outcome after it?'; }
+
+  const gradeEl = document.getElementById('v-grade');
+  gradeEl.textContent = grade;
+  gradeEl.className = 'v-grade ' + gradeClass;
+  document.getElementById('v-score-num').textContent = correct + ' / ' + total + ' correct';
+  document.getElementById('v-score-msg').textContent = msg;
+
+  // leading nudge
+  const missedLeading = answers.filter(a => a.k.answer === 'leading' && !a.isCorrect);
+  const nudge = document.getElementById('v-nudge');
+  if (missedLeading.length >= 2) {
+    nudge.style.display = '';
+    document.getElementById('v-nudge-text').innerHTML =
+      'You missed <strong>' + missedLeading.length + ' of the leading indicators</strong> in the set. These are the KPIs that give teams time to act before a miss — they\'re the hardest to spot and the most important to have on your board. The test: does this KPI measure a process condition or input <strong>before</strong> the outcome occurs?';
+  } else {
+    nudge.style.display = 'none';
+  }
+
+  // full review
+  const rtRows = document.getElementById('rt-rows');
+  rtRows.innerHTML = '';
+  answers.forEach(({ k, pick, isCorrect, type }) => {
+    const icon = type === 'mixed' ? '◎' : isCorrect ? '✓' : '✗';
+    const tagClass = type === 'mixed' ? 'v-mixed' : isCorrect
+      ? (pick === 'leading' ? 'v-leading' : 'v-lagging') : 'v-wrong';
+    const tagLabel = type === 'mixed' ? 'Mixed'
+      : isCorrect ? (pick === 'leading' ? 'Leading ✓' : 'Lagging ✓') : 'Wrong';
+    const key = (isCorrect || type === 'mixed') ? 'correct' : 'wrong';
+
+    const row = document.createElement('div');
+    row.className = 'rt-row';
+    row.innerHTML = `
+      <div class="rt-icon">${icon}</div>
+      <div class="rt-body">
+        <div class="rt-name">${k.name}</div>
+        <div class="rt-explain">${k.why[key]}</div>
+      </div>
+      <div class="rt-tag ${tagClass}">${tagLabel}</div>
+    `;
+    rtRows.appendChild(row);
+  });
+
+  window.scrollTo(0, 0);
+}
+</script>
+
+<script>
+/* Swipe to classify — right = Leading, left = Lagging. Arrow keys do the same. */
+(function(){
+  var card=document.getElementById('spotlight');
+  if(!card) return;
+  var hint=document.createElement('div');
+  hint.className='swipe-hint';
+  
+  var st=document.createElement('style');
+  st.textContent='.swipe-hint{display:flex;justify-content:space-between;margin:10px 2px 0;font-family:ui-monospace,Menlo,monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#9aa0b4}'+
+    ''+
+    '#spotlight{touch-action:pan-y;cursor:grab;will-change:transform;user-select:none;-webkit-user-select:none}'+
+    '#spotlight.swiping{transition:none;cursor:grabbing}'+
+    '#spotlight.spring{transition:transform .25s ease}'+
+    '#spotlight.fly{transition:transform .3s ease,opacity .3s ease;opacity:0}'+
+    '#spotlight .swipe-badge{position:absolute;top:14px;font-family:ui-monospace,Menlo,monospace;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border-radius:100px;padding:7px 16px;opacity:0;pointer-events:none;z-index:5}'+
+    '#spotlight .sb-lead{right:14px;background:#ecfdf5;color:#16834a;border:2px solid #16b364}'+
+    '#spotlight .sb-lag{left:14px;background:#f4f7fd;color:#475569;border:2px solid #94a3b8}';
+  document.head.appendChild(st);
+  card.style.position=card.style.position||'relative';
+  var bLead=document.createElement('span'); bLead.className='swipe-badge sb-lead'; bLead.textContent='Leading';
+  var bLag=document.createElement('span');  bLag.className='swipe-badge sb-lag';  bLag.textContent='Lagging';
+  card.appendChild(bLead); card.appendChild(bLag);
+
+  function canPlay(){
+    var l=document.getElementById('btn-lead');
+    return l && !l.disabled && card.offsetHeight>0;
+  }
+  function fire(dir){
+    if(!canPlay()) return;
+    card.classList.remove('swiping','spring');
+    card.classList.add('fly');
+    card.style.transform='translateX('+(dir==='leading'?1:-1)*Math.max(window.innerWidth*0.4,320)+'px) rotate('+(dir==='leading'?8:-8)+'deg)';
+    setTimeout(function(){
+      classify(dir);
+      setTimeout(function(){
+        card.classList.remove('fly'); card.style.transform=''; card.style.opacity='';
+        bLead.style.opacity=0; bLag.style.opacity=0;
+      },120);
+    },240);
+  }
+
+  var x0=null,dx=0,active=false;
+  card.addEventListener('pointerdown',function(e){
+    if(!canPlay()) return;
+    if(e.target.closest('button,a')) return;
+    e.preventDefault();
+    active=true; x0=e.clientX; dx=0;
+    card.classList.add('swiping'); card.classList.remove('spring');
+    card.setPointerCapture&&card.setPointerCapture(e.pointerId);
+  });
+  card.addEventListener('pointermove',function(e){
+    if(!active) return;
+    dx=e.clientX-x0;
+    card.style.transform='translateX('+dx+'px) rotate('+(dx/28)+'deg)';
+    var p=Math.min(Math.abs(dx)/110,1);
+    if(dx>0){ bLead.style.opacity=p; bLag.style.opacity=0; }
+    else    { bLag.style.opacity=p;  bLead.style.opacity=0; }
+  });
+  function release(){
+    if(!active) return;
+    active=false;
+    card.classList.remove('swiping');
+    if(dx>110){ fire('leading'); }
+    else if(dx<-110){ fire('lagging'); }
+    else{
+      card.classList.add('spring');
+      card.style.transform='';
+      bLead.style.opacity=0; bLag.style.opacity=0;
+    }
+    dx=0;
+  }
+  card.addEventListener('pointerup',release);
+  card.addEventListener('pointercancel',release);
+
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'){ fire('leading'); }
+    else if(e.key==='ArrowLeft'){ fire('lagging'); }
+  });
+})();
+</script>
+
+<script>
+window.__istep=1;
+window.introStep=function(d){
+  var n=Math.min(3,Math.max(1,window.__istep+d));
+  window.__istep=n;
+  document.querySelectorAll('.istep').forEach(function(s){s.classList.toggle('active',+s.dataset.step===n);});
+  document.querySelectorAll('#inav-dots i').forEach(function(dot,i){dot.classList.toggle('on',i===n-1);});
+  document.getElementById('inav-back').disabled=(n===1);
+  document.getElementById('inav-next').style.visibility=(n===3)?'hidden':'visible';
+};
+
+/* embedded on the DVM fundamentals page: keep the host iframe sized to the content.
+   Gate on being IN an iframe — the truth this block depends on — not on html.embed,
+   which does not survive the kit inlining the page. */
+if(window.top!==window.self){
+  var lastH=0;
+  var postH=function(){try{
+    var pg=document.querySelector('.page');
+    var h=Math.ceil(pg.getBoundingClientRect().height)+4;
+    if(Math.abs(h-lastH)<5)return;
+    lastH=h;
+    parent.postMessage({fdKpiselH:h},'*');
+  }catch(e){}};
+  if(window.ResizeObserver)new ResizeObserver(postH).observe(document.body);
+  window.addEventListener('load',postH);
+  setTimeout(postH,300);
+}
+</script>
+</body>
+</html>

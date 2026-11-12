@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<title>AeroIntel &middot; Enterprise Strategy Center &middot; Option D</title>
+<style>
+@font-face{font-family:"GE Sans";font-weight:300;font-style:normal;font-display:swap;src:url("/assets/fonts/ge-sans/sons-light.woff2") format("woff2")}
+@font-face{font-family:"GE Sans";font-weight:400;font-style:normal;font-display:swap;src:url("/assets/fonts/ge-sans/sons-regular.woff2") format("woff2")}
+@font-face{font-family:"GE Sans";font-weight:600;font-style:normal;font-display:swap;src:url("/assets/fonts/ge-sans/sons-semibold.woff2") format("woff2")}
+
+:root{
+  --ink:#00003D; --ink2:#000018; --white:#fff;
+  --sky:#4181ff; --green:#0ad64f; --greenl:#16b364;
+  --bodyd:rgba(255,255,255,.74); --mutedd:rgba(255,255,255,.52); --lined:rgba(255,255,255,.14);
+  --bodyl:#4A506A; --linel:#e7ebf4; --tintl:#f6f7fb;
+  --sans:"GE Sans",-apple-system,"Helvetica Neue",Arial,sans-serif;
+  --mono:"Geist Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  --ease:cubic-bezier(.23,1,.32,1);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ink);color:var(--white);font-family:var(--sans);line-height:1.4;-webkit-font-smoothing:antialiased;overflow-x:hidden;padding-left:48px}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+.wrap{max-width:1240px;margin:0 auto;padding:0 40px}
+@media (max-width:680px){.wrap{padding:0 20px}}
+
+/* note bar */
+.notebar{position:relative;z-index:1000;height:34px;display:flex;align-items:center;justify-content:center;
+  background:#000018;border-bottom:1px solid rgba(255,255,255,.1);margin-left:-48px;padding-left:48px}
+.notebar a{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.68)}
+.notebar a:hover{color:#fff}
+.notebar .dot{width:4px;height:4px;border-radius:50%;background:var(--sky)}
+
+/* SharePoint frame — suite bar + app rail */
+.suite{margin-left:-48px;padding-left:48px;background:#0b0f2b;color:#fff}
+.suite-in{display:flex;align-items:center;gap:18px;height:46px}
+.suite .waffle{display:grid;grid-template-columns:repeat(3,4px);gap:2px;cursor:pointer}
+.suite .waffle i{width:4px;height:4px;background:#cbd5e1;border-radius:1px}
+.suite .org{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;white-space:nowrap;font-family:"Segoe UI",-apple-system,Arial,sans-serif}
+.suite .org .monogram{width:22px;height:22px;border-radius:50%;border:1.5px solid #fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;font-style:italic}
+.suite .sp{font-size:13.5px;font-weight:600;white-space:nowrap;font-family:"Segoe UI",-apple-system,Arial,sans-serif}
+.suite input{flex:1;max-width:520px;margin:0 auto;background:#fff;border:none;border-radius:4px;padding:7px 14px;font-size:12.5px;font-family:"Segoe UI",-apple-system,Arial,sans-serif;color:#0f172a}
+.suite .icons{margin-left:auto;display:flex;align-items:center;gap:16px;font-size:14px;opacity:.85}
+.suite .acct{display:flex;align-items:center;gap:9px}
+.suite .acct .av{width:26px;height:26px;border-radius:50%;flex:none;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#2256e6 url('/hub/assets/avatar-aero.jpg') center/cover no-repeat;font-size:0;text-indent:-999em;color:transparent}
+.suite .acct .nm{font-size:13px;font-weight:600;white-space:nowrap;font-family:"Segoe UI",-apple-system,Arial,sans-serif}
+.sprail{position:fixed;left:0;top:80px;bottom:0;width:48px;z-index:45;background:#fff;border-right:1px solid #e5e7eb;display:flex;flex-direction:column;align-items:center;gap:22px;padding-top:20px;font-size:15px;color:#9ca3af}
+.sprail span{cursor:pointer}
+@media(max-width:700px){
+  body{padding-left:0}
+  .sprail{display:none}
+  .suite{margin-left:0;padding-left:0}
+  .suite .sp,.suite .icons,.suite input{display:none}
+  .suite input{min-width:0}
+  .notebar{margin-left:0;padding-left:0}
+}
+
+/* header */
+.site-header{background:var(--ink);border-bottom:1px solid var(--lined);position:relative;z-index:50}
+.site-header .in{max-width:1240px;margin:0 auto;padding:18px 40px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.brand{display:flex;align-items:center;gap:11px;white-space:nowrap}
+.brand .mk{display:inline-block;width:76px;height:18px;background:#fff;-webkit-mask:url(/assets/brand/ge-aerospace-logo.svg) center/contain no-repeat;mask:url(/assets/brand/ge-aerospace-logo.svg) center/contain no-repeat;flex:none}
+.brand .nm{font-size:14.5px;font-weight:600;letter-spacing:.01em;color:#fff}
+.nav{display:flex;align-items:center;gap:4px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}
+.nav::-webkit-scrollbar{display:none}
+.nav a,.nav span{flex:none;font-size:13.5px;padding:9px 14px;border-radius:999px;white-space:nowrap;transition:background .15s,color .15s}
+.nav a{color:rgba(255,255,255,.72)}
+.nav a:hover{background:rgba(255,255,255,.08);color:#fff}
+.nav a.active{background:#fff;color:var(--ink)}
+.nav span.inert{color:rgba(255,255,255,.3);cursor:default}
+@media (max-width:900px){.site-header .in{padding:16px 20px;gap:12px}.brand .nm{display:none}}
+
+/* eyebrow / badges */
+.eyebrow{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--sky);margin:0 0 16px}
+.sec.light .eyebrow{color:#2f5fd6}
+.badge{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:8px 16px;border-radius:999px;border:1px solid}
+.badge.enable{color:#a6f3c2;border-color:rgba(10,214,79,.45);background:rgba(10,214,79,.1)}
+
+/* sections */
+.sec{padding:clamp(56px,9vw,120px) 0}
+.sec.dark{background:var(--ink);color:var(--bodyd)}
+.sec.deep{background:var(--ink2);color:var(--bodyd)}
+.sec.light{background:#fff;color:var(--bodyl)}
+.h2big{font-weight:300;font-size:clamp(34px,4.4vw,64px);letter-spacing:-.02em;line-height:1.05;color:#fff;margin:0 0 20px}
+.sec.light .h2big{color:var(--ink)}
+.lede{font-size:clamp(16px,1.6vw,19px);line-height:1.6;max-width:70ch;margin:0 0 8px}
+
+/* hero (video) */
+.hero{position:relative;overflow:hidden;min-height:clamp(480px,64vh,680px);display:flex;flex-direction:column;justify-content:flex-end;background:#00001a}
+.hero-bg{position:absolute;inset:0;z-index:0;width:100%;height:100%;object-fit:cover;object-position:center 42%;
+  animation:heroScaleIn 1.8s var(--ease) forwards;will-change:transform}
+.hero::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(0,0,25,.42) 0%,rgba(0,0,25,.52) 40%,rgba(0,0,22,.94) 94%,#00001a 100%)}
+.hero .in{position:relative;z-index:2;max-width:1240px;margin:0 auto;width:100%;padding:0 40px 56px;box-sizing:border-box}
+.hero h1{font-weight:300;font-size:clamp(40px,5.8vw,80px);letter-spacing:-.02em;line-height:1.02;margin:14px 0 2px;color:#fff;text-shadow:0 2px 40px rgba(0,0,10,.4)}
+.hero .sub{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.6)}
+.hero .hl{opacity:0;transform:translateY(16px);animation:heroLineIn .9s var(--ease) forwards;animation-delay:calc(var(--d,0) * 140ms)}
+@keyframes heroLineIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes heroScaleIn{from{transform:scale(1.05)}to{transform:scale(1)}}
+@media (max-width:680px){.hero .in{padding:0 20px 40px}}
+
+/* in-page nav */
+.pagenav{background:#fff;border-bottom:1px solid var(--linel)}
+.pagenav .row{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;padding:14px 0}
+.pagenav .row::-webkit-scrollbar{display:none}
+.pagenav a{flex:none;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--bodyl);padding:9px 16px;border-radius:999px;white-space:nowrap;transition:background .15s,color .15s}
+.pagenav a:hover{background:var(--tintl);color:var(--ink)}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:40px}
+.stat{padding-top:24px;border-top:1px solid rgba(255,255,255,.2)}
+.stat .num{font-weight:300;font-size:clamp(40px,5.4vw,76px);letter-spacing:-.02em;color:#fff;line-height:1.02;font-variant-numeric:tabular-nums}
+.stat .lbl{margin-top:10px;font-size:14px;color:var(--bodyd)}
+.stat.light{border-top-color:var(--linel)}
+.stat.light .num{color:var(--ink)}
+.stat.light .lbl{color:var(--bodyl)}
+.stat.mini .num{font-size:clamp(28px,3.2vw,40px)}
+@media (max-width:860px){.stats{grid-template-columns:1fr}}
+
+/* quicklinks pill list */
+.qlinks{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--linel);margin-top:8px}
+.qlink{display:flex;align-items:center;justify-content:space-between;padding:17px 2px;border-bottom:1px solid var(--linel);font-size:16px;color:var(--ink);transition:padding-left .15s}
+.qlink:hover{padding-left:8px}
+.qlink .arrow{color:#9aa1b8;font-size:14px}
+.qlink:hover .arrow{color:var(--ink)}
+
+/* numbered items */
+.numlist{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:40px}
+.numitem{padding-top:20px;border-top:1px solid rgba(255,255,255,.2)}
+.numitem .n{font-family:var(--mono);font-size:12px;color:var(--sky);margin-bottom:12px;letter-spacing:.06em}
+.numitem h4{font-size:17px;font-weight:500;margin:0 0 10px;color:#fff;letter-spacing:-.005em}
+.numitem p{font-size:13.5px;line-height:1.6;color:var(--bodyd);margin:0}
+.numitem.light{border-top-color:var(--linel)}
+.numitem.light .n{color:#2f5fd6}
+.numitem.light h4{color:var(--ink)}
+.numitem.light p{color:var(--bodyl)}
+@media (max-width:860px){.numlist{grid-template-columns:1fr;gap:22px}}
+
+/* evolution — curve + three tall panels */
+.curvewrap{margin:40px 0 -10px}
+.curvewrap svg{width:100%;height:auto;display:block;overflow:visible}
+.curvewrap .drawpath{fill:none;stroke-width:2.5}
+.evo{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:8px}
+.evopanel{border-radius:16px;padding:32px 26px;display:flex;flex-direction:column;gap:16px;min-height:380px;
+  border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.035);transition:transform .3s var(--ease),border-color .3s}
+.evopanel:hover{transform:translateY(-6px);border-color:rgba(255,255,255,.3)}
+.evopanel .status{align-self:flex-start;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:6px 12px;border-radius:999px;border:1px solid}
+.evopanel .status.live{color:#8ff0b1;border-color:rgba(10,214,79,.5);background:rgba(10,214,79,.1)}
+.evopanel .status.prod{color:#bcd3ff;border-color:rgba(65,129,255,.5);background:rgba(65,129,255,.1)}
+.evopanel .status.next{color:rgba(255,255,255,.75);border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.05)}
+.evopanel h3{font-size:19px;font-weight:400;color:#fff;margin:2px 0 0;letter-spacing:-.005em}
+.evopanel p{font-size:13.5px;line-height:1.65;color:var(--bodyd);flex:1;margin:0}
+.evopanel .curve{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--sky);padding-top:16px;border-top:1px solid rgba(255,255,255,.14)}
+@media (max-width:900px){.evo{grid-template-columns:1fr}.evopanel{min-height:0}.curvewrap{display:none}}
+
+/* governance — balance scale + two column */
+.balance-svg{display:block;margin:40px auto 6px;max-width:420px}
+.balance-svg .beam{transform-origin:210px 58px;transition:transform 1.2s var(--ease);transform:rotate(6deg)}
+.balance-svg.in .beam{transform:rotate(0deg)}
+.gov-grid{display:grid;grid-template-columns:1fr 1fr;gap:52px;margin-top:40px}
+.gov-col h4{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin:0 0 20px}
+.gov-col.strengths h4{color:#8ff0b1}
+.gov-col.limitations h4{color:#bcd3ff}
+.gov-item{padding:16px 0;border-top:1px solid rgba(255,255,255,.14)}
+.gov-item:first-child{border-top:0;padding-top:0}
+.gov-item b{color:#fff;font-weight:500;display:block;margin-bottom:5px;font-size:14.5px}
+.gov-item span{font-size:13.5px;line-height:1.65;color:var(--bodyd)}
+.gov-item .pending{font-family:var(--mono);font-size:9.5px;letter-spacing:.04em;color:var(--mutedd);display:inline-block;margin-top:4px}
+@media (max-width:760px){.gov-grid{grid-template-columns:1fr;gap:34px}}
+
+/* backdrop image section */
+.backdrop-sec{position:relative;overflow:hidden}
+.backdrop-sec .bg{position:absolute;inset:0;background:center/cover no-repeat;opacity:.26;filter:grayscale(.1)}
+.backdrop-sec::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#00003D 0%,rgba(0,0,61,.86) 40%,rgba(0,0,61,.94) 100%)}
+.backdrop-sec .wrap{position:relative;z-index:1}
+
+/* team grid */
+.team{display:grid;grid-template-columns:repeat(2,1fr);gap:4px 40px;margin-top:40px}
+.team-item{display:flex;align-items:center;gap:14px;padding:16px 0;border-bottom:1px solid var(--linel);transition:padding-left .15s}
+.team-item:hover{padding-left:6px}
+.team-item .av{flex:none;width:42px;height:42px;border-radius:50%;background:linear-gradient(145deg,#4181ff,#0ad64f);display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:11px;font-weight:600;color:#00003D}
+.team-item .nm{font-size:15px;color:var(--ink)}
+.team-item .ti{font-size:12.5px;color:var(--bodyl)}
+@media (max-width:680px){.team{grid-template-columns:1fr}}
+
+/* slot */
+.slot{border:1px dashed rgba(255,255,255,.3);border-radius:14px;padding:22px 24px;font-family:var(--mono);font-size:12.5px;
+  letter-spacing:.03em;line-height:1.7;color:rgba(255,255,255,.6);background:rgba(255,255,255,.03)}
+
+/* footer */
+.site-footer{background:var(--ink2);border-top:1px solid var(--lined);padding:56px 0 40px}
+.ft-top{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-bottom:28px;border-bottom:1px solid var(--lined)}
+.ft-brand{display:flex;align-items:center;gap:12px}
+.ft-brand .mk{display:inline-block;width:88px;height:20px;background:#fff;-webkit-mask:url(/assets/brand/ge-aerospace-logo.svg) center/contain no-repeat;mask:url(/assets/brand/ge-aerospace-logo.svg) center/contain no-repeat}
+.ft-brand .bt{display:inline-block;width:30px;height:12px;background:rgba(255,255,255,.5);-webkit-mask:url(/assets/brand/bttr-logo.svg) center/contain no-repeat;mask:url(/assets/brand/bttr-logo.svg) center/contain no-repeat}
+.ft-brand .x{color:rgba(255,255,255,.3);font-size:13px}
+.ft-nav{display:flex;gap:4px;flex-wrap:wrap}
+.ft-nav a,.ft-nav span{font-size:13px;padding:8px 13px;border-radius:999px;color:rgba(255,255,255,.6)}
+.ft-nav a:hover{background:rgba(255,255,255,.07);color:#fff}
+.ft-nav span.inert{color:rgba(255,255,255,.25)}
+.ft-meta{padding-top:24px;font-size:12px;color:rgba(255,255,255,.35);letter-spacing:.01em}
+
+/* reveal — scroll stagger, once, eased */
+.js-anim .rise{opacity:0;transform:translateY(16px);transition:opacity .75s var(--ease),transform .75s var(--ease)}
+.js-anim .rise.in{opacity:1;transform:none}
+.stagger>*:nth-child(1){transition-delay:0ms}
+.stagger>*:nth-child(2){transition-delay:90ms}
+.stagger>*:nth-child(3){transition-delay:180ms}
+.stagger>*:nth-child(4){transition-delay:270ms}
+.stagger>*:nth-child(5){transition-delay:360ms}
+.stagger>*:nth-child(n+6){transition-delay:450ms}
+
+/* reduced motion — drop movement and scale, keep a short fade */
+@media (prefers-reduced-motion:reduce){
+  @keyframes fadeOnly{from{opacity:0}to{opacity:1}}
+  .hero-bg{animation:fadeOnly .4s ease forwards}
+  .hero .hl{animation:fadeOnly .35s ease forwards;animation-delay:calc(var(--d,0) * 70ms);transform:none}
+  .js-anim .rise{transition:opacity .35s ease;transform:none}
+  .js-anim .rise.in{transform:none}
+  .balance-svg .beam{transition:opacity .35s ease;transform:none;opacity:0}
+  .balance-svg.in .beam{opacity:1}
+}
+/* Option D chrome: no side rail, and the site footer from the Option D homepage */
+body{padding-left:0}
+.site-header .nav{min-width:0}
+.notebar,.suite{margin-left:0!important;padding-left:0!important}
+.fd-footer{background:#00010f;color:#fff;margin-top:56px;font-family:var(--font-sans,"GE Sans",-apple-system,"Helvetica Neue",Arial,sans-serif)}
+.fd-footer .fdf-in{max-width:1280px;margin:0 auto;padding:48px 28px 40px}
+.fd-footer .fdf-top{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-bottom:26px;border-bottom:1px solid rgba(255,255,255,.12)}
+.fd-footer .fdf-brand{display:flex;align-items:center;gap:11px;font-size:15px;font-weight:600;color:#fff}
+.fd-footer .fdf-chip{background:#fff;color:#00010f;font-size:10px;font-weight:800;letter-spacing:.12em;padding:5px 9px;border-radius:4px;border:1px solid #16b364}
+.fd-footer .fdf-cobrand{font-size:13px;font-weight:600;color:rgba(255,255,255,.7);letter-spacing:.02em}
+.fd-footer .fdf-cobrand i{font-style:normal;opacity:.5;margin:0 5px}
+.fd-footer .fdf-cols{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;padding:30px 0}
+.fd-footer .fdf-h{font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#7e8aa8;margin-bottom:12px}
+.fd-footer .fdf-col a{display:block;color:rgba(255,255,255,.78);font-size:13.5px;text-decoration:none;padding:5px 0;transition:color .14s}
+.fd-footer .fdf-col a:hover{color:#fff;text-decoration:none}
+.fd-footer .fdf-meta{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:22px;border-top:1px solid rgba(255,255,255,.12);font-size:11.5px;color:rgba(255,255,255,.45);letter-spacing:.02em}
+footer.fd-footer{margin-top:0}
+@media(max-width:720px){.fd-footer .fdf-cols{grid-template-columns:1fr 1fr;gap:24px}}
+@media(max-width:440px){.fd-footer .fdf-cols{grid-template-columns:1fr}}
+/* Option D: one header across the site. The inner pages take the homepage header's look:
+   white bar, the STRATEGY chip, ink links with a blue underline on the current page (hub.css values). */
+.site-header{background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:50}
+.site-header .in{max-width:1280px;padding:0 28px;min-height:60px;justify-content:flex-start;gap:12px 18px}
+.site-header .brand{gap:10px}
+.site-header .brand .nm{display:inline;color:#0f172a;font-size:14px;font-weight:700;letter-spacing:.01em}
+.site-header .nav{gap:4px;flex:1;min-width:0}
+.site-header .nav a{color:#0f172a;font-size:13px;font-weight:500;padding:8px 9px;border-radius:6px;background:none}
+.site-header .nav a:hover{background:#f3f5fa;color:#0f172a}
+.site-header .nav a.active{background:none;color:#155dfc;box-shadow:inset 0 -2px 0 #155dfc;border-radius:6px 6px 0 0}
+@media(max-width:900px){.site-header .in{flex-wrap:wrap;padding:10px 20px;gap:8px}.site-header .nav{flex-basis:100%;order:3}}
+@media(max-width:400px){.site-header .brand .nm{display:none}}
+</style>
+</head>
+<body>
+
+
+<div class="suite"><div class="wrap suite-in">
+  <span class="waffle"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+  <span class="org"><span class="monogram">GE</span>GE Aerospace</span>
+  <span class="sp">SharePoint</span>
+  <input placeholder="Search this site" autocomplete="off" spellcheck="false">
+  <span class="icons"><span class="acct"><span class="av"></span><span class="nm">Aero</span></span></span>
+</div></div>
+
+<header class="site-header">
+  <div class="in">
+    <a class="brand" href="index.html" style="text-decoration:none;color:inherit"><span style="background:#101a4d;color:#fff;font-size:10px;font-weight:700;letter-spacing:.12em;padding:4px 8px;border-radius:4px;border:1px solid #22c55e;line-height:1.2">STRATEGY</span><span class="nm">Enterprise Strategy Center</span></a>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="what-game-are-we-playing.html">What Game Are We Playing</a>
+      <a href="how-do-we-win.html">How Do We Win</a>
+      <a href="aerointel.html" class="active">AeroIntel</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <video class="hero-bg" muted playsinline poster="/strategy-hub/img/aerointel-core.jpg">
+  </video>
+  <div class="in">
+    <span class="badge enable hl" style="--d:0">Strategy Enablement</span>
+    <h1 class="hl" style="--d:1">AeroIntel</h1>
+    <div class="sub hl" style="--d:2">Aerospace Intelligence</div>
+  </div>
+</section>
+
+<nav class="pagenav">
+  <div class="wrap"><div class="row">
+    <a href="#introduction">Introduction</a>
+    <a href="#problem">The Problem</a>
+    <a href="#approach">Our Approach</a>
+    <a href="#evolution">The Evolution</a>
+    <a href="#truth">Single source of truth</a>
+    <a href="#governance">Governance and Judgement</a>
+    <a href="#help">Where to find help</a>
+  </div></div>
+</nav>
+
+<section class="sec light" id="introduction">
+  <div class="wrap">
+    <h2 class="h2big rise">Introduction</h2>
+    <p class="lede rise" style="color:var(--ink);font-size:clamp(18px,1.8vw,22px);max-width:60ch">AeroIntel applies AI to GE Aerospace&rsquo;s curated expert content, giving teams faster, more consistent analysis for complex strategic questions.</p>
+  </div>
+</section>
+
+<section class="sec dark">
+  <div class="wrap">
+    <div class="stats stagger">
+      <div class="stat rise"><div class="num count" data-target="11600" data-suffix="+">11,600+</div><div class="lbl">Curated Documents</div></div>
+      <div class="stat rise"><div class="num" style="font-size:clamp(22px,2.6vw,34px)">Internal &amp; External</div><div class="lbl">Source Coverage</div></div>
+      <div class="stat rise"><div class="num count" data-target="3" data-suffix="">3</div><div class="lbl">Versions Product Evolution</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec light">
+  <div class="wrap">
+    <div class="blockhd rise" style="font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);margin-bottom:4px">Quick Links</div>
+    <div class="qlinks rise">
+      <span class="qlink">AeroIntel 2.0 <span class="arrow">&rarr;</span></span>
+      <span class="qlink">AeroIntel 1.0 <span class="arrow">&rarr;</span></span>
+      <span class="qlink">AeroIntel Access Standard Operating Procedure (SOP) <span class="arrow">&rarr;</span></span>
+      <span class="qlink">Request access via Saviynt <span class="arrow">&rarr;</span></span>
+      <span class="qlink">AeroIntel FAQ <span class="arrow">&rarr;</span></span>
+    </div>
+  </div>
+</section>
+
+<section class="sec dark" id="problem">
+  <div class="wrap">
+    <h2 class="h2big rise">The Problem</h2>
+    <p class="lede rise">Three structural pain points identified in how intelligence work is done today. AeroIntel is scoped directly to address these constraints.</p>
+    <div class="numlist stagger">
+      <div class="numitem rise"><div class="n">01</div><h4>Fragmented information</h4><p>Insight work is spread across tools, teams, and format with no single, reliable place to research from.</p></div>
+      <div class="numitem rise"><div class="n">02</div><h4>Manual, slow research</h4><p>High-value talent spends too much time on low-leverage data gathering instead of judgment and synthesis.</p></div>
+      <div class="numitem rise"><div class="n">03</div><h4>Inconsistent depth &amp; quality</h4><p>The depth and format of analysis varies by person and team.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec light" id="approach">
+  <div class="wrap">
+    <h2 class="h2big rise">Our Approach</h2>
+    <p class="lede rise" style="color:var(--ink);font-size:clamp(18px,1.8vw,22px)">The operating model: Align, Decide, Deliver</p>
+    <div class="numlist stagger">
+      <div class="numitem light rise"><div class="n">01</div><h4>Align</h4><p>Connected, cross functional teams and partners power a shared set of data and facts across the team.</p></div>
+      <div class="numitem light rise"><div class="n">02</div><h4>Decide</h4><p>Fast, trusted answers to complex questions with sources you can trust.</p></div>
+      <div class="numitem light rise"><div class="n">03</div><h4>Deliver</h4><p>Deep research grounds every analysis in curated, current export content.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec dark" id="evolution">
+  <div class="wrap">
+    <h2 class="h2big rise">The Evolution</h2>
+    <p class="lede rise" style="font-size:clamp(18px,1.8vw,22px)">3 Generations, each building on the last</p>
+    <p class="lede rise">Each release extends the range and complexity of questions AeroIntel can support, while preserving the traceability established in the version before it.</p>
+    <div class="curvewrap rise">
+      <svg viewBox="0 0 920 220" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="curvegrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#0ad64f"/>
+            <stop offset="55%" stop-color="#4181ff"/>
+            <stop offset="100%" stop-color="#ffffff"/>
+          </linearGradient>
+        </defs>
+        <path class="drawpath" d="M100,190 C280,190 280,120 460,120 C620,120 650,40 820,40" stroke="url(#curvegrad)"/>
+        <circle cx="100" cy="190" r="7" fill="#0ad64f"/>
+        <circle cx="460" cy="120" r="7" fill="#4181ff"/>
+        <circle cx="820" cy="40" r="7" fill="#fff"/>
+      </svg>
+    </div>
+    <div class="evo stagger">
+      <div class="evopanel rise">
+        <span class="status live">Live</span>
+        <h3>AeroIntel 1.0 &middot; AI Wingmate + Box</h3>
+        <p>A single search that returns the top match &mdash; built for straightforward, well-defined questions and fast document lookup.</p>
+        <div class="curve">Search &amp; summarize</div>
+      </div>
+      <div class="evopanel rise">
+        <span class="status prod">In Production</span>
+        <h3>AeroIntel 2.0 &middot; Deep Research</h3>
+        <p>Splits a complex question into parallel research tasks, then synthesizes the results into a cited, executive-ready answer.</p>
+        <div class="curve">Deep research &amp; synthesis</div>
+      </div>
+      <div class="evopanel rise">
+        <span class="status next">What&rsquo;s Next</span>
+        <h3>AeroIntel 3.0 &middot; Deep Research, next generation</h3>
+        <p>GE-world-interacting, tool-using agents that don&rsquo;t just inform thinking &mdash; they help carry it forward.</p>
+        <div class="curve">Agents that act</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec light" id="truth">
+  <div class="wrap">
+    <h2 class="h2big rise">Single source of truth</h2>
+    <p class="lede rise" style="color:var(--ink);font-size:clamp(18px,1.8vw,22px)">Content curated by cross functional teams</p>
+    <p class="lede rise" style="color:var(--bodyl)">Internal memos, market assessments, customer notes, and external research all flow into one central, authoritative repository, with every answer provided by AeroIntel being traceable to its source.</p>
+    <div class="stats stagger" style="margin-top:36px;max-width:520px">
+      <div class="stat light mini rise"><div class="num count" data-target="6500" data-suffix="+">6500+</div><div class="lbl">External Documents</div></div>
+      <div class="stat light mini rise"><div class="num count" data-target="5000" data-suffix="+">5000+</div><div class="lbl">Internal Documents</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec dark backdrop-sec" id="governance">
+  <div class="bg" style="background-image:url(/strategy-hub/img/aerointel.jpg)"></div>
+  <div class="wrap">
+    <h2 class="h2big rise">Governance and Judgement</h2>
+    <p class="lede rise">AI-generated analysis can materially speed up decision-making. It also carries known limitations that warrant continued human oversight, particularly for high-stakes or external-facing use.</p>
+    <svg class="balance-svg rise" viewBox="0 0 420 170">
+      <polygon points="210,150 195,170 225,170" fill="rgba(255,255,255,.22)"/>
+      <line x1="210" y1="150" x2="210" y2="58" stroke="rgba(255,255,255,.22)" stroke-width="2"/>
+      <g class="beam">
+        <line x1="50" y1="58" x2="370" y2="58" stroke="#fff" stroke-width="2.5"/>
+        <line x1="50" y1="58" x2="50" y2="92" stroke="#8ff0b1" stroke-width="1.5"/>
+        <line x1="370" y1="58" x2="370" y2="92" stroke="#bcd3ff" stroke-width="1.5"/>
+        <circle cx="50" cy="98" r="17" fill="rgba(10,214,79,.16)" stroke="#8ff0b1" stroke-width="1.5"/>
+        <circle cx="370" cy="98" r="17" fill="rgba(65,129,255,.16)" stroke="#bcd3ff" stroke-width="1.5"/>
+      </g>
+    </svg>
+    <div class="gov-grid">
+      <div class="gov-col strengths">
+        <h4 class="rise">Strengths</h4>
+        <div class="gov-item rise"><b>Breadth of synthesis.</b><span>Draws on thousands of curated, expert-reviewed documents across domains and functions.</span></div>
+        <div class="gov-item rise"><b>Consistency at scale.</b><span>Applies the same logic and depth of analysis regardless of volume or time of day.</span></div>
+        <div class="gov-item rise"><b>Speed.</b><span>Reduces multi-day research and synthesis work to a single working session.</span></div>
+        <div class="gov-item rise"><b>Traceability.</b><span>Citations are preserved back to source.</span></div>
+      </div>
+      <div class="gov-col limitations">
+        <h4 class="rise">Limitations to manage</h4>
+        <div class="gov-item rise"><b>Confidence is not accuracy.</b><span>Outputs can be stated with certainty even when the underlying answer is wrong.</span></div>
+        <div class="gov-item rise"><b>Sensitivity to framing.</b><span>The same question, phrased differently, can return different quality of answer.</span></div>
+        <div class="gov-item rise"><b>Bounded knowledge.</b><span>Reflects training data plus curated content &mdash; not full real-time awareness.</span></div>
+        <div class="gov-item rise"><b>Review is required.</b><span>Outputs should be validated before use.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec light" id="help">
+  <div class="wrap">
+    <h2 class="h2big rise">Where do I find Help?</h2>
+    <p class="lede rise" style="color:var(--bodyl)">If you need additional help, below are some of our most experienced leaders in this enablement tool.</p>
+    <div class="blockhd rise" style="font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);margin:30px 0 0">The team behind AeroIntel</div>
+    <div class="team stagger">
+      <div class="team-item rise"><span class="av">SS</span><div><div class="nm">Stotz, Sarah</div><div class="ti">Sr Marketing Manager &middot; Market Intelligence</div></div></div>
+      <div class="team-item rise"><span class="av">YE</span><div><div class="nm">Edupuganti, Yasaswini</div><div class="ti">Lead Project Management Specialist</div></div></div>
+      <div class="team-item rise"><span class="av">NF</span><div><div class="nm">Flores, Nicholas</div><div class="ti">Principal Analytics Engineer</div></div></div>
+      <div class="team-item rise"><span class="av">KS</span><div><div class="nm">Schanche, Kristin</div><div class="ti">Sr Project Management Manager</div></div></div>
+      <div class="team-item rise"><span class="av">NL</span><div><div class="nm">Leber, Nicole</div><div class="ti">Sr Director &middot; Technical Product Management</div></div></div>
+      <div class="team-item rise"><span class="av">DE</span><div><div class="nm">Ensor, David</div><div class="ti">Principal Technical Product Manager</div></div></div>
+      <div class="team-item rise"><span class="av">LS</span><div><div class="nm">Saadati, Leila</div><div class="ti">Sr Staff Data Scientist</div></div></div>
+      <div class="team-item rise"><span class="av">EP</span><div><div class="nm">Potter, Emily</div><div class="ti">Executive &middot; Digital Market Intelligence</div></div></div>
+      <div class="team-item rise"><span class="av">MC</span><div><div class="nm">Cahill, Matthew</div><div class="ti">Sr BD Manager &middot; Business Development</div></div></div>
+      <div class="team-item rise"><span class="av">ST</span><div><div class="nm">Tripathy, Satyakam</div><div class="ti">Staff Data Engineer &middot; Physical Infrastructure</div></div></div>
+    </div>
+  </div>
+</section>
+
+<footer class="fd-footer">
+  <div class="fdf-in">
+    <div class="fdf-top">
+      <div class="fdf-brand"><span class="fdf-chip">STRATEGY</span>Enterprise Strategy Center</div>
+      <div class="fdf-cobrand">GE Aerospace</div>
+    </div>
+    <div class="fdf-cols">
+      <div class="fdf-col"><div class="fdf-h">Strategy Fundamentals</div><a href="/strategy-hub/option-d/what-game-are-we-playing.html">What Game Are We Playing</a><a href="/strategy-hub/option-d/how-do-we-win.html">How Do We Win</a></div>
+      <div class="fdf-col"><div class="fdf-h">Strategy Enablement</div><a href="/strategy-hub/option-d/aerointel.html">AeroIntel</a><a href="#">AeroIntel FAQ</a></div>
+      <div class="fdf-col"><div class="fdf-h">Quick Links</div><a href="#">Organization</a><a href="#">Long Range Financials (Forecast)</a></div>
+      <div class="fdf-col"><div class="fdf-h">Site</div><a href="/strategy-hub/option-d/index.html">Home</a></div>
+    </div>
+    <div class="fdf-meta"><span>Enterprise Strategy Center</span><span>GE Aerospace Proprietary &middot; Sensitive &middot; authorized distribution only</span></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  try{
+    document.body.classList.add('js-anim');
+    var reduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    var els = document.querySelectorAll('.rise');
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, {threshold:.12, rootMargin:'0px 0px -6% 0px'});
+    els.forEach(function(el){ io.observe(el); });
+
+    // ascending curve draw-in
+    document.querySelectorAll('.drawpath').forEach(function(path){
+      try{
+        if(reduced){
+          path.style.opacity='0';
+          path.style.transition='opacity .4s ease';
+          var io2=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){path.style.opacity='1';io2.unobserve(path);}});},{threshold:.3});
+          io2.observe(path);
+          return;
+        }
+        var len = path.getTotalLength();
+        path.style.strokeDasharray = len;
+        path.style.strokeDashoffset = len;
+        path.style.transition = 'stroke-dashoffset 1.8s cubic-bezier(.23,1,.32,1)';
+        var io3 = new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){path.style.strokeDashoffset='0';io3.unobserve(path);}});},{threshold:.3});
+        io3.observe(path);
+      }catch(e){}
+    });
+
+    // count-up stats
+    if(!reduced){
+      function animateCount(el){
+        var target = parseInt(el.getAttribute('data-target'),10);
+        var suffix = el.getAttribute('data-suffix')||'';
+        var dur = 1300, start = null;
+        function fmt(n){ return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+        function step(ts){
+          if(!start) start = ts;
+          var p = Math.min((ts-start)/dur, 1);
+          var eased = 1 - Math.pow(1-p, 3);
+          el.textContent = fmt(Math.round(target*eased)) + suffix;
+          if(p<1) requestAnimationFrame(step);
+          else el.textContent = fmt(target) + suffix;
+        }
+        requestAnimationFrame(step);
+      }
+      document.querySelectorAll('.count[data-target]').forEach(function(el){
+        var io4 = new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){animateCount(e.target);io4.unobserve(e.target);}});},{threshold:.4});
+        io4.observe(el);
+      });
+    }
+  }catch(e){}
+})();
+</script>
+</body>
+</html>

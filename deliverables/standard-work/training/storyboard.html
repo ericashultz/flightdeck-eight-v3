@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Standard Work — Storyboard | GE Flight Deck × Bttr.</title>
+<link rel="icon" href="favicon.ico">
+<style>
+  @font-face{font-family:"GE Sans";font-weight:300;font-style:normal;font-display:swap;src:url("assets/fonts/ge-sans/sons-light.woff2") format("woff2")}
+  @font-face{font-family:"GE Sans";font-weight:400;font-style:normal;font-display:swap;src:url("assets/fonts/ge-sans/sons-regular.woff2") format("woff2")}
+  @font-face{font-family:"GE Sans";font-weight:600;font-style:normal;font-display:swap;src:url("assets/fonts/ge-sans/sons-semibold.woff2") format("woff2")}
+  :root{
+    --bg:#f9fafb;--card:#fff;--ink:#00003d;--ink-soft:#23234a;--muted:#6a7282;
+    --line:#e5e7eb;--line-soft:#f3f4f6;--accent:#00003D;--cap:#3d3d63;--surface:#f1f1f6;
+    --font-sans:"GE Sans",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+    --font-mono:ui-monospace,SFMono-Regular,"Menlo",monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{font-family:var(--font-sans);color:var(--ink);background:var(--bg);line-height:1.55;font-size:15px;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1280px;margin:0 auto;padding:48px 32px 96px}
+  .brandbar{display:flex;align-items:center;justify-content:space-between;font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:40px}
+  .cobrand{display:inline-flex;align-items:center;gap:11px}
+  .cobrand .x{color:var(--muted);font-size:13px;opacity:.6}
+  .ge-logo{display:inline-block;height:22px;width:93px;background-color:var(--ink);-webkit-mask:url(assets/brand/ge-aerospace-logo.svg) left center/contain no-repeat;mask:url(assets/brand/ge-aerospace-logo.svg) left center/contain no-repeat}
+  .bttr-logo{display:inline-block;height:13px;width:31px;background-color:var(--ink);-webkit-mask:url(assets/brand/bttr-logo.svg) left center/contain no-repeat;mask:url(assets/brand/bttr-logo.svg) left center/contain no-repeat}
+  .eyebrow{font-size:12.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--cap);font-weight:600}
+  h1{font-size:42px;line-height:1.02;margin:10px 0 14px;font-weight:400;letter-spacing:-.03em}
+  p.lede{font-size:18px;color:var(--muted);max-width:760px;margin:0 0 8px;line-height:1.55}
+  .meta{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:18px}
+  .back{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);text-decoration:none}
+  .back:hover{text-decoration:underline}
+  .section-label{font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:56px 0 18px;font-weight:500;border-top:1px solid var(--line);padding-top:18px}
+  .board{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .frame{background:var(--card);border:1px solid var(--line);overflow:hidden;display:flex;flex-direction:column}
+  .frame img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:#000}
+  .frame .body{padding:16px 18px 20px}
+  .frame .stamp{display:flex;align-items:center;justify-content:space-between;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+  .frame .tc{color:var(--accent);font-weight:600}
+  .frame h3{font-size:17px;font-weight:600;margin:0 0 6px;letter-spacing:-.01em}
+  .frame p{font-size:13.5px;color:var(--ink-soft);margin:0;line-height:1.5}
+  .num-badge{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 6px;background:var(--accent);color:#fff;font-family:var(--font-mono);font-size:11px;font-weight:600;border-radius:2px;margin-right:8px}
+  @media(max-width:900px){.board{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:600px){.board{grid-template-columns:1fr}.wrap{padding:32px 20px 64px}h1{font-size:32px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brandbar">
+    <span class="cobrand"><span class="ge-logo"></span><span class="x">×</span><span class="bttr-logo"></span></span>
+    <a class="back" href="index.html">← Back to overview</a>
+  </div>
+
+  <header>
+    <div class="eyebrow">Flight Deck Operations · Training Storyboard</div>
+    <h1>Standard Work Documentation</h1>
+    <p class="lede">A shot-by-shot map of the 21-minute training: the six standard work templates, taught in build order, then proven on the floor at Greenville.</p>
+    <div class="meta">21:00 runtime · 2 speakers · 8 chapters · 15 key frames</div>
+  </header>
+
+  <div class="section-label">Part 1 — The Six Templates · Corey Gibbons, Flight Deck Operations</div>
+  <div class="board">
+    <div class="frame"><img src="frames/00_intro.jpg" alt="Flight Deck title on blueprint">
+      <div class="body"><div class="stamp"><span>Open</span><span class="tc">00:00</span></div>
+      <h3>Cold open — Flight Deck</h3><p>Title card over the engineering blueprint motif. Corey Gibbons introduces the six standard work templates.</p></div></div>
+
+    <div class="frame"><img src="frames/04_machinecap.jpg" alt="Six templates overview slide">
+      <div class="body"><div class="stamp"><span>Framework</span><span class="tc">00:19</span></div>
+      <h3>The complete approach</h3><p>All six templates on one slide — macro view to detailed view. The roadmap for everything that follows.</p></div></div>
+
+    <div class="frame"><img src="frames/01_timeform.jpg" alt="Time Measurement Form, Grind line">
+      <div class="body"><div class="stamp"><span><span class="num-badge">1</span>Time Measurement</span><span class="tc">00:26</span></div>
+      <h3>Time Measurement Form</h3><p>Work elements listed top-to-bottom with breakpoints. The Grind line 16B form, marked up by hand.</p></div></div>
+
+    <div class="frame"><img src="frames/02_timeform_calc.jpg" alt="Ten-cycle observation columns">
+      <div class="body"><div class="stamp"><span><span class="num-badge">1</span>10 cycles</span><span class="tc">01:30</span></div>
+      <h3>Observe ten cycles</h3><p>Run the clock across at least ten cycles to capture the natural variation and find the true cycle time.</p></div></div>
+
+    <div class="frame"><img src="frames/03_timeform_adjust.jpg" alt="Lowest, lowest repeatable, adjustment">
+      <div class="body"><div class="stamp"><span><span class="num-badge">1</span>Adjustment</span><span class="tc">02:25</span></div>
+      <h3>Lowest → repeatable → adjusted</h3><p>Lowest vs. lowest-repeatable time; the difference is the adjustment that yields the realistic cycle time.</p></div></div>
+
+    <div class="frame"><img src="frames/05_machinecap_excess.jpg" alt="Machine capacity sheet detail">
+      <div class="body"><div class="stamp"><span><span class="num-badge">2</span>Machine Capacity</span><span class="tc">04:55</span></div>
+      <h3>Machine Capacity Sheet</h3><p>Manual time vs. auto-run time per part. Compare total time per item to actual excess capacity against demand.</p></div></div>
+
+    <div class="frame"><img src="frames/06_balance.jpg" alt="Corey explaining balance chart">
+      <div class="body"><div class="stamp"><span><span class="num-badge">3</span>Balance Chart</span><span class="tc">08:07</span></div>
+      <h3>Balance chart — operator loading</h3><p>One bar per operator, takt line across the top. Under the line is capacity; the gap is waste; over the line is beyond takt.</p></div></div>
+
+    <div class="frame"><img src="frames/07_balance_tact.jpg" alt="Building the bar chart">
+      <div class="body"><div class="stamp"><span><span class="num-badge">3</span>Takt line</span><span class="tc">08:42</span></div>
+      <h3>Manual time vs. takt</h3><p>Each bar combines manual and estimated time so you can see who meets customer demand within takt.</p></div></div>
+
+    <div class="frame"><img src="frames/08_swcs.jpg" alt="Standard work combination sheet on framework slide">
+      <div class="body"><div class="stamp"><span><span class="num-badge">4</span>Combination Sheet</span><span class="tc">10:37</span></div>
+      <h3>Standard Work Combination Sheet</h3><p>Steps in order with manual, machine, and walk time combined into one visual against the takt line.</p></div></div>
+
+    <div class="frame"><img src="frames/09_swcs_lines.jpg" alt="Solid, wavy, dotted lines and takt">
+      <div class="body"><div class="stamp"><span><span class="num-badge">4</span>The lines</span><span class="tc">12:26</span></div>
+      <h3>Solid · wavy · dotted · red</h3><p>Solid = manual, wavy = walk, dotted = machine running on, red vertical = takt. Does one cycle finish in takt?</p></div></div>
+
+    <div class="frame"><img src="frames/10_processcroll.jpg" alt="Process scroll layout slide">
+      <div class="body"><div class="stamp"><span><span class="num-badge">5</span>Process Scroll</span><span class="tc">14:08</span></div>
+      <h3>Process Scroll</h3><p>Layout of material and operator flow. Reveals standard WIP and hard vs. soft bottlenecks.</p></div></div>
+
+    <div class="frame"><img src="frames/11_worksheet.jpg" alt="Standardized work sheet, Greenville grinder">
+      <div class="body"><div class="stamp"><span><span class="num-badge">6</span>Standard Worksheet</span><span class="tc">15:42</span></div>
+      <h3>Standard Worksheet</h3><p>The single sheet that pulls it together — layout up top, work elements and non-cyclical work below, with sign-off.</p></div></div>
+
+    <div class="frame"><img src="frames/12_worksheet_detail.jpg" alt="Worksheet framework recap">
+      <div class="body"><div class="stamp"><span><span class="num-badge">6</span>Deploy</span><span class="tc">18:17</span></div>
+      <h3>Train, deploy, sustain</h3><p>Build an action plan — often during a Kaizen event — to implement and sustain the standard.</p></div></div>
+  </div>
+
+  <div class="section-label">Part 2 — Field Example · Melvin McKinney, 5S Champion, GE Aerospace Greenville</div>
+  <div class="board">
+    <div class="frame"><img src="frames/13_field_melvin.jpg" alt="Melvin McKinney on camera">
+      <div class="body"><div class="stamp"><span>Field</span><span class="tc">18:43</span></div>
+      <h3>Proven on the floor</h3><p>Greenville machines high-pressure turbine blades for CFM, Boeing, Airbus, and Honda. Standard work surfaced safety, quality, and an ergonomic fix.</p></div></div>
+
+    <div class="frame"><img src="frames/14_field_grind.jpg" alt="Melvin explaining FPI internal customer">
+      <div class="body"><div class="stamp"><span>Field</span><span class="tc">20:20</span></div>
+      <h3>The internal customer</h3><p>A part off every four minutes for FPI. When it slips, the standard work highlights it — and the team problem-solves back to standard.</p></div></div>
+  </div>
+</div>
+</body>
+</html>

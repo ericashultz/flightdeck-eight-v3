@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script src="gate.js"></script>
+<meta charset="utf-8">
+<title>Flight Deck OS · Every Page, Every Date · Phase 1</title>
+<style>
+  @font-face{font-family:"GE Sans";font-weight:300;src:url("assets/fonts/ge-sans/sons-light.woff2") format("woff2")}
+  @font-face{font-family:"GE Sans";font-weight:400;src:url("assets/fonts/ge-sans/sons-regular.woff2") format("woff2")}
+  @font-face{font-family:"GE Sans";font-weight:600;src:url("assets/fonts/ge-sans/sons-semibold.woff2") format("woff2")}
+  :root{
+    --ink:#00003d; --ink-soft:#23234a; --muted:#4A506A;
+    --line:#e7ebf4; --line-soft:#eef1f8; --surface:#f6f6f9;
+    --cap:#3d3d63; --good:#16b364; --accent-soft:#ececf2;
+    --sans:"GE Sans",-apple-system,"Helvetica Neue",Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,monospace;
+  }
+  @page{size:letter;margin:0}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--sans);color:var(--ink);font-size:9.5px;line-height:1.45;-webkit-font-smoothing:antialiased;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .page{width:8.5in;height:11in;padding:.55in .62in .45in;position:relative;page-break-after:always;overflow:hidden;display:flex;flex-direction:column;background:#fff}
+  .page:last-child{page-break-after:auto}
+
+  .brandbar{display:flex;align-items:center;justify-content:space-between;font-family:var(--mono);font-size:7.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+  .brandbar .bb-brand{color:var(--ink);font-weight:500}
+  .brandbar .dot{width:5px;height:5px;background:var(--ink);border-radius:50%;display:inline-block;margin-right:7px;vertical-align:middle}
+
+  .eyebrow{font-size:8.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--cap);font-weight:600;margin-bottom:10px}
+  h1{font-weight:400;font-size:27px;line-height:1.04;letter-spacing:-.025em;margin-bottom:10px}
+  .lede{font-size:10.5px;color:var(--muted);line-height:1.5;max-width:66ch}
+
+  .meta{display:flex;border-top:1px solid var(--line);margin-top:14px;margin-bottom:16px}
+  .meta>div{flex:1;padding:10px 18px 0 0}
+  .meta .k{font-family:var(--mono);font-size:6.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+  .meta .v{font-size:10.5px;letter-spacing:-.005em;line-height:1.35;padding-right:14px}
+
+  .gates{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:18px}
+  .gate{border:1px solid var(--line);padding:9px 11px;background:#fff}
+  .gate .gid{font-family:var(--mono);font-size:6.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+  .gate .gd{font-weight:600;font-size:10.5px;margin-bottom:2px}
+  .gate .gw{font-size:8.5px;color:var(--muted);line-height:1.35}
+
+  .memo{border:1px solid var(--line);margin:14px 0 16px;padding:13px 16px 12px;background:#fcfcfd}
+  .memo .mrow{display:flex;gap:26px;border-bottom:1px solid var(--line-soft);padding-bottom:8px;margin-bottom:9px}
+  .memo .mrow div{font-family:var(--mono);font-size:7px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .memo .mrow b{color:var(--ink);font-weight:500}
+  .memo p{font-size:9.8px;line-height:1.55;color:var(--ink-soft);margin-bottom:7px}
+  .memo p:last-child{margin-bottom:0}
+  .memo b{font-weight:600;color:var(--ink)}
+  .callout{border:1px solid var(--line);border-left:3px solid var(--ink);background:#fcfcfd;padding:10px 14px;margin-bottom:18px;font-size:9.5px;line-height:1.5;color:var(--ink-soft)}
+  .callout b{font-weight:600;color:var(--ink)}
+  .secline{display:flex;align-items:baseline;justify-content:space-between;border-bottom:1.5px solid var(--ink);padding-bottom:6px}
+  .secline h2{font-weight:400;font-size:15px;letter-spacing:-.015em}
+  .secline .tag{font-family:var(--mono);font-size:7px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+
+  table{width:100%;border-collapse:collapse}
+  th{font-family:var(--mono);font-size:6.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:500;text-align:left;padding:7px 8px 5px 0;border-bottom:1px solid var(--line)}
+  td{padding:4.5px 8px 4.5px 0;border-bottom:1px solid var(--line-soft);vertical-align:top;font-size:9px;color:var(--ink-soft)}
+  td.pg{font-weight:600;color:var(--ink);font-size:9.5px;white-space:nowrap}
+  td.id{font-family:var(--mono);font-size:7.5px;color:var(--muted);width:22px;padding-top:7px}
+  tr.grp td.glabel{font-family:var(--mono);font-size:7.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink);font-weight:600;border-bottom:1px solid var(--line);padding-top:11px}
+  tr.sgrp td.glabel{font-family:var(--mono);font-size:6.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:500;border-bottom:1px solid var(--line-soft);padding-top:7px;padding-left:8px}
+  td .sub{display:block;font-size:7.5px;color:var(--muted);font-weight:400;margin-top:1px;white-space:normal}
+  .ms{white-space:nowrap}
+
+  .note{font-size:8.5px;color:var(--muted);margin-top:9px;line-height:1.5}
+  .note b{color:var(--ink);font-weight:600}
+
+  .designrow{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .dstep{border-left:2px solid var(--ink);padding:2px 0 2px 10px}
+  .dstep .dk{font-family:var(--mono);font-size:6.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+  .dstep .dv{font-size:9.5px;font-weight:600}
+  .dstep .dw{font-size:8px;color:var(--muted);line-height:1.35;margin-top:1px}
+
+  .footer{margin-top:auto;padding-top:14px;border-top:1px solid var(--line);display:flex;justify-content:space-between;font-family:var(--mono);font-size:6.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .secwrap{margin-bottom:16px}
+
+  /* ---------- Gantt ---------- */
+  .gantt{display:grid;grid-template-columns:1.72in 1fr;margin-top:12px}
+  .g-labs{display:flex;flex-direction:column}
+  .g-lab{font-size:8.5px;font-weight:600;color:var(--ink);height:19px;display:flex;align-items:center;border-bottom:1px solid var(--line-soft);padding-right:10px;white-space:nowrap}
+  .g-lab.glt{font-family:var(--mono);font-size:6.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);font-weight:600;border-bottom:1px solid var(--line);height:22px}
+  .g-lab.gls{font-family:var(--mono);font-size:6.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:500;height:16px;padding-left:8px;border-bottom:1px solid var(--line-soft)}
+  .g-lab.ghd{height:26px;border-bottom:1px solid var(--line)}
+  .g-rows{position:relative}
+  .g-grid{position:absolute;inset:0;pointer-events:none}
+  .g-grid i{position:absolute;top:0;bottom:0;width:1px;background:var(--line-soft)}
+  .g-gate{position:absolute;top:0;bottom:0;width:0;border-left:1px dashed var(--ink);opacity:.55}
+  .g-today{position:absolute;top:0;bottom:0;width:0;border-left:1px solid #c9a227}
+  .g-hd{position:relative;height:26px;border-bottom:1px solid var(--line)}
+  .g-hd span{position:absolute;top:5px;font-family:var(--mono);font-size:6.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);transform:translateX(4px)}
+  .g-row{position:relative;height:19px;border-bottom:1px solid var(--line-soft)}
+  .g-row.gt{height:22px;border-bottom:1px solid var(--line)}
+  .g-row.gs{height:16px;border-bottom:1px solid var(--line-soft)}
+  .bar{position:absolute;top:5px;height:9px;background:var(--ink);border-radius:1px}
+  .bar.design{background:var(--accent-soft);border:1px solid var(--ink)}
+  .bar.test{background:#c6c9da}
+  .bar.voc{background:#8a93b5}
+  .bar.voca{background:#e3e6f1;border:1px solid #8a93b5}
+  .mk{position:absolute;top:7.5px;width:5px;height:5px;border-radius:50%;background:var(--ink);transform:translateX(-2.5px)}
+  .mk.draft{background:#fff;border:1.2px solid var(--ink);width:5.5px;height:5.5px;top:7px}
+  .gtxt{position:absolute;top:5px;font-family:var(--mono);font-size:6.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);transform:translateX(-100%);padding-right:5px;white-space:nowrap}
+  .legend{display:flex;gap:16px;align-items:center;margin-top:10px;font-size:7.5px;color:var(--muted);flex-wrap:wrap}
+  .legend span{display:flex;align-items:center;gap:5px}
+  .legend i{display:inline-block}
+  .li-bar{width:16px;height:8px;background:var(--ink);border-radius:1px}
+  .li-design{width:16px;height:8px;background:var(--accent-soft);border:1px solid var(--ink)}
+  .li-test{width:16px;height:8px;background:#c6c9da}
+  .li-dot{width:5px;height:5px;border-radius:50%;background:var(--ink)}
+  .li-draft{width:5.5px;height:5.5px;border-radius:50%;background:#fff;border:1.2px solid var(--ink)}
+  .li-gate{width:0;height:11px;border-left:1px dashed var(--ink)}
+  .li-today{width:0;height:11px;border-left:1px solid #c9a227}
+  .li-voc{width:16px;height:8px;background:#8a93b5;border-radius:1px}
+  .li-voca{width:16px;height:8px;background:#e3e6f1;border:1px solid #8a93b5}
+  @media screen {
+    body{background:#e9eaf0;padding:24px 0}
+    .page{margin:0 auto 24px;box-shadow:0 24px 60px rgba(16,24,40,.14)}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ PAGE 1 · OVERVIEW + GANTT ============ -->
+<div class="page">
+  <div class="brandbar">
+    <span><span class="dot"></span><span class="bb-brand">GE Aerospace</span></span>
+    <span>Flight Deck OS · Confidential</span>
+  </div>
+
+  <div class="eyebrow">Project plan · Phase 1 · Jun 8 – Jul 31, 2026</div>
+  <h1>Every page, every date.</h1>
+  <div class="memo">
+    <div class="mrow">
+      <div>To · <b>GE Aerospace FLIGHT DECK team</b></div>
+      <div>From · <b>Bttr</b></div>
+      <div>Date · <b>Thu Jun 11, 2026</b></div>
+      <div>Re · <b>When every page of the hub will be done</b></div>
+    </div>
+    <p><b>What this is.</b> One document that answers the question behind the question: when will each page of the FLIGHT DECK Activation Hub be ready, who approves it, and what has to happen first. Phase 1 covers two deliverables. The first is the Dashboard, and the Dashboard is the homepage: the role based front door, the global navigation, the eight Fundamentals pages, and the three Behaviors pages, all one deliverable. The second is the Template Library.</p>
+    <p><b>How we work.</b> Six weeks of design and testing, then two weeks of development. Every page moves through the same six steps: discuss, design, test, refine, approve, develop. Designs are tested with users as prototypes, refined, and approved in writing before anything is built. Prototypes are tested in weekly waves: the Template Library and Standard Work first, followed by the remaining Fundamentals, then the Behaviors, with the Dashboard and navigation last, once everything they point to exists. Standard Work is pulled into the first wave so its review lands Thu Jun 25 and refinements are in hand before the learning team publishes it Jul 1. Testing runs as the two streams GE asked for, moderated one to one sessions and async prototype review, against three validated personas. Each wave is tested the week after it is designed and shown live at that Thursday review. GE signs the design approval Fri Jul 17. Development is two weeks: every page is built in SharePoint Jul 20 to 24, tested Jul 27 to 30, and GE signs the final approval Fri Jul 31.</p>
+    <p><b>How to use this.</b> The chart below shows all 13 pages, the navigation, and the research stream across the eight weeks. Page 2 sets out the research plan, the personas, and what has to happen first. Page 3 lists the exact dates for every page.</p>
+  </div>
+
+  <div class="secline" id="gantt"><h2>The eight weeks, page by page.</h2><span class="tag">Jun 8 – Jul 31</span></div>
+
+  <div class="gantt">
+    <!-- labels column -->
+    <div class="g-labs">
+      <div class="g-lab ghd"></div>
+      <div class="g-lab glt">Research &amp; discovery</div>
+      <div class="g-lab">Persona validation</div>
+      <div class="g-lab">VOC recruitment</div>
+      <div class="g-lab">VOC research · moderated</div>
+      <div class="g-lab">VOC research · async</div>
+      <div class="g-lab">All pages · Discuss</div>
+      <div class="g-lab">All pages · Design direction</div>
+      <div class="g-lab glt">D1 · Dashboard = all pages below</div>
+      <div class="g-lab">Homepage · the Dashboard</div>
+      <div class="g-lab">Global navigation</div>
+      <div class="g-lab gls">The eight Fundamentals</div>
+      <div class="g-lab">02 · Standard Work</div>
+      <div class="g-lab">01 · Problem Solving</div>
+      <div class="g-lab">03 · Daily &amp; Visual Management</div>
+      <div class="g-lab">04 · 5S</div>
+      <div class="g-lab">05 · Operating Cadences</div>
+      <div class="g-lab">06 · Value Stream Management</div>
+      <div class="g-lab">07 · Action Planning</div>
+      <div class="g-lab">08 · Flow / Pull</div>
+      <div class="g-lab gls">GE Aerospace Behaviors</div>
+      <div class="g-lab">Customer Driven</div>
+      <div class="g-lab">Respect for People</div>
+      <div class="g-lab">Continuous Improvement</div>
+      <div class="g-lab glt">D2 · Template Library</div>
+      <div class="g-lab">Templates Library</div>
+      <div class="g-lab">All pages · Refine + approve</div>
+    </div>
+
+    <!-- chart column -->
+    <div class="g-rows">
+      <div class="g-grid">
+        <i style="left:0%"></i><i style="left:12.96%"></i><i style="left:25.93%"></i><i style="left:38.89%"></i>
+        <i style="left:51.85%"></i><i style="left:64.81%"></i><i style="left:77.78%"></i><i style="left:90.74%"></i><i style="left:100%"></i>
+        <b class="g-gate" style="left:31.48%"></b>
+        <b class="g-gate" style="left:73.15%"></b>
+        <b class="g-gate" style="left:99.07%"></b>
+        <b class="g-today" style="left:14.81%"></b>
+      </div>
+
+      <div class="g-hd">
+        <span style="left:0%">W1</span><span style="left:12.96%">W2</span><span style="left:25.93%">W3</span><span style="left:38.89%">W4</span>
+        <span style="left:51.85%">W5</span><span style="left:64.81%">W6</span><span style="left:77.78%">W7</span><span style="left:90.74%">W8</span>
+      </div>
+
+      <!-- research & discovery -->
+      <div class="g-row gt"><span class="gtxt" style="left:31.48%;top:6px">Standard Work review · Jun 25</span></div>
+      <div class="g-row"><div class="bar design" style="left:14.81%;width:3.7%"></div><b class="mk" style="left:16.66%"></b></div>
+      <div class="g-row"><div class="bar design" style="left:14.81%;width:3.7%"></div></div>
+      <div class="g-row"><div class="bar voc" style="left:27.78%;width:18.52%"></div></div>
+      <div class="g-row"><div class="bar voca" style="left:33.33%;width:25.93%"></div><b class="mk" style="left:59.26%"></b></div>
+
+      <!-- all pages · design -->
+      <div class="g-row"><div class="bar design" style="left:0%;width:7.41%"></div></div>
+      <div class="g-row"><div class="bar design" style="left:0%;width:20.37%"></div></div>
+      <!-- D1 header -->
+      <div class="g-row gt"><span class="gtxt" style="left:73.15%;top:6px">Design approved · Jul 17</span></div>
+      <!-- Homepage / nav -->
+      <div class="g-row"><div class="bar design" style="left:51.85%;width:9.26%"></div><div class="bar test" style="left:64.81%;width:9.26%"></div><b class="mk" style="left:71.30%"></b><div class="bar" style="left:77.78%;width:9.26%"></div><div class="bar test" style="left:90.74%;width:7.41%"></div></div>
+      <div class="g-row"><div class="bar design" style="left:51.85%;width:9.26%"></div><div class="bar test" style="left:64.81%;width:9.26%"></div><b class="mk" style="left:71.30%"></b><div class="bar" style="left:77.78%;width:9.26%"></div><div class="bar test" style="left:90.74%;width:7.41%"></div></div>
+      <!-- fundamentals sub -->
+      <div class="g-row gs"></div>
+      <!-- 02 Standard Work · first wave, accelerated to Jul 1 publish -->
+      <div class="g-row"><div class="bar design" style="left:12.96%;width:9.26%"></div><div class="bar test" style="left:25.93%;width:7.41%"></div><b class="mk" style="left:31.48%"></b><div class="bar" style="left:33.33%;width:7.41%"></div><b class="mk" style="left:42.59%"></b><span class="gtxt" style="left:43%;top:6px;transform:translateX(4px)">Published Jul 1</span></div>
+      <!-- 01 Problem Solving + 03 + 04 · wave tested W4, review Jul 2 -->
+      <div class="g-row"><div class="bar design" style="left:25.93%;width:9.26%"></div><div class="bar test" style="left:38.89%;width:9.26%"></div><b class="mk" style="left:45.37%"></b><div class="bar" style="left:77.78%;width:9.26%"></div><div class="bar test" style="left:90.74%;width:7.41%"></div></div>
+      <div class="g-row"><div class="bar design" style="left:25.93%;width:9.26%"></div><div class="bar test" style="left:38.89%;width:9.26%"></div><b class="mk" style="left:45.37%"></b><div class="bar" style="left:77.78%;width:9.26%"></div><div class="bar test" style="left:90.74%;width:7.41%"></div></div>
+      <div class="g-row"><div class="bar design" style="left:25.93%;width:9.26%"></div><div class="bar test" style="left:38.89%;width:9.26%"></div><b class="mk" style="left:45.37%"></b><div class="bar" style="left:77.78%;width:9.26%"></div><div class="bar test" style="left:90.74%;width:7.41%"></div></div>
+      <div class="g-row"><div class="bar design" style="left:38.89%;width:9.26%"></div><div class="bar test" style="left:51.85%;width:9.26%"></div><b class="mk" style="left:58.33%"></b><div class="bar" style="left:77.78%;width:9.26%"></div><div class="bar test" style="left:90.74%;width:7.41%"></div></div>
+      <div class="g-row"><div class="bar design" style="left:38.89%;width:9.26%"></div><div class="bar test" style="left:51.85%;width:9.26%"></div><b class="mk" style="left:58.33%"></b><div class="bar" style="left:77.78%;width:9.26%"></div><div class="bar test" style="left:90.74%;width:7.41%"></div></div>
+      <div class="g-row"><div class="bar design" style="left:38.89%;width:9.26%"></div><div class="bar test" style="left:51.85%;width:9.26%"></div><b class="mk" style="left:58.33%"></b><div class="bar" style="left:77.78%;width:9.26%"></div><div class="bar test" style="left:90.74%;width:7.41%"></div></div>
+      <div class="g-row"><div class="bar design" style="left:38.89%;width:9.26%"></div><div class="bar test" style="left:51.85%;width:9.26%"></div><b class="mk" style="left:58.33%"></b><div class="bar" style="left:77.78%;width:9.26%"></div><div class="bar test" style="left:90.74%;width:7.41%"></div></div>
+      <!-- behaviors sub -->
+      <div class="g-row gs"></div>
+      <div class="g-row"><div class="bar design" style="left:51.85%;width:9.26%"></div><div class="bar test" style="left:64.81%;width:9.26%"></div><b class="mk" style="left:71.30%"></b><div class="bar" style="left:77.78%;width:9.26%"></div><div class="bar test" style="left:90.74%;width:7.41%"></div></div>
+      <div class="g-row"><div class="bar design" style="left:51.85%;width:9.26%"></div><div class="bar test" style="left:64.81%;width:9.26%"></div><b class="mk" style="left:71.30%"></b><div class="bar" style="left:77.78%;width:9.26%"></div><div class="bar test" style="left:90.74%;width:7.41%"></div></div>
+      <div class="g-row"><div class="bar design" style="left:51.85%;width:9.26%"></div><div class="bar test" style="left:64.81%;width:9.26%"></div><b class="mk" style="left:71.30%"></b><div class="bar" style="left:77.78%;width:9.26%"></div><div class="bar test" style="left:90.74%;width:7.41%"></div></div>
+      <!-- D2 header -->
+      <div class="g-row gt"></div>
+      <div class="g-row"><div class="bar design" style="left:12.96%;width:9.26%"></div><div class="bar test" style="left:25.93%;width:9.26%"></div><b class="mk" style="left:32.41%"></b><div class="bar" style="left:77.78%;width:9.26%"></div><div class="bar test" style="left:90.74%;width:7.41%"></div></div>
+      <!-- testing -->
+      <div class="g-row"><div class="bar design" style="left:25.93%;width:45.37%"></div><span class="gtxt" style="left:98.8%">Approved · Jul 31</span></div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <span><i class="li-design"></i>Discuss · Design · Refine</span>
+    <span><i class="li-bar"></i>Develop</span>
+    <span><i class="li-test"></i>Test</span>
+    <span><i class="li-voc"></i>VOC moderated</span>
+    <span><i class="li-voca"></i>VOC async</span>
+    <span><i class="li-dot"></i>Live review</span>
+    <span><i class="li-gate"></i>Review / approval gate</span>
+    <span><i class="li-today"></i>Today · Jun 16</span>
+  </div>
+
+  <p class="note"><b>How to read this.</b> Prototypes are designed and tested with users in weekly waves: the Template Library and Standard Work first, then the remaining Fundamentals, then the Behaviors, with the Dashboard and navigation last. Each wave is shown live at its Thursday review, with revisions woven between waves. Standard Work runs a week ahead so it is reviewed Thu Jun 25 and refined before the learning team publishes it Jul 1. Recruitment and personas are settled Jun 16 – 18; moderated and async VOC research run Jun 23 – Jul 10. GE signs the design approval Fri Jul 17, then development runs Jul 20 – 31. Page 2 has the research plan and what has to happen first.</p>
+
+  <div class="footer"><span>Every page, every date · Phase 1 · 1 of 3</span></div>
+</div>
+
+<!-- ============ PAGE 2 · RESEARCH, PERSONAS, DEPENDENCIES ============ -->
+<div class="page">
+  <div class="brandbar">
+    <span><span class="dot"></span><span class="bb-brand">GE Aerospace</span></span>
+    <span>Flight Deck OS · Confidential</span>
+  </div>
+
+  <div class="eyebrow">Phase 1 · Research, personas &amp; what has to happen first</div>
+  <h1>How we test, and with whom.</h1>
+  <div class="callout">Testing runs as the two streams GE asked for. <b>Moderated voice of customer</b> sessions are one to one and observed live. <b>Async prototype review</b> lets the same users react on their own time. Both run against three validated personas so every page is tested by the people who will actually use it.</div>
+
+  <div class="secline"><h2>The three personas.</h2><span class="tag">Validated Jun 17 – 18</span></div>
+  <div style="height:10px"></div>
+  <div class="designrow" style="grid-template-columns:repeat(3,1fr)">
+    <div class="dstep"><div class="dk">Persona 01</div><div class="dv">Multiplier</div><div class="dw">Leads through others. Wants tools that scale a team, not just a task.</div></div>
+    <div class="dstep"><div class="dk">Persona 02</div><div class="dv">Newcomer</div><div class="dw">New to the system. Needs the front door to be obvious and forgiving.</div></div>
+    <div class="dstep"><div class="dk">Persona 03</div><div class="dv">Standardizer Leader</div><div class="dw">Owns the standard. Wants consistency, templates, and clear ownership.</div></div>
+  </div>
+  <p class="note"><b>Deliverable.</b> A one page summary per persona, with the supporting survey comments behind each. Settled Jun 17 – 18 so testers can be matched to personas before the first wave.</p>
+
+  <div style="height:8px"></div>
+  <div class="secline"><h2>The research plan.</h2><span class="tag">Jun 16 – Jul 10</span></div>
+  <div style="height:10px"></div>
+  <div class="designrow" style="grid-template-columns:repeat(4,1fr)">
+    <div class="dstep"><div class="dk">Jun 16 – 18</div><div class="dv">VOC recruitment</div><div class="dw">Identify testers, match them to personas, schedule interviews.</div></div>
+    <div class="dstep"><div class="dk">Jun 23 – Jul 3</div><div class="dv">Moderated VOC</div><div class="dw">One to one interviews, observed live, against the prototype waves.</div></div>
+    <div class="dstep"><div class="dk">Jun 26 – Jul 10</div><div class="dv">Async review</div><div class="dw">Same users react to prototypes on their own time between sessions.</div></div>
+    <div class="dstep"><div class="dk">By Jul 10</div><div class="dv">Synthesis</div><div class="dw">Findings and recommendations fed into refinement before approval.</div></div>
+  </div>
+
+  <div style="height:8px"></div>
+  <div class="secline"><h2>What has to happen first.</h2><span class="tag">Requirements</span></div>
+  <div style="height:10px"></div>
+  <div class="memo">
+    <p><b>Laptops configured.</b> The GE laptops, including Ken's, need to be delivered and configured so the team can work inside the GE environment. Target completion as soon as possible. If a laptop is not ready in time, the fallback is a remote review of that wave with the GE team, so testing and reviews stay on schedule.</p>
+  </div>
+
+  <div class="footer"><span>Every page, every date · Phase 1 · 2 of 3</span></div>
+</div>
+
+<!-- ============ PAGE 3 · DATE TABLE ============ -->
+<div class="page">
+  <div class="brandbar">
+    <span><span class="dot"></span><span class="bb-brand">GE Aerospace</span></span>
+    <span>Flight Deck OS · Confidential</span>
+  </div>
+
+  <div class="secwrap">
+    <div class="secline"><h2>The process. Every page moves through six steps.</h2><span class="tag">Discuss · Design · Test · Refine · Approve · Develop</span></div>
+    <div style="height:10px"></div>
+    <div class="designrow" style="grid-template-columns:repeat(6,1fr)">
+      <div class="dstep"><div class="dk">Jun 8 – 12</div><div class="dv">Discuss</div><div class="dw">Kickoff Mon Jun 8, then laptops + setup. Direction lands Thu Jun 18.</div></div>
+      <div class="dstep"><div class="dk">Jun 8 – Jul 10</div><div class="dv">Design</div><div class="dw">Started Mon Jun 8. Prototypes in weekly waves. Layout v1 Thu Jun 18.</div></div>
+      <div class="dstep"><div class="dk">Jun 22 – Jul 17</div><div class="dv">Test</div><div class="dw">Each wave tested with users the week after it is designed.</div></div>
+      <div class="dstep"><div class="dk">Jun 22 – Jul 16</div><div class="dv">Refine</div><div class="dw">Revisions woven between waves. Final walkthrough Thu Jul 16.</div></div>
+      <div class="dstep"><div class="dk">Fri Jul 17</div><div class="dv">Approve</div><div class="dw">GE signs design approval in writing.</div></div>
+      <div class="dstep"><div class="dk">Jul 20 – 31</div><div class="dv">Develop</div><div class="dw">Built in SharePoint Jul 20 – 24, tested Jul 27 – 30.</div></div></div>
+  </div>
+
+  <div class="secline"><h2>The dates, page by page.</h2><span class="tag">Design + testing · then development Jul 20 – 31</span></div>
+  <table>
+    <thead><tr>
+      <th style="width:22px"></th><th>Page</th><th>Prototype tested</th><th>Design approved</th><th>Developed</th><th>Tested in SharePoint</th><th>Prototype review</th><th>Approved</th>
+    </tr></thead>
+    <tbody>
+      <tr class="grp"><td class="glabel" colspan="8">D1 · FLIGHT DECK Dashboard · the homepage is the Dashboard · all pages below are part of D1</td></tr>
+      <tr><td class="id">·</td><td class="pg">Homepage · the Dashboard <span class="sub">Role based front door · five content groups · this page is the Dashboard</span></td><td class="ms">Jul 13 – 17</td><td class="ms">Jul 17</td><td class="ms">Jul 20 – 24</td><td class="ms">Jul 27 – 30</td><td class="ms">Thu Jul 16</td><td class="ms">Jul 31</td></tr>
+      <tr><td class="id">·</td><td class="pg">Global navigation <span class="sub">High frequency tools above static content · two clicks</span></td><td class="ms">Jul 13 – 17</td><td class="ms">Jul 17</td><td class="ms">Jul 20 – 24</td><td class="ms">Jul 27 – 30</td><td class="ms">Thu Jul 16</td><td class="ms">Jul 31</td></tr>
+
+      <tr class="sgrp"><td class="glabel" colspan="8">The eight Fundamentals</td></tr>
+      <tr><td class="id">02</td><td class="pg">Standard Work <span class="sub">First wave · accelerated for the learning team publish Jul 1</span></td><td class="ms">Jun 22 – 26</td><td class="ms">Jun 30</td><td class="ms">Jun 26 – 30</td><td class="ms">Jul 1</td><td class="ms">Thu Jun 25</td><td class="ms">Jul 1</td></tr>
+      <tr><td class="id">01</td><td class="pg">Problem Solving</td><td class="ms">Jun 29 – Jul 3</td><td class="ms">Jul 17</td><td class="ms">Jul 20 – 24</td><td class="ms">Jul 27 – 30</td><td class="ms">Thu Jul 2</td><td class="ms">Jul 31</td></tr>
+      <tr><td class="id">03</td><td class="pg">Daily &amp; Visual Management</td><td class="ms">Jun 29 – Jul 3</td><td class="ms">Jul 17</td><td class="ms">Jul 20 – 24</td><td class="ms">Jul 27 – 30</td><td class="ms">Thu Jul 2</td><td class="ms">Jul 31</td></tr>
+      <tr><td class="id">04</td><td class="pg">5S</td><td class="ms">Jun 29 – Jul 3</td><td class="ms">Jul 17</td><td class="ms">Jul 20 – 24</td><td class="ms">Jul 27 – 30</td><td class="ms">Thu Jul 2</td><td class="ms">Jul 31</td></tr>
+      <tr><td class="id">05</td><td class="pg">Operating Cadences</td><td class="ms">Jul 6 – 10</td><td class="ms">Jul 17</td><td class="ms">Jul 20 – 24</td><td class="ms">Jul 27 – 30</td><td class="ms">Thu Jul 9</td><td class="ms">Jul 31</td></tr>
+      <tr><td class="id">06</td><td class="pg">Value Stream Management</td><td class="ms">Jul 6 – 10</td><td class="ms">Jul 17</td><td class="ms">Jul 20 – 24</td><td class="ms">Jul 27 – 30</td><td class="ms">Thu Jul 9</td><td class="ms">Jul 31</td></tr>
+      <tr><td class="id">07</td><td class="pg">Action Planning</td><td class="ms">Jul 6 – 10</td><td class="ms">Jul 17</td><td class="ms">Jul 20 – 24</td><td class="ms">Jul 27 – 30</td><td class="ms">Thu Jul 9</td><td class="ms">Jul 31</td></tr>
+      <tr><td class="id">08</td><td class="pg">Flow / Pull</td><td class="ms">Jul 6 – 10</td><td class="ms">Jul 17</td><td class="ms">Jul 20 – 24</td><td class="ms">Jul 27 – 30</td><td class="ms">Thu Jul 9</td><td class="ms">Jul 31</td></tr>
+
+      <tr class="sgrp"><td class="glabel" colspan="8">GE Aerospace Behaviors</td></tr>
+      <tr><td class="id">·</td><td class="pg">Customer Driven</td><td class="ms">Jul 13 – 17</td><td class="ms">Jul 17</td><td class="ms">Jul 20 – 24</td><td class="ms">Jul 27 – 30</td><td class="ms">Thu Jul 16</td><td class="ms">Jul 31</td></tr>
+      <tr><td class="id">·</td><td class="pg">Respect for People</td><td class="ms">Jul 13 – 17</td><td class="ms">Jul 17</td><td class="ms">Jul 20 – 24</td><td class="ms">Jul 27 – 30</td><td class="ms">Thu Jul 16</td><td class="ms">Jul 31</td></tr>
+      <tr><td class="id">·</td><td class="pg">Continuous Improvement</td><td class="ms">Jul 13 – 17</td><td class="ms">Jul 17</td><td class="ms">Jul 20 – 24</td><td class="ms">Jul 27 – 30</td><td class="ms">Thu Jul 16</td><td class="ms">Jul 31</td></tr>
+
+      <tr class="grp"><td class="glabel" colspan="8">D2 · Template Library</td></tr>
+      <tr><td class="id">·</td><td class="pg">Templates Library <span class="sub">Sort, search + filter · by role, function, content type</span></td><td class="ms">Jun 22 – 26</td><td class="ms">Jul 17</td><td class="ms">Jul 20 – 24</td><td class="ms">Jul 27 – 30</td><td class="ms">Thu Jun 25</td><td class="ms">Jul 31</td></tr>
+    </tbody>
+  </table>
+  <p class="note"><b>How approval works.</b> Every page is designed and tested as a prototype with users before anything is built, in weekly waves with revisions woven between them. GE signs the design approval Fri Jul 17. Development is two weeks: every page is built in SharePoint Jul 20 – 24 and tested Jul 27 – 30. Approval is written, per page, against the criteria in the project plan, signed together at the final approval on Fri Jul 31. Up to three revision rounds per page. A 30 day support window follows through Aug 28. <b>Standard Work is the exception:</b> it runs a week ahead, is reviewed Thu Jun 25, and is refined and published for the learning team by Jul 1, ahead of the Jul 31 approval.</p>
+
+  <div class="footer"><span>Every page, every date · Phase 1 · 3 of 3</span></div>
+</div>
+
+</body>
+</html>

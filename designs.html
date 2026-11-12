@@ -1,0 +1,791 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="gate.js"></script>
+<title>GE Aerospace · 5 Design Concepts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  @font-face{font-family:"GE Sans";font-weight:300;font-style:normal;font-display:swap;src:url("assets/fonts/ge-sans/sons-light.woff2") format("woff2")}
+  @font-face{font-family:"GE Sans";font-weight:400;font-style:normal;font-display:swap;src:url("assets/fonts/ge-sans/sons-regular.woff2") format("woff2")}
+  @font-face{font-family:"GE Sans";font-weight:600;font-style:normal;font-display:swap;src:url("assets/fonts/ge-sans/sons-semibold.woff2") format("woff2")}
+  :root {
+    --bg: #f6f8fd;
+    --card: #ffffff;
+    --ink: #101828;
+    --ink-soft: #1e2939;
+    --muted: #4A506A;
+    --line: #e7ebf4;
+    --line-soft: #eef1f8;
+    --accent: #00003D;
+    --accent-soft: #ececf2;
+    --accent-deep: #000028;
+    --good: #16b364;
+    --warn: #ca8a04;
+    --font-sans: "GE Sans", "Geist", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, "Menlo", monospace;
+    --font-display: "GE Sans", "Geist", -apple-system, "Helvetica Neue", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--font-sans);
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.55;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 56px 32px 0; }
+
+  .brandbar { display: flex; align-items: center; justify-content: space-between; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 36px; }
+  .brandbar .dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; display: inline-block; margin-right: 8px; vertical-align: middle; }
+  .brandbar a { color: var(--muted); text-decoration: none; }
+  .brandbar a:hover { color: var(--ink); }
+  .brandbar .cobrand { display: inline-flex; align-items: center; gap: 11px; transition: color 0.14s; }
+  .cobrand .x { color: var(--muted); font-size: 13px; opacity: 0.6; }
+  .ge-logo { display: inline-block; height: 22px; width: 93px; background-color: var(--ink); -webkit-mask: url(assets/brand/ge-aerospace-logo.svg) left center/contain no-repeat; mask: url(assets/brand/ge-aerospace-logo.svg) left center/contain no-repeat; vertical-align: middle; }
+  .bttr-logo { display: inline-block; height: 13px; width: 31px; background-color: var(--ink); -webkit-mask: url(assets/brand/bttr-logo.svg) left center/contain no-repeat; mask: url(assets/brand/bttr-logo.svg) left center/contain no-repeat; vertical-align: middle; }
+  a.cobrand:hover .ge-logo, a.cobrand:hover .bttr-logo { background-color: var(--accent); }
+
+  header.intro { padding-bottom: 48px; }
+  header.intro .eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 500; }
+  header.intro h1 { font-family: var(--font-display); font-size: 64px; line-height: 1.02; margin: 14px 0 18px; font-weight: 400; letter-spacing: -0.025em; color: var(--ink); }
+  header.intro p.lede { font-size: 19px; color: var(--muted); max-width: 720px; margin: 0; line-height: 1.55; }
+  header.intro .promise { display: flex; gap: 28px; margin-top: 32px; flex-wrap: wrap; }
+  header.intro .promise span { font-family: var(--font-mono); font-size: 12px; color: var(--ink-soft); letter-spacing: 0.04em; }
+  header.intro .promise span::before { content: "→"; color: var(--accent); margin-right: 8px; }
+
+  /* Sticky stepper */
+  nav.walkthrough-nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(249, 250, 251, 0.92);
+    backdrop-filter: saturate(140%) blur(10px);
+    -webkit-backdrop-filter: saturate(140%) blur(10px);
+    border-bottom: 1px solid var(--line);
+    padding: 14px 0;
+    margin: 0 -32px;
+  }
+  nav.walkthrough-nav .stepper {
+    max-width: 1280px; margin: 0 auto; padding: 0 32px;
+    display: flex; gap: 4px; align-items: center; justify-content: space-between;
+  }
+  nav.walkthrough-nav .step {
+    flex: 1;
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 14px; border-radius: 0;
+    text-decoration: none; color: var(--muted);
+    font-size: 13px; font-weight: 500;
+    transition: background 0.15s, color 0.15s;
+    border: 1px solid transparent;
+  }
+  nav.walkthrough-nav .step:hover { background: var(--line-soft); color: var(--ink); }
+  nav.walkthrough-nav .step.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+  nav.walkthrough-nav .step .num { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; opacity: 0.75; }
+  nav.walkthrough-nav .step.active .num { color: #cbd5e1; opacity: 1; }
+  nav.walkthrough-nav .step .name { font-family: var(--font-sans); }
+
+  /* Concept section shell */
+  section.concept {
+    padding: 96px 0 80px;
+    border-top: 1px solid var(--line);
+  }
+  section.concept:first-of-type { border-top: 0; }
+  section.concept .concept-header { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; margin-bottom: 14px; }
+  section.concept .index { font-family: var(--font-mono); font-size: 12px; color: var(--muted); letter-spacing: 0.1em; }
+  section.concept .index b { color: var(--ink); font-weight: 600; }
+  section.concept .tagline { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); }
+  section.concept h2 { font-family: var(--font-display); font-size: 44px; line-height: 1.08; margin: 0 0 12px; font-weight: 400; letter-spacing: -0.02em; color: var(--ink); max-width: 22ch; }
+  section.concept p.lede { font-size: 17px; color: var(--muted); margin: 0 0 36px; max-width: 62ch; line-height: 1.55; }
+  .concept-grid { display: grid; grid-template-columns: 1.55fr 1fr; gap: 28px; align-items: start; }
+  .preview { background: var(--card); border: 1px solid var(--line); border-radius: 0; padding: 32px; min-height: 420px; }
+  .rationale { background: var(--card); border: 1px solid var(--line); border-radius: 0; padding: 28px 30px; }
+  .rationale h4 { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin: 0 0 14px; font-weight: 500; }
+  .rationale ul { margin: 0 0 22px; padding-left: 20px; }
+  .rationale li { margin: 10px 0; color: var(--ink); font-size: 14px; line-height: 1.55; }
+  .rationale li::marker { color: var(--accent); }
+  .rationale .best-for { padding: 16px; border-radius: 0; background: var(--accent-soft); border: 0; box-shadow: inset 3px 0 0 var(--accent); }
+  .rationale .best-for .label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 4px; }
+  .rationale .best-for .text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.5; }
+  .concept-cta { margin-top: 36px; display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: center; padding: 26px 30px; border-radius: 0; background: var(--ink); color: #fff; text-decoration: none; transition: background 0.15s; }
+  .concept-cta:hover { background: #16163a; }
+  .concept-cta .open-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #fbbf24; margin-bottom: 4px; }
+  .concept-cta .open-title { font-family: var(--font-display); font-size: 22px; font-weight: 400; letter-spacing: -0.01em; line-height: 1.2; }
+  .concept-cta .open-arrow { font-family: var(--font-sans); font-size: 15px; color: #fff; white-space: nowrap; }
+  .concept-cta .open-arrow::after { content: " \203A"; color: #7eacff; }
+
+  .next-link { margin-top: 16px; display: flex; justify-content: flex-end; }
+  .next-link a { font-family: var(--font-sans); font-size: 14px; letter-spacing: 0; color: var(--accent); text-decoration: none; padding: 10px 0; transition: color 0.15s; }
+  .next-link a:hover { color: var(--accent-deep); }
+  @media (max-width: 760px) {
+    .concept-cta { grid-template-columns: 1fr; padding: 20px 22px; }
+    .concept-cta .open-title { font-size: 18px; }
+  }
+
+  /* ===== Concept A · Stage-Based ===== */
+  .stage-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
+  .stage-card { padding: 22px; background: var(--line-soft); border: 0; border-radius: 0; cursor: pointer; transition: background 0.15s; }
+  .stage-card:hover { background: #eceef1; }
+  .stage-card.selected { background: var(--accent-soft); box-shadow: inset 3px 0 0 var(--accent); }
+  .stage-card .stage-num { font-family: var(--font-mono); font-size: 11px; color: var(--accent); letter-spacing: 0.08em; }
+  .stage-card .stage-name { font-family: var(--font-display); font-size: 22px; font-weight: 400; color: var(--ink); margin: 6px 0 4px; letter-spacing: -0.01em; }
+  .stage-card .stage-sub { font-size: 12.5px; color: var(--muted); line-height: 1.45; }
+  .stage-card .stage-cta { margin-top: 14px; font-family: var(--font-mono); font-size: 11px; color: var(--accent); letter-spacing: 0.06em; }
+  .function-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 22px; }
+  .fn-pill { padding: 8px 14px; font-size: 12px; border: 0; border-radius: 0; background: var(--line-soft); color: var(--ink-soft); font-family: var(--font-mono); letter-spacing: 0.04em; cursor: pointer; transition: background 0.12s, color 0.12s; }
+  .fn-pill:hover { background: #eceef1; color: var(--ink); }
+  .fn-pill.on { background: var(--ink); color: #fff; }
+  .templates-strip { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  .tpl { padding: 14px 10px; background: var(--line-soft); border: 0; border-radius: 0; font-size: 12px; color: var(--ink-soft); text-align: center; line-height: 1.3; cursor: pointer; transition: background 0.12s, color 0.12s; }
+  .tpl:hover { background: #eceef1; color: var(--ink); }
+  .tpl small { display: block; color: var(--muted); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.06em; margin-top: 4px; text-transform: uppercase; }
+  .preview-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
+
+  /* ===== Concept B · Wingmate ===== */
+  .wing-hero { background: linear-gradient(135deg, #fef3c7 0%, #fde8c4 100%); border-radius: 0; padding: 28px; margin-bottom: 22px; }
+  .wing-greeting { font-family: var(--font-display); font-size: 24px; color: var(--ink); margin-bottom: 16px; letter-spacing: -0.01em; }
+  .wing-greeting b { color: var(--accent-deep); font-weight: 500; }
+  .wing-input { display: flex; gap: 8px; padding: 12px 14px; background: #fff; border: 1px solid #f0d999; border-radius: 0; align-items: center; }
+  .wing-input .placeholder { flex: 1; color: var(--muted); font-size: 14px; }
+  .wing-input .send-btn { padding: 8px 16px; background: var(--ink); color: #fff; border-radius: 0; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; cursor: pointer; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+  .chip { padding: 7px 12px; font-size: 12px; background: rgba(255,255,255,0.7); border: 1px solid rgba(0,0,0,0.06); border-radius: 0; color: var(--ink-soft); cursor: pointer; transition: background 0.12s; }
+  .chip:hover { background: #fff; color: var(--ink); }
+  .convo-history h5 { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin: 18px 0 10px; font-weight: 500; }
+  .convo-row { display: grid; grid-template-columns: 80px 1fr auto; gap: 14px; padding: 10px 0; border-top: 1px solid var(--line-soft); align-items: center; }
+  .convo-row:first-of-type { border-top: 0; padding-top: 0; }
+  .convo-row .when { font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 0.04em; }
+  .convo-row .what { font-size: 13.5px; color: var(--ink); }
+  .convo-row .what small { display: block; color: var(--muted); font-size: 11.5px; margin-top: 3px; font-family: var(--font-mono); letter-spacing: 0.04em; }
+  .convo-row .arrow { color: var(--muted); font-family: var(--font-mono); font-size: 14px; }
+  .browse-link { margin-top: 18px; font-family: var(--font-mono); font-size: 11.5px; color: var(--muted); letter-spacing: 0.04em; }
+  .browse-link a { color: var(--accent); text-decoration: none; }
+  .browse-link a:hover { text-decoration: underline; }
+
+  /* ===== Concept C · Maturity ===== */
+  .mat-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 22px; }
+  .mat-kpi { background: var(--bg); border: 1px solid var(--line); border-radius: 0; padding: 14px 16px; }
+  .mat-kpi .label { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .mat-kpi .value { font-family: var(--font-display); font-size: 28px; line-height: 1; font-weight: 400; color: var(--ink); letter-spacing: -0.015em; }
+  .mat-kpi .delta { font-family: var(--font-mono); font-size: 11px; color: var(--good); margin-top: 4px; }
+  .mat-kpi .delta.warn { color: var(--warn); }
+  .opp-list { margin-bottom: 22px; }
+  .opp-row { display: grid; grid-template-columns: 1fr auto; gap: 16px; padding: 14px 0; border-top: 1px solid var(--line-soft); align-items: center; }
+  .opp-row:first-of-type { border-top: 0; padding-top: 4px; }
+  .opp-row .name { font-size: 14px; color: var(--ink); font-weight: 500; }
+  .opp-row .name small { display: block; color: var(--muted); font-weight: 400; font-size: 12px; margin-top: 2px; }
+  .opp-row .impact { font-family: var(--font-mono); font-size: 12px; color: var(--good); padding: 4px 10px; background: #dcfce7; border-radius: 0; border: 1px solid #bbf7d0; white-space: nowrap; }
+  .lb-table { width: 100%; border-collapse: collapse; }
+  .lb-table th { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); font-weight: 500; }
+  .lb-table th.right { text-align: right; }
+  .lb-table td { padding: 10px 12px; border-top: 1px solid var(--line-soft); font-size: 13px; vertical-align: middle; }
+  .lb-table tr:first-child td { border-top: 0; }
+  .lb-table td.team { font-weight: 500; color: var(--ink); }
+  .lb-table td.score { font-family: var(--font-mono); text-align: right; color: var(--ink); }
+  .lb-table td.delta { font-family: var(--font-mono); font-size: 12px; color: var(--good); text-align: right; }
+
+  /* ===== Concept D · Personas ===== */
+  .persona-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .persona-card { padding: 18px; background: var(--bg); border: 1px solid var(--line); border-radius: 0; cursor: pointer; transition: all 0.15s; display: flex; flex-direction: column; gap: 6px; }
+  .persona-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 6px 16px rgba(21, 93, 252, 0.08); }
+  .persona-card .avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--line-soft); display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em; margin-bottom: 8px; overflow: hidden; flex-shrink: 0; }
+  .persona-card .avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .persona-card.priority { border-color: var(--accent); box-shadow: 0 4px 12px -4px rgba(21,93,252,0.18); }
+  .persona-card .priority-tag { display: inline-block; font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); background: var(--accent-soft); border: 1px solid #dbeafe; padding: 2px 8px; border-radius: 0; margin-bottom: 8px; align-self: flex-start; }
+  .persona-card .role { font-family: var(--font-mono); font-size: 10px; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; }
+  .persona-card .name { font-family: var(--font-display); font-size: 18px; font-weight: 400; color: var(--ink); letter-spacing: -0.005em; }
+  .persona-card .desc { font-size: 12.5px; color: var(--muted); line-height: 1.45; min-height: 50px; }
+  .persona-card .enter { margin-top: auto; padding-top: 8px; font-family: var(--font-mono); font-size: 10.5px; color: var(--accent); letter-spacing: 0.06em; }
+
+  /* ===== Concept E · Guided ===== */
+  .wizard { display: grid; gap: 0; border-top: 1px solid var(--line); }
+  .wiz-step { padding: 18px 2px; background: transparent; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 38px 1fr; gap: 16px; align-items: start; }
+  .wiz-num { font-family: var(--font-display); font-size: 26px; font-weight: 300; color: #c0c6cf; line-height: 1; }
+  .wiz-prompt { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .wiz-q { font-family: var(--font-display); font-size: 18px; font-weight: 400; color: var(--ink); margin-bottom: 12px; letter-spacing: -0.01em; line-height: 1.2; }
+  .wiz-options { display: flex; flex-wrap: wrap; gap: 6px; }
+  .wiz-opt { padding: 6px 13px; font-size: 12.5px; border: 1px solid var(--line); border-radius: 999px; background: #fff; color: var(--ink-soft); font-family: var(--font-sans); cursor: pointer; transition: border-color 0.12s, color 0.12s; }
+  .wiz-opt:hover { border-color: var(--ink); color: var(--ink); }
+  .wiz-opt.picked { border-color: var(--accent); color: var(--accent); background: #fff; }
+  .wiz-step.rec { background: var(--ink); padding: 22px 22px; border-bottom: 0; margin-top: 6px; }
+  .wiz-step.rec .wiz-num { color: rgba(255,255,255,0.38); }
+  .wiz-step.rec .wiz-prompt { color: #7eacff; }
+  .wiz-rec-title { font-family: var(--font-display); font-size: 20px; font-weight: 400; color: #fff; letter-spacing: -0.01em; line-height: 1.15; margin-bottom: 8px; }
+  .wiz-rec-body { font-size: 13.5px; line-height: 1.55; color: rgba(255,255,255,0.78); }
+  .wiz-rec-body b { color: #fff; font-weight: 600; }
+  /* GE CTA — pill + navy arrow-circle */
+  .ge-cta { display: inline-flex; align-items: center; gap: 12px; padding: 5px 5px 5px 20px; border-radius: 100px; background: rgba(0,0,61,0.08); color: var(--accent); font-family: var(--font-sans); font-size: 14px; font-weight: 500; text-decoration: none; white-space: nowrap; cursor: pointer; transition: background 0.15s; }
+  .ge-cta:hover { background: rgba(0,0,61,0.14); }
+  .ge-cta .ge-arrow { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 15px; flex: none; }
+  .ge-cta.on-dark { background: rgba(255,255,255,0.12); color: #fff; }
+  .ge-cta.on-dark:hover { background: rgba(255,255,255,0.2); }
+  .ge-cta.on-dark .ge-arrow { background: #fff; color: var(--accent); }
+  .wiz-rec-btn { margin-top: 16px; }
+
+  /* ===== Closing ===== */
+  section.closing { background: linear-gradient(135deg, #0b1220 0%, #1e2939 100%); color: #fff; margin: 96px -32px 0; padding: 96px 32px; border-radius: 0; }
+  section.closing .inner { max-width: 920px; margin: 0 auto; }
+  section.closing .eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: #fbbf24; margin-bottom: 18px; }
+  section.closing h2 { font-family: var(--font-display); font-size: 52px; line-height: 1.08; margin: 0 0 22px; font-weight: 400; letter-spacing: -0.02em; max-width: 18ch; color: #fff; }
+  section.closing p { font-size: 18px; line-height: 1.55; color: #cbd5e1; margin: 0 0 14px; max-width: 60ch; }
+  section.closing p.kicker { color: #fff; font-size: 19px; margin-top: 28px; max-width: 56ch; font-weight: 500; }
+  section.closing .actions { margin-top: 40px; display: flex; gap: 14px; flex-wrap: wrap; }
+  section.closing .actions a { padding: 14px 22px; border-radius: 0; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; transition: transform 0.12s, background 0.12s; }
+  section.closing .actions a.primary { background: #fff; color: #0b1220; }
+  section.closing .actions a.primary:hover { background: #fbbf24; transform: translateY(-1px); }
+  section.closing .actions a.ghost { border: 1px solid rgba(255,255,255,0.25); color: #fff; }
+  section.closing .actions a.ghost:hover { background: rgba(255,255,255,0.08); }
+
+  footer { padding: 28px 0 56px; color: var(--muted); font-size: 12px; font-family: var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; }
+
+  @media (max-width: 1100px) {
+    .concept-grid { grid-template-columns: 1fr; }
+    .preview { min-height: 0; }
+  }
+  @media (max-width: 900px) {
+    .wrap { padding: 32px 20px 0; }
+    nav.walkthrough-nav { margin: 0 -20px; }
+    nav.walkthrough-nav .stepper { padding: 0 20px; gap: 2px; }
+    nav.walkthrough-nav .step { padding: 8px 10px; font-size: 12px; }
+    nav.walkthrough-nav .step .name { display: none; }
+    header.intro h1 { font-size: 42px; }
+    section.concept h2 { font-size: 32px; }
+    .stage-cards, .templates-strip, .mat-kpis { grid-template-columns: 1fr 1fr; }
+    .persona-grid { grid-template-columns: 1fr 1fr; }
+    section.closing { margin: 64px -20px 0; padding: 64px 24px; }
+    section.closing h2 { font-size: 36px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="brandbar">
+    <a href="index.html" title="Back to the hub" class="cobrand"><span class="ge-logo" role="img" aria-label="GE Aerospace"></span></a>
+    <div>FLIGHT DECK &middot; Design Concepts</div>
+    <div style="display: flex; gap: 18px; align-items: center;"><a href="voc-discovery.html" target="_blank" rel="noopener">VOC Discovery ↗</a><a href="index.html" style="color: var(--ink); border: 1px solid var(--line); padding: 6px 12px; border-radius: 0; background: var(--card);">← Home</a></div>
+  </div>
+
+  <header class="intro">
+    <div class="eyebrow">May 8 &middot; Five concepts &middot; One walkthrough</div>
+    <h1>Five concepts<br>for the FLIGHT DECK.</h1>
+    <p class="lede">Click through each one. They're not mockups &mdash; they're working ground in five distinct directions. Pick the one that fits how your people actually use the hub. Then we build it.</p>
+    <div class="promise">
+      <span>Grounded in your 8.1% / 649-respondent VOC survey</span>
+      <span>Anchored in your 7 real personas across 34,760 employees</span>
+      <span>Templates ranked by your actual pull data</span>
+    </div>
+  </header>
+
+  <nav class="walkthrough-nav">
+    <div class="stepper">
+      <a href="#concept-a" class="step active" data-step="a"><span class="num">01</span><span class="name">Stage First</span></a>
+      <a href="#concept-b" class="step" data-step="b"><span class="num">02</span><span class="name">Wingmate First</span></a>
+      <a href="#concept-c" class="step" data-step="c"><span class="num">03</span><span class="name">Maturity First</span></a>
+      <a href="#concept-d" class="step" data-step="d"><span class="num">04</span><span class="name">Role First</span></a>
+      <a href="#concept-e" class="step" data-step="e"><span class="num">05</span><span class="name">Guided Path</span></a>
+    </div>
+  </nav>
+
+  <!-- ================== CONCEPT A · STAGE-BASED ================== -->
+  <section class="concept" id="concept-a">
+    <div class="concept-header">
+      <div class="index"><b>01</b> &nbsp;/&nbsp; 05</div>
+      <div class="tagline">Stage First</div>
+    </div>
+    <h2>Where are you in your journey?</h2>
+    <p class="lede">Pick the state that matches your team. We route you to the right tools. One decision unlocks the rest of the hub.</p>
+
+    <div class="concept-grid">
+      <div class="preview">
+        <div class="preview-label">Live preview</div>
+
+        <div class="stage-cards">
+          <div class="stage-card">
+            <div class="stage-num">01</div>
+            <div class="stage-name">Stabilize</div>
+            <div class="stage-sub">Daily work feels chaotic. Establish cadence and standard work first.</div>
+            <div class="stage-cta">Start here →</div>
+          </div>
+          <div class="stage-card selected">
+            <div class="stage-num">02</div>
+            <div class="stage-name">Standardize</div>
+            <div class="stage-sub">Cadence is in place. Tighten standards and make practices repeatable.</div>
+            <div class="stage-cta">Start here →</div>
+          </div>
+          <div class="stage-card">
+            <div class="stage-num">03</div>
+            <div class="stage-name">Improve</div>
+            <div class="stage-sub">Standards hold. Run problem-solving and continuous improvement loops.</div>
+            <div class="stage-cta">Start here →</div>
+          </div>
+        </div>
+
+        <div class="function-pills">
+          <span class="fn-pill on">Manufacturing</span>
+          <span class="fn-pill">Engineering</span>
+          <span class="fn-pill">HR</span>
+          <span class="fn-pill">Supply Chain</span>
+          <span class="fn-pill">Digital Tech</span>
+          <span class="fn-pill">Leadership</span>
+        </div>
+
+        <div class="preview-label" style="margin-top: 6px;">Top 10 templates · for your stage</div>
+        <div class="templates-strip">
+          <div class="tpl">A3<small>Problem solving</small></div>
+          <div class="tpl">Standard Work<small>Most-pulled</small></div>
+          <div class="tpl">Daily Huddle<small>Cadence</small></div>
+          <div class="tpl">Kaizen Prep<small>Workshop</small></div>
+          <div class="tpl">5S<small>Workplace</small></div>
+          <div class="tpl">VSM<small>Value stream</small></div>
+          <div class="tpl">RACI<small>Roles</small></div>
+          <div class="tpl">5 Whys<small>Root cause</small></div>
+          <div class="tpl">PDCA<small>Improve loop</small></div>
+          <div class="tpl">Action Plan<small>Commit</small></div>
+        </div>
+      </div>
+
+      <div class="rationale">
+        <h4>Why this works</h4>
+        <ul>
+          <li>Resolves the "I haven't had the opportunity to attend any FLIGHT DECK training" pain — voiced by Non-Mfg People Leaders (N=4,900).</li>
+          <li>One decision narrows everything else. Cuts the 4,326 weekly TopicHome hits that bounce without finding what they need.</li>
+          <li>Function pills keep the page useful for the 28,000 Hourly Employees and the underserved non-MFG audience.</li>
+        </ul>
+        <div class="best-for">
+          <div class="label">Best for</div>
+          <div class="text">Mixed-maturity organizations like yours — where Avio Aero, Wilmington, Saltillo, Cheltenham are all at very different points.</div>
+        </div>
+      </div>
+    </div>
+
+    <a class="concept-cta" href="concept-a.html" target="_blank" rel="noopener">
+      <div>
+        <div class="open-label">Open the full design</div>
+        <div class="open-title">See Stage First as a working SharePoint page →</div>
+      </div>
+      <span class="ge-cta on-dark"><span>Open page</span><span class="ge-arrow">→</span></span>
+    </a>
+    <div class="next-link"><a href="#concept-b">Next: Wingmate First →</a></div>
+  </section>
+
+  <!-- ================== CONCEPT B · WINGMATE ================== -->
+  <section class="concept" id="concept-b">
+    <div class="concept-header">
+      <div class="index"><b>02</b> &nbsp;/&nbsp; 05</div>
+      <div class="tagline">Wingmate First</div>
+    </div>
+    <h2>Skip the search. Just ask.</h2>
+    <p class="lede">A conversational front door for the hub. Wingmate already gets unsolicited praise &mdash; this concept makes it the default entry point, not a buried feature.</p>
+
+    <div class="concept-grid">
+      <div class="preview">
+        <div class="preview-label">Live preview</div>
+
+        <div class="wing-hero">
+          <div class="wing-greeting">Hi Aero. <b>What are you working on?</b></div>
+          <div class="wing-input">
+            <div class="placeholder">e.g., "Help me run a Kaizen for HR onboarding"</div>
+            <div class="send-btn">SEND</div>
+          </div>
+          <div class="chips">
+            <span class="chip">Score my DVM maturity</span>
+            <span class="chip">Coach me through an A3</span>
+            <span class="chip">Draft standard work</span>
+            <span class="chip">Plan a daily huddle</span>
+            <span class="chip">Find the right template</span>
+            <span class="chip">Translate MFG → Engineering</span>
+            <span class="chip">Onboard a new team member</span>
+            <span class="chip">Show outcomes I can cite</span>
+          </div>
+        </div>
+
+        <div class="convo-history">
+          <h5>Recent conversations</h5>
+          <div class="convo-row">
+            <div class="when">Yesterday</div>
+            <div class="what">Coach Standard Work for HR ops<small>3-step plan · used Standard Work template</small></div>
+            <div class="arrow">↗</div>
+          </div>
+          <div class="convo-row">
+            <div class="when">Mon</div>
+            <div class="what">Score my DVM maturity<small>Score: 67/100 · 3 priority gaps · 2 quick wins</small></div>
+            <div class="arrow">↗</div>
+          </div>
+          <div class="convo-row">
+            <div class="when">Last week</div>
+            <div class="what">Draft a Kaizen for the Cell 7-A cadence drift<small>Pre-work pack · 5 questions · Kaizen Prep template</small></div>
+            <div class="arrow">↗</div>
+          </div>
+        </div>
+
+        <div class="browse-link">Prefer to browse? → <a href="#">Templates</a> · <a href="#">Fundamentals</a> · <a href="#">Lean Library</a> · <a href="#">Search</a></div>
+      </div>
+
+      <div class="rationale">
+        <h4>Why this works</h4>
+        <ul>
+          <li>Wingmate is already the <b>#1 outside-AH source</b> in your data. We lean into your asset — we don't replace it.</li>
+          <li>Removes navigation as the primary task. Solves "Frequency of visit drives ease of navigation" — the headline insight from your survey.</li>
+          <li>Recent conversations rebuild context for the FD Leaders (N=400) who hit the hub daily/weekly — the priority audience.</li>
+        </ul>
+        <div class="best-for">
+          <div class="label">Best for</div>
+          <div class="text">The 70% of users who only visit monthly. The Senior Leader who wants "the 10 things that matter, not the thousand things to do."</div>
+        </div>
+      </div>
+    </div>
+
+    <a class="concept-cta" href="concept-b.html" target="_blank" rel="noopener">
+      <div>
+        <div class="open-label">Open the full design</div>
+        <div class="open-title">See Wingmate First as a working SharePoint page →</div>
+      </div>
+      <span class="ge-cta on-dark"><span>Open page</span><span class="ge-arrow">→</span></span>
+    </a>
+    <div class="next-link"><a href="#concept-c">Next: Maturity First →</a></div>
+  </section>
+
+  <!-- ================== CONCEPT C · MATURITY ================== -->
+  <section class="concept" id="concept-c">
+    <div class="concept-header">
+      <div class="index"><b>03</b> &nbsp;/&nbsp; 05</div>
+      <div class="tagline">Maturity First</div>
+    </div>
+    <h2>Show me where to focus this week.</h2>
+    <p class="lede">A leadership-first front page. Aggregate scores, ranked opportunities, peer comparison. The hub becomes a place to make a decision, not just a place to find a file.</p>
+
+    <div class="concept-grid">
+      <div class="preview">
+        <div class="preview-label">Live preview</div>
+
+        <div class="mat-kpis">
+          <div class="mat-kpi">
+            <div class="label">DVM score</div>
+            <div class="value">73</div>
+            <div class="delta">+4 vs last quarter</div>
+          </div>
+          <div class="mat-kpi">
+            <div class="label">Engagement</div>
+            <div class="value">81</div>
+            <div class="delta">+9</div>
+          </div>
+          <div class="mat-kpi">
+            <div class="label">Cross-fn use</div>
+            <div class="value">42</div>
+            <div class="delta warn">−2</div>
+          </div>
+          <div class="mat-kpi">
+            <div class="label">Cadence held</div>
+            <div class="value">88%</div>
+            <div class="delta">+3 pts</div>
+          </div>
+        </div>
+
+        <div class="opp-list">
+          <div class="preview-label" style="margin-bottom: 4px;">Top opportunities · this week</div>
+          <div class="opp-row">
+            <div class="name">Run a Problem Solving session<small>Cell 7-A · two missed huddles in a row</small></div>
+            <div class="impact">+6 DVM</div>
+          </div>
+          <div class="opp-row">
+            <div class="name">Pull Engineering A3 examples<small>Liam's team requested · template gap closed</small></div>
+            <div class="impact">+4 Engagement</div>
+          </div>
+          <div class="opp-row">
+            <div class="name">Coach Standard Work for HR ops<small>Hassan · first non-MFG cohort</small></div>
+            <div class="impact">+3 Cross-fn</div>
+          </div>
+        </div>
+
+        <div class="preview-label" style="margin-bottom: 6px;">Team leaderboard · DVM</div>
+        <table class="lb-table">
+          <thead><tr><th>Team</th><th class="right">Score</th><th class="right">Δ 30d</th></tr></thead>
+          <tbody>
+            <tr><td class="team">Quality</td><td class="score">88 / 100</td><td class="delta">+5</td></tr>
+            <tr><td class="team">Cell 7-A</td><td class="score">84 / 100</td><td class="delta">+18</td></tr>
+            <tr><td class="team">Software Eng</td><td class="score">72 / 100</td><td class="delta">+11</td></tr>
+            <tr><td class="team">HR Operations</td><td class="score">67 / 100</td><td class="delta">+14</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="rationale">
+        <h4>Why this works</h4>
+        <ul>
+          <li>Speaks the Senior Leader (LF) language: "Say/Do on the KPIs · Frequency trumps quality of touch." Outcomes, not activity.</li>
+          <li>Opportunity cards turn the hub into a recommender — directly mapped to your <b>6-step Hoshin plan</b> (SEO, examples, journeys, search, notifications, Genba).</li>
+          <li>Leaderboard creates positive peer pressure across real GE Aerospace sites — Wilmington, Saltillo, Avio Aero, Cheltenham.</li>
+        </ul>
+        <div class="best-for">
+          <div class="label">Best for</div>
+          <div class="text">Senior Leaders (N=285) and Plant Leaders (N=75-80) who own SQDC and P&amp;L. The 285 strategic Tier 2 leaders who report into LF/SALT.</div>
+        </div>
+      </div>
+    </div>
+
+    <a class="concept-cta" href="concept-c.html" target="_blank" rel="noopener">
+      <div>
+        <div class="open-label">Open the full design</div>
+        <div class="open-title">See Maturity First as a working SharePoint page →</div>
+      </div>
+      <span class="ge-cta on-dark"><span>Open page</span><span class="ge-arrow">→</span></span>
+    </a>
+    <div class="next-link"><a href="#concept-d">Next: Role First →</a></div>
+  </section>
+
+  <!-- ================== CONCEPT D · PERSONAS ================== -->
+  <section class="concept" id="concept-d">
+    <div class="concept-header">
+      <div class="index"><b>04</b> &nbsp;/&nbsp; 05</div>
+      <div class="tagline">Role First</div>
+    </div>
+    <h2>Choose your starting point.</h2>
+    <p class="lede">Routes built around how your people actually work. Seven personas reverse-engineered from your VOC data, mapped across 34,760 employees. FLIGHT DECK Leaders flagged as the priority audience.</p>
+
+    <div class="concept-grid">
+      <div class="preview">
+        <div class="preview-label">Live preview</div>
+
+        <div class="persona-grid">
+          <div class="persona-card priority">
+            <div class="avatar"><img src="assets/07-FLIGHT-DECK-Leader.png" alt=""></div>
+            <span class="priority-tag">Priority · Genba coaches</span>
+            <div class="role">Transformational · N = ~400</div>
+            <div class="name">FLIGHT DECK Leaders</div>
+            <div class="desc">Deployed at Genba. Teach, guide, coach. The persona that drives FD adoption everywhere else.</div>
+            <div class="enter">Enter route →</div>
+          </div>
+          <div class="persona-card">
+            <div class="avatar"><img src="assets/01-Senior-Leader-LF.png" alt=""></div>
+            <div class="role">Operating Leaders · N = 285</div>
+            <div class="name">Senior Leader (LF)</div>
+            <div class="desc">"Frequency of touch trumps quality of touch." Wants the 10 things that matter, not the thousand to do.</div>
+            <div class="enter">Enter route →</div>
+          </div>
+          <div class="persona-card">
+            <div class="avatar"><img src="assets/02-Plant-Leader.png" alt=""></div>
+            <div class="role">Transformational · N = ~75–80</div>
+            <div class="name">Plant Leader</div>
+            <div class="desc">SQDC + P&amp;L owner. Needs the "why" behind lean and localized training in native languages.</div>
+            <div class="enter">Enter route →</div>
+          </div>
+          <div class="persona-card">
+            <div class="avatar"><img src="assets/04-Manufacturing-People-Leader.png" alt=""></div>
+            <div class="role">FLL+TL · N = ~1,100</div>
+            <div class="name">Mfg People Leader</div>
+            <div class="desc">Shop supervisor. Tools on the hub feel too advanced to confidently explain to the team.</div>
+            <div class="enter">Enter route →</div>
+          </div>
+          <div class="persona-card">
+            <div class="avatar"><img src="assets/03-Non-Manufacturing-People-Leader.png" alt=""></div>
+            <div class="role">FLL+TL · N = ~4,900</div>
+            <div class="name">Non-Mfg People Leader</div>
+            <div class="desc">Biggest underserved gap. "My team isn't sure how to start. We have no FD coach assigned."</div>
+            <div class="enter">Enter route →</div>
+          </div>
+          <div class="persona-card">
+            <div class="avatar"><img src="assets/05-Hourly-Employee.png" alt=""></div>
+            <div class="role">Individual Contributors · N = ~28,000</div>
+            <div class="name">Hourly Employee</div>
+            <div class="desc">The largest group. "What the Hell is FLIGHT DECK?" Daily Mgmt feels like time taken from making parts.</div>
+            <div class="enter">Enter route →</div>
+          </div>
+          <div class="persona-card">
+            <div class="avatar"><img src="assets/06-Non-Manufacturing-Individual-Contributor.png" alt=""></div>
+            <div class="role">Front Line Operators · N = TBD</div>
+            <div class="name">Non-Mfg IC</div>
+            <div class="desc">Engineering, DT, Quality. "FLIGHT DECK is a buzzword. I don't see any relatable examples."</div>
+            <div class="enter">Enter route →</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rationale">
+        <h4>Why this works</h4>
+        <ul>
+          <li>Built on your 7 validated personas: FD Leaders (N=400, priority), Senior Leaders (285), Plant Leaders (~75), Mfg People Leaders (1,100), Hourly (28,000), Non-Mfg People Leaders (4,900), Non-Mfg ICs.</li>
+          <li>Self-identification beats guessing — Hourly Employees who say "What is FLIGHT DECK?" don't know which folder to click.</li>
+          <li>Each route is a curated Supermarket aisle (your Hoshin step 1) — not yet another nav tree.</li>
+        </ul>
+        <div class="best-for">
+          <div class="label">Best for</div>
+          <div class="text">FLIGHT DECK Leaders as the priority audience — and a clear path for the 4,900 underserved Non-Mfg People Leaders who don't have a coach assigned.</div>
+        </div>
+      </div>
+    </div>
+
+    <a class="concept-cta" href="concept-d.html" target="_blank" rel="noopener">
+      <div>
+        <div class="open-label">Open the full design</div>
+        <div class="open-title">See Role First as a working SharePoint page →</div>
+      </div>
+      <span class="ge-cta on-dark"><span>Open page</span><span class="ge-arrow">→</span></span>
+    </a>
+    <div class="next-link"><a href="#concept-e">Next: Guided Path →</a></div>
+  </section>
+
+  <!-- ================== CONCEPT E · GUIDED FLOW ================== -->
+  <section class="concept" id="concept-e">
+    <div class="concept-header">
+      <div class="index"><b>05</b> &nbsp;/&nbsp; 05</div>
+      <div class="tagline">Guided Path</div>
+    </div>
+    <h2>Just tell me what to do next.</h2>
+    <p class="lede">A short, linear flow that takes you to one next step. The lowest-effort path. For users who don't want a hub at all &mdash; they want an answer.</p>
+
+    <div class="concept-grid">
+      <div class="preview">
+        <div class="preview-label">Live preview</div>
+
+        <div class="wizard">
+          <div class="wiz-step">
+            <div class="wiz-num">01</div>
+            <div>
+              <div class="wiz-prompt">Pick your function</div>
+              <div class="wiz-q">New: Action Plan template · engineering variant</div>
+              <div class="wiz-options">
+                <span class="wiz-opt picked">Manufacturing</span>
+                <span class="wiz-opt">Engineering</span>
+                <span class="wiz-opt">HR</span>
+                <span class="wiz-opt">Supply Chain</span>
+                <span class="wiz-opt">Digital Tech</span>
+                <span class="wiz-opt">Leadership</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="wiz-step">
+            <div class="wiz-num">02</div>
+            <div>
+              <div class="wiz-prompt">Pick your stage</div>
+              <div class="wiz-q">Where is your team today?</div>
+              <div class="wiz-options">
+                <span class="wiz-opt">Stabilize</span>
+                <span class="wiz-opt picked">Standardize</span>
+                <span class="wiz-opt">Improve</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="wiz-step">
+            <div class="wiz-num">03</div>
+            <div>
+              <div class="wiz-prompt">Pick your problem</div>
+              <div class="wiz-q">What's getting in the way?</div>
+              <div class="wiz-options">
+                <span class="wiz-opt picked">Cadence drift</span>
+                <span class="wiz-opt">Defect repairs</span>
+                <span class="wiz-opt">Onramp confusion</span>
+                <span class="wiz-opt">Other</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="wiz-step rec">
+            <div class="wiz-num">04</div>
+            <div>
+              <div class="wiz-prompt">Recommended next step</div>
+              <div class="wiz-rec-title">Drive Consistency Through Ownership</div>
+              <div class="wiz-rec-body">Pull the <b>Standard Work</b> template and run a 1:1 coaching session with the cell lead. Cadence drift in Standardize stage MFG resolves fastest with named ownership, not new tools.</div>
+              <div class="wiz-rec-btn"><span class="ge-cta on-dark"><span>Enter route</span><span class="ge-arrow">→</span></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rationale">
+        <h4>Why this works</h4>
+        <ul>
+          <li>Direct answer to "Where do I start? My team is asked to deploy FD but unsure of where to start" — the Non-Mfg People Leader's #1 pain.</li>
+          <li>Three small choices &gt; one impossible search. Wraps the real top-pulled templates (Action Plan 59,594 · Mfg SW 11,265 · Cell Daily Mgmt Board 10,084).</li>
+          <li>The output is a coaching plan, not a link. Hub becomes prescriptive — exactly what FD Leaders (N=400) say they need to scale.</li>
+        </ul>
+        <div class="best-for">
+          <div class="label">Best for</div>
+          <div class="text">The 28,000 Hourly Employees and the Non-Mfg People Leaders without a coach. The "I haven't had any FLIGHT DECK training" cohort.</div>
+        </div>
+      </div>
+    </div>
+
+    <a class="concept-cta" href="concept-e.html" target="_blank" rel="noopener">
+      <div>
+        <div class="open-label">Open the full design</div>
+        <div class="open-title">See Guided Path as a working SharePoint page →</div>
+      </div>
+      <span class="ge-cta on-dark"><span>Open page</span><span class="ge-arrow">→</span></span>
+    </a>
+  </section>
+
+  <!-- ================== CLOSING ================== -->
+  <section class="closing">
+    <div class="inner">
+      <div class="eyebrow">The win-back</div>
+      <h2>We can ship any of these five.</h2>
+      <p>Or &mdash; more likely &mdash; the one we ship combines two. Stage First + Wingmate First. Role First + Guided Path. The right answer is in this room, not in any single mock.</p>
+      <p class="kicker">Five working directions, all built on your VOC discovery: 7 personas, 8.1% / 649 survey, 219,253 TopicHome views, your top-20 templates, and your 6-step Hoshin plan. We've read your work and built on it &mdash; that's the team you want building this.</p>
+      <div class="actions">
+        <a class="primary" href="index.html">← Back to Flight Deck OS</a>
+        <a class="ghost" href="index.html#tab-brief">Read the May 8 brief</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div>Built for the May 8 review</div>
+    <div>Imagine what we ship in six months</div>
+  </footer>
+
+</div>
+
+<script>
+  // Sticky stepper: highlight the section whose top is just above the line
+  (function () {
+    const steps = Array.from(document.querySelectorAll('nav.walkthrough-nav .step'));
+    const sections = Array.from(document.querySelectorAll('section.concept'));
+    const map = {};
+    steps.forEach(function (s) { map[s.getAttribute('href').slice(1)] = s; });
+    const LINE = 140; // distance from top of viewport that defines the active section
+
+    function setActive(id) {
+      steps.forEach(function (s) { s.classList.toggle('active', s.getAttribute('href').slice(1) === id); });
+    }
+
+    function update() {
+      let activeId = sections[0].id;
+      for (let i = 0; i < sections.length; i++) {
+        const top = sections[i].getBoundingClientRect().top;
+        if (top - LINE <= 0) activeId = sections[i].id;
+        else break;
+      }
+      setActive(activeId);
+    }
+
+    update();
+    let raf = null;
+    window.addEventListener('scroll', function () {
+      if (raf) return;
+      raf = requestAnimationFrame(function () { update(); raf = null; });
+    }, { passive: true });
+
+    // Smooth scroll for stepper clicks (with sticky offset)
+    document.querySelectorAll('a[href^="#concept-"]').forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (!target) return;
+        e.preventDefault();
+        const top = target.getBoundingClientRect().top + window.pageYOffset - 80;
+        window.scrollTo({ top: top, behavior: 'smooth' });
+      });
+    });
+  })();
+</script>
+<script src="/track.js" defer></script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex, nofollow">
+<title>Flight Deck OS · Activation Hub</title>
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<style>
+@font-face{font-family:"GE Sans";src:url(/assets/fonts/ge-sans/sons-regular.woff2) format("woff2");font-weight:400}
+@font-face{font-family:"GE Sans";src:url(/assets/fonts/ge-sans/sons-light.woff2) format("woff2");font-weight:300}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#04070f;color:#fff;font-family:"GE Sans",-apple-system,"Helvetica Neue",Arial,sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 16px}
+.eyebrow{font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8aa6f0;margin-bottom:12px}
+h1{font-size:clamp(26px,3.4vw,40px);font-weight:300;letter-spacing:-.02em;margin-bottom:22px;text-align:center}
+video{width:min(1240px,96vw);aspect-ratio:16/9;border-radius:14px;box-shadow:0 40px 120px -40px rgba(0,0,0,.9);background:#000}
+.row{display:flex;gap:14px;margin-top:40px;flex-wrap:wrap;justify-content:center}
+.row a{display:inline-flex;align-items:center;gap:8px;color:#fff;text-decoration:none;font-size:13.5px;border:1px solid rgba(255,255,255,.22);border-radius:100px;padding:10px 20px;transition:border-color .15s}
+.row a:hover{border-color:#0ad64f}
+.row a.live{background:#16b364;border-color:#16b364}
+</style></head><body>
+<video id="sz" src="/assets/video/flightdeck-os.mp4" poster="/assets/video/flightdeck-os-poster.jpg" controls playsinline preload="auto"></video>
+<script>
+(function(){var v=document.getElementById("sz");v.muted=false;v.volume=1;
+setTimeout(function(){
+  var p=v.play();if(p&&p.catch){p.catch(function(){
+    var once=function(){v.muted=false;v.play();document.removeEventListener("pointerdown",once);document.removeEventListener("keydown",once);};
+    document.addEventListener("pointerdown",once);document.addEventListener("keydown",once);
+  });}
+},2000);})();
+</script>
+<div class="row">
+  <a href="/index.html">Back to the hub</a>
+  <a href="/assets/video/flightdeck-os.mp4" download onclick="va('event',{name:'film_mp4'})">Download MP4</a>
+  <a href="/assets/video/flightdeck-os.gif" download onclick="va('event',{name:'film_gif'})">Download GIF</a>
+  <a class="live" href="/concept-quickstart.html" onclick="va('event',{name:'film_open_hub'})">Open the hub &rarr;</a>
+</div>
+<script>
+(function(){
+  var v=document.getElementById("sz");var played=false,done=false;
+  v.addEventListener("play",function(){if(!played){played=true;va("event",{name:"film_play"});}});
+  v.addEventListener("ended",function(){if(!done){done=true;va("event",{name:"film_complete"});}});
+})();
+</script>
+</body></html>

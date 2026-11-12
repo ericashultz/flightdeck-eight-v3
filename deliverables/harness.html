@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <script src="../gate.js"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SharePoint Page Preview Harness — FLIGHT DECK Activation Hub</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+      color: #00003d;
+      background: #f3f2f1;
+      min-height: 100vh;
+    }
+    /* Theme tokens = live-site render REFERENCE only. Brand-kit PDFs are authoritative. */
+    :root {
+      --sp-themeLight: #c6d9ff;  --sp-themeTertiary: #8cb3ff;  --sp-black: #090953;
+      --sp-neutralSecondary: #5c5ca8;  --sp-themeSecondary: #578fff;  --sp-themeDarker: #24478f;
+      --sp-neutralQuaternary: #d0d0d0;  --sp-neutralPrimaryAlt: #404092;  --sp-neutralPrimary: #00003d;
+      --sp-themeDark: #3061c2;  --sp-themeLighter: #e0ebff;  --sp-themePrimary: #4181ff;
+      --sp-neutralTertiary: #7d7dbd;  --sp-neutralQuaternaryAlt: #e1dfdd;  --sp-themeLighterAlt: #f7faff;
+      --sp-white: #ffffff;  --sp-neutralLighter: #f3f2f1;  --sp-neutralTertiaryAlt: #c8c6c4;
+      --sp-neutralDark: #171768;  --sp-themeDarkAlt: #3973e6;  --sp-neutralSecondaryAlt: #5c5ca8;
+      --sp-neutralLighterAlt: #faf9f8;  --sp-neutralLight: #edebe9;
+      --color-primary: var(--sp-themePrimary);  --color-text: var(--sp-neutralPrimary);
+      --color-bg: var(--sp-white);  --page-max-width: 1204px;
+    }
+  </style>
+  <style>
+    /* SHAREPOINT CHROME STUB — vendor does NOT own this. Mimics the frame the body sits in. */
+    .sp-suite-bar { background:#2b2b2b; color:#fff; font-size:13px; height:38px; display:flex; align-items:center; padding:0 16px; gap:12px; }
+    .sp-suite-bar .sp-app-name { font-weight:600; }
+    .sp-suite-bar .sp-divider { opacity:0.4; }
+    .sp-suite-bar .sp-stub-tag { margin-left:auto; background:#444; padding:2px 8px; border-radius:3px; font-size:11px; letter-spacing:0.5px; text-transform:uppercase; }
+    .sp-site-banner { background:#fff; border-bottom:1px solid #edebe9; padding:12px 24px; display:flex; align-items:center; gap:12px; }
+    .sp-site-banner .logo { width:32px; height:32px; background:#4181ff; border-radius:4px; display:grid; place-items:center; color:#fff; font-weight:700; font-size:13px; }
+    .sp-site-banner .site-title { font-size:18px; font-weight:600; }
+    .sp-top-nav { background:#fff; border-bottom:1px solid #edebe9; padding:0 24px; display:flex; align-items:stretch; overflow-x:auto; }
+    .sp-top-nav a { color:#00003d; text-decoration:none; padding:12px 14px; font-size:14px; white-space:nowrap; border-bottom:2px solid transparent; }
+    .sp-top-nav a:hover { border-bottom-color:#4181ff; }
+    .sp-top-nav a.active { font-weight:600; border-bottom-color:#4181ff; }
+
+    /* DEVELOPER TOOLING (not part of SP) — page picker + viewport controls */
+    .harness-bar { background:#00003d; color:#fff; padding:8px 24px; display:flex; align-items:center; gap:12px; flex-wrap:wrap; font-size:13px; }
+    .harness-bar .h-label { color:#c6d9ff; }
+    .harness-bar select { font:inherit; padding:4px 8px; border-radius:3px; border:1px solid #4181ff; background:#fff; color:#00003d; }
+    .harness-bar .h-tag { background:#4181ff; padding:2px 8px; border-radius:3px; font-size:11px; text-transform:uppercase; letter-spacing:0.5px; }
+    .viewport-controls { background:#fff; border-bottom:1px solid #edebe9; padding:8px 24px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; font-size:13px; }
+    .viewport-controls .label { color:#5c5ca8; margin-right:4px; }
+    .viewport-controls button { font:inherit; background:#f3f2f1; border:1px solid #d0d0d0; padding:4px 10px; border-radius:3px; cursor:pointer; }
+    .viewport-controls button:hover { background:#e0ebff; }
+    .viewport-controls button.active { background:#4181ff; color:#fff; border-color:#3061c2; }
+    .viewport-controls .current-w { margin-left:auto; color:#5c5ca8; font-variant-numeric:tabular-nums; }
+
+    /* CANVAS — where the vendor's snippet renders. Mimics the modern SP page body. */
+    .sp-canvas-frame { padding:24px 0; display:flex; justify-content:center; transition:padding 0.2s; }
+    .sp-canvas { width:var(--canvas-width,1204px); max-width:100%; background:#fff; min-height:60vh; box-shadow:0 1px 3px rgba(0,0,0,0.08); transition:width 0.2s; }
+    .vendor-marker { padding:16px; border:2px dashed #c6d9ff; margin:16px; color:#5c5ca8; font-size:13px; text-align:center; border-radius:4px; }
+  </style>
+</head>
+<body>
+
+  <!-- NATIVE SHAREPOINT CHROME (stub — vendor does NOT own this) -->
+  <header class="sp-suite-bar" aria-label="SharePoint suite bar (native)">
+    <span class="sp-app-name">GE Aerospace</span>
+    <span class="sp-divider">|</span>
+    <span>SharePoint</span>
+    <span class="sp-stub-tag">Stub — native chrome</span>
+  </header>
+
+  <header class="sp-site-banner" aria-label="Site banner (native)">
+    <div class="logo" aria-hidden="true">GE</div>
+    <div class="site-title">FLIGHT DECK Activation Hub</div>
+  </header>
+
+  <nav class="sp-top-nav" aria-label="Site navigation (native, representative)">
+    <a href="#">Home</a>
+    <a href="#">Fundamentals</a>
+    <a href="#">Behaviors</a>
+    <a href="#">Examples</a>
+    <a href="#">Templates</a>
+    <a href="#">Video Library</a>
+    <a href="#">Additional Tools</a>
+  </nav>
+
+  <!-- HARNESS PAGE PICKER (developer tooling, not part of SP) -->
+  <div class="harness-bar">
+    <span class="h-label">Previewing:</span>
+    <select id="pagePicker" aria-label="Select page to preview">
+      <optgroup label="Homepage">
+        <option value="TopicHome">Home (TopicHome)</option>
+      </optgroup>
+      <optgroup label="Fundamentals">
+        <option value="Problem-Solvingv1">Problem Solving</option>
+        <option value="Standard-Workv1">Standard Work</option>
+        <option value="Daily-and-Visual-Management">Daily &amp; Visual Management</option>
+        <option value="5S">5S</option>
+        <option value="Operating-Cadencesv1">Operating Cadences</option>
+        <option value="Value-Stream-Managementv1">Value Stream Management</option>
+        <option value="Action-Planningv1">Action Planning</option>
+        <option value="Flow-Pull">Flow / Pull</option>
+      </optgroup>
+      <optgroup label="Behaviors">
+        <option value="Customer-Drivenv1">Customer Driven</option>
+        <option value="Respect-for-Peoplev1">Respect for People</option>
+        <option value="Continuous-Improvementv1">Continuous Improvement</option>
+      </optgroup>
+      <optgroup label="Templates">
+        <option value="Templates-Library">Templates Library</option>
+      </optgroup>
+    </select>
+    <span class="h-tag" id="pageCategory">homepage</span>
+    <span class="h-label" id="pageHint">The built page loads below automatically. You can also paste a snippet over it.</span>
+  </div>
+
+  <!-- VIEWPORT CONTROLS (developer tooling, not part of SP) -->
+  <div class="viewport-controls">
+    <span class="label">Preview width:</span>
+    <button data-w="1440">Desktop 1440</button>
+    <button data-w="1204" class="active">SP default 1204</button>
+    <button data-w="1024">Tablet 1024</button>
+    <button data-w="768">Tablet 768</button>
+    <button data-w="375">Mobile 375</button>
+    <button data-w="">Reset</button>
+    <span class="current-w" id="currentW">width: 1204px</span>
+  </div>
+
+  <!-- CANVAS — vendor pastes snippet between the markers below -->
+  <div class="sp-canvas-frame">
+    <main class="sp-canvas" id="canvas">
+
+      <!-- ============================================================
+           VENDOR: paste your snippet between the two markers below.
+           Your snippet must:
+             1. Start with <div id="fd-page"> and close with </div>
+             2. Contain ONE <style> block with all selectors prefixed #fd-page
+             3. Contain at most ONE <script> block
+             4. Make NO external network requests (no <link>, no <script src=>,
+                no <img src="https://...">)
+           The page picker above only sets which page you're previewing — it
+           does not load files. Preview one page's snippet at a time.
+           ============================================================ -->
+
+      <!-- VENDOR_SNIPPET_START -->
+
+      <div class="vendor-marker">
+        Paste your &lt;div id="fd-page"&gt;...&lt;/div&gt; here.<br>
+        This placeholder will disappear once your snippet is in place.
+      </div>
+
+      <!-- VENDOR_SNIPPET_END -->
+
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      // ---- Viewport controls: set --canvas-width on the canvas ----
+      var canvas = document.getElementById('canvas');
+      var current = document.getElementById('currentW');
+      var buttons = document.querySelectorAll('.viewport-controls button');
+      function setWidth(w) {
+        if (w) { canvas.style.setProperty('--canvas-width', w + 'px'); current.textContent = 'width: ' + w + 'px'; }
+        else { canvas.style.removeProperty('--canvas-width'); current.textContent = 'width: 100% (reset)'; }
+      }
+      buttons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          buttons.forEach(function (b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          setWidth(btn.getAttribute('data-w'));
+        });
+      });
+
+      // ---- Page picker: updates the category tag + active nav highlight ----
+      var CATEGORY = {
+        'TopicHome':'homepage',
+        'Problem-Solvingv1':'fundamental','Standard-Workv1':'fundamental',
+        'Daily-and-Visual-Management':'fundamental','5S':'fundamental',
+        'Operating-Cadencesv1':'fundamental','Value-Stream-Managementv1':'fundamental',
+        'Action-Planningv1':'fundamental','Flow-Pull':'fundamental',
+        'Customer-Drivenv1':'behavior','Respect-for-Peoplev1':'behavior',
+        'Continuous-Improvementv1':'behavior','Templates-Library':'templates'
+      };
+      var NAV_FOR_CAT = { homepage:'Home', fundamental:'Fundamentals', behavior:'Behaviors', templates:'Templates' };
+      var picker = document.getElementById('pagePicker');
+      var catTag = document.getElementById('pageCategory');
+      var navLinks = document.querySelectorAll('.sp-top-nav a');
+      function syncPage() {
+        var cat = CATEGORY[picker.value] || 'homepage';
+        catTag.textContent = cat;
+        var navLabel = NAV_FOR_CAT[cat];
+        navLinks.forEach(function (a) {
+          a.classList.toggle('active', a.textContent.trim() === navLabel);
+        });
+      }
+      picker.addEventListener('change', syncPage);
+      syncPage();
+    })();
+  </script>
+
+<script>
+  (function () {
+    var MAP = {
+      'TopicHome':'homepage', 'Problem-Solvingv1':'problem-solving', 'Standard-Workv1':'standard-work',
+      'Daily-and-Visual-Management':'daily-visual-management', '5S':'5s', 'Operating-Cadencesv1':'operating-cadences',
+      'Value-Stream-Managementv1':'value-stream-management', 'Action-Planningv1':'action-planning',
+      'Flow-Pull':'flow-pull', 'Customer-Drivenv1':'customer-driven', 'Respect-for-Peoplev1':'respect-for-people',
+      'Continuous-Improvementv1':'continuous-improvement', 'Templates-Library':'templates'
+    };
+    var canvas = document.getElementById('canvas');
+    var picker = document.getElementById('pagePicker');
+    function load(slug) {
+      var folder = MAP[slug];
+      if (!folder) return;
+      fetch(folder + '/index.html').then(function (r) { return r.text(); }).then(function (t) {
+        var doc = new DOMParser().parseFromString(t, 'text/html');
+        var page = doc.getElementById('fd-page');
+        if (!page) return;
+        canvas.innerHTML = '';
+        canvas.appendChild(document.importNode(page, true));
+        canvas.querySelectorAll('script').forEach(function (old) {
+          var s = document.createElement('script');
+          s.textContent = old.textContent;
+          old.parentNode.replaceChild(s, old);
+        });
+      }).catch(function () { /* offline or file:// — manual paste workflow still works */ });
+    }
+    picker.addEventListener('change', function () { load(picker.value); });
+    load(picker.value);
+  })();
+  </script>
+</body>
+</html>

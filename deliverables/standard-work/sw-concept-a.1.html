@@ -1,0 +1,724 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex, nofollow"><link rel="stylesheet" href="/hub/hub.css"><title>Standard Work · Concept A.1 · Function Switcher</title><style>
+body{padding-left:48px!important}
+@media(max-width:700px){body{padding-left:0!important}}
+#sw-a{font-family:"GE Sans",-apple-system,"Helvetica Neue",Arial,sans-serif;color:#00003d;max-width:1180px;margin:0 auto;padding:54px 24px 66px;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+
+/* ─── SHARED PRIMITIVES ─── */
+#sw-a .kick{display:inline-flex;align-items:center;gap:9px;font-size:11.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#2256e6}
+#sw-a .kick::before{content:"";width:7px;height:7px;background:#16b364;border-radius:1px;flex-shrink:0}
+#sw-a h1{font-size:44px;font-weight:300;letter-spacing:-.025em;line-height:1.08;margin:14px auto 8px;max-width:860px;text-wrap:balance}
+#sw-a .sub{font-size:16.5px;color:#44496e;max-width:62ch;margin:0 auto 32px;line-height:1.55;text-align:center}
+#sw-a ul{margin:8px 0 0;padding:0;list-style:none}
+#sw-a li{font-size:13px;color:#44496e;margin-bottom:7px;padding-left:18px;position:relative;line-height:1.45}
+#sw-a li::before{content:"";position:absolute;left:0;top:6px;width:7px;height:7px;border:1.5px solid #4181ff;border-radius:50%}
+#sw-a .lbl{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#8089a6;margin:18px 0 6px;display:flex;align-items:center;gap:7px}
+#sw-a .lbl::before{content:"";width:5px;height:5px;background:#16b364;border-radius:50%;flex-shrink:0}
+#sw-a .lbl:first-child{margin-top:0}
+#sw-a .ex{font-weight:600;font-size:15px}
+#sw-a .exs{font-size:12.5px;color:#6b7392;margin-top:2px}
+#sw-a .tpl{display:flex;align-items:center;gap:8px;font-size:13.5px;color:#2256e6;font-weight:600;text-decoration:none;cursor:pointer;width:fit-content}
+#sw-a a.tpl:hover{text-decoration:underline}
+#sw-a .tpl-card .tpl-cta{margin-top:4px;padding-top:14px;border-top:1px solid #eef1f8}
+
+/* ─── HEAD ─── */
+#sw-a .head{margin-bottom:16px;text-align:center}
+
+/* ─── TABS ─── */
+#sw-a .tabs{display:flex;justify-content:center;gap:8px;margin-bottom:30px;flex-wrap:wrap}
+#sw-a .tabs button{font-size:13px;font-weight:600;padding:9px 18px;border-radius:100px;border:1px solid #e1e6f2;color:#3a3f63;background:#fff;cursor:pointer;font-family:inherit;transition:background .15s,color .15s,box-shadow .15s}
+#sw-a .tabs button:hover{border-color:#b0bbd8;background:#f4f6fb}
+#sw-a .tabs button.on{background:#00003d;color:#fff;border-color:#00003d;box-shadow:0 6px 16px -6px rgba(0,0,61,.5)}
+
+/* ─── COMPARE COLS ─── */
+#sw-a .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:stretch}
+#sw-a .col{border:1px solid #e7ebf4;border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 1px 2px rgba(11,26,64,.05),0 18px 40px -26px rgba(11,26,64,.22)}
+#sw-a .col h2{margin:0;font-size:17px;font-weight:600;letter-spacing:.01em;color:#fff;padding:18px 22px;position:relative}
+#sw-a .col h2::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:rgba(255,255,255,.18)}
+#sw-a .col.mfg h2{background:linear-gradient(180deg,#0b2f8f,#082567)}
+#sw-a .col.tx h2{background:linear-gradient(180deg,#3061c2,#244ea6)}
+#sw-a .col.eng h2{background:linear-gradient(180deg,#5b7fd6,#4a6bc0)}
+#sw-a .col .body{padding:20px 22px 24px}
+
+/* ─── SECTION HIDDEN/SHOWN ─── */
+#sw-a .section-compare,
+#sw-a .deep-panels,
+#sw-a .section-why,
+#sw-a .section-templates,
+#sw-a .section-cta{display:block}
+#sw-a .deep-panels{display:none}
+#sw-a .deep-panel{display:none}
+#sw-a .deep-panel.active{display:block}
+
+/* ─── SECTION: WHY THIS MATTERS ─── */
+#sw-a .why-band{background:linear-gradient(135deg,#001266 0%,#082567 55%,#0b3a9e 100%);border-radius:20px;padding:52px 56px;margin-top:52px;position:relative;overflow:hidden}
+#sw-a .why-band::after{content:"3";position:absolute;right:56px;top:50%;transform:translateY(-50%);font-size:200px;font-weight:800;color:rgba(255,255,255,.05);line-height:1;pointer-events:none;letter-spacing:-.04em}
+#sw-a .why-band .kick{color:#7eb8ff}
+#sw-a .why-band .kick::before{background:#16b364}
+#sw-a .why-band h2{font-size:34px;font-weight:300;letter-spacing:-.025em;color:#fff;margin:12px 0 6px;line-height:1.1;max-width:28ch}
+#sw-a .why-band p{font-size:16px;color:rgba(255,255,255,.88);line-height:1.7;max-width:64ch;margin:0 0 28px}
+#sw-a .why-band .why-sub{font-size:15px;color:rgba(255,255,255,.82);line-height:1.6;margin:0 0 20px;max-width:60ch}
+#sw-a .survey-rows{display:flex;gap:16px;flex-wrap:wrap;margin-top:8px}
+#sw-a .survey-row{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:14px 18px;min-width:200px;flex:1}
+#sw-a .survey-row .row-id{font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#7eb8ff;margin-bottom:6px}
+#sw-a .survey-row .row-quote{font-size:13px;color:rgba(255,255,255,.85);line-height:1.5;font-style:italic}
+
+/* ─── DEEP PANEL ─── */
+#sw-a .deep-panel{background:#fff;border:1px solid #e7ebf4;border-radius:20px;overflow:hidden;box-shadow:0 1px 2px rgba(11,26,64,.05),0 18px 40px -26px rgba(11,26,64,.22);margin-bottom:12px}
+#sw-a .deep-panel .dp-head{padding:28px 36px 24px;border-bottom:1px solid #eef1f8}
+#sw-a .deep-panel.dp-mfg .dp-head{background:linear-gradient(135deg,#0b2f8f,#082567)}
+#sw-a .deep-panel.dp-tx .dp-head{background:linear-gradient(135deg,#3061c2,#1e3f9e)}
+#sw-a .deep-panel.dp-eng .dp-head{background:linear-gradient(135deg,#5b7fd6,#3a5db8)}
+#sw-a .deep-panel .dp-head h2{font-size:28px;font-weight:300;letter-spacing:-.02em;color:#fff;margin:0 0 6px}
+#sw-a .deep-panel .dp-head p{font-size:14px;color:rgba(255,255,255,.78);margin:0;line-height:1.5}
+#sw-a .deep-panel .dp-body{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0}
+#sw-a .deep-panel .dp-col{padding:28px 28px 32px;border-right:1px solid #eef1f8}
+#sw-a .deep-panel .dp-col:last-child{border-right:none}
+#sw-a .deep-panel .dp-col-wide{grid-column:span 2}
+#sw-a .dp-label{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#8089a6;margin:0 0 12px;display:flex;align-items:center;gap:7px}
+#sw-a .dp-label::before{content:"";width:5px;height:5px;background:#16b364;border-radius:50%;flex-shrink:0}
+#sw-a .dp-h3{font-size:17px;font-weight:600;color:#00003d;margin:0 0 6px}
+#sw-a .dp-sub{font-size:13px;color:#6b7392;line-height:1.5;margin:0 0 16px}
+#sw-a .step-list{list-style:none;padding:0;margin:0;counter-reset:steps}
+#sw-a .step-list li{counter-increment:steps;padding:10px 14px 10px 44px;position:relative;font-size:13px;color:#44496e;line-height:1.5;border-bottom:1px solid #f0f3fa}
+#sw-a .step-list li:last-child{border-bottom:none}
+#sw-a .step-list li::before{content:counter(steps);position:absolute;left:12px;top:10px;width:20px;height:20px;background:#eef2fc;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#2256e6;line-height:20px;text-align:center}
+#sw-a .good-look{display:flex;flex-direction:column;gap:8px}
+#sw-a .good-item{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:#44496e;line-height:1.45}
+#sw-a .good-item::before{content:"✓";width:18px;height:18px;background:#ecfdf5;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;color:#16b364;font-weight:700;flex-shrink:0;margin-top:1px;text-align:center;line-height:18px}
+#sw-a .pitfall-box{background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:14px 16px}
+#sw-a .pitfall-box .pitfall-label{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#92400e;margin-bottom:6px}
+#sw-a .pitfall-box p{font-size:12.5px;color:#78350f;margin:0;line-height:1.5}
+#sw-a .owner-box{background:#f0f4ff;border:1px solid #dce5fd;border-radius:10px;padding:14px 16px;margin-bottom:16px}
+#sw-a .owner-box .owner-label{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#2256e6;margin-bottom:5px}
+#sw-a .owner-box p{font-size:13px;color:#2d3a6b;margin:0;line-height:1.5}
+#sw-a .dl-btn{display:inline-flex;align-items:center;gap:8px;background:#00003d;color:#fff;font-size:12.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:10px 18px;border-radius:100px;text-decoration:none;margin-top:14px;transition:background .15s}
+#sw-a .dl-btn:hover{background:#2256e6}
+#sw-a .dl-btn svg{flex-shrink:0}
+#sw-a .dp-cta-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:14px}
+#sw-a .dp-cta-row .dl-btn{margin-top:0}
+#sw-a .dp-detail-link{font-size:12.5px;font-weight:600;color:#2256e6;text-decoration:none}
+#sw-a .dp-detail-link:hover{text-decoration:underline}
+
+/* ─── TEMPLATES ROW ─── */
+#sw-a .section-templates{margin-top:52px}
+#sw-a .section-templates h2{font-size:30px;font-weight:300;letter-spacing:-.02em;margin:14px 0 6px}
+#sw-a .section-templates .section-sub{font-size:15px;color:#44496e;margin:0 0 28px;line-height:1.55;max-width:68ch}
+#sw-a .tpl-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+#sw-a .tpl-card{border:1px solid #e7ebf4;border-radius:14px;padding:22px 22px 24px;background:#fff;box-shadow:0 1px 2px rgba(11,26,64,.05),0 18px 40px -26px rgba(11,26,64,.22);display:flex;flex-direction:column;gap:12px}
+#sw-a .tpl-card .tpl-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+#sw-a .tpl-card.t-mfg .tpl-icon{background:#e8edf8}
+#sw-a .tpl-card.t-tx .tpl-icon{background:#eef2fd}
+#sw-a .tpl-card.t-eng .tpl-icon{background:#f0f4ff}
+#sw-a .tpl-card.t-ldr .tpl-icon{background:#f0fdf4}
+#sw-a .tpl-card h3{font-size:14.5px;font-weight:600;color:#00003d;margin:0;line-height:1.3}
+#sw-a .tpl-card p{font-size:12.5px;color:#6b7392;margin:0;line-height:1.55;flex:1}
+#sw-a .tpl-card .tpl-tag{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#2256e6;background:#eef2fd;border-radius:6px;padding:4px 10px;width:fit-content}
+#sw-a .tpl-use{margin-top:32px;background:#f7f9fe;border-radius:14px;padding:24px 28px}
+#sw-a .tpl-use h3{font-size:14.5px;font-weight:700;color:#00003d;margin:0 0 14px}
+#sw-a .tpl-use-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+#sw-a .tpl-use-item{display:flex;flex-direction:column;gap:6px}
+#sw-a .tpl-use-item .step-num{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#2256e6}
+#sw-a .tpl-use-item p{font-size:12.5px;color:#44496e;margin:0;line-height:1.55}
+
+/* ─── CTA BAND ─── */
+#sw-a .faq{margin-top:8px;padding:8px 0 8px}
+#sw-a .faq .in{max-width:1040px;margin:0 auto}
+#sw-a .faq h2{font-size:30px;font-weight:300;letter-spacing:-.025em;margin:6px 0 28px;color:#00003d}
+#sw-a .faq-item{border-top:1px solid #e7ebf4;padding:20px 0}
+#sw-a .faq-item:last-child{border-bottom:1px solid #e7ebf4}
+#sw-a .faq-q{font-size:15px;font-weight:700;color:#00003d;margin:0;letter-spacing:-.01em;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px}
+#sw-a .faq-q .faq-icon{font-size:16px;color:#4181ff;transition:transform .2s;flex-shrink:0}
+#sw-a .faq-item.open .faq-icon{transform:rotate(45deg)}
+#sw-a .faq-item.open .faq-q{margin-bottom:8px}
+#sw-a .faq-a{font-size:14.5px;color:#44496e;line-height:1.7;margin:0;max-width:66ch;display:none;padding-top:4px}
+#sw-a .faq-item.open .faq-a{display:block}
+#sw-a .cta-band{margin-top:52px;background:#f7f9fe;border:1px solid #e7ebf4;border-radius:20px;padding:44px 52px;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap}
+#sw-a .cta-band h2{font-size:26px;font-weight:300;letter-spacing:-.02em;color:#00003d;margin:0 0 8px;line-height:1.2}
+#sw-a .cta-band p{font-size:14px;color:#44496e;margin:0;line-height:1.55;max-width:52ch}
+#sw-a .cta-btns{display:flex;gap:12px;flex-shrink:0;flex-wrap:wrap}
+#sw-a .btn-primary{display:inline-flex;align-items:center;gap:8px;background:#2256e6;color:#fff;font-size:13.5px;font-weight:700;padding:12px 24px;border-radius:100px;text-decoration:none;transition:background .15s;font-family:inherit}
+#sw-a .btn-primary:hover{background:#1844cc}
+#sw-a .btn-ghost{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#00003d;font-size:13.5px;font-weight:700;padding:12px 24px;border-radius:100px;text-decoration:none;border:1.5px solid #c8d2ea;transition:border-color .15s;font-family:inherit}
+#sw-a .btn-ghost:hover{border-color:#2256e6;color:#2256e6}
+
+/* ─── UTILITY ─── */
+#sw-a .visually-hidden{clip:rect(0 0 0 0);clip-path:inset(50%);height:1px;overflow:hidden;position:absolute;white-space:nowrap;width:1px}
+
+/* ─── PERSONA ROLE LINE (compare cols) ─── */
+#sw-a .persona-role{font-size:12.5px;font-weight:600;color:#2d3a6b;background:#f4f7fd;border:1px solid #e7ebf4;border-radius:8px;padding:10px 12px;margin-bottom:16px;line-height:1.4;display:flex;align-items:center;gap:8px;flex-wrap:wrap;min-height:62px}
+#sw-a .persona-role .fn-tag{font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#2256e6;background:#eef2fd;border-radius:5px;padding:3px 8px;white-space:nowrap}
+
+/* ─── INFOGRAPHIC (old copy kept left; infographic fills the right negative space) ─── */
+#sw-a .why-band.no-num::after{content:none}
+#sw-a .why-grid{display:grid;grid-template-columns:1.05fr .9fr;gap:44px;align-items:stretch}
+#sw-a .why-grid .kick{color:#7eb8ff}
+#sw-a .why-grid h2{margin-top:14px}
+#sw-a .why-grid p{margin-bottom:0}
+@media(max-width:820px){#sw-a .why-grid{grid-template-columns:1fr;gap:28px}}
+#sw-a .infographic{display:flex;align-items:stretch;gap:10px;flex-wrap:wrap;margin:24px 0 8px}
+#sw-a .infographic-v{flex-direction:column;align-items:stretch;gap:0;margin:0;height:100%}
+#sw-a .ig-head{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#7eb8ff;margin:0 0 28px;display:flex;align-items:center;gap:8px}
+#sw-a .ig-head::before{content:"";width:6px;height:6px;background:#16b364;border-radius:50%;flex-shrink:0}
+/* connected vertical spine, fills the full column height */
+#sw-a .ig-spine{position:relative;padding-left:32px;flex:1;display:flex;flex-direction:column;justify-content:space-between;min-height:360px}
+#sw-a .ig-spine::before{content:"";position:absolute;left:8px;top:11px;bottom:38px;width:3px;background:linear-gradient(180deg,#16b364 0%,#4181ff 55%,#7eb8ff 100%);border-radius:3px;box-shadow:0 0 16px rgba(65,129,255,.6)}
+#sw-a .ig-node{position:relative;padding:0;line-height:1.3}
+#sw-a .ig-node::before{content:"";position:absolute;left:-28px;top:4px;width:13px;height:13px;border-radius:50%;background:#0a1f5c;border:2px solid #7eb8ff;box-shadow:0 0 0 4px rgba(8,37,103,.95),0 0 10px rgba(126,184,255,.5);z-index:1}
+#sw-a .ig-node.ig-start::before{background:#16b364;border-color:#16b364;box-shadow:0 0 0 4px rgba(8,37,103,.95),0 0 16px rgba(22,179,100,.8)}
+#sw-a .ig-node.ig-end::before{background:#7eb8ff;border-color:#fff;width:15px;height:15px;left:-29px;box-shadow:0 0 0 4px rgba(8,37,103,.95),0 0 18px rgba(126,184,255,.95)}
+#sw-a .ig-node .ig-node-title{display:block;font-size:17px;font-weight:600;color:#fff;letter-spacing:-.01em}
+#sw-a .ig-node .ig-sub{display:block;font-size:14px;font-weight:500;color:rgba(255,255,255,.86);margin-top:5px;letter-spacing:.01em;line-height:1.5}
+#sw-a .ig-node.ig-end .ig-node-title{color:#fff;font-size:19px}
+@keyframes igFadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+#sw-a .why-band.anim-ready .ig-node{opacity:0}
+#sw-a .why-band.anim-ready.in-view .ig-node{animation:igFadeUp .5s cubic-bezier(.2,.7,.2,1) forwards}
+#sw-a .why-band.anim-ready.in-view .ig-node:nth-child(1){animation-delay:.10s}
+#sw-a .why-band.anim-ready.in-view .ig-node:nth-child(2){animation-delay:.26s}
+#sw-a .why-band.anim-ready.in-view .ig-node:nth-child(3){animation-delay:.42s}
+#sw-a .why-band.anim-ready.in-view .ig-node:nth-child(4){animation-delay:.58s}
+#sw-a .why-band.anim-ready.in-view .ig-node:nth-child(5){animation-delay:.74s}
+@media(prefers-reduced-motion:reduce){#sw-a .why-band.anim-ready .ig-node{opacity:1;animation:none}}
+#sw-a .ig-video{display:block;margin:0;width:100%;max-width:520px}
+#sw-a .ig-frame{border-radius:16px;overflow:hidden;box-shadow:0 22px 54px -26px rgba(0,0,0,.65);background:#0a1330}
+#sw-a .ig-player{display:block;width:100%;aspect-ratio:16/9;background:#0a1330;border:0}
+#sw-a .ig-vmeta{font-size:12.5px;color:rgba(255,255,255,.8);line-height:1.45;padding:12px 2px 0}
+#sw-a .ig-vmeta b{color:#fff;font-weight:600}
+#sw-a .ig-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+#sw-a .ig-chip{font-size:11px;font-weight:600;color:#cfe0fb;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:100px;padding:5px 10px;cursor:pointer;font-family:inherit;transition:background .15s,color .15s}
+#sw-a .ig-chip:hover{background:rgba(255,255,255,.22);color:#fff}
+#sw-a .ig-link{display:inline-flex;align-items:center;gap:7px;margin:4px 0 20px;font-size:13.5px;font-weight:600;color:#cfe0fb;text-decoration:none;letter-spacing:.01em;transition:color .15s,gap .15s}
+#sw-a .ig-link span{transition:transform .15s}
+#sw-a .ig-link:hover{color:#fff}
+#sw-a .ig-link:hover span{transform:translateX(3px)}
+
+/* ─── "WHEN TO USE" CALLOUT (template cards) ─── */
+#sw-a .when-use{display:flex;flex-direction:column;gap:4px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 12px}
+#sw-a .when-use .wu-label{font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#16834a;margin-bottom:2px}
+#sw-a .when-use span:not(.wu-label){font-size:11.5px;color:#225c3a;line-height:1.4}
+/* ─── FOOTER ─── */
+.sw-footer{background:#00010f;color:#fff;padding:34px 24px}
+.sw-footer .swf-in{max-width:1180px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.sw-footer .swf-brand{font-size:14px;font-weight:600;color:#fff;display:flex;align-items:center;gap:10px}
+.sw-footer .swf-chip{background:#fff;color:#00010f;font-size:10px;font-weight:800;letter-spacing:.08em;padding:4px 8px;border-radius:4px}
+.sw-footer .swf-links{display:flex;gap:22px;flex-wrap:wrap}
+.sw-footer .swf-links a{color:rgba(255,255,255,.72);font-size:13px;text-decoration:none}
+.sw-footer .swf-links a:hover{color:#fff}
+.sw-footer .swf-meta{font-size:12px;color:rgba(255,255,255,.5)}
+.fd-footer{background:#00010f;color:#fff;margin-top:56px;font-family:"GE Sans",-apple-system,"Helvetica Neue",Arial,sans-serif}
+.fd-footer .fdf-in{max-width:1280px;margin:0 auto;padding:48px 28px 40px}
+.fd-footer .fdf-top{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-bottom:26px;border-bottom:1px solid rgba(255,255,255,.12)}
+.fd-footer .fdf-brand{display:flex;align-items:center;gap:11px;font-size:15px;font-weight:600;color:#fff}
+.fd-footer .fdf-chip{background:#fff;color:#00010f;font-size:10px;font-weight:800;letter-spacing:.12em;padding:5px 9px;border-radius:4px;border:1px solid #16b364}
+.fd-footer .fdf-cobrand{font-size:13px;font-weight:600;color:rgba(255,255,255,.7);letter-spacing:.02em}
+.fd-footer .fdf-cobrand i{font-style:normal;opacity:.5;margin:0 5px}
+.fd-footer .fdf-cols{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;padding:30px 0}
+.fd-footer .fdf-h{font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#7e8aa8;margin-bottom:12px}
+.fd-footer .fdf-col a{display:block;color:rgba(255,255,255,.78);font-size:13.5px;text-decoration:none;padding:5px 0}
+.fd-footer .fdf-col a:hover{color:#fff}
+.fd-footer .fdf-meta{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:22px;border-top:1px solid rgba(255,255,255,.12);font-size:11.5px;color:rgba(255,255,255,.45)}
+@media(max-width:720px){.fd-footer .fdf-cols{grid-template-columns:1fr 1fr}}
+@media(max-width:440px){.fd-footer .fdf-cols{grid-template-columns:1fr}}
+</style><script src="/gate.js"></script></head><body>
+<div class="suite"><div class="wrap suite-in">
+  <span class="waffle"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+  <span class="org"><span class="monogram">GE</span>GE Aerospace</span>
+  <span class="sp">SharePoint</span>
+  <input placeholder="Search this site">
+  <span class="icons"><span>&#9881;</span><span class="acct"><span class="av">A</span><span class="nm">Aero</span></span></span>
+</div></div>
+<div class="sprail"><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg></span><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h8l4 4v14H7z"/><path d="M15 3v4h4"/></svg></span><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="15" rx="1.5"/><path d="M3.5 9.5h17M9 9.5v10"/></svg></span><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a1.8 1.8 0 0 1 1.8-1.8H9l2 2h7.2A1.8 1.8 0 0 1 21 9v8.2A1.8 1.8 0 0 1 19.2 19H4.8A1.8 1.8 0 0 1 3 17.2z"/></svg></span><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span></div>
+
+<header class="site">
+  <div class="wrap site-bar">
+    <div class="site-mark"><span class="chip">FLIGHT DECK</span><a href="index.html">FLIGHT DECK Activation Hub</a></div>
+    <nav class="primary">
+      <div><a class="top" href="/concept-quickstart.html">Home</a></div>
+      <div>
+        <a class="top active" href="index.html#fundamentals">Fundamentals<span class="caret">&#9662;</span></a>
+        <div class="menu">
+          <a href="standard-work.html">Standard Work</a>
+          <a href="action-planning.html">Action Planning</a>
+          <a href="daily-visual-management.html">Daily and Visual Management</a>
+          <a href="value-stream-management.html">Value Stream Management</a>
+          <a href="operating-cadences.html">Operating Cadences</a>
+          <a href="problem-solving.html">Problem Solving</a>
+          <a href="5s.html">5S</a>
+          <a href="flow-pull.html">Flow/Pull</a>
+        </div>
+      </div>
+      <div><a class="top" href="behaviors.html">Behaviors<span class="caret">&#9662;</span></a><div class="menu"><a href="/deliverables/respect-for-people/respect-for-people-concept.1.html">Respect for People</a><a href="/deliverables/customer-driven/customer-driven-concept.1.html">Customer Driven</a><a href="/deliverables/continuous-improvement/continuous-improvement-concept.1.html">Continuous Improvement</a></div></div>
+      <div><a class="top" href="sw-templates.html">Templates</a></div>
+      <div><a class="top" href="video-library.html">Video Library</a></div>
+      <div><a class="top" href="/deliverables/standard-work/prompt-library.html">Prompt Library</a></div>
+      <div>
+        <a class="top" href="#">Additional Tools<span class="caret">&#9662;</span></a>
+        <div class="menu">
+          <a href="/tools/index.html">FLIGHT DECK Tool Library</a>
+          <a href="leader-portal.html">FLIGHT DECK Leader Portal</a>
+          <a href="miro.html">FLIGHT DECK on Miro</a>
+          <a href="/programs/index.html">FLIGHT DECK Programs</a>
+          <a href="faq.html">FAQ</a>
+        </div>
+      </div>
+      <div><a class="top" href="https://aifactory-aiwingmate.av.ge.com/?profile=FLIGHTDECK" target="_blank" rel="noopener">FLIGHT DECK Wingmate<span class="caret">&#9662;</span></a></div>
+      
+    </nav>
+    <span class="badge-sensitive">Sensitive &#8964;</span>
+  </div>
+</header>
+
+
+<div id="sw-a">
+
+  <!-- ═══ HERO ═══ -->
+  <div class="head">
+    <div class="kick">Flight Deck Fundamental · Standard Work</div>
+    <h1>Standard work helps every team do the right work, the right way, every time.</h1>
+  </div>
+  <p class="sub">The same fundamental, shown three ways. Pick the role that matches your work and every example, template and standard speaks your function, not the factory floor.</p>
+
+  <!-- ═══ TABS ═══ -->
+  <div class="tabs" role="tablist" aria-label="Function view">
+    <button class="on" role="tab" aria-selected="true"  data-tab="compare">Side by side</button>
+    <button role="tab" aria-selected="false" data-tab="mfg">Manufacturing</button>
+    <button role="tab" aria-selected="false" data-tab="tx">Transactional</button>
+    <button role="tab" aria-selected="false" data-tab="eng">Engineering</button>
+  </div>
+
+  <!-- ═══ COMPARE VIEW ═══ -->
+  <div class="section-compare" id="view-compare" role="tabpanel">
+    <div class="cols">
+      <div class="col mfg">
+        <h2>Do you lead the work?</h2>
+        <div class="body">
+          <div class="persona-role">For supervisors, managers, and team leaders <span class="fn-tag">Manufacturing</span></div>
+          <div class="lbl">Example</div>
+          <div class="ex">Cell daily management</div>
+          <div class="exs">Engine assembly line</div>
+          <div class="lbl">Template</div>
+          <a class="tpl" href="sw-template-detail.html?t=Manufacturing%20Standard%20Work&fn=mfg&fmt=excel&mu=1" target="_blank" rel="noopener">Manufacturing Standard Work</a>
+          <div class="lbl">What good looks like</div>
+          <ul>
+            <li>Visible at the line, owned by the team</li>
+            <li>Sequenced and timed to takt</li>
+            <li>Updated when the method changes</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col tx">
+        <h2>Do you do the work?</h2>
+        <div class="body">
+          <div class="persona-role">For operators, analysts, specialists, and frontline employees <span class="fn-tag">Transactional</span></div>
+          <div class="lbl">Example</div>
+          <div class="ex">Quarterly earnings close</div>
+          <div class="exs">Investor Relations · S&amp;OP cycle</div>
+          <div class="lbl">Template</div>
+          <a class="tpl" href="sw-template-detail.html?t=Transactional%20Standard%20Work&fn=tx&fmt=excel&mu=1" target="_blank" rel="noopener">Transactional Standard Work</a>
+          <div class="lbl">What good looks like</div>
+          <ul>
+            <li>Steps and handoffs clear across teams</li>
+            <li>Cadence defined, not assumed</li>
+            <li>Variation reduced cycle over cycle</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col eng">
+        <h2>Do you improve the work?</h2>
+        <div class="body">
+          <div class="persona-role">For engineers, SMEs, process owners, and FLIGHT DECK leaders <span class="fn-tag">Engineering</span></div>
+          <div class="lbl">Example</div>
+          <div class="ex">Engine Shop Visit (METCIS)</div>
+          <div class="exs">Field problem resolution</div>
+          <div class="lbl">Template</div>
+          <a class="tpl" href="sw-template-detail.html?t=Master%20Instruction%20Template&fn=eng&fmt=word" target="_blank" rel="noopener">Master Instruction Template</a>
+          <div class="lbl">What good looks like</div>
+          <ul>
+            <li>Method captured, not just the output</li>
+            <li>Repeatable across engineers and sites</li>
+            <li>Tied to the right tool at each step</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ DEEP PANELS (shown when single tab active) ═══ -->
+  <div class="deep-panels" id="view-deep">
+
+    <!-- Manufacturing deep panel -->
+    <div class="deep-panel dp-mfg" id="panel-mfg">
+      <div class="dp-head">
+        <div class="kick" style="color:#7eb8ff">Manufacturing · Cell Daily Management</div>
+        <h2>Engine Assembly Line</h2>
+        <p>How a production cell sequences, times and displays the work so every operator knows the right method, in the right order, at the right time.</p>
+      </div>
+      <div class="dp-body">
+        <!-- Col 1: Worked example + steps -->
+        <div class="dp-col dp-col-wide">
+          <div class="dp-label">Worked Example</div>
+          <div class="dp-h3">CF6 Final Assembly Cell, Lynn, MA</div>
+          <div class="dp-sub">A four-station cell with 12 operators building to a 2.4-hour takt. Standard work is posted at each station and audited daily by the cell lead.</div>
+          <div class="dp-label" style="margin-top:20px">Process Steps</div>
+          <ol class="step-list">
+            <li>Define the takt time from customer demand and available production hours.</li>
+            <li>Sequence each task in the order operators must complete it; assign time values.</li>
+            <li>Identify the right-sized standard work in process inventory at each station.</li>
+            <li>Post the standard work sheet visually at the point of use, not in a binder.</li>
+            <li>Train operators to the standard; document training completion.</li>
+            <li>Audit adherence daily via leader standard work observation sheet.</li>
+            <li>Update the standard within 24 hours of any confirmed method change; retire the old version.</li>
+          </ol>
+        </div>
+        <!-- Col 2: Template · What good looks like · Owner · Pitfall -->
+        <div class="dp-col">
+          <div class="dp-label">Template</div>
+          <div class="dp-h3">Manufacturing Standard Work Sheet</div>
+          <div class="dp-sub">Captures operator sequence, times, SWIP and safety points in a single-page format readable at a glance from the line.</div>
+          <div class="dp-cta-row">
+            <a class="dl-btn" href="sw-templates.html">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v8M4 6l3 3 3-3M2 11h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Download template
+            </a>
+            <a class="dp-detail-link" href="sw-template-detail.html?t=Manufacturing%20Standard%20Work&fn=mfg&fmt=excel&mu=1" target="_blank" rel="noopener">Open full details &#8599;</a>
+          </div>
+          <div class="dp-label" style="margin-top:24px">What Good Looks Like</div>
+          <div class="good-look">
+            <div class="good-item">Visible at the line, not filed away</div>
+            <div class="good-item">Time-balanced to takt across all stations</div>
+            <div class="good-item">Updated version-controlled with a date</div>
+            <div class="good-item">Operators can explain the standard in their own words</div>
+          </div>
+          <div class="owner-box" style="margin-top:20px">
+            <div class="owner-label">Who Owns It</div>
+            <p>Cell lead with manufacturing engineer support. Not the process engineer working remotely.</p>
+          </div>        </div>
+      </div>
+    </div>
+
+    <!-- Transactional deep panel -->
+    <div class="deep-panel dp-tx" id="panel-tx">
+      <div class="dp-head">
+        <div class="kick" style="color:#7eb8ff">Transactional · Office and Services</div>
+        <h2>Quarterly Earnings Close · S&amp;OP Process</h2>
+        <p>How office teams eliminate variation in high-stakes, repeating cycles so the outcome is predictable regardless of who is in the room.</p>
+      </div>
+      <div class="dp-body">
+        <div class="dp-col dp-col-wide">
+          <div class="dp-label">Worked Example</div>
+          <div class="dp-h3">Investor Relations · Quarterly Earnings Close</div>
+          <div class="dp-sub">A 28-day close cycle involving Finance, Legal, IR, Communications, and the Executive team. Standard work reduces the cycle from 34 days to 26 days and eliminates four recurring late-night escalations.</div>
+          <div class="dp-label" style="margin-top:20px">Process Steps</div>
+          <ol class="step-list">
+            <li>Map every hand-off in the current close cycle; identify who receives what and by when.</li>
+            <li>Assign a named owner to each step, not a team or a role title.</li>
+            <li>Define the standard for each deliverable: format, completeness criteria, sign-off required.</li>
+            <li>Set the cadence: which steps happen daily, weekly, at each milestone.</li>
+            <li>Build an escalation path for when a step is missed; do not rely on heroics.</li>
+            <li>Run the first cycle to the new standard; capture actual times vs. planned.</li>
+            <li>Close the loop at a 30-minute debrief: what held, what slipped, one update to the standard.</li>
+          </ol>
+          <div class="dp-label" style="margin-top:20px">Second Example</div>
+          <div class="dp-h3">S&amp;OP Process US · Monthly Demand Review</div>
+          <div class="dp-sub">A 5-day demand review sub-cycle feeding the main S&amp;OP gate. Standard work defines data cutoffs, review owners, and the single agreed output entering the supply review.</div>
+        </div>
+        <div class="dp-col">
+          <div class="dp-label">Template</div>
+          <div class="dp-h3">Transactional Standard Work</div>
+          <div class="dp-sub">Step-by-sequence format adapted for office processes: owner, trigger, input required, output produced, time standard, and escalation path.</div>
+          <div class="dp-cta-row">
+            <a class="dl-btn" href="sw-templates.html">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v8M4 6l3 3 3-3M2 11h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Download template
+            </a>
+            <a class="dp-detail-link" href="sw-template-detail.html?t=Transactional%20Standard%20Work&fn=tx&fmt=excel&mu=1" target="_blank" rel="noopener">Open full details &#8599;</a>
+          </div>
+          <div class="dp-label" style="margin-top:24px">What Good Looks Like</div>
+          <div class="good-look">
+            <div class="good-item">Any trained team member can run the cycle</div>
+            <div class="good-item">Variation narrows over successive cycles</div>
+            <div class="good-item">Escalation is defined before the crisis, not during it</div>
+            <div class="good-item">The standard is the agenda for the process debrief</div>
+          </div>
+          <div class="owner-box" style="margin-top:20px">
+            <div class="owner-label">Who Owns It</div>
+            <p>Process lead for the cycle. For earnings close: CFO Chief of Staff. For S&amp;OP: Demand Planning Manager.</p>
+          </div>        </div>
+      </div>
+    </div>
+
+    <!-- Engineering deep panel -->
+    <div class="deep-panel dp-eng" id="panel-eng">
+      <div class="dp-head">
+        <div class="kick" style="color:#7eb8ff">Engineering · Design and Analysis</div>
+        <h2>Engine Shop Visit (METCIS) · Field Problem Resolution</h2>
+        <p>How engineering teams capture a repeatable method so knowledge transfers across engineers, programs and sites without starting from scratch each time.</p>
+      </div>
+      <div class="dp-body">
+        <div class="dp-col dp-col-wide">
+          <div class="dp-label">Worked Example</div>
+          <div class="dp-h3">METCIS · Engine Shop Visit Inspection Standard</div>
+          <div class="dp-sub">Inspection workflow for a GEnx shop visit: 22 steps, 4 decision gates, owner assigned at each gate. Standard work is the method. The engineering spec is the requirement. They are different documents.</div>
+          <div class="dp-label" style="margin-top:20px">Process Steps</div>
+          <ol class="step-list">
+            <li>Identify the engineering task type: analysis, design review, field investigation, or inspection.</li>
+            <li>Define the method, not just the output. Capture the sequence an expert uses.</li>
+            <li>Identify the tools required at each step (software, checklist, instrument) and specify the version.</li>
+            <li>Define the decision gates: what stops the work, what constitutes a pass, who approves.</li>
+            <li>Capture the common failure modes and the correct response for each.</li>
+            <li>Validate the standard with two engineers who did not write it; resolve gaps.</li>
+            <li>Store the standard where the work is done, not in a project folder no one finds.</li>
+          </ol>
+          <div class="dp-label" style="margin-top:20px">Second Example</div>
+          <div class="dp-h3">Field Problem Resolution</div>
+          <div class="dp-sub">Standard work for field investigation sequences: first data pull, containment call, root cause analysis, and corrective action routing. Ensures any engineer on call reaches the same decision points in the same order.</div>
+        </div>
+        <div class="dp-col">
+          <div class="dp-label">Template</div>
+          <div class="dp-h3">Master Instruction Template</div>
+          <div class="dp-sub">Engineering-specific format: task scope, method sequence, tool requirements, decision gates, and failure-mode guidance in one reviewable document.</div>
+          <div class="dp-cta-row">
+            <a class="dl-btn" href="sw-templates.html">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v8M4 6l3 3 3-3M2 11h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Download template
+            </a>
+            <a class="dp-detail-link" href="sw-template-detail.html?t=Master%20Instruction%20Template&fn=eng&fmt=word" target="_blank" rel="noopener">Open full details &#8599;</a>
+          </div>
+          <div class="dp-label" style="margin-top:24px">What Good Looks Like</div>
+          <div class="good-look">
+            <div class="good-item">A new engineer produces the same result as a 10-year veteran</div>
+            <div class="good-item">The method, not just the output spec, is documented</div>
+            <div class="good-item">Decision gates are explicit and owned</div>
+            <div class="good-item">Standard is findable at the moment it is needed</div>
+          </div>
+          <div class="owner-box" style="margin-top:20px">
+            <div class="owner-label">Who Owns It</div>
+            <p>Lead engineer for the task type. For shop visit standards: Chief Inspection Engineer. For field investigations: Field Engineering Manager.</p>
+          </div>        </div>
+      </div>
+    </div>
+
+  </div><!-- /deep-panels -->
+
+  <!-- ═══ WHY THIS MATTERS (old copy kept; infographic in the right negative space) ═══ -->
+  <div class="why-band section-why no-num">
+    <div class="why-grid">
+      <div class="why-copy">
+        <div class="kick">Standard work in action</div>
+        <h2>See it run on the floor</h2>
+        <p class="why-sub">A 21-minute walkthrough of the six standard work templates, then the Greenville field example where the team puts them to work.</p>
+        <a class="ig-link" href="training/index.html">Standard Work in Action <span>&rarr;</span></a>
+        <div class="ig-video">
+          <div class="ig-frame"><video class="ig-player" controls preload="metadata" poster="training/poster.jpg" playsinline><source src="training/video/standardwork2-web.mp4" type="video/mp4"></video></div>
+          <div class="ig-chips">
+            <button class="ig-chip" onclick="igSeek(this,0)">0:00 Intro</button>
+            <button class="ig-chip" onclick="igSeek(this,26)">0:26 Time Measurement</button>
+            <button class="ig-chip" onclick="igSeek(this,295)">4:55 Machine Capacity</button>
+            <button class="ig-chip" onclick="igSeek(this,487)">8:07 Balance Chart</button>
+            <button class="ig-chip" onclick="igSeek(this,637)">10:37 Combination Sheet</button>
+            <button class="ig-chip" onclick="igSeek(this,848)">14:08 Process Scroll</button>
+            <button class="ig-chip" onclick="igSeek(this,942)">15:42 Standard Worksheet</button>
+            <button class="ig-chip" onclick="igSeek(this,1123)">18:43 Field example</button>
+          </div>
+        </div>
+      </div>
+      <div class="infographic infographic-v">
+        <div class="ig-head">What one standard sets in motion</div>
+        <div class="ig-spine">
+          <div class="ig-node ig-start">
+            <span class="ig-node-title">Standard Work</span>
+            <span class="ig-sub">One agreed way to run the job</span>
+          </div>
+          <div class="ig-node">
+            <span class="ig-node-title">Stable execution</span>
+            <span class="ig-sub">Everyone runs the job the same way</span>
+          </div>
+          <div class="ig-node">
+            <span class="ig-node-title">Easier training</span>
+            <span class="ig-sub">New hires learn from the page, not a person</span>
+          </div>
+          <div class="ig-node">
+            <span class="ig-node-title">Faster problem solving</span>
+            <span class="ig-sub">A baseline to compare against when it breaks</span>
+          </div>
+          <div class="ig-node ig-end">
+            <span class="ig-node-title">Better SQDC</span>
+            <span class="ig-sub">Safety &middot; Quality &middot; Delivery &middot; Cost</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ TEMPLATES BY FUNCTION ═══ -->
+  <div class="section-templates">
+    <div class="kick">Template Families</div>
+    <h2>Four templates. One for every function</h2>
+    <p class="section-sub">Each template is formatted for its function. Pick the one that matches your team and fill it in using the worked example above as your guide.</p>
+    <div class="tpl-grid">
+      <div class="tpl-card t-mfg">
+        <div class="tpl-icon">&#9881;</div>
+        <div class="tpl-tag">Manufacturing</div>
+        <h3>Manufacturing Standard Work Sheet</h3>
+        <div class="when-use"><span class="wu-label">When to use</span><span>A &middot; Standing up standard work at a production cell</span><span>B &middot; A method change needs to be re-documented and re-posted</span></div>
+        <a class="tpl tpl-cta" href="sw-template-detail.html?t=Manufacturing%20Standard%20Work&fn=mfg&fmt=excel&mu=1" target="_blank" rel="noopener">Manufacturing Standard Work &rarr;</a>
+      </div>
+      <div class="tpl-card t-tx">
+        <div class="tpl-icon">&#128203;</div>
+        <div class="tpl-tag">Transactional</div>
+        <h3>Transactional Standard Work</h3>
+        <div class="when-use"><span class="wu-label">When to use</span><span>A &middot; A repeating office or service cycle drifts run to run</span><span>B &middot; A close or review depends on who is in the room</span></div>
+        <a class="tpl tpl-cta" href="sw-template-detail.html?t=Transactional%20Standard%20Work&fn=tx&fmt=excel&mu=1" target="_blank" rel="noopener">Transactional Standard Work &rarr;</a>
+      </div>
+      <div class="tpl-card t-eng">
+        <div class="tpl-icon">&#128736;</div>
+        <div class="tpl-tag">Engineering</div>
+        <h3>Master Instruction Template</h3>
+        <div class="when-use"><span class="wu-label">When to use</span><span>A &middot; A method lives only in one engineer&rsquo;s head</span><span>B &middot; Field problem resolution must repeat across sites</span></div>
+        <a class="tpl tpl-cta" href="sw-template-detail.html?t=Master%20Instruction%20Template&fn=eng&fmt=word" target="_blank" rel="noopener">Master Instruction Template &rarr;</a>
+      </div>
+      <div class="tpl-card t-ldr">
+        <div class="tpl-icon">&#128200;</div>
+        <div class="tpl-tag">Leader</div>
+        <h3>Leader Standard Work</h3>
+        <div class="when-use"><span class="wu-label">When to use</span><span>A &middot; A leader needs a daily observation rhythm</span><span>B &middot; Standardizing gemba and escalation across a team</span></div>
+        <a class="tpl tpl-cta" href="sw-template-detail.html?t=Leader%20Standard%20Work&fn=ld&fmt=excel" target="_blank" rel="noopener">Leader Standard Work &rarr;</a>
+      </div>
+    </div>
+    <a class="tpl" href="sw-templates.html" style="margin-top:18px">Full template library &rarr;</a>
+    <div class="tpl-use">
+      <h3>How to use these templates</h3>
+      <div class="tpl-use-grid">
+        <div class="tpl-use-item">
+          <div class="step-num">Step 1 · Choose</div>
+          <p>Select the template family that matches your function: Manufacturing, Transactional, Engineering, or Leader. Do not force a manufacturing template onto an office process.</p>
+        </div>
+        <div class="tpl-use-item">
+          <div class="step-num">Step 2 · Draft</div>
+          <p>Use the worked example for your function as a reference. Fill in your own steps, owners, and time standards. The first draft does not have to be perfect. Get it on paper.</p>
+        </div>
+        <div class="tpl-use-item">
+          <div class="step-num">Step 3 · Validate</div>
+          <p>Walk through the draft with one person who did not write it. Find the gaps. Update and post it where the work happens. Review it after the first cycle.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ TEMPLATE HUB ═══ -->
+  <div class="cta-band section-cta">
+    <div>
+      <div class="kick">Template Hub</div>
+      <h2 style="margin-top:12px">Explore every Standard Work template</h2>
+      <p>Browse the full library across every function in one place, with formats, examples, and guidance for each.</p>
+    </div>
+    <div class="cta-btns">
+      <a class="btn-primary" href="sw-templates.html">Open the Template Hub &rarr;</a>
+    </div>
+  </div>
+
+  <!-- ═══ COMMON QUESTIONS ═══ -->
+  <section class="faq">
+    <div class="in">
+      <div class="kick">FAQ</div>
+      <h2>Common questions</h2>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">My work is not repetitive. Does standard work apply? <span class="faq-icon">+</span></div>
+        <p class="faq-a">Yes. Standard work applies to any task that repeats at least once. Even knowledge work has sequences: how you structure a report, how you run a design review, how you hand off a drawing. You are not locking in a rigid script. You are capturing the best known approach so you have a baseline to improve from. The standard changes when you find a better way.</p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">How detailed does the standard need to be? <span class="faq-icon">+</span></div>
+        <p class="faq-a">Detailed enough that someone new could follow it on day one without asking questions. That is the test. Most first drafts are too long. Aim for the steps that actually affect quality, safety, or timing. Everything else can live in a supporting note or link.</p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">What is the difference between Manufacturing SW, Transactional SW, and Leader SW? <span class="faq-icon">+</span></div>
+        <p class="faq-a">Manufacturing Standard Work captures physical steps at a workstation with cycle times and takt time. Transactional Standard Work captures sequences for office, service, or engineering tasks where the work is information-based, not physical. Leader Standard Work captures the daily and weekly routines a team leader follows to observe, develop, and sustain a system. If you are not on the shop floor, start with Transactional.</p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">How often should I update a standard? <span class="faq-icon">+</span></div>
+        <p class="faq-a">Update it whenever the process changes, whenever you find a better way, or whenever training someone reveals a gap. For stable processes, a monthly review is enough. A standard that has not been reviewed in six months is almost certainly out of date.</p>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /#sw-a -->
+
+<footer class="fd-footer">
+  <div class="fdf-in">
+    <div class="fdf-top">
+      <div class="fdf-brand"><span class="fdf-chip">FLIGHT DECK</span>Activation Hub</div>
+      <div class="fdf-cobrand">GE Aerospace</div>
+    </div>
+    <div class="fdf-cols">
+      <div class="fdf-col"><div class="fdf-h">Fundamentals</div><a href="standard-work.html">Standard Work</a><a href="daily-visual-management.html">Daily &amp; Visual Management</a></div>
+      <div class="fdf-col"><div class="fdf-h">Templates</div><a href="sw-templates.html">Template Library</a><a href="sw-flow.html">Template Flow</a></div>
+      <div class="fdf-col"><div class="fdf-h">Standard Work</div><a href="sw-evaluate.html">Evaluate or Update</a><a href="training/index.html">Standard Work in Action</a></div>
+      <div class="fdf-col"><div class="fdf-h">Hub</div><a href="index.html">Hub Home</a><a href="faq.html">FAQ</a></div>
+    </div>
+    <div class="fdf-meta"><span>FLIGHT DECK Activation Hub</span><span>GE Aerospace Proprietary &middot; Sensitive &middot; authorized distribution only</span></div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var tabs = document.querySelectorAll('#sw-a .tabs button');
+  var compareView = document.getElementById('view-compare');
+  var deepPanels = document.getElementById('view-deep');
+  var panels = {
+    mfg: document.getElementById('panel-mfg'),
+    tx:  document.getElementById('panel-tx'),
+    eng: document.getElementById('panel-eng')
+  };
+
+  function activate(tab) {
+    var key = tab.getAttribute('data-tab');
+
+    // Update tab button states
+    tabs.forEach(function (t) {
+      t.classList.remove('on');
+      t.setAttribute('aria-selected', 'false');
+    });
+    tab.classList.add('on');
+    tab.setAttribute('aria-selected', 'true');
+
+    if (key === 'compare') {
+      compareView.style.display = 'block';
+      deepPanels.style.display = 'none';
+      Object.values(panels).forEach(function (p) { p.classList.remove('active'); });
+    } else {
+      compareView.style.display = 'none';
+      deepPanels.style.display = 'block';
+      Object.keys(panels).forEach(function (k) {
+        if (k === key) {
+          panels[k].classList.add('active');
+          panels[k].style.display = 'block';
+        } else {
+          panels[k].classList.remove('active');
+          panels[k].style.display = 'none';
+        }
+      });
+    }
+  }
+
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () { activate(tab); });
+  });
+
+  var band = document.querySelector('#sw-a .why-band');
+  if (band) {
+    band.classList.add('anim-ready');
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { if (e.isIntersecting) { band.classList.add('in-view'); io.disconnect(); } });
+      }, { threshold: 0.25 });
+      io.observe(band);
+    } else {
+      band.classList.add('in-view');
+    }
+  }
+}());
+function igSeek(b,t){var v=b.closest('.ig-video').querySelector('.ig-player');if(v){v.currentTime=t;v.play();}}
+function toggleFaq(q){var item=q.closest('.faq-item');var open=item.classList.contains('open');document.querySelectorAll('#sw-a .faq-item.open').forEach(function(i){i.classList.remove('open');});if(!open)item.classList.add('open');}
+</script>
+<script src="/deliverables/search/search-index.js"></script>
+<script src="/hub/omnibox.js"></script>
+</body></html>

@@ -1,0 +1,59 @@
+/* FLIGHT DECK · shared site header + primary nav
+   Self-contained partial for pages that do NOT load /hub/hub.css.
+   Every rule is scoped under header.site so it cannot leak into a host page's
+   own design system (fundamentals/ runs its own --navy, fonts and link colors).
+   Tokens are declared on header.site, not :root, for the same reason. */
+
+header.site{
+  --sn-surface:#ffffff;
+  --sn-bg:#ffffff;
+  --sn-ink:#0f172a;
+  --sn-muted:#64748b;
+  --sn-line:#e5e7eb;
+  --sn-blue:#155dfc;
+  --sn-navy:#101a4d;
+  --sn-green:#22c55e;
+  font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+  font-size:14px;line-height:1.5;
+  background:var(--sn-surface);border-bottom:1px solid var(--sn-line);
+  position:sticky;top:0;z-index:50;
+}
+header.site *{box-sizing:border-box;margin:0;padding:0}
+header.site a{color:var(--sn-blue);text-decoration:none}
+header.site a:hover{text-decoration:underline}
+
+header.site .wrap{max-width:1280px;margin:0 auto;padding:0 28px}
+header.site .site-bar{display:flex;align-items:center;flex-wrap:wrap;gap:12px 18px;min-height:60px}
+header.site .site-mark{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.01em;white-space:nowrap}
+header.site .site-mark a{color:var(--sn-ink)}
+header.site .site-mark a:hover{text-decoration:none}
+header.site .site-mark .chip{background:var(--sn-navy);color:#fff;font-size:10px;font-weight:700;letter-spacing:.12em;padding:4px 8px;border-radius:4px;border:1px solid var(--sn-green)}
+
+header.site nav.primary{display:flex;gap:4px;flex:1;min-width:0}
+header.site nav.primary>div{position:relative;flex:none}
+header.site nav.primary a.top{display:block;color:var(--sn-ink);font-size:13px;font-weight:500;padding:8px 9px;border-radius:6px;white-space:nowrap;cursor:pointer}
+header.site nav.primary a.top:hover{background:var(--sn-bg);text-decoration:none}
+header.site nav.primary a.top.active{color:var(--sn-blue);box-shadow:inset 0 -2px 0 var(--sn-blue);border-radius:6px 6px 0 0}
+header.site nav.primary .caret{color:var(--sn-muted);font-size:11px;margin-left:3px}
+header.site nav.primary .menu{
+  display:none;position:absolute;top:100%;left:0;min-width:240px;
+  background:var(--sn-surface);border:1px solid var(--sn-line);border-radius:8px;
+  box-shadow:0 8px 24px rgba(15,23,42,.10);padding:6px;z-index:60
+}
+header.site nav.primary div:hover .menu{display:block}
+header.site nav.primary .menu a{display:block;padding:8px 12px;color:var(--sn-ink);font-size:13.5px;font-weight:500;border-radius:6px}
+header.site nav.primary .menu a:hover{background:var(--sn-bg);color:var(--sn-blue);text-decoration:none}
+
+header.site .badge-sensitive{font-size:11px;font-weight:600;color:var(--sn-muted);border:1px solid var(--sn-line);border-radius:99px;padding:4px 12px;white-space:nowrap}
+
+@media(max-width:1480px){header.site .badge-sensitive{display:none}}
+@media(max-width:1280px){header.site nav.primary a.top{padding:8px 5px;font-size:12px}}
+@media(max-width:1024px){
+  header.site nav.primary{overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}
+  header.site nav.primary::-webkit-scrollbar{display:none}
+}
+@media(max-width:700px){
+  header.site .site-bar{height:auto;flex-wrap:wrap;gap:8px;padding:10px 0}
+  header.site nav.primary{flex-basis:100%;order:3;overflow-x:auto;padding-bottom:4px}
+}
+@media(max-width:400px){header.site .site-mark a{display:none}header.site .site-bar{gap:12px}}

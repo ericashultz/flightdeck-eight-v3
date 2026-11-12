@@ -1,0 +1,209 @@
+/* ── Flight Deck — shared Learn It richness (imagery covers + preview modal + Help)
+   Loaded after each page's inline <style> on the design site, but never rely on
+   that: a build may inline this file first. Anything a page cannot render
+   without is declared in the page's own <style> as well.
+   Scoped to #sw-b (the shared page wrapper id used by every concept-hybrid page). ── */
+
+/* Learn It cards: photographic cover + clickable preview affordance */
+#sw-b .next-card{display:flex;flex-direction:column}
+#sw-b .next-card .nc-cover{width:calc(100% + 44px);aspect-ratio:16/9;height:auto;margin:-22px -22px 16px;border-radius:14px 14px 0 0;background:#0a1330;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;cursor:pointer}
+
+/* GE, 21 Aug, asked for the fixed 16/9 cover; Sam, 21 Aug, asked that a card with
+   no summary expand into the space rather than leave it blank. Both hold if the
+   ratio is a floor rather than a fixed value: the cover keeps 16/9 as its base
+   size and grows only on a card whose Describe column is empty. An empty
+   description element also stops contributing its own margin. */
+.next-card:has(.nc-desc:empty) .nc-cover{flex:1 1 auto}
+.next-card .nc-desc:empty{display:none}
+#sw-b .next-card .nc-cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .3s ease}
+#sw-b .next-card .nc-cover:hover img{transform:scale(1.05)}
+#sw-b .next-card .nc-cover::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,10,34,.20),rgba(3,10,34,.58))}
+#sw-b .next-card .nc-cover svg{position:relative;z-index:1;width:34px;height:34px;stroke:#fff;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 1px 4px rgba(0,0,0,.45))}
+#sw-b .next-card .nc-cover::before{content:"\2922  Preview";position:absolute;z-index:2;bottom:12px;left:50%;transform:translateX(-50%) translateY(6px);opacity:0;transition:opacity .18s,transform .18s;font-size:11px;font-weight:700;letter-spacing:.03em;color:#fff;background:rgba(0,0,10,.62);padding:5px 12px;border-radius:100px;pointer-events:none;white-space:nowrap}
+#sw-b .next-card .nc-cover:hover::before{opacity:1;transform:translateX(-50%) translateY(0)}
+#sw-b .nc-actions{display:flex;align-items:center;gap:14px;margin-top:auto;padding-top:14px;flex-wrap:wrap}
+#sw-b .nc-actions .nc-arrow,#sw-b .nc-actions .nc-soon{margin-top:0}
+#sw-b .nc-preview{font-size:12.5px;font-weight:600;color:#4A506A;background:#fff;border:1px solid #d8deee;border-radius:100px;padding:6px 14px;cursor:pointer}
+
+/* SharePoint doc-thumbnail variant — dormant until the list binds.
+   When Learn It pulls the SharePoint list's auto-generated document
+   previews, add class "doc" to the card's .nc-cover and point the img
+   at the list item's thumbnail property. White document pages render
+   framed + contained (page edge, soft shadow) instead of the cinematic
+   cover crop, and the dark gradient is dropped. */
+#sw-b .next-card .nc-cover.doc{background:#eef1f8}
+#sw-b .next-card .nc-cover.doc img{object-fit:contain;inset:10px 14px;width:calc(100% - 28px);height:calc(100% - 20px);border-radius:4px;box-shadow:0 2px 10px rgba(11,26,64,.16);background:#fff}
+#sw-b .next-card .nc-cover.doc::after{background:none}
+#sw-b .next-card .nc-cover.doc svg{display:none}
+
+/* Preview modal */
+#lrn-modal{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;padding:40px;background:rgba(2,6,23,.62);font-family:"GE Sans",-apple-system,"Helvetica Neue",Arial,sans-serif}
+#lrn-modal.open{display:flex}
+#lrn-modal .lmbox{background:#fff;border-radius:16px;max-width:640px;width:100%;overflow:hidden;box-shadow:0 40px 90px rgba(2,6,23,.5);display:flex;flex-direction:column;max-height:calc(100dvh - 64px)}
+#lrn-modal .lmhead{flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 24px;border-bottom:1px solid #eef1f8;position:sticky;top:0;background:#fff;z-index:1}
+#lrn-modal .lmhead h3{font-size:18px;font-weight:600;margin:0;color:#00003d}
+#lrn-modal .lmhead .x{font-size:22px;color:#9aa3bd;background:none;border:0;cursor:pointer;line-height:1}
+#lrn-modal .lmbody{padding:26px 24px;display:grid;grid-template-columns:200px 1fr;gap:24px;align-items:start;overflow-y:auto;min-height:0;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+#lrn-modal .lmprev{height:240px;border-radius:10px;background:#0a1330;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+#lrn-modal .lmprev img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#lrn-modal .lmprev::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,10,34,.16),rgba(3,10,34,.5))}
+#lrn-modal .lmprev svg{position:relative;z-index:1;width:56px;height:56px;stroke:#fff;fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 1px 5px rgba(0,0,0,.5))}
+#lrn-modal .lwgl{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#16b364;margin:0 0 8px}
+#lrn-modal .lmbody .lfor{font-size:14px;color:#44496e;line-height:1.6;margin:0 0 16px}
+#lrn-modal .lmeta{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+#lrn-modal .lmeta .chip{display:inline-flex;align-items:baseline;gap:5px;font-size:11.5px;color:#6b728e;background:#f1f5fd;border:1px solid #e2e9f7;border-radius:100px;padding:5px 12px}
+#lrn-modal .lmeta .chip b{font-weight:700;color:#00003d}
+#lrn-modal .luse{font-size:13px;color:#5a6180;line-height:1.6;margin:0 0 18px;padding-top:15px;border-top:1px solid #eef1f8}
+#lrn-modal .luse:empty{display:none;border:0;padding:0}
+#lrn-modal .lmact{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:2px 0 4px}
+#lrn-modal .ldl{display:inline-flex;font-size:13.5px;font-weight:600;color:#fff;background:#2256e6;border:0;border-radius:100px;padding:10px 20px;cursor:pointer;text-decoration:none}
+#lrn-modal .ldl.disabled{background:#e7ebf4;color:#8891ab;cursor:default;pointer-events:none}
+#lrn-modal .lbtn{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:#2256e6;background:#eef3fd;border:1px solid #dde6fb;border-radius:100px;padding:9px 16px;cursor:pointer;text-decoration:none;font-family:inherit}
+#lrn-modal .lbtn:hover{background:#e2ecfd}
+#lrn-modal #lrn-share.copied{color:#0c6b3f;background:#e6f6ee;border-color:#c9ecd8}
+#lrn-modal .lfull{display:inline-block;margin-top:4px;font-size:13.5px;font-weight:600;color:#2256e6;text-decoration:none}
+#lrn-modal .lfull:hover{text-decoration:underline}
+@media(max-width:900px){#lrn-modal .lmbody{grid-template-columns:1fr}}
+@media(max-width:600px){
+  #lrn-modal{padding:12px}
+  #lrn-modal .lmbox{max-height:calc(100dvh - 24px);border-radius:14px}
+  #lrn-modal .lmhead{padding:15px 18px}
+  #lrn-modal .lmhead h3{font-size:16px}
+  #lrn-modal .lmbody{padding:18px 18px 22px;gap:18px}
+  #lrn-modal .lmprev{height:200px}
+}
+
+/* doc mode — document-type cards open the full-size preview: big viewer pane left, detail rail right */
+#lrn-modal.doc .lmbox{max-width:1080px}
+#lrn-modal.doc .lmbody{grid-template-columns:minmax(0,1fr) 300px}
+#lrn-modal.doc .lmprev{height:min(68vh,720px)}
+#lrn-modal.doc .lmprev iframe.docframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff;z-index:2}
+@media(max-width:900px){#lrn-modal.doc .lmbody{grid-template-columns:1fr}#lrn-modal.doc .lmprev{height:48vh}}
+
+/* video mode — the player pane is 16:9 */
+#lrn-modal.vid .lmbox{max-width:920px}
+#lrn-modal.vid .lmbody{grid-template-columns:minmax(0,1.55fr) 1fr}
+#lrn-modal.vid .lmprev{height:auto;aspect-ratio:16/9}
+@media(max-width:900px){#lrn-modal.vid .lmbody{grid-template-columns:1fr}}
+
+/* paged document viewer — pre-rendered pages, no browser chrome */
+#lrn-modal .docpager{position:absolute;inset:0;z-index:2;background:#eef1f8;display:flex;align-items:center;justify-content:center}
+#lrn-modal .docpager img{position:static;inset:auto;object-fit:contain;max-height:94%;max-width:86%;width:auto;height:auto;box-shadow:0 18px 44px -18px rgba(11,26,64,.45);border-radius:4px;background:#fff}
+#lrn-modal .dp-btn{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:100px;border:1px solid #dde3f0;background:#fff;color:#2256e6;font-size:17px;line-height:1;cursor:pointer;box-shadow:0 6px 18px -8px rgba(11,26,64,.35);display:flex;align-items:center;justify-content:center;font-family:inherit}
+#lrn-modal .dp-btn:hover{background:#f2f6ff}
+#lrn-modal .dp-btn[disabled]{opacity:.35;cursor:default}
+#lrn-modal .dp-prev{left:14px}
+#lrn-modal .dp-next{right:14px}
+#lrn-modal .dp-count{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:11px;letter-spacing:.08em;color:#44496e;background:rgba(255,255,255,.92);border:1px solid #dde3f0;border-radius:100px;padding:5px 12px}
+
+/* Where Do I Find Help — contact list with headshots */
+#sw-b .help-band{border-top:1px solid #eef1f8;background:#f6f8fd}
+#sw-b .help-band .in{max-width:1088px;margin:0 auto;padding:52px 24px 62px}
+/* The feedback band is the SAME band as Where Do I Find Help, so it takes the same
+   numbers from the same place rather than its own near-miss set. It sits OUTSIDE
+   #sw-b, so these two cannot be scoped or they stop matching. */
+.fb-band{border-top:1px solid #eef1f8;background:#f6f8fd;
+  /* Anything outside #sw-b inherits NOTHING from the page — not the font, not the type
+     scale, not the tokens. This band and .fd-footer are the only two such elements, and
+     both have now needed the same manual re-attachment. Without this the heading falls
+     back to the browser default and reads as a different heading at the same 300/30px.
+     Same var-with-fallback shape .fd-footer uses, so there is one stack to change. */
+  font-family:var(--font-sans,"GE Sans",-apple-system,"Helvetica Neue",Arial,sans-serif)}
+.fb-band .in{max-width:1088px;margin:0 auto;padding:52px 24px 62px}
+#sw-b .help-sub{font-size:15.5px;color:#4A506A;line-height:1.7;margin:0 0 30px;max-width:82ch}
+/* Leaders as cards, in the page's own language rather than the flat SharePoint
+   row this was traced from. The grid adapts: five leaders in a fixed two-column
+   grid left an orphan on the last row, which is the case the template cards
+   already handle. */
+#sw-b .help-people{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;max-width:1088px}
+#sw-b .person{display:flex;align-items:center;gap:16px;background:#fff;border:1px solid #e7ebf4;border-radius:14px;
+  padding:18px 20px;box-shadow:0 1px 2px rgba(11,26,64,.05);transition:border-color .18s,box-shadow .18s,transform .16s}
+#sw-b .person:hover{border-color:#cfd9f0;box-shadow:0 1px 2px rgba(11,26,64,.05),0 14px 30px -22px rgba(11,26,64,.5);transform:translateY(-1px)}
+#sw-b .person .avatar{width:48px;height:48px;flex:none;border-radius:50%;overflow:hidden;background:#eef1f8;display:flex;align-items:center;justify-content:center}
+#sw-b .person .avatar img{width:100%;height:100%;object-fit:cover}
+#sw-b .person .avatar svg{width:28px;height:28px;fill:#b3bdd6}
+#sw-b .person .pmeta b{display:block;font-size:15px;font-weight:700;color:#00003d;letter-spacing:-.01em;line-height:1.3}
+#sw-b .person .pmeta span{font-size:13px;color:#6b728e;line-height:1.45}
+/* A leader whose title GE has not supplied yet should not leave a blank line. */
+#sw-b .person .pmeta span:empty{display:none}
+@media(max-width:640px){#sw-b .help-people{grid-template-columns:1fr}}
+
+/* ── Accessibility baseline ───────────────────────────────────────────────────────
+   Added 14 Aug after an audit found NO focus indicator on any button, link or card:
+   12 of 14 components defined hover and nothing else, so a keyboard user could not see
+   where they were. That is a WCAG 2.4.7 failure and it outranked everything cosmetic.
+
+   These rules are unscoped on purpose. #sw-b holds most of the page, but .fb-band and
+   .fd-footer sit outside it, and a focus ring that stops at the band boundary is worse
+   than none — it teaches a keyboard user to trust an indicator that vanishes. */
+
+:where(a, button, [role="button"], [tabindex]:not([tabindex="-1"]), input, select, textarea):focus-visible {
+  outline: 3px solid #2256e6;      /* --fd-focus-ring, literal so it works outside #sw-b */
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+/* A focus ring on a dark ground needs to be visible against navy, not against white. */
+.hero :where(a, button, [role="button"]):focus-visible,
+.wingband :where(a, button, [role="button"]):focus-visible,
+.ab-copy :where(a, button, [role="button"]):focus-visible {
+  outline-color: #fff;
+}
+/* The template pills are NOT forced to 44px, and the earlier comment here was wrong to
+   call 44 a minimum. 44 is WCAG 2.5.5 Target Size (Enhanced), Level AAA, and an Apple
+   touch guideline. The AA requirement is 2.5.8 at 24 by 24, which these clear at roughly
+   498 by 31. Forcing 44 on a border-radius:100px pill makes the browser clamp the radius
+   to 22 and the button reads as a lozenge, on a shape GE has already accepted. Ken, 25
+   August. A target that fails AA gets raised; an AAA enhancement does not outrank a
+   client-approved shape.
+   The focus ring and prefers-reduced-motion below stay: those are 2.4.7 and 2.3.3, and
+   neither changes a shape. */
+#sw-b .t5-acts a, #sw-b .t5-acts button { padding-top: 0; padding-bottom: 0 }
+
+@media (prefers-reduced-motion: reduce) {
+  /* Not a nicety. Vestibular disorders are the reason this exists, and the hub had no
+     handling at all. Transforms are the part that causes trouble, so those go entirely
+     while colour transitions stay — they carry state and cost nothing. */
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+  #sw-b .t5-card:hover, #sw-b .next-card:hover, #sw-b .person:hover,
+  #sw-b .el-grid .t5-card:not(.el-off) .t5-thumb.el-cover:hover img { transform: none !important }
+}
+
+/* Pointer target size. WCAG 2.5.8 AA asks 24 by 24 CSS pixels. The card action links
+   measured 21px tall and the close controls 30px, so the links failed the standard and the
+   close buttons passed it while missing the 44px figure that matters on a kiosk.
+
+   Raised to the 24px floor here rather than to 44, deliberately: 44 would visibly reflow
+   every card grid days before a GE launch, and this is the line between failing a standard
+   and missing a guideline. The 44px pass is recorded as a sized decision in
+   components/kit.json rather than left as a silent gap. */
+/* 24px floor for the SMALLER affordances only. .t5-acts, .dl, .pv and .fb-cta are
+   deliberately absent: they take 44px from the rule above, and listing them here as well
+   put a contradicting 24px later in the same file, which quietly won and pulled the pills
+   back to 33px. Two rules for one property on one element is the bug, not the value. */
+#sw-b .nc-actions a, #sw-b .nc-actions button,
+#sw-b .smact a, #sw-b .smact button,
+#sw-b .act {
+  min-height: 24px;
+  display: inline-flex;
+  align-items: center;
+}
+/* Close controls are standalone, so they take the full 44 — they are not inline in prose
+   and nothing reflows when they grow. */
+#sw-b .qs-close { min-height: 44px; height: auto }
+
+/* The last 22 failures across the eight pages were unclassed anchors and .nc-arrow, both
+   under 24px. Catch them by role rather than by class, so a new link cannot reintroduce the
+   failure by not matching a class list. Excludes anchors inside a paragraph, which WCAG
+   exempts as inline. */
+/* :where() so this contributes NO specificity beyond #sw-b. Written with :not() first, it
+   scored (1,2,1) and outranked the (1,1,1) pill rule above — which silently pulled the 44px
+   targets back to 33px on all eight pages. A catch-all floor must be the weakest rule in the
+   file, never the strongest. */
+#sw-b :where(a, .nc-arrow):not(:where(p a, .sub a, li a, .mm-node, [class*="tab"])) {
+  min-height: 24px;
+}

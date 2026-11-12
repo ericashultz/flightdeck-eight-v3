@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="/gate.js"></script>
+<meta name="robots" content="noindex, nofollow">
+<title>FLIGHT DECK 2.0 &middot; Activation Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  @font-face{font-family:"GE Sans";font-weight:300;font-style:normal;font-display:swap;src:url("assets/fonts/ge-sans/sons-light.woff2") format("woff2")}
+  @font-face{font-family:"GE Sans";font-weight:400;font-style:normal;font-display:swap;src:url("assets/fonts/ge-sans/sons-regular.woff2") format("woff2")}
+  @font-face{font-family:"GE Sans";font-weight:600;font-style:normal;font-display:swap;src:url("assets/fonts/ge-sans/sons-semibold.woff2") format("woff2")}
+  :root{
+    --bg:#fff;--card:#fff;--ink:#00003D;--muted:rgba(0,0,61,.55);--muted-2:rgba(0,0,61,.6);
+    --line:rgba(0,0,61,.12);--line-soft:rgba(0,0,61,.07);
+    --blue:#146FF8;--blue-2:#4181FF;--deep:#0D0D47;--green:#00B140;--onmute:rgba(255,255,255,.55);
+    --sans:"GE Sans","Geist",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+    --mono:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--sans);background:var(--bg);color:var(--ink);font-size:16px;line-height:1.3;-webkit-font-smoothing:antialiased}
+  img,video{display:block;max-width:100%}
+  a{color:inherit;text-decoration:none}
+  .wrap{width:100%;max-width:1180px;margin:0 auto;padding:0 clamp(20px,5vw,56px)}
+  .eyebrow{font-size:16px;font-weight:400;letter-spacing:1px;color:var(--muted)}
+  h1{font-weight:400;font-size:clamp(44px,6.6vw,84px);line-height:1;letter-spacing:-.03em}
+  h2{font-weight:400;font-size:clamp(32px,5vw,64px);line-height:1;letter-spacing:-.03em}
+  h3{font-weight:400;font-size:clamp(22px,2.4vw,36px);line-height:1.055;letter-spacing:-.02em}
+  p{color:var(--muted)}
+  .lede{font-size:clamp(19px,2.1vw,28px);line-height:1.18;letter-spacing:-.02em;color:var(--muted);max-width:34ch}
+  .lede.sm{font-size:clamp(16px,1.4vw,20px);line-height:1.25;letter-spacing:-.01em;max-width:52ch}
+
+  /* ── hero ───────────────────────────────── */
+  .hero{position:relative;min-height:min(92vh,860px);display:flex;align-items:flex-end;overflow:hidden;background:var(--deep)}
+  .hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,30,.42) 0%,rgba(0,0,32,.58) 46%,rgba(0,0,40,.94) 100%)}
+  .hero .wrap{position:relative;z-index:2;padding-top:16vh;padding-bottom:clamp(48px,8vh,90px)}
+  .hero .eyebrow{color:rgba(255,255,255,.7);margin-bottom:20px}
+  .hero h1{color:#fff}
+  .hero .lede{color:rgba(255,255,255,.7);margin-top:26px;max-width:40ch}
+  .heromark{display:inline-flex;align-items:center;gap:11px;margin-bottom:30px}
+  .ge-logo{display:inline-block;height:22px;width:93px;background:#fff;-webkit-mask:url(assets/brand/ge-aerospace-logo.svg) left center/contain no-repeat;mask:url(assets/brand/ge-aerospace-logo.svg) left center/contain no-repeat}
+  .scrollcue{margin-top:36px;font-size:16px;letter-spacing:1px;color:rgba(255,255,255,.5)}
+
+  /* ── sections ───────────────────────────── */
+  section{padding:clamp(64px,10vh,104px) 0}
+  section.dark{background:var(--ink);color:#fff}
+  section.dark p{color:rgba(255,255,255,.6)}
+  section.dark .eyebrow{color:rgba(255,255,255,.55)}
+  .shead{max-width:none;margin-bottom:clamp(34px,5vh,58px)}
+  .shead .eyebrow{margin-bottom:16px}
+  .shead .lede{margin-top:20px}
+
+  .stat{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(28px,5vw,72px);align-items:center}
+  .statnum{font-weight:400;font-size:clamp(80px,12vw,168px);line-height:1;letter-spacing:-.03em;color:#fff}
+  .statlab{font-size:16px;letter-spacing:1px;color:rgba(255,255,255,.5);margin-top:22px}
+
+  .three{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+  .three>div{padding:0 clamp(22px,2.6vw,38px);border-left:1px solid var(--line)}
+  .three>div:first-child{padding-left:0;border-left:0}
+  section.dark .three>div{border-left-color:rgba(255,255,255,.16)}
+  .three .n{font-size:16px;letter-spacing:1px;color:var(--muted);margin-bottom:18px}
+  section.dark .three .n{color:var(--onmute)}
+  .three h3{margin-bottom:12px}
+
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,64px);align-items:center}
+  .shot{border:1px solid var(--line);border-radius:4px;overflow:hidden;background:var(--card);box-shadow:0 24px 50px -30px rgba(11,26,64,.4)}
+  .shot img{width:100%}
+  section.dark .shot{border-color:rgba(255,255,255,.16)}
+
+  .beats{border-top:1px solid var(--line)}
+  .beat{display:grid;grid-template-columns:78px minmax(0,1fr) minmax(0,1.1fr);gap:clamp(16px,3vw,40px);align-items:baseline;padding:clamp(24px,3.4vh,36px) 0;border-bottom:1px solid var(--line)}
+  .beat .bn{font-size:16px;letter-spacing:1px;color:var(--muted)}
+  .beat h3{font-size:clamp(19px,1.9vw,25px)}
+
+  .eight{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:8px}
+  .f{display:block;border:1px solid var(--line);border-radius:4px;padding:24px;background:var(--card);transition:border-color .16s,transform .16s,box-shadow .16s}
+  .f:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:0 14px 30px -16px rgba(34,86,230,.3)}
+  .f .fn{font-size:16px;letter-spacing:1px;color:var(--muted);margin-bottom:12px}
+  .f .ft{font-size:24px;font-weight:400;letter-spacing:-.02em;line-height:1.12}
+  .f .fo{display:block;font-size:16px;color:var(--blue);margin-top:14px}
+
+  .close{background:var(--ink);color:#fff}
+  .close h2{color:#fff}
+  .cta{display:inline-flex;align-items:center;gap:12px;margin-top:38px;background:#fff;color:var(--ink);border-radius:100px;padding:13px 30px;font-size:21px;font-weight:400}
+  .cta:hover{background:#e8ebf5}
+  footer{padding:40px 0 52px;font-size:16px;letter-spacing:1px;color:var(--muted)}
+
+  /* GE component layer */
+  .ghead{position:fixed;top:0;left:0;right:0;z-index:40;padding:16px 40px;transition:background .25s,border-color .25s}
+  .ghead .in{display:flex;align-items:center;gap:34px;max-width:1289px;margin:0 auto}
+  .ghead .ge-logo{height:20px;width:86px;background:#fff}
+  .ghead a.nl{font-size:16px;letter-spacing:1px;color:rgba(255,255,255,.75)}
+  .ghead a.nl:hover{color:#fff}
+  .ghead.solid{background:var(--ink);border-bottom:1px solid rgba(255,255,255,.14)}
+  @media(max-width:760px){.ghead{padding:14px 20px}.ghead a.nl{display:none}}
+
+  .arrow{flex:0 0 auto;width:56px;height:56px;border-radius:50%;background:rgba(0,0,61,.07);color:var(--ink);
+    display:inline-flex;align-items:center;justify-content:center;font-size:19px;transition:background .18s,transform .18s}
+  .rowlink:hover .arrow{background:var(--green);color:#fff;transform:translateX(3px)}
+  .arrow.on{background:var(--green);color:#fff}
+
+  .rail{display:grid;grid-template-columns:minmax(0,200px) minmax(0,1fr);gap:clamp(20px,4vw,60px);align-items:start}
+  .rail .rlab{font-size:24px;letter-spacing:-.02em;color:var(--ink);padding-top:28px}
+  .rows{border-top:1px solid var(--line)}
+  .rowlink{display:grid;grid-template-columns:minmax(0,1fr) 56px;gap:24px;align-items:center;
+    padding:clamp(22px,3vh,34px) 0 clamp(22px,3vh,34px) 0;border-bottom:1px solid var(--line);transition:background .18s}
+  .rowlink.feat{background:rgba(0,0,61,.035);padding-left:26px;padding-right:26px}
+  .rowlink .meta{font-size:16px;color:var(--muted);margin-bottom:10px}
+  .rowlink h3{color:var(--ink)}
+  .rowlink .sub{font-size:16px;color:var(--muted);margin-top:10px;max-width:62ch}
+  @media(max-width:860px){.rail{grid-template-columns:1fr;gap:16px}.rail .rlab{padding-top:0}}
+
+  .pillarrow{display:inline-flex;align-items:center;gap:18px;background:rgba(255,255,255,.14);
+    border-radius:100px;padding:8px 8px 8px 26px;color:#fff;font-size:21px;font-weight:400;margin-top:34px}
+  .pillarrow .c{width:44px;height:44px;border-radius:50%;background:#fff;color:var(--ink);display:inline-flex;align-items:center;justify-content:center;font-size:17px}
+  .pillarrow:hover{background:rgba(255,255,255,.22)}
+  .hairline{height:1px;background:rgba(255,255,255,.2);margin-top:clamp(30px,5vh,52px)}
+
+
+  /* ── motion: clarify entrance and state, never decorate ── */
+  .rise{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.22,.61,.36,1),transform .7s cubic-bezier(.22,.61,.36,1)}
+  .rise.in{opacity:1;transform:none}
+  .hero .heromark,.hero .eyebrow,.hero h1,.hero .lede,.hero .pillarrow,.hero .hairline{opacity:0;transform:translateY(30px);animation:heroIn .9s cubic-bezier(.22,.61,.36,1) forwards}
+  .hero .eyebrow{animation-delay:.10s}
+  .hero h1{animation-delay:.18s}
+  .hero .lede{animation-delay:.30s}
+  .hero .pillarrow{animation-delay:.42s}
+  .hero .hairline{animation-delay:.52s}
+  @keyframes heroIn{to{opacity:1;transform:none}}
+  .hero video{transform:scale(1.06);animation:heroZoom 9s cubic-bezier(.22,.61,.36,1) forwards}
+  @keyframes heroZoom{to{transform:scale(1)}}
+  .statnum{font-variant-numeric:tabular-nums}
+  .rowlink{transition:background .18s,padding-left .22s cubic-bezier(.22,.61,.36,1)}
+  .rowlink:hover{padding-left:10px}
+  .rowlink.feat:hover{padding-left:34px}
+  .ghead{transform:translateY(-100%);animation:headIn .6s .7s cubic-bezier(.22,.61,.36,1) forwards}
+  @keyframes headIn{to{transform:none}}
+  @media(prefers-reduced-motion:reduce){
+    .rise,.hero .heromark,.hero .eyebrow,.hero h1,.hero .lede,.hero .pillarrow,.hero .hairline,.ghead{opacity:1!important;transform:none!important;animation:none!important}
+    .hero video{animation:none;transform:none}
+    .rowlink:hover{padding-left:0}
+    .rowlink.feat:hover{padding-left:26px}
+  }
+
+  @media(max-width:1000px){.eight{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:860px){
+    .stat,.split,.three{grid-template-columns:1fr;gap:28px}
+    .three>div{padding:0;border-left:0}
+    .beat{grid-template-columns:1fr;gap:8px}
+    .beat .bn{margin-bottom:2px}
+  }
+  @media(max-width:560px){.eight{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="ghead" id="ghead">
+  <div class="in">
+    <a href="index.html"><span class="ge-logo" role="img" aria-label="GE Aerospace"></span></a>
+    <a class="nl" href="#why">Why</a>
+    <a class="nl" href="#what">What it is</a>
+    <a class="nl" href="#doors">How it works</a>
+    <a class="nl" href="#eight">Fundamentals</a>
+  </div>
+</div>
+
+<!-- ══ HERO ══ -->
+<header class="hero">
+  <video autoplay muted loop playsinline preload="metadata" poster="assets/hero/geaero-cover-poster.jpg" src="assets/hero/geaero-cover-loop.mp4"></video>
+  <div class="wrap">
+    <div class="heromark"><span class="ge-logo" role="img" aria-label="GE Aerospace"></span></div>
+    <div class="eyebrow">The Activation Hub &middot; 2026</div>
+    <h1>FLIGHT DECK 2.0</h1>
+    <p class="lede">Every Fundamental, every template, every tool. Rebuilt so the right standard is one search away, on any device, wherever the work is happening.</p>
+    <div class="pillarrow" style="cursor:default"><span>Built inside SharePoint</span><span class="c">&darr;</span></div>
+    <div class="hairline"></div>
+  </div>
+</header>
+
+<!-- ══ WHY IT MATTERS ══ -->
+<section class="dark" id="why">
+  <div class="wrap">
+    <div class="shead">
+      <div class="eyebrow">Why this matters</div>
+      <h2>The tools were always here.<br>Finding them was the problem.</h2>
+    </div>
+    <div class="stat">
+      <div>
+        <div class="statnum">300+</div>
+        <div class="statlab">Searches a day on the hub</div>
+      </div>
+      <p class="lede sm">And most people still could not find what they needed. They paged through results, gave up, and asked the person next to them. That is not a knowledge problem or a training problem. It is an access problem, and it compounds quietly. Every workaround someone invents because they could not find the standard becomes the local standard instead.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ WHAT IT IS ══ -->
+<section>
+  <div class="wrap">
+    <div class="shead">
+      <div class="eyebrow" id="what">What it is</div>
+      <h2>From a library you search<br>to a system that answers.</h2>
+      <p class="lede">Same content. Same SharePoint. Same governance. A completely different way in.</p>
+    </div>
+    <div class="three">
+      <div>
+        <div class="n">01</div>
+        <h3>Findable.</h3>
+        <p>One search that understands what you are asking for, whether you know the exact term or only the problem in front of you.</p>
+      </div>
+      <div>
+        <div class="n">02</div>
+        <h3>Guided.</h3>
+        <p>The page points to the right standard for the work you are actually doing, instead of handing over a folder and wishing you luck.</p>
+      </div>
+      <div>
+        <div class="n">03</div>
+        <h3>On the floor.</h3>
+        <p>Built for the phone in your pocket, so the standard is available in the place the work is happening, not just at a desk.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SEARCH ══ -->
+<section>
+  <div class="wrap">
+    <div class="split">
+      <div>
+        <div class="eyebrow" style="margin-bottom:16px">How it is different &middot; 01</div>
+        <h2>Search it,<br>or just describe it.</h2>
+        <p class="lede sm" style="margin-top:22px">Know the term and you get structured results, grouped and highlighted across Fundamentals, templates, tools, and video. Do not know the term and you hand the same question to FLIGHT DECK Wingmate in plain English.</p>
+        <p class="lede sm" style="margin-top:16px">And when you do not choose, the box chooses for you.</p>
+      </div>
+      <div class="shot"><img src="deliverables/search-deck/shots/results.png" alt="Search results grouped by type with the matching term highlighted"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ GUIDED ══ -->
+<section>
+  <div class="wrap">
+    <div class="split">
+      <div class="shot"><img src="assets/voc/fundamental-page-top.png" alt="The top of the Standard Work page, showing the four quick-start options"></div>
+      <div>
+        <div class="eyebrow" style="margin-bottom:16px">How it is different &middot; 02</div>
+        <h2>It opens with<br>what you need today.</h2>
+        <p class="lede sm" style="margin-top:22px">Every Fundamental opens the same way: a clear question and four ways to answer it. Then it refits around you. Manufacturing, non-manufacturing, or leader, and the examples, templates, and language change to match.</p>
+        <p class="lede sm" style="margin-top:16px">Templates sit inside the step that calls for them. Preview one in place, then take it. No hunting through a library for the thing the page just told you to use.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ AI ══ -->
+<section class="dark">
+  <div class="wrap">
+    <div class="split">
+      <div>
+        <div class="eyebrow" style="margin-bottom:16px">How it is different &middot; 03</div>
+        <h2>Coaching inside the page,<br>not beside it.</h2>
+        <p class="lede sm" style="margin-top:22px">FLIGHT DECK Wingmate lives in the Fundamental rather than in a separate tool. Ask a question about the standard while you are standing in it, using prompts our own teams wrote.</p>
+        <p class="lede sm" style="margin-top:16px">It runs on approved internal channels, inside our own tenant. Nothing leaves.</p>
+      </div>
+      <div class="shot"><img src="assets/voc/wingmate-inpage.png" alt="The Wingmate coach band inside the Standard Work page"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ HOW YOU EXPERIENCE IT ══ -->
+<section id="doors">
+  <div class="wrap">
+    <div class="shead">
+      <div class="eyebrow">How it works day to day</div>
+      <h2>Four ways in.</h2>
+    </div>
+    <div class="rail">
+      <div class="rlab">However you arrive</div>
+      <div class="rows">
+        <a class="rowlink" href="deliverables/standard-work/sw-concept-hybrid.1.html">
+          <div><div class="meta">Door 01 &nbsp;&middot;&nbsp; New to it</div><h3>Learn it.</h3>
+            <p class="sub">Start with what the Fundamental is, why it matters, and the resources that explain it.</p></div>
+          <span class="arrow">&rarr;</span>
+        </a>
+        <a class="rowlink" href="deliverables/standard-work/sw-concept-hybrid.1.html">
+          <div><div class="meta">Door 02 &nbsp;&middot;&nbsp; Doing the work</div><h3>Start one.</h3>
+            <p class="sub">The page walks the steps with you, with worked examples and tracked tasks.</p></div>
+          <span class="arrow">&rarr;</span>
+        </a>
+        <a class="rowlink" href="deliverables/templates/index.html">
+          <div><div class="meta">Door 03 &nbsp;&middot;&nbsp; You know what you need</div><h3>Browse templates.</h3>
+            <p class="sub">Preview it, take it, and get on with the day.</p></div>
+          <span class="arrow">&rarr;</span>
+        </a>
+        <a class="rowlink feat" href="deliverables/search/index.html">
+          <div><div class="meta">Door 04 &nbsp;&middot;&nbsp; Not sure where to begin</div><h3>Just ask.</h3>
+            <p class="sub">Describe the problem in your own words and get pointed to the shortest path in.</p></div>
+          <span class="arrow on">&rarr;</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ THE EIGHT ══ -->
+<section id="eight">
+  <div class="wrap">
+    <div class="shead">
+      <div class="eyebrow">Everything, rebuilt</div>
+      <h2>All eight Fundamentals.<br>One system.</h2>
+    </div>
+    <div class="rail">
+      <div class="rlab">Explore</div>
+      <div class="rows">
+        <a class="rowlink" href="deliverables/standard-work/sw-concept-hybrid.1.html">
+          <div><div class="meta">Fundamental 01</div><h3>Standard Work</h3></div>
+          <span class="arrow">&rarr;</span>
+        </a>
+        <a class="rowlink" href="deliverables/problem-solving/ps-concept-hybrid.1.html">
+          <div><div class="meta">Fundamental 02</div><h3>Problem Solving</h3></div>
+          <span class="arrow">&rarr;</span>
+        </a>
+        <a class="rowlink" href="deliverables/daily-visual-management/dvm-concept-hybrid.1.html">
+          <div><div class="meta">Fundamental 03</div><h3>Daily &amp; Visual Management</h3></div>
+          <span class="arrow">&rarr;</span>
+        </a>
+        <a class="rowlink" href="deliverables/action-planning/ap-concept-hybrid.1.html">
+          <div><div class="meta">Fundamental 04</div><h3>Action Planning</h3></div>
+          <span class="arrow">&rarr;</span>
+        </a>
+        <a class="rowlink" href="deliverables/operating-cadences/oc-concept-hybrid.1.html">
+          <div><div class="meta">Fundamental 05</div><h3>Operating Cadences</h3></div>
+          <span class="arrow">&rarr;</span>
+        </a>
+        <a class="rowlink" href="deliverables/5s/5s-concept-hybrid.1.html">
+          <div><div class="meta">Fundamental 06</div><h3>5S</h3></div>
+          <span class="arrow">&rarr;</span>
+        </a>
+        <a class="rowlink" href="deliverables/value-stream-management/vsm-concept-hybrid.1.html">
+          <div><div class="meta">Fundamental 07</div><h3>Value Stream Management</h3></div>
+          <span class="arrow">&rarr;</span>
+        </a>
+        <a class="rowlink" href="deliverables/flow-pull/fp-concept-hybrid.1.html">
+          <div><div class="meta">Fundamental 08</div><h3>Flow &amp; Pull</h3></div>
+          <span class="arrow">&rarr;</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CLOSE ══ -->
+<section class="close">
+  <div class="wrap">
+    <div class="eyebrow" style="margin-bottom:20px">What happens next</div>
+    <h2>It is being built now.<br>You will see it soon.</h2>
+    <p class="lede sm" style="margin-top:24px">The Activation Hub is being updated Fundamental by Fundamental. Expect changes over the coming months, and tell us what is working.</p>
+    <a class="pillarrow" href="index.html"><span>Explore the hub</span><span class="c">&rarr;</span></a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">GE Aerospace &middot; FLIGHT DECK &middot; Confidential</div>
+</footer>
+
+<script>
+(function(){
+  var reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var h=document.getElementById('ghead');
+  var f=function(){h.classList.toggle('solid', window.scrollY>window.innerHeight*0.72);};
+  f(); addEventListener('scroll',f,{passive:true});
+  if(reduce) return;
+
+  document.querySelectorAll('section').forEach(function(sec){
+    var kids=sec.querySelectorAll('.shead, .stat, .three>div, .rowlink, .shot, .prcard, .split>div');
+    kids.forEach(function(el,i){ el.classList.add('rise'); el.style.transitionDelay=(Math.min(i,8)*70)+'ms'; });
+  });
+
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  },{rootMargin:'0px 0px -12% 0px',threshold:0.12});
+  document.querySelectorAll('.rise').forEach(function(el){io.observe(el);});
+
+  var n=document.querySelector('.statnum');
+  if(n){
+    var raw=n.textContent.trim();
+    var target=parseInt(raw,10)||300;
+    var suffix=raw.replace(/[0-9,]/g,'');
+    var io2=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(!e.isIntersecting) return;
+        io2.unobserve(e.target);
+        var t0=null, dur=1400;
+        requestAnimationFrame(function step(ts){
+          if(!t0)t0=ts;
+          var k=Math.min((ts-t0)/dur,1), eased=1-Math.pow(1-k,3);
+          n.textContent=Math.round(target*eased)+suffix;
+          if(k<1) requestAnimationFrame(step);
+        });
+      });
+    },{threshold:0.5});
+    io2.observe(n);
+  }
+})();
+</script>
+</body>
+</html>

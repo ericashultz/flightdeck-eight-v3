@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="gate.js"></script>
+<meta name="robots" content="noindex, nofollow">
+<title>Next Fundamentals · The build roadmap · Flight Deck · Bttr.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* FOOTER BASE, copied from /hub/hub.css unchanged. The kit strips hub.css on every
+   page, so a page that leans on it for .fd-footer ships stacked links with no columns
+   and no background. Ken saw it on the Template Library and again on the homepage,
+   2 October. This block goes FIRST so a page's own footer overrides still win. */
+.fd-footer{background:#00010f;color:#fff;margin-top:56px;font-family:var(--font-sans,"GE Sans",-apple-system,"Helvetica Neue",Arial,sans-serif)}
+.fd-footer .fdf-in{max-width:1280px;margin:0 auto;padding:48px 28px 40px}
+.fd-footer .fdf-top{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-bottom:26px;border-bottom:1px solid rgba(255,255,255,.12)}
+.fd-footer .fdf-brand{display:flex;align-items:center;gap:11px;font-size:15px;font-weight:600;color:#fff}
+.fd-footer .fdf-chip{background:#fff;color:#00010f;font-size:10px;font-weight:800;letter-spacing:.12em;padding:5px 9px;border-radius:4px;border:1px solid #16b364}
+.fd-footer .fdf-cobrand{font-size:13px;font-weight:600;color:rgba(255,255,255,.7);letter-spacing:.02em}
+.fd-footer .fdf-cobrand i{font-style:normal;opacity:.5;margin:0 5px}
+.fd-footer .fdf-cols{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;padding:30px 0}
+.fd-footer .fdf-h{font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#7e8aa8;margin-bottom:12px}
+.fd-footer .fdf-col a{display:block;color:rgba(255,255,255,.78);font-size:13.5px;text-decoration:none;padding:5px 0;transition:color .14s}
+.fd-footer .fdf-col a:hover{color:#fff;text-decoration:none}
+.fd-footer .fdf-meta{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:22px;border-top:1px solid rgba(255,255,255,.12);font-size:11.5px;color:rgba(255,255,255,.45);letter-spacing:.02em}
+@media(max-width:720px){.fd-footer .fdf-cols{grid-template-columns:1fr 1fr;gap:24px}}
+@media(max-width:440px){.fd-footer .fdf-cols{grid-template-columns:1fr}}
+
+  @font-face{font-family:"GE Sans";font-weight:300;font-style:normal;font-display:swap;src:url("assets/fonts/ge-sans/sons-light.woff2") format("woff2")}
+  @font-face{font-family:"GE Sans";font-weight:400;font-style:normal;font-display:swap;src:url("assets/fonts/ge-sans/sons-regular.woff2") format("woff2")}
+  @font-face{font-family:"GE Sans";font-weight:600;font-style:normal;font-display:swap;src:url("assets/fonts/ge-sans/sons-semibold.woff2") format("woff2")}
+  :root{
+    --bg:#f6f8fd;--card:#fff;--ink:#00003d;--ink-soft:#23234a;--muted:#4A506A;
+    --line:#e7ebf4;--line-soft:#eef1f8;--accent:#00003D;--accent-blue:#2256e6;--good:#16b364;--surface:#f1f1f6;
+    --font-sans:"GE Sans","Geist",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+    --font-mono:"Geist Mono",ui-monospace,SFMono-Regular,"Menlo",monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--font-sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;line-height:1.55}
+  a{color:inherit;text-decoration:none}
+  img{display:block;max-width:100%}
+
+  .topbar{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:20px max(28px,calc((100vw - 1200px)/2 + 28px));font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);background:rgba(249,250,251,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .cobrand{display:inline-flex;align-items:center;gap:11px}
+  .cobrand .x{color:var(--muted);font-size:13px;opacity:.6}
+  .ge-logo{display:inline-block;height:20px;width:84px;background-color:var(--ink);-webkit-mask:url(assets/brand/ge-aerospace-logo.svg) left center/contain no-repeat;mask:url(assets/brand/ge-aerospace-logo.svg) left center/contain no-repeat}
+  .bttr-logo{display:inline-block;height:12px;width:28px;background-color:var(--ink);-webkit-mask:url(assets/brand/bttr-logo.svg) left center/contain no-repeat;mask:url(assets/brand/bttr-logo.svg) left center/contain no-repeat}
+
+  .wrap{max-width:1200px;margin:0 auto;padding:0 28px}
+
+  /* hero */
+  .hero{position:relative;color:#fff;padding:84px 28px 76px;background:radial-gradient(120% 150% at 18% -10%,rgba(65,129,255,.32),transparent 55%),linear-gradient(120deg,#00010f,#000a2e 58%,#06173f);overflow:hidden}
+  .hero::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:54px 54px;-webkit-mask-image:radial-gradient(120% 120% at 50% 0,#000,transparent 75%);mask-image:radial-gradient(120% 120% at 50% 0,#000,transparent 75%);opacity:.5}
+  .hero .in{position:relative;max-width:1200px;margin:0 auto;padding:0 0}
+  .kick{display:inline-flex;align-items:center;gap:9px;font-family:var(--font-mono);font-size:11.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:#8aa6f0;margin-bottom:20px}
+  .kick::before{content:"";width:7px;height:7px;background:var(--good);border-radius:1px}
+  .hero h1{font-size:clamp(42px,6vw,72px);font-weight:300;letter-spacing:-.03em;line-height:1.0;margin-bottom:18px;max-width:18ch}
+  .hero p{font-size:clamp(16px,1.4vw,19px);color:rgba(255,255,255,.78);max-width:64ch;line-height:1.55}
+  .hero .meta{display:flex;gap:18px;margin-top:30px;font-size:12.5px;font-weight:600;color:#9fb4e8;flex-wrap:wrap}
+  .hero .meta span+span{display:flex;align-items:center;gap:18px}
+  .hero .meta span+span::before{content:"";width:4px;height:4px;border-radius:50%;background:#4181ff}
+  .hero .deck-link{display:inline-flex;align-items:center;gap:11px;margin-top:34px;background:#fff;color:#00010f;font-size:14.5px;font-weight:700;border-radius:100px;padding:13px 24px;transition:.15s}
+  .hero .deck-link:hover{background:#dfe6f3;transform:translateY(-1px)}
+  .hero .deck-link .arc{width:28px;height:28px;border-radius:50%;background:#00010f;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px}
+
+  /* playbook strip */
+  .playbook{background:#00010f;color:#fff;padding:26px 28px;border-bottom:1px solid rgba(255,255,255,.08)}
+  .playbook .in{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+  .playbook .pb-lead{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8aa6f0;white-space:nowrap}
+  .playbook .pb-items{display:flex;gap:10px;flex-wrap:wrap}
+  .playbook .pb-chip{font-size:12.5px;font-weight:600;color:#cfe0fb;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);border-radius:100px;padding:7px 15px}
+  .playbook .pb-chip b{color:#7be3ad;font-weight:700}
+
+  /* section */
+  .sec{padding:64px 0 8px}
+  .sec-head{margin-bottom:34px}
+  .sec-head .lbl{font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-blue);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .sec-head .lbl::before{content:"";width:6px;height:6px;background:var(--good);border-radius:50%}
+  .sec-head h2{font-size:clamp(28px,3.4vw,42px);font-weight:300;letter-spacing:-.025em;margin-bottom:10px}
+  .sec-head p{font-size:16px;color:var(--muted);max-width:68ch;line-height:1.6}
+
+  /* roadmap cards */
+  .roadmap{display:flex;flex-direction:column;gap:20px;padding-bottom:8px}
+  .fcard{display:grid;grid-template-columns:96px 1fr 300px;gap:0;background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 1px 2px rgba(11,26,64,.05),0 24px 50px -34px rgba(11,26,64,.3);transition:box-shadow .2s,transform .16s,border-color .2s}
+  .fcard:hover{box-shadow:0 30px 60px -30px rgba(11,26,64,.4);transform:translateY(-3px)}
+  .fcard .fnum{display:flex;align-items:flex-start;justify-content:center;padding:30px 0;font-family:var(--font-mono);font-size:34px;font-weight:500;color:#fff}
+  .fcard.ps .fnum{background:linear-gradient(180deg,#0b2f8f,#082567)}
+  .fcard.dvm .fnum{background:linear-gradient(180deg,#3061c2,#244ea6)}
+  .fcard.s5 .fnum{background:linear-gradient(180deg,#1f7a4d,#155e3a)}
+  .fcard .fbody{padding:30px 32px}
+  .fcard .feyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+  .fcard h3{font-size:28px;font-weight:400;letter-spacing:-.02em;margin-bottom:10px}
+  .fcard .fdesc{font-size:15px;color:var(--muted);line-height:1.6;max-width:54ch;margin-bottom:20px}
+  .fcard .fapply-lbl{font-family:var(--font-mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--accent-blue);margin-bottom:10px}
+  .fcard .fapply{display:flex;flex-wrap:wrap;gap:8px}
+  .fcard .fapply span{font-size:12.5px;font-weight:600;color:#0b2f8f;background:#eef3fd;border:1px solid #d6e3fb;border-radius:100px;padding:6px 13px}
+  .fcard .fside{border-left:1px solid var(--line);background:#fbfcfe;padding:30px 28px;display:flex;flex-direction:column;gap:14px}
+  .fcard .fstatus{display:inline-flex;align-items:center;gap:8px;align-self:flex-start;font-family:var(--font-mono);font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;border-radius:100px;padding:6px 13px}
+  .fcard .fstatus.next{color:#92400e;background:#fffbeb;border:1px solid #fde68a}
+  .fcard .fstatus.exists{color:#16834a;background:#ecfdf5;border:1px solid #bbf7d0}
+  .fcard .fstatus::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+  .fcard .flink{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:13.5px;font-weight:600;color:var(--accent-blue);padding:11px 0;border-top:1px solid var(--line-soft)}
+  .fcard .flink:hover{color:#1844cc}
+  .fcard .flink.disabled{color:var(--muted);pointer-events:none}
+  .fcard .flink .far{font-size:14px}
+  @media(max-width:900px){.fcard{grid-template-columns:72px 1fr}.fcard .fside{grid-column:1 / -1;border-left:0;border-top:1px solid var(--line)}}
+
+  /* footer */
+  .fd-footer{background:#00010f;color:#fff;margin-top:64px}
+  .fd-footer .fdf-in{max-width:1200px;margin:0 auto;padding:44px 28px 38px}
+  .fd-footer .fdf-top{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-bottom:24px;border-bottom:1px solid rgba(255,255,255,.12)}
+  .fd-footer .fdf-brand{display:flex;align-items:center;gap:11px;font-size:15px;font-weight:600}
+  .fd-footer .fdf-chip{background:#fff;color:#00010f;font-size:10px;font-weight:800;letter-spacing:.12em;padding:5px 9px;border-radius:4px;border:1px solid var(--good)}
+  .fd-footer .fdf-cobrand{font-size:13px;font-weight:600;color:rgba(255,255,255,.7)}
+  .fd-footer .fdf-cobrand i{font-style:normal;opacity:.5;margin:0 5px}
+  .fd-footer .fdf-meta{font-size:11.5px;color:rgba(255,255,255,.45);padding-top:22px}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a class="cobrand" href="index.html" title="Back to the hub"><span class="ge-logo" role="img" aria-label="GE Aerospace"></span><span class="x">&times;</span><span class="bttr-logo" role="img" aria-label="Bttr."></span></a>
+  <span>Next Fundamentals &middot; Build Roadmap</span>
+</div>
+
+<section class="hero">
+  <div class="in">
+    <div class="kick">What we build next</div>
+    <h1>The next three fundamentals.</h1>
+    <p>Standard Work proved the model: navigate first, guide when needed, recommend instead of overwhelm, and let Wingmate do the heavy lifting. These three fundamentals are next, each rebuilt to the same playbook.</p>
+    <div class="meta"><span>Three fundamentals</span><span>One proven playbook</span><span>Dedicated deck below</span></div>
+    <a class="deck-link" href="deck-next-fundamentals.html#s1" target="_blank" rel="noopener">Open the build deck <span class="arc">&rarr;</span></a>
+  </div>
+</section>
+
+<div class="playbook">
+  <div class="in">
+    <span class="pb-lead">The playbook we carry over</span>
+    <div class="pb-items">
+      <span class="pb-chip"><b>Navigate</b> first</span>
+      <span class="pb-chip"><b>Guide</b> when needed</span>
+      <span class="pb-chip"><b>Recommend</b>, don&rsquo;t overwhelm</span>
+      <span class="pb-chip"><b>Wingmate</b> throughout</span>
+    </div>
+  </div>
+</div>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="lbl">The roadmap</div>
+      <h2>Three builds, in order.</h2>
+      <p>Each card shows what the fundamental is, what we carry over from the Standard Work hybrid, where it stands today, and where it lives.</p>
+    </div>
+
+    <div class="roadmap">
+
+      <!-- 01 Problem Solving -->
+      <article class="fcard ps">
+        <div class="fnum">01</div>
+        <div class="fbody">
+          <div class="feyebrow">Flight Deck Fundamental</div>
+          <h3>Problem Solving</h3>
+          <p class="fdesc">The structured path from a problem statement to a verified countermeasure. Today there is no page, so this is a build from zero, the biggest opportunity to set the pattern early.</p>
+          <div class="fapply-lbl">What we apply from the hybrid</div>
+          <div class="fapply">
+            <span>Guided onboarding for a first A3</span>
+            <span>Recommended method by problem type</span>
+            <span>Wingmate root-cause coach</span>
+            <span>What good looks like</span>
+          </div>
+        </div>
+        <div class="fside">
+          <span class="fstatus exists">Built · new page</span>
+          <a class="flink" href="deck-next-fundamentals.html#s2" target="_blank" rel="noopener">See it in the deck <span class="far">&rarr;</span></a>
+          <a class="flink" href="deliverables/problem-solving/ps-hybrid.1.html" target="_blank" rel="noopener">Open the page <span class="far">&#8599;</span></a>
+        </div>
+      </article>
+
+      <!-- 03 Daily & Visual Management -->
+      <article class="fcard dvm">
+        <div class="fnum">03</div>
+        <div class="fbody">
+          <div class="feyebrow">Flight Deck Fundamental</div>
+          <h3>Daily &amp; Visual Management</h3>
+          <p class="fdesc">The boards and routines that make performance visible and surface problems every day. A page exists today; this is a redesign to the hybrid model, with the role-based view and guided board setup.</p>
+          <div class="fapply-lbl">What we apply from the hybrid</div>
+          <div class="fapply">
+            <span>Role-based board view</span>
+            <span>Guided first board in minutes</span>
+            <span>Recommended tier cadence</span>
+            <span>Wingmate stand-up prep</span>
+          </div>
+        </div>
+        <div class="fside">
+          <span class="fstatus exists">Redesign · page exists</span>
+          <a class="flink" href="deck-next-fundamentals.html#s3" target="_blank" rel="noopener">See it in the deck <span class="far">&rarr;</span></a>
+          <a class="flink" href="deliverables/daily-visual-management/dvm-hybrid.1.html" target="_blank" rel="noopener">Open the page <span class="far">&#8599;</span></a>
+        </div>
+      </article>
+
+      <!-- 04 5S -->
+      <article class="fcard s5">
+        <div class="fnum">04</div>
+        <div class="fbody">
+          <div class="feyebrow">Flight Deck Fundamental</div>
+          <h3>5S</h3>
+          <p class="fdesc">Sort, set in order, shine, standardize, sustain. The workplace organization fundamental. A page exists; the redesign turns the five S into a guided, checklisted path with audit cadence built in.</p>
+          <div class="fapply-lbl">What we apply from the hybrid</div>
+          <div class="fapply">
+            <span>Guided five-S walkthrough</span>
+            <span>Checklists and progress</span>
+            <span>Recommended audit cadence</span>
+            <span>Wingmate sustain reminders</span>
+          </div>
+        </div>
+        <div class="fside">
+          <span class="fstatus exists">Redesign · page exists</span>
+          <a class="flink" href="deck-next-fundamentals.html#s4" target="_blank" rel="noopener">See it in the deck <span class="far">&rarr;</span></a>
+          <a class="flink" href="deliverables/5s/5s-hybrid.1.html" target="_blank" rel="noopener">Open the page <span class="far">&#8599;</span></a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<footer class="fd-footer">
+  <div class="fdf-in">
+    <div class="fdf-top">
+      <div class="fdf-brand"><span class="fdf-chip">FLIGHT DECK</span>Activation Hub</div>
+      <div class="fdf-cobrand">GE Aerospace</div>
+    </div>
+    <div class="fdf-meta">Next Fundamentals build roadmap &middot; GE Aerospace Proprietary &middot; Sensitive &middot; authorized distribution only</div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,932 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex, nofollow"><link rel="stylesheet" href="/hub/hub.css"><title>Value Stream Management · Concept Hybrid.1 · Flight Deck</title><style>
+body{padding-left:48px!important}
+@media(max-width:700px){body{padding-left:0!important}}
+#vsm-h{font-family:"GE Sans",-apple-system,"Helvetica Neue",Arial,sans-serif;color:#00003d;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+#vsm-h *{box-sizing:border-box}
+
+/* ─── SHARED PRIMITIVES ─── */
+#vsm-h .kick{display:inline-flex;align-items:center;gap:9px;font-size:11.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#2256e6}
+#vsm-h .kick::before{content:"";width:7px;height:7px;background:#16b364;border-radius:1px;flex-shrink:0}
+#vsm-h .eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#44496e;margin-bottom:18px}
+#vsm-h .eyebrow::before{content:"";width:7px;height:7px;background:#16b364;border-radius:1px;flex-shrink:0}
+#vsm-h .wrap-mid{max-width:1088px;margin:0 auto;padding:0 24px}
+
+/* ─── HERO (Design B navy, dual-audience) ─── */
+#vsm-h .hero{position:relative;color:#fff;padding:74px 24px 64px;background:radial-gradient(120% 150% at 18% -10%,rgba(65,129,255,.32),transparent 55%),linear-gradient(120deg,#00010f,#000a2e 58%,#06173f);overflow:hidden}
+#vsm-h .hero::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:54px 54px;-webkit-mask-image:radial-gradient(120% 120% at 50% 0,#000,transparent 75%);mask-image:radial-gradient(120% 120% at 50% 0,#000,transparent 75%);opacity:.5}
+#vsm-h .hero .in{position:relative;max-width:1040px;margin:0 auto}
+#vsm-h .hero .kick{color:#8aa6f0;margin-bottom:20px}
+#vsm-h .hero h1{font-size:50px;font-weight:300;letter-spacing:-.03em;margin:0 0 16px;line-height:1.07;max-width:34ch}
+#vsm-h .hero p{font-size:18px;color:rgba(255,255,255,.78);margin:0;max-width:60ch;line-height:1.55}
+#vsm-h .hero .meta{display:flex;align-items:center;gap:18px;margin-top:30px;font-size:12.5px;font-weight:600;letter-spacing:.02em;color:#9fb4e8;flex-wrap:wrap}
+#vsm-h .hero .meta span+span{display:flex;align-items:center;gap:18px}
+#vsm-h .hero .meta span+span::before{content:"";width:4px;height:4px;border-radius:50%;background:#4181ff}
+
+/* Wingmate ask bar in hero */
+#vsm-h .wm-ask{margin-top:30px;display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);border-radius:100px;padding:8px 8px 8px 20px;max-width:620px;backdrop-filter:blur(6px)}
+#vsm-h .wm-ask .wm-spark{font-size:15px}
+#vsm-h .wm-ask input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:#fff;font:inherit;font-size:14.5px}
+#vsm-h .wm-ask input::placeholder{color:rgba(255,255,255,.55)}
+#vsm-h .wm-ask button{flex:none;display:inline-flex;align-items:center;gap:7px;background:#2256e6;color:#fff;border:0;border-radius:100px;padding:10px 18px;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;transition:background .15s}
+#vsm-h .wm-ask button:hover{background:#1844cc}
+#vsm-h .wm-hint{margin-top:11px;font-size:12px;color:rgba(255,255,255,.5)}
+
+/* ─── SECTION HEAD ─── */
+#vsm-h .sec{padding:58px 24px 8px}
+#vsm-h .sec .in{max-width:1088px;margin:0 auto}
+#vsm-h .sec-head{margin-bottom:30px}
+#vsm-h .sec-head h2{font-size:32px;font-weight:300;letter-spacing:-.025em;margin:12px 0 8px;color:#00003d}
+#vsm-h .sec-head p{font-size:15.5px;color:#4A506A;margin:0;line-height:1.6;max-width:66ch}
+#vsm-h .step-flag{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#2256e6;background:#eef3fd;border:1px solid #d6e3fb;border-radius:100px;padding:5px 13px;margin-bottom:4px}
+
+/* ─── STREAM TABS ─── */
+#vsm-h .tabs{display:flex;gap:8px;margin:0 0 26px;flex-wrap:wrap}
+#vsm-h .tabs button{font-size:13px;font-weight:600;padding:10px 18px;border-radius:100px;border:1px solid #e1e6f2;color:#3a3f63;background:#fff;cursor:pointer;font-family:inherit;transition:background .15s,color .15s,box-shadow .15s,border-color .15s}
+#vsm-h .tabs button:hover{border-color:#b0bbd8;background:#f4f6fb}
+#vsm-h .tabs button.on{background:#00003d;color:#fff;border-color:#00003d;box-shadow:0 6px 16px -6px rgba(0,0,61,.5)}
+
+/* stream cards */
+#vsm-h .roles{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:stretch}
+#vsm-h[data-fn="mfg"] .roles,#vsm-h[data-fn="tx"] .roles,#vsm-h[data-fn="eng"] .roles{grid-template-columns:1fr}
+#vsm-h .role{border:1px solid #e7ebf4;border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 1px 2px rgba(11,26,64,.05),0 18px 40px -26px rgba(11,26,64,.22);display:flex;flex-direction:column;transition:box-shadow .18s,transform .16s,border-color .18s}
+#vsm-h .role:hover{box-shadow:0 14px 34px -16px rgba(11,26,64,.34);transform:translateY(-2px)}
+#vsm-h .role.dim{display:none}
+#vsm-h[data-fn] .role .role-wide{display:none}
+#vsm-h[data-fn="mfg"] .role.mfg .role-wide,#vsm-h[data-fn="tx"] .role.tx .role-wide,#vsm-h[data-fn="eng"] .role.eng .role-wide{display:grid}
+#vsm-h .role h3{margin:0;font-size:17px;font-weight:600;letter-spacing:.01em;color:#fff;padding:18px 22px}
+#vsm-h .role.mfg h3{background:linear-gradient(180deg,#3061c2,#244ea6)}
+#vsm-h .role.tx h3{background:linear-gradient(180deg,#3061c2,#244ea6)}
+#vsm-h .role.eng h3{background:linear-gradient(180deg,#5b7fd6,#4a6bc0)}
+#vsm-h .role .body{padding:20px 22px 22px;display:flex;flex-direction:column;flex:1}
+#vsm-h .persona-role{font-size:12.5px;font-weight:600;color:#2d3a6b;background:#f4f7fd;border:1px solid #e7ebf4;border-radius:8px;padding:10px 12px;margin-bottom:16px;line-height:1.4;display:flex;align-items:center;gap:8px;flex-wrap:wrap;min-height:60px}
+#vsm-h .persona-role .fn-tag{font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#2256e6;background:#eef2fd;border-radius:5px;padding:3px 8px;white-space:nowrap}
+#vsm-h .lbl{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#4A506A;margin:16px 0 6px;display:flex;align-items:center;gap:7px}
+#vsm-h .lbl::before{content:"";width:5px;height:5px;background:#16b364;border-radius:50%;flex-shrink:0}
+#vsm-h .lbl:first-child{margin-top:0}
+#vsm-h .ex{font-weight:600;font-size:15px}
+#vsm-h .exs{font-size:12.5px;color:#4A506A;margin-top:2px}
+#vsm-h ul.bul{margin:6px 0 0;padding:0;list-style:none}
+#vsm-h ul.bul li{font-size:13px;color:#44496e;margin-bottom:7px;padding-left:18px;position:relative;line-height:1.45}
+#vsm-h ul.bul li::before{content:"";position:absolute;left:0;top:6px;width:7px;height:7px;border:1.5px solid #4181ff;border-radius:50%}
+
+/* recommended template chip */
+#vsm-h .rec-tpl{margin-top:14px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:12px 14px}
+#vsm-h .rec-tpl .rt-label{font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#16834a;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+#vsm-h .rec-tpl a{display:inline-flex;align-items:center;gap:7px;font-size:13.5px;font-weight:700;color:#13693f;text-decoration:none}
+#vsm-h .rec-tpl a:hover{text-decoration:underline}
+#vsm-h .role .cardfoot{margin-top:auto;padding-top:16px;display:flex;gap:10px;flex-wrap:wrap}
+#vsm-h .walkme{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:#fff;background:#2256e6;border:0;border-radius:100px;padding:10px 18px;cursor:pointer;font-family:inherit;text-decoration:none;transition:background .15s}
+#vsm-h .walkme:hover{background:#1844cc}
+#vsm-h .walkme::after{content:"→"}
+#vsm-h .wm-mini{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:#2256e6;background:#fff;border:1px solid #e1e6f2;border-radius:100px;padding:10px 16px;cursor:pointer;font-family:inherit;transition:border-color .15s}
+#vsm-h .wm-mini:hover{border-color:#4181ff}
+
+/* role-wide expanded detail */
+#vsm-h .role-wide{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid #eef1f8;margin-top:18px;padding-top:0}
+#vsm-h .role-wide .rw-col{padding:20px 0 0;padding-right:26px}
+#vsm-h .role-wide .rw-col+.rw-col{padding-right:0;padding-left:26px;border-left:1px solid #eef1f8}
+#vsm-h .step-list{list-style:none;padding:0;margin:0;counter-reset:steps}
+#vsm-h .step-list li{counter-increment:steps;padding:9px 12px 9px 40px;position:relative;font-size:13px;color:#44496e;line-height:1.5;border-bottom:1px solid #f0f3fa}
+#vsm-h .step-list li:last-child{border-bottom:none}
+#vsm-h .step-list li::before{content:counter(steps);position:absolute;left:8px;top:9px;width:20px;height:20px;background:#eef2fc;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#2256e6}
+
+/* ─── GUIDED PATH (Design B onboarding) ─── */
+#vsm-h .guide{background:#f4f7fd;border-top:1px solid #e7ebf4;border-bottom:1px solid #e7ebf4;margin-top:40px}
+#vsm-h .guide .in{max-width:1088px;margin:0 auto;padding:48px 24px 40px}
+#vsm-h .guide-head{display:flex;align-items:flex-start;justify-content:space-between;gap:28px;flex-wrap:wrap}
+#vsm-h .guide-head .gh-copy{flex:1;min-width:300px}
+#vsm-h .guide-head h2{font-size:30px;font-weight:300;letter-spacing:-.025em;margin:10px 0 8px;color:#00003d}
+#vsm-h .guide-head p{font-size:15px;color:#4A506A;margin:0;line-height:1.6;max-width:60ch}
+#vsm-h .scoped{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:#0b2f8f;background:#eef3fd;border:1px solid #d6e3fb;border-radius:100px;padding:6px 14px;margin-top:14px}
+#vsm-h .scoped b{font-weight:700}
+#vsm-h .three-el{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:18px}
+#vsm-h .three-el .te-lead{font-size:13px;font-weight:600;color:#44496e}
+#vsm-h .three-el .te-chip{font-size:12.5px;font-weight:700;color:#0b2f8f;background:#eef3fd;border:1px solid #d6e3fb;border-radius:100px;padding:5px 14px}
+
+/* progress panel */
+#vsm-h .gprog{background:#00010f;color:#fff;border-radius:14px;padding:20px 22px;min-width:240px;flex:0 0 auto}
+#vsm-h .gprog .gp-label{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#8aa6f0;margin-bottom:12px}
+#vsm-h .gprog .prog-track{height:6px;background:rgba(255,255,255,.15);border-radius:6px;overflow:hidden}
+#vsm-h .gprog .prog-fill{height:100%;width:0;background:linear-gradient(90deg,#4181ff,#16b364);border-radius:6px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+#vsm-h .gprog .prog-count{margin-top:10px;font-size:13px;font-weight:600;color:#cfe0fb}
+#vsm-h .gprog .gp-reset{margin-top:6px;font-size:11.5px;color:rgba(255,255,255,.5);background:none;border:0;cursor:pointer;font-family:inherit;padding:0}
+#vsm-h .gprog .gp-reset:hover{color:#fff}
+
+/* steps */
+#vsm-h .steps{margin-top:34px}
+#vsm-h .step{display:grid;grid-template-columns:74px 1fr;gap:24px;position:relative;margin-bottom:12px}
+#vsm-h .step:not(:last-child)>.step-line{position:absolute;left:36px;top:74px;bottom:-12px;width:2px;background:linear-gradient(#4181ff,#dfe4f2);pointer-events:none}
+#vsm-h .num{width:64px;height:64px;border-radius:50%;border:1.5px solid #4181ff;color:#0b2f8f;font-size:24px;font-weight:300;display:flex;align-items:center;justify-content:center;background:#fff;z-index:1;box-shadow:0 10px 24px -10px rgba(11,47,143,.5);flex-shrink:0;transition:border-color .2s,color .2s}
+#vsm-h .step.complete .num{border-color:#16b364;color:#16b364}
+#vsm-h .step-body{padding-bottom:30px}
+#vsm-h .step-body h3{font-size:22px;font-weight:600;letter-spacing:-.015em;margin:10px 0 6px;color:#00003d}
+#vsm-h .step-card{background:#fff;border:1px solid #e7ebf4;border-radius:14px;padding:22px 24px 18px;box-shadow:0 1px 2px rgba(11,26,64,.05),0 18px 40px -26px rgba(11,26,64,.22);margin-top:4px}
+#vsm-h .step-card .intro{font-size:15px;color:#44496e;margin:0 0 14px;line-height:1.65;max-width:64ch}
+#vsm-h .worked{background:#f4f7fd;border-left:3px solid #4181ff;border-radius:0 8px 8px 0;padding:12px 16px;margin:14px 0 16px;font-size:13.5px;color:#44496e;line-height:1.6}
+#vsm-h .worked strong{display:block;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#2256e6;margin-bottom:4px}
+#vsm-h .meta-row{display:flex;align-items:center;gap:12px;margin:0 0 16px;flex-wrap:wrap}
+#vsm-h .time-badge{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:#4A506A;background:#f4f7fd;border:1px solid #e7ebf4;border-radius:100px;padding:5px 12px}
+#vsm-h .time-badge::before{content:"⏱";font-size:12px}
+#vsm-h .tmpl-badge{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:#2256e6;background:#eef3fd;border:1px solid #d6e3fb;border-radius:100px;padding:5px 12px}
+#vsm-h .tmpl-badge::before{content:"📄";font-size:11px}
+#vsm-h .wm-badge{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:#1844cc;background:#eef3fd;border:1px solid #d6e3fb;border-radius:100px;padding:5px 12px;cursor:pointer;font-family:inherit;transition:background .15s}
+#vsm-h .wm-badge:hover{background:#e3ecff}
+#vsm-h .wm-badge::before{content:"✦";font-size:12px}
+#vsm-h .checklist{list-style:none;margin:0;padding:14px 0 0;border-top:1px solid #eef1f8}
+#vsm-h .checklist li{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid #f2f4fa;cursor:pointer;user-select:none}
+#vsm-h .checklist li:last-child{border-bottom:none}
+#vsm-h .checklist li:hover .cb{border-color:#4181ff}
+#vsm-h .cb{width:18px;height:18px;border:1.5px solid #c4cde0;border-radius:4px;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:background .15s,border-color .15s;background:#fff}
+#vsm-h .checklist li.checked .cb{background:#16b364;border-color:#16b364}
+#vsm-h .checklist li.checked .cb::after{content:"✓";font-size:11px;color:#fff;font-weight:700}
+#vsm-h .checklist li.checked .cl-text{color:#4A506A;text-decoration:line-through;text-decoration-color:#c4cde0}
+#vsm-h .cl-text{font-size:13.5px;color:#44496e;line-height:1.5;padding-top:1px}
+#vsm-h .act{display:inline-flex;align-items:center;gap:9px;font-size:13.5px;font-weight:600;color:#2256e6;background:#fff;border:1px solid #e1e6f2;border-radius:100px;padding:9px 18px;cursor:pointer;text-decoration:none;margin-top:16px;transition:border-color .2s}
+#vsm-h .act:hover{border-color:#4181ff}
+#vsm-h .act::after{content:"→";color:#4181ff}
+
+/* guided collapsed state */
+#vsm-h .guide.collapsed .steps,#vsm-h .guide.collapsed .recap{display:none}
+#vsm-h .guide-toggle{margin-top:24px;font-family:inherit;font-size:13.5px;font-weight:700;color:#fff;background:#2256e6;border:0;border-radius:100px;padding:12px 22px;cursor:pointer;display:inline-flex;align-items:center;gap:9px;transition:background .15s}
+#vsm-h .guide-toggle:hover{background:#1844cc}
+#vsm-h .guide-toggle .gt-caret{font-size:17px;font-weight:300;transition:transform .2s}
+#vsm-h .guide:not(.collapsed) .guide-toggle .gt-caret{transform:rotate(45deg)}
+
+/* recap */
+#vsm-h .recap{margin-top:8px}
+#vsm-h .recap h3{font-size:15px;font-weight:700;color:#00003d;margin:0 0 14px}
+#vsm-h .timeline-recap{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));counter-reset:recap}
+#vsm-h .tr-item{counter-increment:recap;padding:18px 22px;border-left:2px solid #dfe4f2;position:relative;background:#fff;border-top:1px solid #eef1f8;border-bottom:1px solid #eef1f8}
+#vsm-h .tr-item::before{content:counter(recap,"0"counter(recap));font-size:11px;font-weight:700;letter-spacing:.14em;color:#4181ff;display:block;margin-bottom:8px}
+#vsm-h .tr-item strong{display:block;font-size:14px;font-weight:700;color:#00003d;margin-bottom:4px}
+#vsm-h .tr-item span{font-size:12.5px;color:#4A506A;line-height:1.5;display:block}
+#vsm-h .tr-item .t-time{font-size:11px;font-weight:600;color:#16b364;margin-top:6px;display:block}
+
+/* ─── WINGMATE BAND (AI throughout) ─── */
+#vsm-h .wingband{position:relative;color:#fff;padding:60px 24px;background:radial-gradient(120% 150% at 85% -20%,rgba(65,129,255,.22),transparent 55%),linear-gradient(120deg,#00010f,#000a2e 58%,#06173f);overflow:hidden}
+#vsm-h .wingband::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:54px 54px;-webkit-mask-image:radial-gradient(120% 120% at 90% 0,#000,transparent 75%);mask-image:radial-gradient(120% 120% at 90% 0,#000,transparent 75%);opacity:.5}
+#vsm-h .wingband .in{position:relative;max-width:1088px;margin:0 auto}
+#vsm-h .wingband .kick{color:#8aa6f0}
+#vsm-h .wingband .kick::before{background:#16b364}
+#vsm-h .wingband h2{font-size:32px;font-weight:300;letter-spacing:-.025em;margin:12px 0 8px;color:#fff;line-height:1.08}
+#vsm-h .wingband .wb-sub{font-size:16px;color:rgba(255,255,255,.78);margin:0 0 30px;max-width:62ch;line-height:1.6}
+#vsm-h .wb-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+#vsm-h .wb-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:20px 20px 18px;transition:border-color .18s,background .18s,transform .16s}
+#vsm-h .wb-card:hover{border-color:rgba(65,129,255,.55);background:rgba(255,255,255,.09);transform:translateY(-2px)}
+#vsm-h .wb-card .wb-ic{width:38px;height:38px;border-radius:10px;background:rgba(65,129,255,.16);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:14px}
+#vsm-h .wb-card strong{display:block;font-size:14.5px;font-weight:700;color:#fff;margin-bottom:5px;letter-spacing:-.01em}
+#vsm-h .wb-card p{font-size:12.5px;color:rgba(255,255,255,.66);margin:0 0 16px;line-height:1.55}
+#vsm-h .wb-card .wb-when{display:inline-block;margin-top:10px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8aa6f0}
+#vsm-h .wb-launch{display:inline-flex;align-items:center;gap:9px;margin-top:30px;background:#2256e6;color:#fff;font-size:14px;font-weight:700;border:0;border-radius:100px;padding:13px 26px;text-decoration:none;cursor:pointer;font-family:inherit;transition:background .15s,transform .15s}
+#vsm-h .wb-launch:hover{background:#1844cc;transform:translateY(-1px)}
+@media(max-width:880px){#vsm-h .wb-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){#vsm-h .wb-grid{grid-template-columns:1fr}}
+
+/* ─── RECOMMENDED TEMPLATES (reduce decision fatigue) ─── */
+#vsm-h .tpl-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+#vsm-h .tpl-card{border:1px solid #e7ebf4;border-radius:14px;padding:22px 22px 22px;background:#fff;box-shadow:0 1px 2px rgba(11,26,64,.05),0 18px 40px -26px rgba(11,26,64,.22);display:flex;flex-direction:column;gap:11px;position:relative;transition:border-color .18s,box-shadow .18s,transform .16s}
+#vsm-h .tpl-card:hover{border-color:#4181ff;box-shadow:0 12px 30px -14px rgba(34,86,230,.28);transform:translateY(-2px)}
+#vsm-h .tpl-card.rec{border-color:#bbf7d0;box-shadow:0 1px 2px rgba(11,26,64,.05),0 18px 40px -26px rgba(16,131,74,.4)}
+#vsm-h .tpl-card .rec-flag{position:absolute;top:14px;right:14px;font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#16834a;background:#ecfdf5;border:1px solid #bbf7d0;border-radius:100px;padding:4px 10px;display:none}
+#vsm-h .tpl-card.rec .rec-flag{display:inline-block}
+#vsm-h .tpl-card .tpl-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;background:#eef2fd}
+#vsm-h .tpl-card .tpl-tag{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#2256e6;background:#eef2fd;border-radius:6px;padding:4px 10px;width:fit-content}
+#vsm-h .tpl-card h3{font-size:14.5px;font-weight:600;color:#00003d;margin:0;line-height:1.3}
+#vsm-h .tpl-card p{font-size:12.5px;color:#4A506A;margin:0;line-height:1.55;flex:1}
+#vsm-h .tpl-card a.open{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:#2256e6;text-decoration:none;margin-top:4px;padding-top:12px;border-top:1px solid #eef1f8}
+#vsm-h .tpl-card a.open:hover{text-decoration:underline}
+#vsm-h .tpl-foot{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:22px}
+#vsm-h .tpl-foot a{font-size:13.5px;font-weight:600;color:#2256e6;text-decoration:none}
+#vsm-h .tpl-foot a:hover{text-decoration:underline}
+#vsm-h .tpl-foot .tf-note{font-size:12.5px;color:#4A506A}
+@media(max-width:980px){#vsm-h .tpl-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:540px){#vsm-h .tpl-grid,#vsm-h .roles{grid-template-columns:1fr}}
+
+/* ─── ACTION BAND (training video) ─── */
+#vsm-h .action-band{padding:56px 24px 8px}
+#vsm-h .action-band .in{max-width:1088px;margin:0 auto}
+#vsm-h .ab-wrap{background:linear-gradient(135deg,#001266 0%,#082567 55%,#0b3a9e 100%);border-radius:20px;padding:52px 56px;position:relative;overflow:hidden}
+#vsm-h .ab-wrap .kick{color:#7eb8ff}
+#vsm-h .ab-wrap .kick::before{background:#16b364}
+#vsm-h .ab-wrap h2{font-size:28px;font-weight:300;letter-spacing:-.025em;color:#fff;margin:12px 0 6px;line-height:1.1;max-width:38ch}
+#vsm-h .ab-sub{font-size:15px;color:rgba(255,255,255,.82);line-height:1.6;margin:0 0 28px;max-width:60ch}
+#vsm-h .ab-media{width:100%;border-radius:14px;overflow:hidden;box-shadow:0 22px 54px -26px rgba(0,0,0,.65);background:#0a1330;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center}
+#vsm-h .ab-media .ab-placeholder{color:rgba(255,255,255,.28);font-size:14px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;text-align:center;padding:24px}
+
+/* ─── FAQ ─── */
+#vsm-h .faq{padding:54px 24px 8px}
+#vsm-h .faq .in{max-width:1040px;margin:0 auto}
+#vsm-h .faq h2{font-size:30px;font-weight:300;letter-spacing:-.025em;margin:8px 0 28px;color:#00003d}
+#vsm-h .faq-item{border-top:1px solid #e7ebf4;padding:20px 0}
+#vsm-h .faq-item:last-child{border-bottom:1px solid #e7ebf4}
+#vsm-h .faq-q{font-size:15px;font-weight:700;color:#00003d;margin:0;letter-spacing:-.01em;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px}
+#vsm-h .faq-q .faq-icon{font-size:16px;color:#4181ff;transition:transform .2s;flex-shrink:0}
+#vsm-h .faq-item.open .faq-icon{transform:rotate(45deg)}
+#vsm-h .faq-item.open .faq-q{margin-bottom:8px}
+#vsm-h .faq-a{font-size:14.5px;color:#44496e;line-height:1.7;margin:0;max-width:66ch;display:none;padding-top:4px}
+#vsm-h .faq-item.open .faq-a{display:block}
+
+/* ─── FOOTER ─── */
+.fd-footer{background:#00010f;color:#fff;margin-top:48px;font-family:"GE Sans",-apple-system,"Helvetica Neue",Arial,sans-serif}
+.fd-footer .fdf-in{max-width:1280px;margin:0 auto;padding:48px 28px 40px}
+.fd-footer .fdf-top{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-bottom:26px;border-bottom:1px solid rgba(255,255,255,.12)}
+.fd-footer .fdf-brand{display:flex;align-items:center;gap:11px;font-size:15px;font-weight:600;color:#fff}
+.fd-footer .fdf-chip{background:#fff;color:#00010f;font-size:10px;font-weight:800;letter-spacing:.12em;padding:5px 9px;border-radius:4px;border:1px solid #16b364}
+.fd-footer .fdf-cobrand{font-size:13px;font-weight:600;color:rgba(255,255,255,.7);letter-spacing:.02em}
+.fd-footer .fdf-cobrand i{font-style:normal;opacity:.5;margin:0 5px}
+.fd-footer .fdf-cols{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;padding:30px 0}
+.fd-footer .fdf-h{font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#7e8aa8;margin-bottom:12px}
+.fd-footer .fdf-col a{display:block;color:rgba(255,255,255,.78);font-size:13.5px;text-decoration:none;padding:5px 0}
+.fd-footer .fdf-col a:hover{color:#fff}
+.fd-footer .fdf-meta{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:22px;border-top:1px solid rgba(255,255,255,.12);font-size:11.5px;color:rgba(255,255,255,.45)}
+@media(max-width:720px){.fd-footer .fdf-cols{grid-template-columns:1fr 1fr}}
+@media(max-width:440px){.fd-footer .fdf-cols{grid-template-columns:1fr}}
+
+/* ─── WINGMATE DRAWER ─── */
+#vsm-h .wm-drawer{position:fixed;top:0;right:0;bottom:0;width:380px;max-width:92vw;background:#00010f;color:#fff;z-index:120;transform:translateX(100%);transition:transform .28s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;box-shadow:-20px 0 60px -20px rgba(0,0,0,.6)}
+#vsm-h .wm-drawer.open{transform:translateX(0)}
+#vsm-h .wm-drawer .wmd-head{display:flex;align-items:center;gap:10px;padding:20px 22px;border-bottom:1px solid rgba(255,255,255,.1)}
+#vsm-h .wm-drawer .wmd-spark{width:30px;height:30px;border-radius:8px;background:rgba(123,227,173,.18);display:flex;align-items:center;justify-content:center;font-size:15px;color:#7be3ad}
+#vsm-h .wm-drawer .wmd-title{font-size:14px;font-weight:700}
+#vsm-h .wm-drawer .wmd-title small{display:block;font-size:11px;font-weight:500;color:rgba(255,255,255,.5)}
+#vsm-h .wm-drawer .wmd-x{margin-left:auto;background:none;border:0;color:rgba(255,255,255,.6);font-size:20px;cursor:pointer;font-family:inherit}
+#vsm-h .wm-drawer .wmd-x:hover{color:#fff}
+#vsm-h .wm-drawer .wmd-body{flex:1;overflow-y:auto;padding:20px 22px;display:flex;flex-direction:column;gap:14px}
+#vsm-h .wm-msg{font-size:13.5px;line-height:1.55;border-radius:12px;padding:13px 15px;max-width:90%}
+#vsm-h .wm-msg.bot{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);align-self:flex-start;color:rgba(255,255,255,.9)}
+#vsm-h .wm-msg.user{background:#2256e6;align-self:flex-end;color:#fff}
+#vsm-h .wm-msg b{color:#8aa6f0;font-weight:700}
+#vsm-h .wm-sugg{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+#vsm-h .wm-sugg button{text-align:left;font-family:inherit;font-size:12.5px;color:#cfe0fb;background:rgba(65,129,255,.12);border:1px solid rgba(65,129,255,.3);border-radius:10px;padding:10px 13px;cursor:pointer;transition:background .15s}
+#vsm-h .wm-sugg button:hover{background:rgba(65,129,255,.22)}
+#vsm-h .wm-drawer .wmd-foot{padding:16px 18px;border-top:1px solid rgba(255,255,255,.1);display:flex;gap:9px}
+#vsm-h .wm-drawer .wmd-foot input{flex:1;min-width:0;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:100px;padding:11px 16px;color:#fff;font:inherit;font-size:13.5px;outline:0}
+#vsm-h .wm-drawer .wmd-foot input::placeholder{color:rgba(255,255,255,.45)}
+#vsm-h .wm-drawer .wmd-foot button{flex:none;background:#2256e6;color:#fff;border:0;border-radius:100px;width:42px;height:42px;font-size:16px;cursor:pointer}
+#vsm-h .wm-scrim{position:fixed;inset:0;background:rgba(0,1,15,.4);z-index:119;opacity:0;pointer-events:none;transition:opacity .28s}
+#vsm-h .wm-scrim.open{opacity:1;pointer-events:auto}
+
+@media(max-width:760px){
+  #vsm-h .hero h1{font-size:38px}
+  #vsm-h .guide-head{flex-direction:column}
+  #vsm-h .role-wide{grid-template-columns:1fr}
+  #vsm-h .role-wide .rw-col+.rw-col{padding-left:0;border-left:0;border-top:1px solid #eef1f8;padding-top:18px}
+}
+</style><script src="/gate.js"></script></head><body>
+<div class="suite"><div class="wrap suite-in">
+  <span class="waffle"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+  <span class="org"><span class="monogram">GE</span>GE Aerospace</span>
+  <span class="sp">SharePoint</span>
+  <input placeholder="Search this site">
+  <span class="icons"><span>&#9881;</span><span class="acct"><span class="av">A</span><span class="nm">Aero</span></span></span>
+</div></div>
+<div class="sprail"><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg></span><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h8l4 4v14H7z"/><path d="M15 3v4h4"/></svg></span><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="15" rx="1.5"/><path d="M3.5 9.5h17M9 9.5v10"/></svg></span><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a1.8 1.8 0 0 1 1.8-1.8H9l2 2h7.2A1.8 1.8 0 0 1 21 9v8.2A1.8 1.8 0 0 1 19.2 19H4.8A1.8 1.8 0 0 1 3 17.2z"/></svg></span><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span></div>
+
+<header class="site">
+  <div class="wrap site-bar">
+    <div class="site-mark"><span class="chip">FLIGHT DECK</span><a href="index.html">FLIGHT DECK Activation Hub</a></div>
+    <nav class="primary">
+      <div><a class="top" href="/concept-quickstart.html">Home</a></div>
+      <div>
+        <a class="top active" href="index.html#fundamentals">Fundamentals<span class="caret">&#9662;</span></a>
+        <div class="menu">
+          <a href="standard-work.html">Standard Work</a>
+          <a href="action-planning.html">Action Planning</a>
+          <a href="daily-visual-management.html">Daily and Visual Management</a>
+          <a href="value-stream-management.html">Value Stream Management</a>
+          <a href="operating-cadences.html">Operating Cadences</a>
+          <a href="problem-solving.html">Problem Solving</a>
+          <a href="5s.html">5S</a>
+          <a href="flow-pull.html">Flow/Pull</a>
+        </div>
+      </div>
+      <div><a class="top" href="behaviors.html">Behaviors<span class="caret">&#9662;</span></a><div class="menu"><a href="/deliverables/respect-for-people/respect-for-people-concept.1.html">Respect for People</a><a href="/deliverables/customer-driven/customer-driven-concept.1.html">Customer Driven</a><a href="/deliverables/continuous-improvement/continuous-improvement-concept.1.html">Continuous Improvement</a></div></div>
+      <div><a class="top" href="sw-templates.html">Templates</a></div>
+      <div><a class="top" href="video-library.html">Video Library</a></div>
+      <div><a class="top" href="/deliverables/standard-work/prompt-library.html">Prompt Library</a></div>
+      <div>
+        <a class="top" href="#">Additional Tools<span class="caret">&#9662;</span></a>
+        <div class="menu">
+          <a href="/tools/index.html">FLIGHT DECK Tool Library</a>
+          <a href="leader-portal.html">FLIGHT DECK Leader Portal</a>
+          <a href="miro.html">FLIGHT DECK on Miro</a>
+          <a href="/programs/index.html">FLIGHT DECK Programs</a>
+          <a href="faq.html">FAQ</a>
+        </div>
+      </div>
+      <div><a class="top" href="https://aifactory-aiwingmate.av.ge.com/?profile=FLIGHTDECK" target="_blank" rel="noopener">FLIGHT DECK Wingmate<span class="caret">&#9662;</span></a></div>
+      
+    </nav>
+    <span class="badge-sensitive">Sensitive &#8964;</span>
+  </div>
+</header>
+
+
+<div id="vsm-h" data-fn="all">
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero">
+    <div class="in">
+      <div class="kick">Flight Deck Fundamental · Value Stream Management</div>
+      <h1>See the whole<br>flow of value.</h1>
+      <p>Experienced teams jump to their stream type and map what matters. New teams get a guided first map in four moves. Wingmate spots the waste and drafts the future state.</p>
+      <div class="meta"><span>Three stream types</span><span>Four mapping moves</span><span>Wingmate throughout</span></div>
+      <div class="wm-ask">
+        <span class="wm-spark">✦</span>
+        <input id="wm-hero-input" placeholder="Ask Wingmate: map the value stream for my line" onkeydown="if(event.key==='Enter')hWingAsk(this.value)">
+        <button onclick="hWingAsk(document.getElementById('wm-hero-input').value)">Ask Wingmate</button>
+      </div>
+      <div class="wm-hint">Wingmate can recommend a stream type, draft a current-state map, or identify the biggest waste in your flow.</div>
+    </div>
+  </section>
+
+  <!-- ═══ START HERE · STREAM SWITCHER ═══ -->
+  <section class="sec" id="start-here">
+    <div class="in">
+      <div class="sec-head">
+        <div class="step-flag">Navigation first</div>
+        <h2>Start with your stream type.</h2>
+        <p>Pick the stream that matches your work. Every example, template, and worked scenario then speaks your flow, not a generic factory. Choose one to see the full detail, or compare all three side by side.</p>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="Stream type view">
+        <button class="on" data-fn="all" onclick="hSetFn('all')">Side by side</button>
+        <button data-fn="mfg" onclick="hSetFn('mfg')">Manufacturing</button>
+        <button data-fn="tx" onclick="hSetFn('tx')">Transactional</button>
+        <button data-fn="eng" onclick="hSetFn('eng')">Engineering</button>
+      </div>
+
+      <div class="roles">
+        <!-- MANUFACTURING STREAM -->
+        <div class="role mfg" data-role="mfg">
+          <h3>A production value stream.</h3>
+          <div class="body">
+            <div class="persona-role">For flow from raw material to finished product <span class="fn-tag">Manufacturing</span></div>
+            <div class="lbl">Recommended template</div>
+            <div class="ex">Manufacturing VSM</div>
+            <div class="exs">Door-to-door production flow</div>
+            <div class="lbl">What good looks like</div>
+            <ul class="bul">
+              <li>Every step timed, inventory and lead time visible</li>
+              <li>The bottleneck is obvious and named</li>
+              <li>Value-add time vs. total lead time is measured</li>
+            </ul>
+            <div class="rec-tpl">
+              <div class="rt-label">✦ Recommended template</div>
+              <a href="vsm-template-detail.html?t=Manufacturing+VSM&fn=mfg" target="_blank" rel="noopener">Manufacturing VSM →</a>
+            </div>
+            <div class="role-wide">
+              <div class="rw-col">
+                <div class="lbl">How to map it</div>
+                <ol class="step-list">
+                  <li>Walk the flow door to door. Start at shipping and work back to raw material.</li>
+                  <li>Record every process step, cycle time, changeover, and uptime.</li>
+                  <li>Capture inventory counts and lead times between every step.</li>
+                  <li>Draw the information flow: what triggers each step and who sends the signal.</li>
+                  <li>Calculate total lead time and value-add time. The gap is your opportunity.</li>
+                </ol>
+              </div>
+              <div class="rw-col">
+                <div class="lbl">Worked example</div>
+                <div class="ex">Turbine blade line · Lynn, MA</div>
+                <div class="exs" style="margin-top:6px;line-height:1.55">A six-step blade line maps door to door and finds the grind cell is the constraint. Total lead time is 14 days. Value-add time is 38 minutes. The grind queue holds 4 days of inventory. The map makes the target obvious: cut grind queue first.</div>
+                <div class="lbl">Who owns it</div>
+                <div class="exs" style="line-height:1.55">Value stream manager or the site lean leader. Not a project manager in a conference room: the map is drawn on the floor by the people who run the flow.</div>
+              </div>
+            </div>
+            <div class="cardfoot">
+              <button class="walkme" onclick="hWalkMe('mfg')">Walk me through it</button>
+              <button class="wm-mini" onclick="hWingScope('mfg')">✦ Ask Wingmate</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- TRANSACTIONAL STREAM -->
+        <div class="role tx" data-role="tx">
+          <h3>An office or service value stream.</h3>
+          <div class="body">
+            <div class="persona-role">For information flows like quoting, closing, or onboarding <span class="fn-tag">Transactional</span></div>
+            <div class="lbl">Recommended template</div>
+            <div class="ex">Transactional VSM</div>
+            <div class="exs">Office and information flow</div>
+            <div class="lbl">What good looks like</div>
+            <ul class="bul">
+              <li>Hand-offs and wait time shown between every step</li>
+              <li>Rework loops named and measured</li>
+              <li>The slow step is clear and owned</li>
+            </ul>
+            <div class="rec-tpl">
+              <div class="rt-label">✦ Recommended template</div>
+              <a href="vsm-template-detail.html?t=Transactional+VSM&fn=tx" target="_blank" rel="noopener">Transactional VSM →</a>
+            </div>
+            <div class="role-wide">
+              <div class="rw-col">
+                <div class="lbl">How to map it</div>
+                <ol class="step-list">
+                  <li>Define the trigger event and the output that ends the stream.</li>
+                  <li>Walk the process with the people who run it. Follow one request end to end.</li>
+                  <li>Record each step, its owner, and the time to complete vs. the wait before it starts.</li>
+                  <li>Identify rework loops: where does work come back, and why?</li>
+                  <li>Calculate percent value-add. Most transactional streams are under 20%.</li>
+                </ol>
+              </div>
+              <div class="rw-col">
+                <div class="lbl">Worked example</div>
+                <div class="ex">Quote-to-cash stream · Services</div>
+                <div class="exs" style="margin-top:6px;line-height:1.55">A quote-to-cash stream maps 11 steps across Sales, Contracts, Finance, and Ops. Total lead time is 14 days. Value-add time is 6 hours. Nine of those 14 days are waiting, mostly in Contracts review. The map makes the constraint visible in one page.</div>
+                <div class="lbl">Who owns it</div>
+                <div class="exs" style="line-height:1.55">The process owner for the stream, not the functional leader of each silo. For quote-to-cash, the Commercial Operations director.</div>
+              </div>
+            </div>
+            <div class="cardfoot">
+              <button class="walkme" onclick="hWalkMe('tx')">Walk me through it</button>
+              <button class="wm-mini" onclick="hWingScope('tx')">✦ Ask Wingmate</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ENGINEERING STREAM -->
+        <div class="role eng" data-role="eng">
+          <h3>A design or development value stream.</h3>
+          <div class="body">
+            <div class="persona-role">For engineering flows from request to released design <span class="fn-tag">Engineering</span></div>
+            <div class="lbl">Recommended template</div>
+            <div class="ex">Engineering VSM</div>
+            <div class="exs">Design request to released drawing</div>
+            <div class="lbl">What good looks like</div>
+            <ul class="bul">
+              <li>Gates and reviews mapped with queue time at each</li>
+              <li>Rework driver identified and measured</li>
+              <li>Redundant approvals surfaced and named</li>
+            </ul>
+            <div class="rec-tpl">
+              <div class="rt-label">✦ Recommended template</div>
+              <a href="vsm-template-detail.html?t=Engineering+VSM&fn=eng" target="_blank" rel="noopener">Engineering VSM →</a>
+            </div>
+            <div class="role-wide">
+              <div class="rw-col">
+                <div class="lbl">How to map it</div>
+                <ol class="step-list">
+                  <li>Define the trigger (design request) and the exit (released drawing or approved design).</li>
+                  <li>Map every step: analysis, design, review gate, revision, approval, release.</li>
+                  <li>Capture time at each gate: active work time and queue time waiting for review.</li>
+                  <li>Trace where designs come back: which reviews drive the most rework loops?</li>
+                  <li>Count approvals. Two engineers signing off on the same checkpoint is a redundancy signal.</li>
+                </ol>
+              </div>
+              <div class="rw-col">
+                <div class="lbl">Worked example</div>
+                <div class="ex">Design release stream · GE9X parts</div>
+                <div class="exs" style="margin-top:6px;line-height:1.55">A design release stream maps from change request to released drawing across eight steps. Total lead time is 22 days. Active design time is 4 days. The map surfaces two redundant approval steps adding 6 days of queue. Removing them cuts cycle time by 27% without touching the actual engineering work.</div>
+                <div class="lbl">Who owns it</div>
+                <div class="exs" style="line-height:1.55">Chief engineer or design systems lead for the product. The people who control the gate sequence own the map.</div>
+              </div>
+            </div>
+            <div class="cardfoot">
+              <button class="walkme" onclick="hWalkMe('eng')">Walk me through it</button>
+              <button class="wm-mini" onclick="hWingScope('eng')">✦ Ask Wingmate</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ GUIDED PATH ═══ -->
+  <div class="guide collapsed" id="guide">
+    <div class="in">
+      <div class="guide-head">
+        <div class="gh-copy">
+          <div class="step-flag">Guidance when needed</div>
+          <h2>Map your value stream in four moves.</h2>
+          <p>Four moves take you from a blank page to a working current-state map and a clear future-state target. Each move has a short action, a worked example, the template it points to, and a small checklist. Check items off as you go.</p>
+          <div class="scoped" id="scoped">Scoped to <b id="scoped-fn">all stream types</b>. Pick a stream above to tailor every example.</div>
+          <div class="three-el">
+            <span class="te-lead">Every VSM reveals three things:</span>
+            <span class="te-chip">Where value is created</span>
+            <span class="te-chip">Where time is lost</span>
+            <span class="te-chip">What to fix first</span>
+          </div>
+          <button class="guide-toggle" id="guide-toggle" onclick="hToggleGuide()"><span id="gt-label">Show the four moves</span><span class="gt-caret">+</span></button>
+        </div>
+        <div class="gprog">
+          <div class="gp-label">Your progress</div>
+          <div class="prog-track"><div class="prog-fill" id="prog-fill"></div></div>
+          <div class="prog-count" id="prog-count">0 of 12 tasks complete</div>
+          <button class="gp-reset" onclick="hResetProgress()">Reset</button>
+        </div>
+      </div>
+
+      <div class="steps" id="steps">
+        <!-- STEP 1 -->
+        <div class="step" id="step-1">
+          <div class="step-line"></div>
+          <div class="num">01</div>
+          <div class="step-body">
+            <h3>Map the current state</h3>
+            <div class="step-card">
+              <p class="intro">Walk the flow and record every step, the time it takes, and the inventory or work in queue between steps. Do not map what should happen. Map what actually happens today, including the detours, waits, and rework loops.</p>
+              <div class="worked"><strong>Worked example</strong><span class="ex-text" data-ex="1">A manufacturing team walks the turbine blade line door to door. They record six process steps, cycle times ranging from 4 to 38 minutes, and inventory queues between each step. The grind cell has 4 days of inventory in front of it. Total lead time: 14 days. Value-add time: 38 minutes. That ratio is the opening finding.</span></div>
+              <div class="meta-row">
+                <span class="time-badge">10 minutes</span>
+                <span class="tmpl-badge rec-badge" data-tpl="1">Current-State Map</span>
+                <button class="wm-badge" onclick="hWingStep(1)">Draft this with Wingmate</button>
+              </div>
+              <ul class="checklist" data-step="1">
+                <li onclick="hCheck(this)"><span class="cb"></span><span class="cl-text">Walk or trace the flow end to end before drawing anything</span></li>
+                <li onclick="hCheck(this)"><span class="cb"></span><span class="cl-text">Record cycle time, wait time, and queue size at every step</span></li>
+                <li onclick="hCheck(this)"><span class="cb"></span><span class="cl-text">Calculate total lead time and total value-add time. Note the ratio.</span></li>
+              </ul>
+              <a href="vsm-templates.html" class="act">Open the Current-State Map Template</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="step" id="step-2">
+          <div class="step-line"></div>
+          <div class="num">02</div>
+          <div class="step-body">
+            <h3>Find the waste</h3>
+            <div class="step-card">
+              <p class="intro">With the current-state map drawn, mark every step that adds no value from the customer's perspective. Look specifically for wait time between steps, rework loops, overproduction (more than the next step needs), and unnecessary hand-offs. Then find the constraint: the one step that limits the whole stream.</p>
+              <div class="worked"><strong>Worked example</strong><span class="ex-text" data-ex="2">The blade team marks the grind queue (4 days), a quality rework loop that returns 12% of parts to grinding, and a batch scheduling trigger that creates unnecessary overproduction at the forge step. The constraint is grind: it runs at 94% utilization while every other step runs under 60%. All three waste items point to the same bottleneck.</span></div>
+              <div class="meta-row">
+                <span class="time-badge">8 minutes</span>
+                <span class="tmpl-badge rec-badge" data-tpl="2">Waste Walk</span>
+                <button class="wm-badge" onclick="hWingStep(2)">Spot the waste with Wingmate</button>
+              </div>
+              <ul class="checklist" data-step="2">
+                <li onclick="hCheck(this)"><span class="cb"></span><span class="cl-text">Mark every wait and queue on the map with a waste burst symbol</span></li>
+                <li onclick="hCheck(this)"><span class="cb"></span><span class="cl-text">Identify rework loops and trace them to their source step</span></li>
+                <li onclick="hCheck(this)"><span class="cb"></span><span class="cl-text">Name the constraint: the one step that, if improved, most improves the whole stream</span></li>
+              </ul>
+              <a href="vsm-templates.html" class="act">Open the Waste Walk Template</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="step" id="step-3">
+          <div class="step-line"></div>
+          <div class="num">03</div>
+          <div class="step-body">
+            <h3>Design the future state</h3>
+            <div class="step-card">
+              <p class="intro">Draw the flow you want, removing the biggest waste first. Do not try to eliminate everything at once. A future state that attacks the constraint and removes the largest single waste is better than an ambitious redesign that never gets implemented. The future state is a target, not a wish list.</p>
+              <div class="worked"><strong>Worked example</strong><span class="ex-text" data-ex="3">The blade team draws a future state that: adds one additional grind shift to relieve the constraint, replaces batch scheduling at forge with a pull signal tied to grind completion, and adds an in-process quality check before the grind step to cut the 12% rework rate. Projected lead time drops from 14 days to 6 days. Value-add percentage climbs from 0.2% to 0.6%. Still low, but the constraint is addressed and the improvement is implementable in 90 days.</span></div>
+              <div class="meta-row">
+                <span class="time-badge">8 minutes</span>
+                <span class="tmpl-badge rec-badge" data-tpl="3">Future-State Map</span>
+                <button class="wm-badge" onclick="hWingStep(3)">Coach the future state with Wingmate</button>
+              </div>
+              <ul class="checklist" data-step="3">
+                <li onclick="hCheck(this)"><span class="cb"></span><span class="cl-text">Draw the future state targeting the constraint first, not every waste at once</span></li>
+                <li onclick="hCheck(this)"><span class="cb"></span><span class="cl-text">Set a target lead time and target value-add percentage for the future state</span></li>
+                <li onclick="hCheck(this)"><span class="cb"></span><span class="cl-text">Confirm the future state is achievable in 60 to 90 days, not a 3-year vision</span></li>
+              </ul>
+              <a href="vsm-templates.html" class="act">Open the Future-State Map Template</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 4 -->
+        <div class="step" id="step-4">
+          <div class="num">04</div>
+          <div class="step-body">
+            <h3>Plan and manage to it</h3>
+            <div class="step-card">
+              <p class="intro">Break the future state into owned, dated improvements and review them on a cadence. The map without a plan is a decoration. Each gap between current and future state becomes a kaizen burst: a named owner, a target date, and a measurable result. Review progress monthly at minimum.</p>
+              <div class="worked"><strong>Worked example</strong><span class="ex-text" data-ex="4">The blade team creates three kaizen bursts from the future state: (1) Add grind shift, owner: site operations manager, target: 30 days; (2) Implement pull signal at forge, owner: production control lead, target: 45 days; (3) Add in-process quality gate, owner: quality engineer, target: 60 days. The value-stream manager reviews status at the monthly operating review and posts the current-vs-future map on the tier board so the whole team sees where it stands.</span></div>
+              <div class="meta-row">
+                <span class="time-badge">5 minutes</span>
+                <span class="tmpl-badge rec-badge" data-tpl="4">VSM Action Plan</span>
+                <button class="wm-badge" onclick="hWingStep(4)">Draft the action plan with Wingmate</button>
+              </div>
+              <ul class="checklist" data-step="4">
+                <li onclick="hCheck(this)"><span class="cb"></span><span class="cl-text">Convert every gap into a kaizen burst with a named owner and target date</span></li>
+                <li onclick="hCheck(this)"><span class="cb"></span><span class="cl-text">Schedule a monthly review of the action plan against the future state</span></li>
+                <li onclick="hCheck(this)"><span class="cb"></span><span class="cl-text">Post the current-vs-future map where the team can see progress daily</span></li>
+              </ul>
+              <a href="vsm-templates.html" class="act">Open the VSM Action Plan Template</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="recap">
+          <h3>What you just did, in about 31 minutes</h3>
+          <div class="timeline-recap">
+            <div class="tr-item"><strong>Map the current state</strong><span>Walked the flow and recorded time, queues, and the ratio</span><span class="t-time">10 min</span></div>
+            <div class="tr-item"><strong>Find the waste</strong><span>Marked waits, rework loops, and named the constraint</span><span class="t-time">8 min</span></div>
+            <div class="tr-item"><strong>Design the future state</strong><span>Drew the target flow attacking the constraint first</span><span class="t-time">8 min</span></div>
+            <div class="tr-item"><strong>Plan and manage to it</strong><span>Named owners, set dates, scheduled a review cadence</span><span class="t-time">5 min</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ WINGMATE BAND ═══ -->
+  <section class="wingband">
+    <div class="in">
+      <div class="kick">FLIGHT DECK Wingmate</div>
+      <h2>The assistant runs alongside every step.</h2>
+      <p class="wb-sub">Wingmate is already in Flight Deck. Here it does the heavy lifting on value stream mapping so you spend your time on the judgment, not the formatting.</p>
+      <div class="wb-grid">
+        <div class="wb-card"><div class="wb-ic">✦</div><strong>Recommends the stream type and scope</strong><p>Describe your work and Wingmate identifies which stream type fits and where to draw the boundaries.</p><span class="wb-when">At navigation</span></div>
+        <div class="wb-card"><div class="wb-ic">🗺</div><strong>Drafts the current-state map</strong><p>Tell Wingmate the steps you walked and it structures them into a first current-state map you can refine.</p><span class="wb-when">At move 1</span></div>
+        <div class="wb-card"><div class="wb-ic">🔍</div><strong>Spots the biggest waste</strong><p>Paste your current-state data and Wingmate identifies the constraint, the largest queue, and the rework driver.</p><span class="wb-when">At move 2</span></div>
+        <div class="wb-card"><div class="wb-ic">🎯</div><strong>Coaches the future-state design</strong><p>Wingmate stress-tests the future state: is it achievable in 90 days, does it address the right constraint, is the target realistic?</p><span class="wb-when">At move 3 and 4</span></div>
+      </div>
+      <button class="wb-launch" onclick="hWingOpen()">✦ Open Wingmate</button>
+    </div>
+  </section>
+
+  <!-- ═══ RECOMMENDED TEMPLATES ═══ -->
+  <section class="sec" id="templates">
+    <div class="in">
+      <div class="sec-head">
+        <div class="step-flag">Fewer choices, better fit</div>
+        <h2>The templates we recommend.</h2>
+        <p>Four templates cover the core mapping work. The one marked for you matches the stream type selected above. Need the full library? One click away.</p>
+      </div>
+      <div class="tpl-grid">
+        <div class="tpl-card" data-tpl-fn="mfg">
+          <span class="rec-flag">✦ Recommended for you</span>
+          <div class="tpl-icon">&#9881;</div>
+          <div class="tpl-tag">Manufacturing</div>
+          <h3>Manufacturing VSM</h3>
+          <p>Door-to-door production flow: process steps, cycle times, inventory, information flow, and lead time timeline on one page.</p>
+          <a class="open" href="vsm-template-detail.html?t=Manufacturing+VSM&fn=mfg" target="_blank" rel="noopener">Open template →</a>
+        </div>
+        <div class="tpl-card" data-tpl-fn="tx">
+          <span class="rec-flag">✦ Recommended for you</span>
+          <div class="tpl-icon">&#128203;</div>
+          <div class="tpl-tag">Transactional</div>
+          <h3>Transactional VSM</h3>
+          <p>Office and service flows: step owner, process time, wait time, hand-offs, rework loops, and value-add percentage.</p>
+          <a class="open" href="vsm-template-detail.html?t=Transactional+VSM&fn=tx" target="_blank" rel="noopener">Open template →</a>
+        </div>
+        <div class="tpl-card" data-tpl-fn="eng">
+          <span class="rec-flag">✦ Recommended for you</span>
+          <div class="tpl-icon">&#128736;</div>
+          <div class="tpl-tag">Engineering</div>
+          <h3>Engineering VSM</h3>
+          <p>Design flows: gates, queue time, active work time, rework sources, redundant approvals, and cycle time from request to release.</p>
+          <a class="open" href="vsm-template-detail.html?t=Engineering+VSM&fn=eng" target="_blank" rel="noopener">Open template →</a>
+        </div>
+        <div class="tpl-card" data-tpl-fn="mfg">
+          <span class="rec-flag">✦ Recommended for you</span>
+          <div class="tpl-icon">&#128200;</div>
+          <div class="tpl-tag">Action Planning</div>
+          <h3>VSM Action Plan</h3>
+          <p>Kaizen bursts to owned actions: owner, target date, measurable result, and review cadence for each gap between current and future state.</p>
+          <a class="open" href="vsm-template-detail.html?t=VSM+Action+Plan" target="_blank" rel="noopener">Open template →</a>
+        </div>
+      </div>
+      <div class="tpl-foot">
+        <a href="vsm-templates.html">Open the full template library →</a>
+        <span class="tf-note">All VSM templates, organized by stream type and mapping stage.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ ACTION BAND (training video) ═══ -->
+  <section class="action-band">
+    <div class="in">
+      <div class="ab-wrap">
+        <div class="kick">See it in action</div>
+        <h2>Value stream mapping on the floor and in the office.</h2>
+        <p class="ab-sub">A walkthrough of the three VSM templates, then a field example where a team maps a real stream, finds the constraint, and draws a 90-day future state.</p>
+        <div class="ab-media">
+          <div class="ab-placeholder">Training video · Value Stream Management in Action</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FAQ ═══ -->
+  <section class="faq">
+    <div class="in">
+      <div class="kick">FAQ</div>
+      <h2>Common questions</h2>
+      <div class="faq-item">
+        <div class="faq-q" onclick="hToggleFaq(this)">What is the difference between value-add and non-value-add time? <span class="faq-icon">+</span></div>
+        <p class="faq-a">Value-add time is any step the customer would pay for if they knew about it: forming a part, writing a design, completing an analysis. Non-value-add time is everything else: waiting in a queue, being batched, moving between buildings, sitting in an inbox. Most processes are under 10% value-add when mapped honestly. That number is not a failure; it is the opportunity. The goal of VSM is to make the ratio visible so you know where to improve.</p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="hToggleFaq(this)">How detailed should the map be? <span class="faq-icon">+</span></div>
+        <p class="faq-a">Detailed enough to see the constraint and the largest waste. A value stream map is not a process map of every micro-step. It operates at the level of major process boxes, not individual tasks within a step. If you find yourself drawing twenty boxes for a single manufacturing cell, you have gone too deep. A first map should fit on one large sheet of paper and take one focused session to draw. Go deeper only if the analysis requires it.</p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="hToggleFaq(this)">Current state or future state first? <span class="faq-icon">+</span></div>
+        <p class="faq-a">Current state first, always. A future state drawn without a current-state map is a solution looking for a problem. You cannot know what to fix until you see what is actually happening. Walk the flow, draw it as it runs today, quantify the waste, name the constraint, and only then draw the future state. Teams that skip the current state tend to improve the wrong step or set targets with no basis in the data.</p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="hToggleFaq(this)">Who should be in the mapping session? <span class="faq-icon">+</span></div>
+        <p class="faq-a">The people who run the flow, not the people who manage it. A mapping session with only managers produces a map of what managers think happens. You need the operator who runs the grind cell, the analyst who processes the contract, the engineer who owns the review gate. Aim for a small cross-functional group (four to eight people) who collectively touch every step. Managers set the scope and attend the out-brief; the people who do the work draw the map.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ WINGMATE DRAWER ═══ -->
+  <div class="wm-scrim" id="wm-scrim" onclick="hWingClose()"></div>
+  <aside class="wm-drawer" id="wm-drawer" aria-hidden="true">
+    <div class="wmd-head">
+      <span class="wmd-spark">✦</span>
+      <div class="wmd-title">FLIGHT DECK Wingmate<small>Value Stream Management assistant</small></div>
+      <button class="wmd-x" onclick="hWingClose()">&times;</button>
+    </div>
+    <div class="wmd-body" id="wm-body">
+      <div class="wm-msg bot">Hi. I can help you map a value stream, spot the waste, or draft a future state. Tell me about your flow, or pick one below.</div>
+      <div class="wm-sugg">
+        <button onclick="hWingAsk('Recommend a stream type and mapping scope for my work')">Recommend a stream type and scope for my work</button>
+        <button onclick="hWingAsk('Draft a current-state map from my description')">Draft a current-state map from my description</button>
+        <button onclick="hWingAsk('Help me identify the biggest waste in my stream')">Help me identify the biggest waste in my stream</button>
+      </div>
+    </div>
+    <div class="wmd-foot">
+      <input id="wm-drawer-input" placeholder="Ask Wingmate…" onkeydown="if(event.key==='Enter')hWingAsk(this.value)">
+      <button onclick="hWingAsk(document.getElementById('wm-drawer-input').value)">→</button>
+    </div>
+  </aside>
+
+</div><!-- /#vsm-h -->
+
+<footer class="fd-footer">
+  <div class="fdf-in">
+    <div class="fdf-top">
+      <div class="fdf-brand"><span class="fdf-chip">FLIGHT DECK</span>Activation Hub</div>
+      <div class="fdf-cobrand">GE Aerospace</div>
+    </div>
+    <div class="fdf-cols">
+      <div class="fdf-col"><div class="fdf-h">Fundamentals</div><a href="standard-work.html">Standard Work</a><a href="daily-visual-management.html">Daily &amp; Visual Management</a><a href="value-stream-management.html">Value Stream Management</a></div>
+      <div class="fdf-col"><div class="fdf-h">Templates</div><a href="vsm-templates.html">VSM Template Library</a><a href="sw-templates.html">All Templates</a></div>
+      <div class="fdf-col"><div class="fdf-h">Value Stream Management</div><a href="vsm-templates.html">Map Templates</a><a href="training/index.html">VSM in Action</a></div>
+      <div class="fdf-col"><div class="fdf-h">Hub</div><a href="index.html">Hub Home</a><a href="faq.html">FAQ</a></div>
+    </div>
+    <div class="fdf-meta"><span>FLIGHT DECK Activation Hub</span><span>GE Aerospace Proprietary &middot; Sensitive &middot; authorized distribution only</span></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var root = document.getElementById('vsm-h');
+  var TOTAL = 12;
+
+  var FN = {
+    all: {label:'all stream types'},
+    mfg: {
+      label:'Manufacturing',
+      ex1:'A manufacturing team walks the turbine blade line door to door. They record six process steps with cycle times from 4 to 38 minutes and inventory queues at each step. The grind cell has 4 days of inventory ahead of it. Total lead time: 14 days. Value-add time: 38 minutes. That ratio is the opening finding.',
+      ex2:'The blade team marks the grind queue (4 days), a 12% rework loop returning parts to grinding, and batch scheduling at forge creating overproduction. The constraint is grind at 94% utilization while all other steps run under 60%. Every waste points to the same bottleneck.',
+      ex3:'The future state adds one grind shift, replaces batch scheduling at forge with a pull signal tied to grind completion, and adds an in-process quality check before grind to cut rework. Projected lead time: 6 days. Value-add percentage climbs from 0.2% to 0.6%. Implementable in 90 days.',
+      ex4:'Three kaizen bursts: add grind shift (ops manager, 30 days), implement pull signal at forge (production control, 45 days), add in-process quality gate (quality engineer, 60 days). The value-stream manager reviews at the monthly operating review and posts the map on the tier board.',
+      t1:'Current-State Map', t2:'Waste Walk', t3:'Future-State Map', t4:'VSM Action Plan'
+    },
+    tx: {
+      label:'Transactional',
+      ex1:'A commercial operations team traces a single quote request from receipt to contract signature. They find 11 steps across Sales, Contracts, Finance, and Ops. Total lead time: 14 days. Active process time: 6 hours. The map makes the ratio visible: 96% of lead time is not work, it is waiting.',
+      ex2:'The team marks 9 days of wait time split across three hand-offs, a rework loop in Contracts where 30% of quotes return for revision, and a batch review cycle in Finance that delays approvals by 3 days. The Contracts step is the constraint: it has the longest queue and the highest rework rate.',
+      ex3:'The future state eliminates one Finance batch review cycle by allowing approvals under $500K to route directly, reduces the Contracts rework loop by adding a completeness checklist at Sales before submission, and sets a 48-hour SLA for all Contracts reviews. Projected lead time drops from 14 to 5 days.',
+      ex4:'Three kaizen bursts: implement $500K direct approval routing (Finance director, 21 days), add Sales submission checklist (Sales ops, 14 days), set Contracts 48-hour SLA with daily queue visibility (Contracts lead, 30 days). Monthly review at the Commercial Ops staff meeting.',
+      t1:'Current-State Map', t2:'Waste Walk', t3:'Future-State Map', t4:'VSM Action Plan'
+    },
+    eng: {
+      label:'Engineering',
+      ex1:'A design team traces a change request through the GE9X part design release process. Eight steps from change request to released drawing. Total lead time: 22 days. Active design time: 4 days. The map reveals that 18 days are queue time sitting in front of review gates, not engineering work.',
+      ex2:'The team identifies two redundant approval steps that both review the same checkpoint (6 days of combined queue), a modeling rework loop driven by late-stage thermal requirements that were not captured at scope (3 iterations on average), and a bottleneck at the Chief Engineer review gate where 40 drawings are waiting.',
+      ex3:'The future state collapses the two redundant approvals into one co-review, moves thermal requirements capture to day 1 of the design brief to eliminate the rework driver, and adds a weekly batch release for drawings below a risk threshold so the Chief Engineer queue stays under 10 items. Projected cycle time: 10 days.',
+      ex4:'Three kaizen bursts: redesign approval sequence to co-review (design systems lead, 30 days), update design brief template to capture thermal requirements upfront (chief engineer, 14 days), implement weekly batch release process (release coordinator, 21 days). Reviewed at monthly engineering ops review.',
+      t1:'Current-State Map', t2:'Waste Walk', t3:'Future-State Map', t4:'VSM Action Plan'
+    }
+  };
+
+  // ── Stream navigation ──
+  window.hSetFn = function(fn){
+    root.setAttribute('data-fn', fn);
+    document.querySelectorAll('#vsm-h .tabs button').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-fn')===fn); });
+    // show/hide stream cards
+    document.querySelectorAll('#vsm-h .role').forEach(function(r){
+      var key = r.getAttribute('data-role');
+      if(fn==='all'){ r.classList.remove('dim'); }
+      else { r.classList.toggle('dim', key!==fn); }
+    });
+    // recommended template flag
+    document.querySelectorAll('#vsm-h .tpl-card').forEach(function(c){
+      c.classList.toggle('rec', fn!=='all' && c.getAttribute('data-tpl-fn')===fn);
+    });
+    // scope the guide
+    var f = FN[fn] || FN.all;
+    var scopedEl = document.getElementById('scoped-fn');
+    if(scopedEl) scopedEl.textContent = f.label;
+    if(fn!=='all'){
+      [1,2,3,4].forEach(function(n){
+        var ex = document.querySelector('#step-'+n+' .ex-text');
+        if(ex && f['ex'+n]) ex.textContent = f['ex'+n];
+        var tb = document.querySelector('#step-'+n+' .rec-badge');
+        if(tb && f['t'+n]) tb.textContent = f['t'+n];
+      });
+    }
+  };
+
+  window.hWalkMe = function(fn){
+    hSetFn(fn);
+    hSetMode('guide');
+    var guide = document.getElementById('guide');
+    if(guide && guide.classList.contains('collapsed')) hToggleGuide();
+    if(guide) guide.scrollIntoView({behavior:'smooth', block:'start'});
+  };
+
+  // ── Mode helpers (null-safe) ──
+  window.hSetMode = function(m){
+    var mn = document.getElementById('mode-nav'); if(mn) mn.classList.toggle('on', m==='nav');
+    var mg = document.getElementById('mode-guide'); if(mg) mg.classList.toggle('on', m==='guide');
+    if(m==='guide'){
+      var guide = document.getElementById('guide');
+      if(guide && guide.classList.contains('collapsed')) hToggleGuide();
+    }
+  };
+  window.hStartGuide = function(){ hSetMode('guide'); var g=document.getElementById('guide'); if(g) g.scrollIntoView({behavior:'smooth',block:'start'}); };
+  window.hScrollTo = function(id){ var el=document.getElementById(id); if(el) el.scrollIntoView({behavior:'smooth',block:'start'}); };
+
+  // ── Guided path ──
+  window.hToggleGuide = function(){
+    var g = document.getElementById('guide');
+    var open = !g.classList.toggle('collapsed');
+    var gtLabel = document.getElementById('gt-label');
+    if(gtLabel) gtLabel.textContent = open ? 'Hide the four moves' : 'Show the four moves';
+  };
+  window.hCheck = function(li){ li.classList.toggle('checked'); hProgress(); };
+  function hProgress(){
+    var done = document.querySelectorAll('#vsm-h .checklist li.checked').length;
+    var pct = Math.round(done/TOTAL*100);
+    var pf = document.getElementById('prog-fill'); if(pf) pf.style.width = pct + '%';
+    var pc = document.getElementById('prog-count'); if(pc) pc.textContent = done + ' of ' + TOTAL + ' tasks complete';
+    [1,2,3,4].forEach(function(n){
+      var items = document.querySelectorAll('#step-'+n+' .checklist li');
+      var ck = Array.prototype.filter.call(items, function(li){ return li.classList.contains('checked'); });
+      var stepEl = document.getElementById('step-'+n);
+      if(stepEl) stepEl.classList.toggle('complete', items.length>0 && ck.length===items.length);
+    });
+  }
+  window.hResetProgress = function(){
+    document.querySelectorAll('#vsm-h .checklist li.checked').forEach(function(li){ li.classList.remove('checked'); });
+    hProgress();
+  };
+  window.hToggleFaq = function(q){
+    var item = q.closest('.faq-item');
+    var was = item.classList.contains('open');
+    document.querySelectorAll('#vsm-h .faq-item.open').forEach(function(i){ i.classList.remove('open'); });
+    if(!was) item.classList.add('open');
+  };
+
+  // ── Wingmate drawer ──
+  function addMsg(text, who){
+    var body = document.getElementById('wm-body');
+    var sugg = body.querySelector('.wm-sugg'); if(sugg) sugg.remove();
+    var d = document.createElement('div');
+    d.className = 'wm-msg ' + (who||'bot');
+    d.innerHTML = text;
+    body.appendChild(d);
+    body.scrollTop = body.scrollHeight;
+  }
+  window.hWingOpen = function(){
+    var drawer = document.getElementById('wm-drawer');
+    var scrim = document.getElementById('wm-scrim');
+    if(drawer){ drawer.classList.add('open'); drawer.setAttribute('aria-hidden','false'); }
+    if(scrim) scrim.classList.add('open');
+  };
+  window.hWingClose = function(){
+    var drawer = document.getElementById('wm-drawer');
+    var scrim = document.getElementById('wm-scrim');
+    if(drawer){ drawer.classList.remove('open'); drawer.setAttribute('aria-hidden','true'); }
+    if(scrim) scrim.classList.remove('open');
+  };
+  window.hWingAsk = function(text){
+    if(!text || !text.trim()) return;
+    hWingOpen();
+    addMsg(text.replace(/</g,'&lt;'), 'user');
+    var fn = root.getAttribute('data-fn');
+    var f = FN[fn] || FN.all;
+    var tpl = fn==='all' ? 'Manufacturing VSM' : (f.t1 || 'Current-State Map');
+    setTimeout(function(){
+      addMsg('For ' + f.label + ', I would start with the <b>' + tpl + '</b>. Want me to draft a current-state map from your description, identify the waste, or help design the future state?', 'bot');
+    }, 280);
+    var hi = document.getElementById('wm-hero-input'); if(hi) hi.value='';
+    var di = document.getElementById('wm-drawer-input'); if(di) di.value='';
+  };
+  window.hWingScope = function(fn){ hSetFn(fn); hWingAsk('Help me map a ' + (FN[fn]||FN.all).label + ' value stream'); };
+  window.hWingStep = function(n){
+    var labels = {1:'help me map the current state', 2:'help me identify the waste and the constraint', 3:'coach me through designing the future state', 4:'draft a VSM action plan from my future state'};
+    hWingAsk('Wingmate, ' + (labels[n]||'help me with this step') + '.');
+  };
+
+  // init
+  hSetFn('all');
+  hProgress();
+})();
+</script>
+<script src="/deliverables/search/search-index.js"></script>
+<script src="/hub/omnibox.js"></script>
+</body></html>

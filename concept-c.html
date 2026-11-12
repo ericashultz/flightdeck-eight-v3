@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Concept C · Maturity · FLIGHTDECK Activation Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* GE Sans, the same faces the live pages load. These four concepts shipped on
+     Geist with a serif display face, so every headline was set in Iowan Old Style
+     while the pages they propose to replace are GE Sans throughout. Donny, 25 Aug. */
+  @font-face{font-family:"GE Sans";font-weight:300;font-style:normal;font-display:swap;src:url("assets/fonts/ge-sans/sons-light.woff2") format("woff2")}@font-face{font-family:"GE Sans";font-weight:400;font-style:normal;font-display:swap;src:url("assets/fonts/ge-sans/sons-regular.woff2") format("woff2")}@font-face{font-family:"GE Sans";font-weight:600;font-style:normal;font-display:swap;src:url("assets/fonts/ge-sans/sons-semibold.woff2") format("woff2")}
+  :root {
+    --bg: #ffffff; --bg-soft: #f6f8fd;
+    --ink: #101828; --ink-soft: #1e2939; --muted: #4A506A; --muted-soft: #99a1af;
+    --line: #e7ebf4; --line-soft: #eef1f8;
+    --accent: #155dfc; --accent-soft: #eff6ff;
+    --sp-bar: #1c2230; --sp-bar-soft: #2a3141;
+    --bttr-gold: #d2a62c;
+    --good: #16b364; --warn: #ca8a04;
+    --font-sans: "GE Sans", "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    --font-display: "GE Sans", "Geist", -apple-system, "Helvetica Neue", Arial, sans-serif;
+    --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, "Menlo", monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { font-family: var(--font-sans); color: var(--ink); background: var(--bg); line-height: 1.5; font-size: 14px; -webkit-font-smoothing: antialiased; }
+
+  .sp-bar { display: grid; grid-template-columns: auto auto 1fr auto; align-items: center; gap: 16px; height: 48px; padding: 0 12px; background: var(--sp-bar); color: #fff; }
+  .sp-bar-left { display: flex; align-items: center; gap: 14px; }
+  .sp-waffle { width: 32px; height: 32px; display: grid; grid-template-columns: repeat(3, 4px); grid-template-rows: repeat(3, 4px); gap: 2px; align-content: center; justify-content: center; cursor: pointer; }
+  .sp-waffle span { width: 4px; height: 4px; background: #e7ebf4; border-radius: 1px; }
+  .sp-org { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 500; }
+  .sp-org .ge-mono { width: 24px; height: 24px; border-radius: 50%; background: #fff; color: #0b1220; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-weight: 700; font-size: 9.5px; }
+  .sp-product { color: rgba(255,255,255,0.85); font-size: 13px; font-weight: 600; padding-left: 14px; border-left: 1px solid rgba(255,255,255,0.15); }
+  .sp-search { max-width: 480px; height: 30px; background: var(--sp-bar-soft); border-radius: 4px; display: flex; align-items: center; gap: 10px; padding: 0 12px; color: rgba(255,255,255,0.7); font-size: 13px; }
+  .sp-bar-right { display: flex; align-items: center; gap: 14px; }
+  .sp-bar-right .iconbtn { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.85); cursor: pointer; }
+  .sp-bar-right .iconbtn:hover { background: rgba(255,255,255,0.08); }
+  .sp-bar-right .avatar { width: 30px; height: 30px; border-radius: 50%; background: var(--accent); color: #fff; font-weight: 600; font-size: 13px; display: flex; align-items: center; justify-content: center; }
+
+  .layout { display: grid; grid-template-columns: 48px 1fr; min-height: calc(100vh - 48px); }
+  .rail { background: var(--bg); border-right: 1px solid var(--line); padding: 12px 0; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .rail .ricon { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; color: var(--muted); border-radius: 4px; cursor: pointer; }
+  .rail .ricon:hover { background: var(--line-soft); color: var(--ink); }
+  .rail .ricon.active { color: var(--accent); }
+  .rail .sep { width: 24px; height: 1px; background: var(--line); margin: 6px 0; }
+
+  .page { padding: 24px 32px 80px; }
+  .hub-header { display: grid; grid-template-columns: 72px 1fr auto; gap: 18px; align-items: start; padding-bottom: 0; border-bottom: 1px solid var(--line); }
+  .hub-icon { width: 72px; height: 72px; background: var(--ink); color: #fff; border-radius: 4px; display: flex; align-items: center; justify-content: center; padding: 14px; }
+  .hub-icon img { width: 100%; height: 100%; object-fit: contain; }
+  .sp-org .ge-mono img { width: 18px; height: 18px; display: block; }
+  .sp-org .ge-mono { padding: 0; overflow: hidden; }
+  .hub-title h1 { margin: 0 0 14px; font-size: 28px; font-weight: 600; color: var(--ink); letter-spacing: -0.01em; }
+  .hub-tabs { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
+  .hub-tab { padding: 10px 14px; font-size: 14px; color: var(--ink-soft); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+  .hub-tab:hover { color: var(--ink); }
+  .hub-tab.active { color: var(--ink); border-bottom-color: var(--ink); font-weight: 600; }
+  .hub-tab .caret { display: inline-block; margin-left: 4px; color: var(--muted); font-size: 10px; }
+  .hub-meta { font-size: 12px; color: var(--muted); display: flex; flex-direction: column; gap: 6px; align-items: flex-end; padding-top: 6px; }
+
+  .cmd-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 13px; color: var(--ink-soft); }
+  .cmd-bar .left { display: flex; gap: 4px; }
+  .cmd-bar .left .cmd { padding: 6px 10px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; border-radius: 4px; }
+  .cmd-bar .left .cmd:hover { background: var(--line-soft); }
+  .cmd-bar .left .cmd .ico { color: var(--muted); }
+  .cmd-bar .right { display: flex; align-items: center; gap: 12px; color: var(--muted); font-size: 12.5px; }
+  .cmd-bar .right .accent { color: var(--accent); cursor: pointer; }
+  .cmd-bar .right .accent:hover { text-decoration: underline; }
+  .cmd-bar .right .sep { color: var(--muted-soft); }
+
+  /* ====== Concept C body ====== */
+  .body { padding: 28px 0; max-width: 1240px; margin: 0 auto; }
+
+  /* Editorial intro */
+  .concept-intro { padding-bottom: 32px; margin-bottom: 32px; border-bottom: 1px solid var(--line); }
+  .concept-intro .ribbon { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+  .concept-intro .ribbon-bar { width: 28px; height: 2px; background: var(--accent); }
+  .concept-intro .ribbon-text { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+  .concept-intro h1 { font-family: var(--font-display); font-size: 44px; line-height: 1.06; margin: 0 0 14px; font-weight: 400; letter-spacing: -0.02em; color: var(--ink); max-width: 22ch; }
+  .concept-intro p.lede { font-size: 17px; color: var(--muted); margin: 0; max-width: 64ch; line-height: 1.55; }
+
+  /* Headline maturity panel — with circular progress ring */
+  .head-panel { display: grid; grid-template-columns: 220px 1fr; gap: 44px; padding: 0 0 32px; margin-bottom: 32px; align-items: center; border-bottom: 1px solid var(--line); }
+  .ring-wrap { position: relative; width: 200px; height: 200px; }
+  .ring-wrap svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .ring-bg { fill: none; stroke: var(--line); stroke-width: 8; }
+  .ring-fg { fill: none; stroke: url(#ring-grad); stroke-width: 8; stroke-linecap: round; transition: stroke-dashoffset 0.6s ease; }
+  .ring-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .ring-score { font-family: var(--font-sans); font-size: 64px; font-weight: 300; line-height: 1; letter-spacing: -0.04em; color: var(--ink); }
+  .ring-denom { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-top: 6px; }
+  .head-panel .label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; font-weight: 500; }
+  .head-panel h3 { font-family: var(--font-display); font-size: 26px; font-weight: 400; line-height: 1.2; letter-spacing: -0.01em; color: var(--ink); margin: 0 0 8px; }
+  .head-panel .delta-row { display: flex; align-items: baseline; gap: 14px; margin-top: 14px; flex-wrap: wrap; }
+  .head-panel .delta-pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; background: #dcfce7; color: var(--good); border-radius: 999px; border: 1px solid #bbf7d0; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em; font-weight: 600; }
+  .head-panel .delta-meta { font-size: 13px; color: var(--muted); }
+  .trend-block { margin-bottom: 36px; }
+  .trend-block .trend-label { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
+  .bars { display: grid; grid-template-columns: repeat(12, 1fr); gap: 8px; align-items: end; height: 110px; }
+  .bar { background: linear-gradient(180deg, #cbd5e1 0%, #94a3b8 100%); border-radius: 3px 3px 0 0; }
+  .bar.now { background: linear-gradient(180deg, var(--accent) 0%, var(--accent-deep) 100%); }
+  .bars-x { display: grid; grid-template-columns: repeat(12, 1fr); gap: 8px; margin-top: 8px; font-family: var(--font-mono); font-size: 9.5px; color: var(--muted); letter-spacing: 0.04em; text-align: center; text-transform: uppercase; }
+
+  /* Sub KPIs */
+  .sub-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 36px; }
+  .sub-kpi { padding: 22px 24px; border: 1px solid var(--line); border-radius: 8px; }
+  .sub-kpi .label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+  .sub-kpi .row { display: flex; align-items: baseline; gap: 4px; }
+  .sub-kpi .v { font-size: 36px; font-weight: 400; color: var(--ink); letter-spacing: -0.02em; line-height: 1; }
+  .sub-kpi .d { font-size: 14px; color: var(--muted); }
+  .sub-kpi .delta { margin-top: 8px; font-family: var(--font-mono); font-size: 12px; color: var(--good); }
+  .sub-kpi .delta.warn { color: var(--warn); }
+  .sub-kpi .delta.down { color: #c11d2c; }
+
+  /* Top opportunities */
+  .opp-head { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; font-weight: 500; }
+  .opp-title { font-size: 22px; font-weight: 600; margin: 0 0 18px; color: var(--ink); letter-spacing: -0.01em; }
+  .opp-list { border-top: 1px solid var(--line); margin-bottom: 48px; }
+  .opp { display: grid; grid-template-columns: 60px 1fr auto auto; gap: 22px; padding: 20px 8px; border-bottom: 1px solid var(--line); align-items: center; cursor: pointer; transition: background 0.12s; }
+  .opp:hover { background: var(--line-soft); }
+  .opp .num { font-family: var(--font-mono); font-size: 14px; color: var(--muted); }
+  .opp .name { font-size: 16px; font-weight: 600; color: var(--ink); }
+  .opp .name small { display: block; font-weight: 400; color: var(--muted); margin-top: 4px; font-size: 13px; }
+  .opp .impact { font-family: var(--font-mono); font-size: 12px; color: var(--good); padding: 5px 10px; background: #dcfce7; border-radius: 4px; border: 1px solid #bbf7d0; white-space: nowrap; letter-spacing: 0.04em; }
+  .opp .open { font-size: 13px; color: var(--accent); font-family: var(--font-mono); letter-spacing: 0.06em; }
+
+  /* Leaderboard */
+  .lb-head { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; font-weight: 500; }
+  .lb-title { font-size: 18px; font-weight: 600; margin: 0 0 14px; color: var(--ink); letter-spacing: -0.005em; }
+  .lb-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .lb-table th { text-align: left; padding: 10px 12px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--line); font-weight: 500; }
+  .lb-table th.right { text-align: right; }
+  .lb-table td { padding: 16px 12px; border-bottom: 1px solid var(--line-soft); }
+  .lb-table td.team { font-weight: 600; color: var(--ink); }
+  .lb-table td.team .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 10px; transform: rotate(45deg); border: 1px solid var(--ink); }
+  .lb-table td.team small { color: var(--muted); font-weight: 400; margin-left: 6px; }
+  .lb-table td.delta { font-family: var(--font-mono); color: var(--good); text-align: right; font-size: 13px; }
+  .lb-table td.score { font-family: var(--font-mono); text-align: right; color: var(--ink); font-size: 14px; }
+
+  /* Floating nav */
+  .floating-nav { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 100; display: flex; align-items: center; gap: 4px; padding: 6px; background: rgba(11, 18, 32, 0.94); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); border-radius: 999px; box-shadow: 0 14px 36px -10px rgba(0,0,0,0.35); }
+  .floating-nav a, .floating-nav .fnav-pos { display: inline-flex; align-items: center; gap: 6px; padding: 9px 16px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: rgba(255,255,255,0.85); text-decoration: none; border-radius: 999px; transition: background 0.15s, color 0.15s; }
+  .floating-nav a:hover { background: rgba(255,255,255,0.12); color: #fff; }
+  .floating-nav .fnav-pos { color: rgba(255,255,255,0.5); cursor: default; }
+  .floating-nav .fnav-pos b { color: #fff; font-weight: 600; margin-right: 6px; }
+  .floating-nav .fnav-next { background: var(--accent); color: #fff; }
+  .floating-nav .fnav-next:hover { background: var(--accent-deep); color: #fff; }
+  @media (max-width: 760px) { .floating-nav .fnav-pos { display: none; } .floating-nav { bottom: 12px; } }
+  .switcher { padding-bottom: 96px !important; }
+
+  /* Switcher */
+  .switcher { margin: 80px auto 0; max-width: 1240px; padding: 28px 0 56px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
+  .switcher .back { font-size: 13px; color: var(--accent); text-decoration: none; font-family: var(--font-mono); letter-spacing: 0.04em; }
+  .switcher .back:hover { text-decoration: underline; }
+  .switcher .pages { display: flex; gap: 6px; flex-wrap: wrap; }
+  .switcher .pg { padding: 8px 14px; font-size: 12.5px; border: 1px solid var(--line); border-radius: 999px; color: var(--ink-soft); text-decoration: none; font-family: var(--font-mono); letter-spacing: 0.06em; transition: all 0.12s; }
+  .switcher .pg:hover { border-color: var(--ink); color: var(--ink); }
+  .switcher .pg.current { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .switcher .pg .num { color: var(--muted-soft); margin-right: 6px; }
+  .switcher .pg.current .num { color: #cbd5e1; }
+
+  @media (max-width: 1100px) {
+    .head-panel { grid-template-columns: 1fr; gap: 24px; }
+    .sub-kpis { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 760px) {
+    .page { padding: 16px 18px 56px; }
+    .hub-meta { display: none; }
+    .opp { grid-template-columns: 40px 1fr; }
+    .opp .impact, .opp .open { grid-column: 2; justify-self: start; }
+    .sp-search { display: none; }
+  }
+  /* GE Aerospace footer */
+  .ge-footer { background: #0a1a3d; color: #fff; padding: 80px 56px 32px; margin-top: 0; }
+  .ge-footer-inner { max-width: 1280px; margin: 0 auto; }
+  .ge-footer-news { display: grid; grid-template-columns: 1fr 480px; gap: 60px; align-items: start; padding-bottom: 56px; }
+  .ge-news-title { font-family: var(--font-sans); font-size: 56px; font-weight: 400; line-height: 1.05; letter-spacing: -0.025em; margin: 0; color: #fff; }
+  .ge-news-label { font-size: 13.5px; color: rgba(255,255,255,0.92); margin: 0 0 12px; }
+  .ge-news-row { display: grid; grid-template-columns: 1fr auto; gap: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.45); align-items: center; }
+  .ge-news-input { background: transparent; border: 0; color: #fff; font-size: 14.5px; padding: 10px 0; outline: none; font-family: var(--font-sans); }
+  .ge-news-input::placeholder { color: rgba(255,255,255,0.78); }
+  .ge-news-btn { background: transparent; border: 1px solid rgba(255,255,255,0.6); color: #fff; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; transition: background 0.15s; }
+  .ge-news-btn:hover { background: rgba(255,255,255,0.12); }
+  .ge-footer-divider { height: 1px; background: rgba(255,255,255,0.18); }
+  .ge-footer-main { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; padding: 60px 0; align-items: start; }
+  .ge-footer-brand { display: flex; align-items: center; gap: 14px; }
+  .ge-footer-mark { width: 50px; height: 50px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; padding: 8px; }
+  .ge-footer-mark img { width: 100%; height: 100%; }
+  .ge-footer-word { font-size: 24px; font-weight: 500; letter-spacing: -0.005em; }
+  .ge-footer-cols { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 32px; }
+  .ge-footer-col h5 { font-size: 15px; font-weight: 600; margin: 0 0 22px; color: #fff; }
+  .ge-footer-col a { display: block; font-size: 13.5px; color: rgba(255,255,255,0.72); text-decoration: none; padding: 6px 0; transition: color 0.15s; }
+  .ge-footer-col a:hover { color: #fff; }
+  .ge-footer-copyright { padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.12); font-size: 12.5px; color: rgba(255,255,255,0.62); }
+  @media (max-width: 900px) {
+    .ge-footer { padding: 56px 24px 24px; }
+    .ge-footer-news { grid-template-columns: 1fr; gap: 32px; }
+    .ge-news-title { font-size: 40px; }
+    .ge-footer-main { grid-template-columns: 1fr; gap: 40px; }
+    .ge-footer-cols { grid-template-columns: 1fr 1fr; gap: 24px; }
+  }
+
+</style>
+</head>
+<body>
+
+<div class="sp-bar">
+  <div class="sp-bar-left">
+    <div class="sp-waffle"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="sp-org"><div class="ge-mono"><img src="assets/ge-mono-dark.svg" alt="GE"></div><div>GE Aerospace</div></div>
+    <div class="sp-product">SharePoint</div>
+  </div>
+  <div></div>
+  <div class="sp-search"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="5"/><path d="M11 11l3 3"/></svg> Search this site</div>
+  <div class="sp-bar-right">
+    <div class="iconbtn"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6.5"/><path d="M6 6.5a2 2 0 014 0c0 1.5-2 1.5-2 3M8 12v.5"/></svg></div>
+    <div class="iconbtn"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="2.5"/><path d="M8 1.5v2M8 12.5v2"/></svg></div>
+    <div class="avatar">D</div>
+  </div>
+</div>
+
+<div class="layout">
+  <aside class="rail">
+    <div class="ricon active"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2.5 8.5L9 3l6.5 5.5V15a1 1 0 01-1 1h-3v-4.5h-5V16h-3a1 1 0 01-1-1V8.5z"/></svg></div>
+    <div class="ricon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="9" r="6.5"/><path d="M2.5 9h13M9 2.5c2 2 3 4 3 6.5s-1 4.5-3 6.5"/></svg></div>
+    <div class="ricon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 4.5h4l1.5 1.5h6.5v8H3v-9.5z"/></svg></div>
+    <div class="ricon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2.5" y="3.5" width="13" height="11" rx="1"/><path d="M5 7h8M5 9.5h8M5 12h5"/></svg></div>
+    <div class="ricon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2.5" y="3.5" width="13" height="11" rx="1"/><path d="M5.5 7h7M5.5 9h7M5.5 11h4"/></svg></div>
+    <div class="sep"></div>
+    <div class="ricon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 4v10M4 9h10"/></svg></div>
+  </aside>
+
+  <main>
+    <div class="page">
+
+      <div class="hub-header">
+        <div class="hub-icon"><img src="assets/ge-mono.svg" alt="GE Aerospace"></div>
+        <div class="hub-title">
+          <h1>FLIGHTDECK Activation Hub</h1>
+          <div class="hub-tabs">
+            <div class="hub-tab active">Home</div>
+            <div class="hub-tab">Activation Hub</div>
+            <div class="hub-tab">Fundamentals<span class="caret">▾</span></div>
+            <div class="hub-tab">Behaviors<span class="caret">▾</span></div>
+            <div class="hub-tab">Additional Tools<span class="caret">▾</span></div>
+            <div class="hub-tab">Lean Lesson Library</div>
+            <div class="hub-tab" style="color: var(--accent);">Edit</div>
+          </div>
+        </div>
+        <div class="hub-meta">
+          <div>☆ Not following</div>
+          <div>👤 27 members</div>
+        </div>
+      </div>
+
+      <div class="cmd-bar">
+        <div class="left">
+          <div class="cmd"><span class="ico">+</span> New ▾</div>
+          <div class="cmd"><span class="ico">🔗</span> Promote</div>
+          <div class="cmd"><span class="ico">⚙</span> Page Details</div>
+          <div class="cmd"><span class="ico">👁</span> Preview</div>
+          <div class="cmd"><span class="ico">📊</span> Analytics</div>
+        </div>
+        <div class="right">
+          <span>Published 5/4/2026</span><span class="sep">·</span>
+          <span class="accent">Share</span><span class="sep">·</span>
+          <span class="accent">✎ Edit</span><span class="sep">·</span><span class="accent">↗</span>
+        </div>
+      </div>
+
+      <!-- ============ Maturity body ============ -->
+      <section class="body">
+
+        <div class="concept-intro">
+          <div class="ribbon"><div class="ribbon-bar"></div><div class="ribbon-text">Concept 03 of 05 · Maturity First</div></div>
+          <h1>Show me where to focus this week.</h1>
+          <p class="lede">A leadership-first front page. Aggregate scores, ranked opportunities, peer comparison. The hub becomes a place to make a decision — not a place to find a file.</p>
+        </div>
+
+        <div class="head-panel">
+          <div class="ring-wrap">
+            <svg viewBox="0 0 200 200">
+              <defs>
+                <linearGradient id="ring-grad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#155dfc"/>
+                  <stop offset="100%" stop-color="#1447e6"/>
+                </linearGradient>
+              </defs>
+              <circle class="ring-bg" cx="100" cy="100" r="86"/>
+              <circle class="ring-fg" cx="100" cy="100" r="86"
+                stroke-dasharray="540.35" stroke-dashoffset="151.30"/>
+            </svg>
+            <div class="ring-center">
+              <div class="ring-score">72</div>
+              <div class="ring-denom">of 100</div>
+            </div>
+          </div>
+          <div>
+            <div class="label">Your Flight Deck Maturity</div>
+            <h3>You're in the top quartile of your peer group — and trending up.</h3>
+            <div class="delta-row">
+              <div class="delta-pill">↑ +6 this month</div>
+              <div class="delta-meta">+12 over the last 12 weeks</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="trend-block">
+          <div class="trend-label">
+            <span>Trend · last 12 weeks</span>
+            <span>+12 since W1</span>
+          </div>
+          <div class="bars">
+              <div class="bar" style="height: 38%"></div>
+              <div class="bar" style="height: 42%"></div>
+              <div class="bar" style="height: 46%"></div>
+              <div class="bar" style="height: 44%"></div>
+              <div class="bar" style="height: 52%"></div>
+              <div class="bar" style="height: 58%"></div>
+              <div class="bar" style="height: 60%"></div>
+              <div class="bar" style="height: 64%"></div>
+              <div class="bar" style="height: 68%"></div>
+              <div class="bar" style="height: 70%"></div>
+              <div class="bar" style="height: 72%"></div>
+              <div class="bar now" style="height: 78%"></div>
+            </div>
+            <div class="bars-x">
+              <span>W1</span><span>W2</span><span>W3</span><span>W4</span>
+              <span>W5</span><span>W6</span><span>W7</span><span>W8</span>
+              <span>W9</span><span>W10</span><span>W11</span><span>NOW</span>
+            </div>
+        </div>
+
+        <div class="sub-kpis">
+          <div class="sub-kpi">
+            <div class="label">DVM Maturity</div>
+            <div class="row"><div class="v">78</div><div class="d">/100</div></div>
+            <div class="delta">+4</div>
+          </div>
+          <div class="sub-kpi">
+            <div class="label">Standard Work Health</div>
+            <div class="row"><div class="v">64</div><div class="d">/100</div></div>
+            <div class="delta">+9</div>
+          </div>
+          <div class="sub-kpi">
+            <div class="label">Problem Solving Cadence</div>
+            <div class="row"><div class="v">55</div><div class="d">/100</div></div>
+            <div class="delta down">−2</div>
+          </div>
+          <div class="sub-kpi">
+            <div class="label">Kaizen Output</div>
+            <div class="row"><div class="v">81</div><div class="d">/100</div></div>
+            <div class="delta">+12</div>
+          </div>
+        </div>
+
+        <div class="opp-head">Top opportunities · grounded in the Hoshin plan</div>
+        <h2 class="opp-title">Where to focus this week.</h2>
+        <div class="opp-list">
+          <div class="opp">
+            <div class="num">1</div>
+            <div class="name">Run At-Point Problem Solving session<small>Most-pulled PS template (28,504 views). Cadence dropped 2pts on 2 cells.</small></div>
+            <div class="impact">+ DVM impact: +6</div>
+            <div class="open">Open route →</div>
+          </div>
+          <div class="opp">
+            <div class="num">2</div>
+            <div class="name">SEO sweep · rename top 20 templates<small>Hoshin step 4. Updated metadata flows to Wingmate (#1 outside source).</small></div>
+            <div class="impact">+ Findability: +9</div>
+            <div class="open">Open route →</div>
+          </div>
+          <div class="opp">
+            <div class="num">3</div>
+            <div class="name">Coach Standard Work for non-MFG team<small>Non-Mfg People Leader (N=4,900) — biggest underserved persona.</small></div>
+            <div class="impact">+ Cross-function: +3</div>
+            <div class="open">Open route →</div>
+          </div>
+          <div class="opp">
+            <div class="num">4</div>
+            <div class="name">Genba walk with 5 FLIGHT DECK Leaders<small>Hoshin step 6. FD Leaders (N=400) are priority audience — biggest opportunity to impact.</small></div>
+            <div class="impact">+ DVM impact: +8</div>
+            <div class="open">Open route →</div>
+          </div>
+        </div>
+
+        <div class="lb-head">Site leaderboard · Maturity growth</div>
+        <h3 class="lb-title">Who's moving fastest in the last 30 days.</h3>
+        <table class="lb-table">
+          <thead>
+            <tr><th>Team</th><th class="right">30-day Δ</th><th class="right">Score</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="team"><span class="dot"></span>GE Aerospace Wilmington <small>· Defects per Unit</small></td>
+              <td class="delta">+18</td>
+              <td class="score">84/100</td>
+            </tr>
+            <tr>
+              <td class="team"><span class="dot"></span>Unison Saltillo <small>· Lead-time</small></td>
+              <td class="delta">+14</td>
+              <td class="score">67/100</td>
+            </tr>
+            <tr>
+              <td class="team"><span class="dot"></span>Avio Aero <small>· Flow / Pull</small></td>
+              <td class="delta">+11</td>
+              <td class="score">72/100</td>
+            </tr>
+            <tr>
+              <td class="team"><span class="dot"></span>GE Aerospace Cheltenham <small>· VSM model line</small></td>
+              <td class="delta">+9</td>
+              <td class="score">88/100</td>
+            </tr>
+            <tr>
+              <td class="team"><span class="dot"></span>GE Aerospace Grand Rapids <small>· VSM lead-time</small></td>
+              <td class="delta">+7</td>
+              <td class="score">74/100</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </section>
+
+      <div class="switcher">
+        <a class="back" href="designs.html">← Back to walkthrough</a>
+        <div class="pages">
+          <a class="pg" href="concept-a.html"><span class="num">01</span>Stage First</a>
+          <a class="pg" href="concept-b.html"><span class="num">02</span>Wingmate First</a>
+          <a class="pg current" href="concept-c.html"><span class="num">03</span>Maturity First</a>
+          <a class="pg" href="concept-d.html"><span class="num">04</span>Role First</a>
+          <a class="pg" href="concept-e.html"><span class="num">05</span>Guided Path</a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<footer class="ge-footer">
+  <div class="ge-footer-inner">
+    <div class="ge-footer-news">
+      <h2 class="ge-news-title">Get the news in your<br>inbox</h2>
+      <div class="ge-news-form">
+        <p class="ge-news-label">Enter your email address to register for news alerts.</p>
+        <div class="ge-news-row">
+          <input type="email" class="ge-news-input" placeholder="Email address">
+          <button class="ge-news-btn" aria-label="Subscribe">→</button>
+        </div>
+      </div>
+    </div>
+    <div class="ge-footer-divider"></div>
+    <div class="ge-footer-main">
+      <div class="ge-footer-brand">
+        <span class="ge-footer-mark"><img src="assets/ge-mono-dark.svg" alt=""></span>
+        <span class="ge-footer-word">GE Aerospace</span>
+      </div>
+      <div class="ge-footer-cols">
+        <div class="ge-footer-col">
+          <h5>Get in touch</h5>
+          <a href="#">Contact us</a>
+          <a href="#">Customer support</a>
+          <a href="#">Regions</a>
+          <a href="#">Site Map</a>
+        </div>
+        <div class="ge-footer-col">
+          <h5>Legal</h5>
+          <a href="#">Security</a>
+          <a href="#">Terms</a>
+          <a href="#">Cookies</a>
+          <a href="#">Privacy</a>
+          <a href="#">Personal Information</a>
+          <a href="#">Transparency in Coverage</a>
+        </div>
+        <div class="ge-footer-col">
+          <h5>Connect</h5>
+          <a href="#">Instagram</a>
+          <a href="#">LinkedIn</a>
+          <a href="#">X</a>
+          <a href="#">YouTube</a>
+        </div>
+      </div>
+    </div>
+    <div class="ge-footer-copyright">© 2026 General Electric Company</div>
+  </div>
+</footer>
+
+
+<nav class="floating-nav">
+  <a href="index.html">← Hub</a>
+  <a href="designs.html">Walkthrough</a>
+  <span class="fnav-pos"><b>03</b>/ 05 · Maturity</span>
+  <a href="concept-d.html" class="fnav-next">Next: Role First →</a>
+</nav>
+
+<script src="/track.js" defer></script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
+</body>
+</html>

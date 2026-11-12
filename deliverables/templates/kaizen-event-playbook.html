@@ -1,0 +1,482 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><script src="/gate.js"></script><meta name="robots" content="noindex, nofollow">
+<title>Kaizen Event Playbook &middot; FLIGHT DECK</title>
+<link rel="stylesheet" href="/hub/hub.css">
+<style>
+/* FOOTER BASE, copied from /hub/hub.css unchanged. The kit strips hub.css on every
+   page, so a page that leans on it for .fd-footer ships stacked links with no columns
+   and no background. Ken saw it on the Template Library and again on the homepage,
+   2 October. This block goes FIRST so a page's own footer overrides still win. */
+.fd-footer{background:#00010f;color:#fff;margin-top:56px;font-family:var(--font-sans,"GE Sans",-apple-system,"Helvetica Neue",Arial,sans-serif)}
+.fd-footer .fdf-in{max-width:1280px;margin:0 auto;padding:48px 28px 40px}
+.fd-footer .fdf-top{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-bottom:26px;border-bottom:1px solid rgba(255,255,255,.12)}
+.fd-footer .fdf-brand{display:flex;align-items:center;gap:11px;font-size:15px;font-weight:600;color:#fff}
+.fd-footer .fdf-chip{background:#fff;color:#00010f;font-size:10px;font-weight:800;letter-spacing:.12em;padding:5px 9px;border-radius:4px;border:1px solid #16b364}
+.fd-footer .fdf-cobrand{font-size:13px;font-weight:600;color:rgba(255,255,255,.7);letter-spacing:.02em}
+.fd-footer .fdf-cobrand i{font-style:normal;opacity:.5;margin:0 5px}
+.fd-footer .fdf-cols{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;padding:30px 0}
+.fd-footer .fdf-h{font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#7e8aa8;margin-bottom:12px}
+.fd-footer .fdf-col a{display:block;color:rgba(255,255,255,.78);font-size:13.5px;text-decoration:none;padding:5px 0;transition:color .14s}
+.fd-footer .fdf-col a:hover{color:#fff;text-decoration:none}
+.fd-footer .fdf-meta{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:22px;border-top:1px solid rgba(255,255,255,.12);font-size:11.5px;color:rgba(255,255,255,.45);letter-spacing:.02em}
+@media(max-width:720px){.fd-footer .fdf-cols{grid-template-columns:1fr 1fr;gap:24px}}
+@media(max-width:440px){.fd-footer .fdf-cols{grid-template-columns:1fr}}
+
+@font-face{font-family:"GE Sans";font-weight:300;font-display:swap;src:url("/assets/fonts/ge-sans/sons-light.woff2") format("woff2")}
+@font-face{font-family:"GE Sans";font-weight:400;font-display:swap;src:url("/assets/fonts/ge-sans/sons-regular.woff2") format("woff2")}
+@font-face{font-family:"GE Sans";font-weight:600;font-display:swap;src:url("/assets/fonts/ge-sans/sons-semibold.woff2") format("woff2")}
+body{padding-left:48px!important}
+@media(max-width:700px){body{padding-left:0!important}}
+
+#kz{--ink:#00003d;--lav:#75758f;--mid:#44496e;--tint:#f6f8fd;--line:#e7ebf4;--blue:#2256e6;--sky:#4181ff;--green:#16b364;
+  color:var(--ink);background:#fff;font-family:"GE Sans",-apple-system,"Helvetica Neue",Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+#kz *{box-sizing:border-box}
+#kz .in{width:100%;max-width:1180px;margin:0 auto;padding:0 24px}
+#kz h1,#kz h2,#kz h3{margin:0;font-weight:300;letter-spacing:-.025em;line-height:1.06;color:var(--ink)}
+#kz p{margin:0;font-size:16px;line-height:1.65;color:var(--lav)}
+
+/* Hero: the same dark band the Fundamentals and Behaviors pages open with. */
+#kz .hero{position:relative;color:#fff;padding:62px 24px 56px;overflow:hidden;
+  background:radial-gradient(120% 150% at 18% -10%,rgba(65,129,255,.32),transparent 55%),
+             linear-gradient(120deg,#00010f,#000a2e 58%,#06173f)}
+#kz .hero::before{content:"";position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
+  background-size:54px 54px;-webkit-mask-image:radial-gradient(120% 120% at 20% 0,#000,transparent 72%);
+  mask-image:radial-gradient(120% 120% at 20% 0,#000,transparent 72%)}
+#kz .hero .in{position:relative}
+#kz .kick{display:inline-flex;align-items:center;gap:9px;font-size:11.5px;font-weight:700;letter-spacing:.2em;
+  text-transform:uppercase;color:#8aa6f0;margin-bottom:20px}
+#kz .kick::before{content:"";width:7px;height:7px;background:var(--green);border-radius:1px;flex-shrink:0}
+#kz .hero h1{color:#fff;font-size:clamp(34px,4.4vw,52px);font-weight:300;letter-spacing:-.03em;margin:0 0 14px;line-height:1.02}
+#kz .hero .sub{font-size:18px;color:rgba(255,255,255,.78);margin:0;max-width:56ch;line-height:1.55}
+#kz .hero-acts{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+#kz .hero-cta{display:inline-flex;align-items:center;gap:10px;font-family:inherit;font-size:15px;font-weight:600;color:#fff;
+  background:var(--blue);border:1px solid var(--blue);border-radius:100px;padding:14px 26px;text-decoration:none;cursor:pointer;
+  transition:background .18s cubic-bezier(.23,1,.32,1),border-color .18s cubic-bezier(.23,1,.32,1)}
+#kz .hero-cta svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+#kz .hero-cta.ghost{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.3);color:#fff}
+@media(hover:hover) and (pointer:fine){
+  #kz .hero-cta:hover{background:#1b47c4;border-color:#1b47c4}
+  #kz .hero-cta.ghost:hover{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.55)}}
+#kz .hero-meta{margin-top:34px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;
+  padding-top:26px;border-top:1px solid rgba(255,255,255,.14)}
+#kz .meta-item{display:grid;grid-template-columns:18px 1fr;gap:11px;font-size:14px;line-height:1.5;color:rgba(255,255,255,.82)}
+#kz .meta-item::before{content:"";width:16px;height:16px;margin-top:3px;background:var(--green);
+  -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M4 12.5l5 5L20 6.5' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/></svg>") no-repeat center/contain;
+  mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M4 12.5l5 5L20 6.5' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/></svg>") no-repeat center/contain}
+
+/* The journey. */
+#kz .journey{background:var(--tint);border-bottom:1px solid var(--line);padding:56px 0 52px}
+#kz .j-head{margin-bottom:30px;max-width:72ch}
+#kz .j-head h2{font-size:clamp(24px,2.4vw,32px);margin-bottom:10px}
+#kz .j-head p{font-size:15.5px;color:var(--mid)}
+#kz .timeline{display:grid;grid-template-columns:1fr 34px 1fr 34px 1fr;align-items:stretch;gap:0}
+#kz .tl-arrow{display:grid;place-items:center;color:#b7c2db}
+#kz .tl-arrow svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+#kz .phase{display:grid;gap:6px;align-content:start;text-align:left;width:100%;font-family:inherit;cursor:pointer;
+  background:#fff;border:1px solid var(--line);border-top:3px solid var(--c);border-radius:14px;padding:20px 22px 22px;
+  box-shadow:0 1px 2px rgba(11,26,64,.05),0 18px 40px -30px rgba(11,26,64,.3);
+  transition:border-color .2s cubic-bezier(.23,1,.32,1),box-shadow .2s cubic-bezier(.23,1,.32,1)}
+#kz .phase.prepare{--c:var(--sky)}
+#kz .phase.execute{--c:var(--blue)}
+#kz .phase.sustain{--c:var(--green)}
+#kz .p-label{font-family:ui-monospace,Menlo,monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--c)}
+#kz .p-title{font-size:21px;font-weight:300;letter-spacing:-.02em;color:var(--ink)}
+#kz .p-dur{font-size:13.5px;color:var(--lav)}
+@media(hover:hover) and (pointer:fine){#kz .phase:hover{border-color:var(--ink);border-top-color:var(--c);box-shadow:0 18px 44px -28px rgba(11,26,64,.5)}}
+#kz .phase[aria-selected="true"]{border-color:var(--ink);border-top-color:var(--c)}
+
+/* Tabs. */
+#kz .tabs{position:sticky;top:0;z-index:5;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line)}
+#kz .tabs .in{display:flex;gap:4px;overflow-x:auto}
+#kz .tab{font-family:inherit;font-size:13px;font-weight:600;letter-spacing:.02em;color:var(--mid);background:none;
+  border:0;border-bottom:2px solid transparent;padding:17px 16px;cursor:pointer;white-space:nowrap;
+  transition:color .16s cubic-bezier(.23,1,.32,1),border-color .16s cubic-bezier(.23,1,.32,1)}
+@media(hover:hover) and (pointer:fine){#kz .tab:hover{color:var(--ink)}}
+#kz .tab[aria-selected="true"]{color:var(--blue);border-bottom-color:var(--blue)}
+
+/* Tools. */
+#kz .tools{padding:52px 0 8px}
+#kz .t-head{margin-bottom:26px;max-width:72ch}
+#kz .t-head h3{font-size:clamp(22px,2.2vw,28px);margin-bottom:9px}
+#kz .t-head p{font-size:15.5px;color:var(--mid)}
+#kz .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+#kz .card{background:#fff;border:1px solid var(--line);border-top:3px solid var(--c);border-radius:16px;
+  padding:22px 22px 20px;display:flex;flex-direction:column;gap:11px;
+  box-shadow:0 1px 2px rgba(11,26,64,.05),0 18px 40px -30px rgba(11,26,64,.3);
+  transition:border-color .2s cubic-bezier(.23,1,.32,1),box-shadow .2s cubic-bezier(.23,1,.32,1)}
+#kz .card.prepare{--c:var(--sky)}
+#kz .card.execute{--c:var(--blue)}
+#kz .card.sustain{--c:var(--green)}
+@media(hover:hover) and (pointer:fine){#kz .card:hover{border-color:#c9d3e8;border-top-color:var(--c);box-shadow:0 18px 44px -28px rgba(11,26,64,.45)}}
+#kz .card h4{font-size:17px;font-weight:600;letter-spacing:-.012em;margin:0;color:var(--ink)}
+#kz .card .meta{font-family:ui-monospace,Menlo,monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--c)}
+#kz .card .desc{font-size:14px;line-height:1.6;color:var(--mid);flex:1}
+#kz .card .act{margin-top:4px}
+#kz .btn{display:inline-flex;align-items:center;gap:9px;font-family:inherit;font-size:13px;font-weight:600;
+  color:var(--mid);background:#fff;border:1px dashed #c3d0ea;border-radius:100px;padding:9px 18px;cursor:default}
+#kz .btn::after{content:"";width:6px;height:6px;border-radius:50%;background:#c3d0ea}
+
+/* Supporting tools. */
+#kz .support{margin:26px 0 0;border:1px solid var(--line);border-radius:16px;background:var(--tint);overflow:hidden}
+#kz .s-head{display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;font-family:inherit;
+  background:none;border:0;padding:19px 24px;cursor:pointer;text-align:left}
+#kz .s-head h3{font-size:16px;font-weight:600;letter-spacing:-.01em}
+#kz .s-head .chev{width:18px;height:18px;stroke:var(--lav);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;
+  transition:transform .22s cubic-bezier(.23,1,.32,1)}
+#kz .support.open .chev{transform:rotate(180deg)}
+#kz .s-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .26s cubic-bezier(.23,1,.32,1)}
+#kz .support.open .s-body{grid-template-rows:1fr}
+#kz .s-inner{overflow:hidden}
+#kz .s-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 36px;padding:0 24px 22px}
+#kz .s-item{padding:15px 0;border-top:1px solid var(--line)}
+#kz .s-item h5{font-size:14.5px;font-weight:600;letter-spacing:-.01em;color:var(--ink);margin:0 0 4px}
+#kz .s-item p{font-size:13.5px;line-height:1.55;color:var(--lav)}
+
+#kz .panel[hidden]{display:none}
+
+/* Waiting on GE. */
+#kz .await-band{margin:44px 0 8px;padding:22px 24px;border:1px dashed #c3d0ea;border-radius:14px;background:#f6f9ff;
+  font-size:15.5px;line-height:1.6;color:var(--mid);max-width:86ch}
+#kz .await-band b{color:var(--ink);font-weight:600}
+#kz .note{margin-top:18px;font-size:14px;color:var(--mid);max-width:86ch}
+#kz .back{margin:34px 0 64px;display:inline-flex;align-items:center;gap:10px;font-size:14.5px;color:var(--ink);
+  text-decoration:none;border:1px solid var(--line);border-radius:100px;padding:11px 22px;
+  transition:border-color .18s cubic-bezier(.23,1,.32,1)}
+@media(hover:hover) and (pointer:fine){#kz .back:hover{border-color:var(--ink)}}
+
+@media(max-width:980px){
+  #kz .hero-meta{grid-template-columns:1fr 1fr}
+  #kz .timeline{grid-template-columns:1fr;gap:12px}
+  #kz .tl-arrow{transform:rotate(90deg);padding:2px 0}
+  #kz .grid{grid-template-columns:1fr 1fr}
+  #kz .s-list{grid-template-columns:1fr}}
+@media(max-width:640px){
+  #kz .hero-meta{grid-template-columns:1fr}
+  #kz .grid{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){
+  #kz .s-body{transition:none}
+  #kz .support .chev{transition:none}}
+</style></head><body>
+<div class="suite"><div class="wrap suite-in">
+  <span class="waffle"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+  <span class="org"><span class="monogram">GE</span>GE Aerospace</span>
+  <span class="sp">SharePoint</span>
+  <input placeholder="Search this site">
+  <span class="icons"><span>&#9881;</span><span class="acct"><span class="av">A</span><span class="nm">Aero</span></span></span>
+</div></div>
+<div class="sprail"><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg></span><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h8l4 4v14H7z"/><path d="M15 3v4h4"/></svg></span><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="1.5"/><path d="M3.5 9.5h17M9 9.5v10"/></svg></span><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a1.8 1.8 0 0 1 1.8-1.8H9l2 2h7.2A1.8 1.8 0 0 1 21 9v8.2A1.8 1.8 0 0 1 19.2 19H4.8A1.8 1.8 0 0 1 3 17.2z"/></svg></span><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></div>
+
+<header class="site">
+  <div class="wrap site-bar">
+    <div class="site-mark"><span class="chip">FLIGHT DECK</span><a href="/concept-quickstart.html">FLIGHT DECK Activation Hub</a></div>
+    <nav class="primary">
+      <div><a class="top" href="/concept-quickstart.html">Home</a></div>
+      <div>
+        <a class="top" role="button" tabindex="0">Fundamentals<span class="caret">&#9662;</span></a>
+        <div class="menu">
+          <a href="/deliverables/standard-work/sw-concept-hybrid.1.html">Standard Work</a>
+          <a href="/deliverables/action-planning/ap-concept-hybrid.1.html">Action Planning</a>
+          <a href="/deliverables/daily-visual-management/dvm-concept-hybrid.1.html">Daily and Visual Management</a>
+          <a href="/deliverables/value-stream-management/vsm-concept-hybrid.1.html">Value Stream Management</a>
+          <a href="/deliverables/operating-cadences/oc-concept-hybrid.1.html">Operating Cadences</a>
+          <a href="/deliverables/problem-solving/ps-concept-hybrid.1.html">Problem Solving</a>
+          <a href="/deliverables/5s/5s-concept-hybrid.1.html">5S</a>
+          <a href="/deliverables/flow-pull/fp-concept-hybrid.1.html">Flow/Pull</a>
+        </div>
+      </div>
+      <div><a class="top" href="/deliverables/standard-work/behaviors.html">Behaviors<span class="caret">&#9662;</span></a><div class="menu"><a href="/deliverables/respect-for-people/respect-for-people-concept.1.html">Respect for People</a><a href="/deliverables/customer-driven/customer-driven-concept.1.html">Customer Driven</a><a href="/deliverables/continuous-improvement/continuous-improvement-concept.1.html">Continuous Improvement</a></div></div>
+      <div><a class="top" href="/deliverables/standard-work/sw-templates.html">Templates</a></div>
+      <div><a class="top" href="/deliverables/standard-work/video-library.html">Video Library</a></div>
+      <div><a class="top" href="/deliverables/standard-work/prompt-library.html">Prompt Library</a></div>
+      <div>
+        <a class="top" href="#">Additional Tools<span class="caret">&#9662;</span></a>
+        <div class="menu">
+          <a href="/tools/index.html">FLIGHT DECK Tool Library</a>
+          <a href="/deliverables/standard-work/leader-portal.html">FLIGHT DECK Leader Portal</a>
+          <a href="/deliverables/standard-work/miro.html">FLIGHT DECK on Miro</a>
+          <a href="/programs/index.html">FLIGHT DECK Programs</a>
+          <a href="https://ge.sharepoint.us/sites/flight-deck-activation-hub/Lists/FAQ/AllItems.aspx" target="_blank" rel="noopener">FAQ</a>
+        </div>
+      </div>
+    </nav>
+    <span class="badge-sensitive">Sensitive &#8964;</span>
+  </div>
+</header>
+
+<div id="kz">
+
+<section class="hero">
+  <div class="in">
+    <div class="kick">Template</div>
+    <h1>Kaizen Event Playbook</h1>
+    <p class="sub">Your complete guide for a 5-day breakthrough improvement</p>
+    <div class="hero-acts">
+      <span class="hero-cta"><svg viewBox="0 0 24 24"><path d="M12 4v11M7.5 10.5L12 15l4.5-4.5M5 19h14"/></svg>Download Full Playbook (.xlsx)</span>
+      <a class="hero-cta ghost" href="https://miro.com/app/board/uXjVJdqRg_E=/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="2"/><path d="M9 7v10M15 7v10M9 12h6"/></svg>Open in Miro</a>
+      <a class="hero-cta ghost" href="/deliverables/standard-work/sw-concept-hybrid.1.html?open=wingmate"><svg viewBox="0 0 24 24"><path d="M20 4H4v12h5l3 4 3-4h5z"/><path d="M12 8v2M12 12.5v.5"/></svg>Ask Wingmate</a>
+    </div>
+    <div class="hero-meta">
+      <div class="meta-item">Problem linked to KPI/TTI</div>
+      <div class="meta-item">Standard Work baseline exists</div>
+      <div class="meta-item">Impact &gt;$200K or major SQDC gain</div>
+      <div class="meta-item">Go/No-Go approved by 2nd Coach</div>
+    </div>
+  </div>
+</section>
+
+<section class="journey">
+  <div class="in">
+    <div class="j-head">
+      <h2>The Kaizen Journey</h2>
+      <p>~25 weeks total: 12 weeks preparation &rarr; 5 days execution &rarr; 12 weeks sustainment</p>
+    </div>
+    <div class="timeline">
+      <button type="button" class="phase prepare" data-goto="prepare" aria-selected="true">
+        <span class="p-label">Phase 1</span>
+        <span class="p-title">Prepare</span>
+        <span class="p-dur">4-12 weeks</span>
+      </button>
+      <span class="tl-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h13M13 7l5 5-5 5"/></svg></span>
+      <button type="button" class="phase execute" data-goto="execute" aria-selected="false">
+        <span class="p-label">Phase 2</span>
+        <span class="p-title">Execute</span>
+        <span class="p-dur">5 days (Mon-Fri)</span>
+      </button>
+      <span class="tl-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h13M13 7l5 5-5 5"/></svg></span>
+      <button type="button" class="phase sustain" data-goto="sustain" aria-selected="false">
+        <span class="p-label">Phase 3</span>
+        <span class="p-title">Sustain</span>
+        <span class="p-dur">30/60/90 days</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<div class="tabs">
+  <div class="in" role="tablist" aria-label="Kaizen phases">
+    <button type="button" class="tab" role="tab" data-goto="prepare" aria-selected="true" aria-controls="prepare">PREPARE (4-12 weeks)</button>
+    <button type="button" class="tab" role="tab" data-goto="execute" aria-selected="false" aria-controls="execute">EXECUTE (5 days)</button>
+    <button type="button" class="tab" role="tab" data-goto="sustain" aria-selected="false" aria-controls="sustain">SUSTAIN (30/60/90 days)</button>
+  </div>
+</div>
+
+<section class="tools">
+  <div class="in">
+
+    <div class="panel" id="prepare" role="tabpanel">
+      <div class="t-head">
+        <h3>Essential Tools for Preparation</h3>
+        <p>Complete these before the event week. Prep is where events are won or lost.</p>
+      </div>
+      <div class="grid">
+        <article class="card prepare">
+          <span class="meta">Week -12 | Required</span>
+          <h4>Go/No-Go Checklist</h4>
+          <p class="desc">Gates whether Kaizen is the right method. Confirms problem, KPI/TTI link, standard work exists, and team is ready. Requires 2nd Coach sign-off.</p>
+          <div class="act"><span class="btn">Download Template</span></div>
+        </article>
+        <article class="card prepare">
+          <span class="meta">Week -12 to +12 | Core</span>
+          <h4>Event Checklist</h4>
+          <p class="desc">Master task list with owners, dates, and template links. Drives all prep, execution, and sustainment. Dates auto-calculate from event Monday.</p>
+          <div class="act"><span class="btn">Download Template</span></div>
+        </article>
+        <article class="card prepare">
+          <span class="meta">Week -4 finalize | Core</span>
+          <h4>Kaizen Charter</h4>
+          <p class="desc">Source of truth: TAGS problem statement, KPI/TTI impact, genba scope, deliverables, SQDC+Cash objectives, team participants.</p>
+          <div class="act"><span class="btn">Download Template</span></div>
+        </article>
+        <article class="card prepare">
+          <span class="meta">Week -8 | Scoping</span>
+          <h4>SIPOC</h4>
+          <p class="desc">Define process Supplier &rarr; Input &rarr; Process &rarr; Output &rarr; Customer. Built in 3 iterations: fill process steps, go upstream, go downstream.</p>
+          <div class="act"><span class="btn">Download Template</span></div>
+        </article>
+        <article class="card prepare">
+          <span class="meta">Week -6 | Baseline</span>
+          <h4>Process Map</h4>
+          <p class="desc">Current-state visualization (swimlane for business, flow for manufacturing). Street-level view of sub-process with steps, decisions, delays.</p>
+          <div class="act"><span class="btn">Download Template</span></div>
+        </article>
+        <article class="card prepare">
+          <span class="meta">Week -6 | Manufacturing</span>
+          <h4>Process at a Glance</h4>
+          <p class="desc">Manufacturing process detail: C/T, material, tools, jigs, quality checks, poka-yoke, defects, downtime. Use flipchart, not digital.</p>
+          <div class="act"><span class="btn">Download Template</span></div>
+        </article>
+      </div>
+      <div class="support" id="prep-supporting">
+        <button type="button" class="s-head" aria-expanded="false" aria-controls="prep-supporting-body">
+          <h3>Supporting Tools (4 more)</h3>
+          <svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9.5l6 6 6-6"/></svg>
+        </button>
+        <div class="s-body" id="prep-supporting-body"><div class="s-inner"><div class="s-list">
+          <div class="s-item"><h5>Leadership Kickoff Presentation</h5><p>Executive Sponsor owns 4 touchpoints at weeks -12, -6, -4, -2</p></div>
+          <div class="s-item"><h5>Spaghetti Chart</h5><p>Maps physical movement of people/material to expose transport/motion waste</p></div>
+          <div class="s-item"><h5>Safety &amp; Ergonomics Assessment</h5><p>Mandatory in prep and daily check. Heat map + power zone assessment</p></div>
+          <div class="s-item"><h5>Supply Checklist</h5><p>Event logistics: flipcharts, markers, tape, cameras, supplies</p></div>
+        </div></div></div>
+      </div>
+    </div>
+
+    <div class="panel" id="execute" role="tabpanel" hidden>
+      <div class="t-head">
+        <h3>Essential Tools for the 5-Day Event</h3>
+        <p>Change happens in the week. Monday through Friday, at genba, with the team.</p>
+      </div>
+      <div class="grid">
+        <article class="card execute">
+          <span class="meta">Day 1-2 | Analyze</span>
+          <h4>DOWNTIME Waste Guide</h4>
+          <p class="desc">Identify 8 wastes: Defects, Over-production, Waiting, Non-utilized talent, Transportation, Inventory, Motion, Excess processing.</p>
+          <div class="act"><span class="btn">Download Guide</span></div>
+        </article>
+        <article class="card execute">
+          <span class="meta">Day 3 | Generate</span>
+          <h4>7-Ways</h4>
+          <p class="desc">Generate minimum 7 distinct countermeasures per problem. Breaks conventional thinking. Creativity over capital.</p>
+          <div class="act"><span class="btn">Download Template</span></div>
+        </article>
+        <article class="card execute">
+          <span class="meta">Day 3 | Prioritize</span>
+          <h4>Impact Effort Matrix</h4>
+          <p class="desc">Prioritize countermeasures: Quick Wins, Major Projects, Parked Ideas. Axes scaled to charter's KPI units to remove subjectivity.</p>
+          <div class="act"><span class="btn">Download Template</span></div>
+        </article>
+        <article class="card execute">
+          <span class="meta">Daily | Visual Tracking</span>
+          <h4>Kaizen Newspaper</h4>
+          <p class="desc">Manual visual board tracking actions, owners, Harvey Balls status (25/50/75/100%), escalations. Don't digitize during event.</p>
+          <div class="act"><span class="btn">Download Template</span></div>
+        </article>
+        <article class="card execute">
+          <span class="meta">Mon-Wed evenings | Leaders</span>
+          <h4>4-Blocker</h4>
+          <p class="desc">15-min daily debrief: KPI update, Accomplishments from Newspaper, Tonight &amp; Tomorrow plans, Support Needed. Kaizen Leader runs.</p>
+          <div class="act"><span class="btn">Download Template</span></div>
+        </article>
+        <article class="card execute">
+          <span class="meta">Day 4 | Lock It In</span>
+          <h4>Standard Work Templates</h4>
+          <p class="desc">Manufacturing: Time Measurement, Balance Chart, SW Combination Sheet. Business: SOP, Master Instruction, Detailed Job Instruction.</p>
+          <div class="act"><span class="btn">Download Set</span></div>
+        </article>
+        <article class="card execute">
+          <span class="meta">Day 4 | Prepare to Sustain</span>
+          <h4>Training Matrix</h4>
+          <p class="desc">Harvey-Ball proficiency map: who can perform, who can train the new standard. Essential for sustainment.</p>
+          <div class="act"><span class="btn">Download Template</span></div>
+        </article>
+      </div>
+      <div class="support" id="exec-supporting">
+        <button type="button" class="s-head" aria-expanded="false" aria-controls="exec-supporting-body">
+          <h3>Supporting Tools (4 more)</h3>
+          <svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9.5l6 6 6-6"/></svg>
+        </button>
+        <div class="s-body" id="exec-supporting-body"><div class="s-inner"><div class="s-list">
+          <div class="s-item"><h5>Value Add / Non-Value Add Classification</h5><p>Mark steps Green (VA) / Red (NVA) through customer's eyes</p></div>
+          <div class="s-item"><h5>Coaching Quality Workbook</h5><p>1st/2nd Coach score Define/Analyze/Countermeasure/Sustain quality</p></div>
+          <div class="s-item"><h5>Post-Kaizen Action Plan</h5><p>Minimal residual actions, close within 2 weeks. If long, prep was weak.</p></div>
+          <div class="s-item"><h5>Final Report Out Template</h5><p>Friday presentation: before/after, KPI by day, lessons learned</p></div>
+        </div></div></div>
+      </div>
+    </div>
+
+    <div class="panel" id="sustain" role="tabpanel" hidden>
+      <div class="t-head">
+        <h3>Essential Tools for Sustainment</h3>
+        <p>Without sustainment, improvements revert. 30/60/90-day reviews hold the gain.</p>
+      </div>
+      <div class="grid">
+        <article class="card sustain">
+          <span class="meta">Day 5 &rarr; 90 days | At Genba</span>
+          <h4>Temporary Daily Management Board</h4>
+          <p class="desc">Track leading indicator, training to standard, sustaining data &amp; trend, Pareto, issue tracker. Used at genba until sustained, then transition to standing DM.</p>
+          <div class="act"><span class="btn">Download Template</span></div>
+        </article>
+        <article class="card sustain">
+          <span class="meta">30/60/90 days | Quality Check</span>
+          <h4>Coaching Quality Workbook</h4>
+          <p class="desc">Score Define/Analyze/Countermeasure/Sustain phases. Includes coaching criteria, questions guide, team retrospective, detailed job instructions.</p>
+          <div class="act"><span class="btn">Download Workbook</span></div>
+        </article>
+        <article class="card sustain">
+          <span class="meta">Week 2 post-event | Rollout</span>
+          <h4>Standard Work Release Process</h4>
+          <p class="desc">Define roles &rarr; Repository &rarr; Roll-out &rarr; Sustainment (30/60/90). Ensures new standard spreads and sticks across shifts and operators.</p>
+          <div class="act"><span class="btn">Download Template</span></div>
+        </article>
+      </div>
+      <div class="support" id="sustain-supporting">
+        <button type="button" class="s-head" aria-expanded="false" aria-controls="sustain-supporting-body">
+          <h3>Supporting Tools (2 more)</h3>
+          <svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9.5l6 6 6-6"/></svg>
+        </button>
+        <div class="s-body" id="sustain-supporting-body"><div class="s-inner"><div class="s-list">
+          <div class="s-item"><h5>Lean Communication Plan (RACSI)</h5><p>Stakeholder communications for tool/standard releases</p></div>
+          <div class="s-item"><h5>30/60/90 Day Review Agendas</h5><p>Verify performance, confirm gap closed, coach standard work, retrospective</p></div>
+        </div></div></div>
+      </div>
+    </div>
+
+    <div class="await-band"><b>Template files are coming from GE.</b> Every download on this page is wired and waiting on the file. Send the playbook workbook and the individual templates and each button goes live in one pass.</div>
+    <p class="note">All templates are proprietary and must not be modified.</p>
+    <a class="back" href="/deliverables/standard-work/sw-templates.html">Back to the Template Library</a>
+  </div>
+</section>
+
+</div>
+
+<footer class="fd-footer">
+  <div class="fdf-in">
+    <div class="fdf-top">
+      <div class="fdf-brand"><span class="fdf-chip">FLIGHT DECK</span>Activation Hub</div>
+      <div class="fdf-cobrand">GE Aerospace</div>
+    </div>
+    <div class="fdf-cols">
+      <div class="fdf-col"><div class="fdf-h">Fundamentals</div><a href="/deliverables/standard-work/sw-concept-hybrid.1.html">Standard Work</a><a href="/deliverables/daily-visual-management/dvm-concept-hybrid.1.html">Daily &amp; Visual Management</a><a href="/deliverables/5s/5s-concept-hybrid.1.html">5S</a></div>
+      <div class="fdf-col"><div class="fdf-h">Templates</div><a href="/deliverables/standard-work/sw-templates.html">Template Library</a><a href="/deliverables/templates/kaizen-event-playbook.html">Kaizen Event Playbook</a></div>
+      <div class="fdf-col"><div class="fdf-h">Learning</div><a href="/accelerate.html">FLIGHT DECK Accelerate</a><a href="/deliverables/standard-work/video-library.html">Video Library</a></div>
+      <div class="fdf-col"><div class="fdf-h">Hub</div><a href="/concept-quickstart.html">Hub Home</a><a href="/deliverables/standard-work/faq.html">FAQ</a></div>
+    </div>
+    <div class="fdf-meta"><span>FLIGHT DECK Activation Hub</span><span>GE Aerospace Proprietary &middot; Sensitive &middot; authorized distribution only</span></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var root = document.getElementById('kz');
+  if (!root) return;
+  var tabs = root.querySelectorAll('.tab');
+  var phases = root.querySelectorAll('.phase');
+  var panels = root.querySelectorAll('.panel');
+
+  function show(id, scroll){
+    panels.forEach(function(p){ p.hidden = p.id !== id; });
+    tabs.forEach(function(t){ t.setAttribute('aria-selected', String(t.dataset.goto === id)); });
+    phases.forEach(function(p){ p.setAttribute('aria-selected', String(p.dataset.goto === id)); });
+    if (scroll) {
+      var band = root.querySelector('.tools');
+      if (band) band.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  tabs.forEach(function(t){ t.addEventListener('click', function(){ show(t.dataset.goto, true); }); });
+  phases.forEach(function(p){ p.addEventListener('click', function(){ show(p.dataset.goto, true); }); });
+
+  root.querySelectorAll('.s-head').forEach(function(h){
+    h.addEventListener('click', function(){
+      var box = h.parentElement;
+      var open = box.classList.toggle('open');
+      h.setAttribute('aria-expanded', String(open));
+    });
+  });
+})();
+</script>
+<script src="/deliverables/search/search-index.js"></script>
+<script src="/hub/omnibox.js"></script>
+</body></html>

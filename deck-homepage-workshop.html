@@ -1,0 +1,1285 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="/gate.js"></script>
+<meta name="robots" content="noindex, nofollow">
+<title>Homepage workshop &middot; FLIGHT DECK</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  @font-face{font-family:"GE Sans";font-weight:300;font-style:normal;font-display:swap;src:url("assets/fonts/ge-sans/sons-light.woff2") format("woff2")}
+  @font-face{font-family:"GE Sans";font-weight:400;font-style:normal;font-display:swap;src:url("assets/fonts/ge-sans/sons-regular.woff2") format("woff2")}
+  @font-face{font-family:"GE Sans";font-weight:600;font-style:normal;font-display:swap;src:url("assets/fonts/ge-sans/sons-semibold.woff2") format("woff2")}
+  :root{
+    --bg:#fff;--card:#fff;--ink:#00003d;--ink-soft:#23234a;--muted:#4A506A;
+    --line:#e7ebf4;--line-soft:#eef1f8;--accent:#00003D;--accent-soft:#ececf2;--accent-deep:#000028;
+    --cap:#3d3d63;--surface:#f1f1f6;--test:#c6c9da;--voc:#8a93b5;--today:#c9a227;--warn:#b45309;
+    --font-sans:"GE Sans","Geist",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+    --font-mono:"Geist Mono",ui-monospace,SFMono-Regular,"Menlo",monospace;
+    --font-display:"GE Sans","Geist",-apple-system,"Helvetica Neue",Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:var(--font-sans);background:var(--bg);color:var(--ink);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow:hidden}
+  a{color:inherit;text-decoration:none}
+  img{display:block;max-width:100%}
+
+  .stage{position:fixed;inset:0}
+  .slide{position:absolute;inset:0;display:none;flex-direction:column;justify-content:safe center;padding:9vh 6.5vw;overflow-y:auto;opacity:0;transition:opacity .3s ease}
+  .slide.active{display:flex;opacity:1}
+  .inner{width:100%;max-width:1480px;margin:0 auto}
+  .slide.dark{background:var(--ink);color:#fff}
+
+  .eyebrow{font-family:var(--font-sans);font-size:14px;letter-spacing:.07em;text-transform:uppercase;color:var(--cap);font-weight:600;display:flex;align-items:center;gap:9px}
+  .slide.dark .eyebrow{color:#9aa0c7}
+  h1{font-family:var(--font-display);font-weight:400;font-size:clamp(46px,6.2vw,84px);line-height:1.0;letter-spacing:-.03em;color:var(--ink)}
+  h2{font-family:var(--font-display);font-weight:400;font-size:clamp(32px,3.9vw,52px);line-height:1.04;letter-spacing:-.025em;color:var(--ink)}
+  .slide.dark h1,.slide.dark h2{color:#fff}
+  .lede{font-size:clamp(19px,1.6vw,25px);color:var(--muted);line-height:1.45;max-width:60ch}
+  .slide.dark .lede{color:#cbd5e1}
+  .shead{margin-bottom:26px}
+  .shead .eyebrow{margin-bottom:16px}
+  .shead .lede{margin-top:15px}
+  b,strong{font-weight:600;color:var(--ink)}
+  .slide.dark b{color:#fff}
+
+  .topbar{position:fixed;top:0;left:0;right:0;z-index:60;background:linear-gradient(180deg,rgba(249,250,251,.92) 55%,rgba(249,250,251,0));-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);padding:34px 6.5vw 18px;font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);pointer-events:none}
+  .topbar .tb-in{width:100%;max-width:1480px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+  a.tb-brand{pointer-events:auto;display:inline-flex;align-items:center;gap:11px;transition:color .14s}
+  .cobrand .x{color:var(--muted);font-size:13px;opacity:.6}
+  .ge-logo{display:inline-block;height:22px;width:93px;background-color:var(--ink);-webkit-mask:url(assets/brand/ge-aerospace-logo.svg) left center/contain no-repeat;mask:url(assets/brand/ge-aerospace-logo.svg) left center/contain no-repeat;vertical-align:middle}
+  .slide-dark-active .ge-logo{background-color:#fff}
+  .bttr-logo{display:inline-block;height:13px;width:31px;background-color:var(--ink);-webkit-mask:url(assets/brand/bttr-logo.svg) left center/contain no-repeat;mask:url(assets/brand/bttr-logo.svg) left center/contain no-repeat;vertical-align:middle}
+  .slide-dark-active .bttr-logo{background-color:#fff}
+  .slide-dark-active .topbar{color:#99a1af;background:linear-gradient(180deg,rgba(0,0,22,.7) 55%,rgba(0,0,22,0))}
+
+  .nav{position:fixed;bottom:28px;right:32px;display:flex;align-items:center;gap:13px;z-index:70}
+  .nav #counter{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;color:var(--muted)}
+  .slide-dark-active .nav #counter{color:#99a1af}
+  .nav button{font-family:var(--font-sans);font-size:17px;line-height:1;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;transition:.16s;display:flex;align-items:center;justify-content:center}
+  .nav button:hover{border-color:var(--ink);background:#e7e7f0}
+  .nav #next{background:var(--ink);border-color:var(--ink);color:#fff}
+  .slide-dark-active .nav button{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.22);color:#fff}
+  .slide-dark-active .nav #next{background:#fff;border-color:#fff;color:var(--ink)}
+  .exportbtn{position:fixed;bottom:30px;left:32px;z-index:70;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);background:transparent;border:1px solid var(--line);border-radius:100px;padding:8px 15px;cursor:pointer;transition:.16s}
+  .exportbtn:hover{border-color:var(--ink);color:var(--ink)}
+  .slide-dark-active .exportbtn{color:#99a1af;border-color:rgba(255,255,255,.22)}
+  .progressbar{position:fixed;top:0;left:0;height:3px;background:var(--accent);z-index:80;width:0;transition:width .3s ease}
+
+  /* cover */
+  .slide.hero{padding:0;overflow:hidden;background:var(--ink)}
+  .hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+  /* two scrims: a left wash so the title never lands on a bright video frame, plus the base vertical fade */
+  .hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,26,.86) 0%,rgba(0,0,26,.62) 34%,rgba(0,0,26,.16) 62%,rgba(0,0,26,.04) 100%),linear-gradient(180deg,rgba(0,0,28,.55) 0%,rgba(0,0,28,.12) 28%,rgba(0,0,30,.32) 55%,rgba(0,0,34,.94) 100%)}
+  .hero-bg{position:absolute;inset:0;z-index:1}
+  .hero-inner{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:flex-end;padding:48px max(40px,5.5%) 96px;color:#fff}
+  .hero-body{max-width:1180px}
+  .slide.hero .eyebrow{color:rgba(255,255,255,.7);margin-bottom:20px}
+  .slide.hero h1{color:#fff;font-size:clamp(50px,7.4vw,104px);letter-spacing:-.035em;line-height:.95}
+  .hero-sub{margin-top:20px;font-size:clamp(18px,1.65vw,23px);color:rgba(255,255,255,.74);max-width:62ch;line-height:1.42}
+  .hero-meta{display:flex;flex-wrap:wrap;gap:52px;margin-top:42px;border-top:1px solid rgba(255,255,255,.22);padding-top:24px}
+  .hero-meta .k{font-size:11px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:8px}
+  .hero-meta .v{font-size:18px;color:#fff;letter-spacing:-.01em}
+
+  /* ---------- step flow (slide 3) ---------- */
+  .flowwrap{display:grid;grid-template-columns:minmax(0,1fr) 296px;gap:34px;align-items:start}
+  .flow{overflow-x:auto}
+  .flow table{border-collapse:separate;border-spacing:0 6px;width:100%;min-width:1040px}
+  .flow th{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:500;text-align:left;padding:0 9px 6px 0;vertical-align:bottom;line-height:1.4}
+  .flow th.pgh{width:196px}
+  .flow td{padding:0 9px 0 0;vertical-align:middle}
+  .flow td.pgc{padding-right:18px}
+  .pgname{border-left:2px solid var(--ink);padding:5px 0 5px 12px;font-weight:600;font-size:14.5px;line-height:1.2;letter-spacing:-.005em}
+  .pgname i{display:block;font-family:var(--font-mono);font-style:normal;font-size:9.5px;letter-spacing:.13em;color:var(--muted);font-weight:500;margin-bottom:2px}
+  .cell{border:1px solid var(--line);border-radius:6px;padding:7px 11px 8px;background:var(--surface)}
+  .cell .cd{font-size:14px;font-weight:600;letter-spacing:-.005em;white-space:nowrap;line-height:1.2}
+  .cell .cw{font-family:var(--font-mono);font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:2px}
+  .cell.review{background:#fff;border-color:var(--ink)}
+  .cell.iterate{background:var(--ink);border-color:var(--ink)}
+  .cell.iterate .cd{color:#fff}
+  .cell.iterate .cw{color:#b9bcd4}
+  .cell.inform{background:var(--test);border-color:#a9adc4}
+  .cell.publish{background:var(--accent-soft);border-color:var(--ink);border-width:2px}
+  .cell.promote{background:#fff;border-style:dashed;border-color:var(--voc)}
+  .cell.promote .cd{color:var(--voc);font-weight:500}
+  .flow td.gap{padding:0 4px 0 0;vertical-align:middle;width:96px}
+  .flow th.gaph{width:96px;padding:0}
+  .gapl{display:block;text-align:center;padding:0 3px}
+  .gapl span{display:block;font-family:var(--font-mono);font-size:8.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);white-space:nowrap;margin-bottom:5px}
+  .gapl .track{height:4px;border-radius:2px;background:#e9ebf2}
+  .gapl .track i{display:block;height:100%;border-radius:2px;background:#9aa0bb}
+  .gapl .track b{display:block;width:4px;height:100%;border-radius:2px;background:#9aa0bb}
+  .gapl.hi span{color:var(--ink);font-weight:600}
+  .gapl.hi .track{background:#dcdfea}
+  .gapl.hi .track i,.gapl.hi .track b{background:var(--ink)}
+  .barkey{margin-top:12px;font-family:var(--font-mono);font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+
+  .side{padding:0 0 0 34px;border-left:1px solid var(--line);background:transparent}
+  .side h3{font-size:17px;font-weight:600;letter-spacing:-.01em;margin-bottom:10px}
+  .side ul{list-style:none;margin-bottom:22px}
+  .side li{font-size:13.5px;color:var(--ink-soft);line-height:1.45;padding:7px 0;border-bottom:1px solid var(--line-soft);display:flex;gap:12px}
+  .side li:last-child{border-bottom:0}
+  .side li b{font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;white-space:nowrap;flex:none;min-width:74px}
+  .side p{font-size:13.5px;color:var(--muted);line-height:1.5}
+
+  /* ---------- gantt (slide 2) ---------- */
+  .fullplan{padding:18px 0 0;background:transparent;overflow-x:auto}
+  .fullplan-hd{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-bottom:10px}
+  .fp-title{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);font-weight:600}
+  .fp-legend{display:flex;align-items:center;gap:16px;font-family:var(--font-mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+  .fp-legend i{display:inline-block;width:15px;height:9px;border-radius:1px;margin-right:6px;vertical-align:middle;font-style:normal;background:var(--ink)}
+  .fp-legend i.design{background:var(--accent-soft);border:1px solid var(--ink)}
+  .fp-legend i.inform{background:var(--test);width:8px;height:8px;border:1px solid #7f849e;border-radius:1px}
+  .fp-legend i.pub{background:var(--ink);width:7px;height:7px;border-radius:50%}
+  .fp-legend i.prom{background:#fff;border:1.2px dashed var(--voc);width:7px;height:7px;border-radius:50%}
+  .fp-legend i.today{background:none;border-left:1px solid var(--today);width:0;height:12px;border-radius:0}
+
+  .gantt{display:grid;grid-template-columns:238px minmax(760px,1fr);margin-top:12px}
+  .g-labs{display:flex;flex-direction:column;position:sticky;left:0;z-index:5;background:var(--card)}
+  .g-lab{font-size:13px;font-weight:600;color:var(--ink);height:34px;display:flex;align-items:center;border-bottom:1px solid var(--line-soft);padding-right:14px;white-space:nowrap}
+  .g-lab.glt{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);font-weight:600;border-bottom:1px solid var(--line);height:26px;background:var(--surface)}
+  .g-lab.ghd{height:32px;border-bottom:1px solid var(--line)}
+  .g-rows{position:relative}
+  .g-grid{position:absolute;inset:0;pointer-events:none;z-index:0}
+  .g-grid i{position:absolute;top:0;bottom:0;width:1px;background:var(--line)}
+  .g-today{position:absolute;top:0;bottom:0;width:0;border-left:1px solid var(--today);z-index:1}
+  .g-hd{position:relative;height:32px;border-bottom:1px solid var(--line);z-index:3}
+  .g-hd span{position:absolute;top:9px;font-family:var(--font-mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);transform:translateX(6px)}
+  .g-row:nth-of-type(even){background:rgba(20,111,248,.035)}
+  .g-row{position:relative;height:34px;border-bottom:1px solid var(--line-soft);z-index:2}
+  .g-row.gt{height:26px;border-bottom:1px solid var(--line);background:rgba(0,0,61,.028)}
+  .bar{position:absolute;top:11px;height:12px;background:var(--ink);border-radius:1px}
+  .bar.design{background:var(--accent-soft);border:1px solid var(--ink)}
+  .mk{position:absolute;top:13px;width:8px;height:8px;border-radius:50%;background:var(--ink);transform:translateX(-4px);z-index:4}
+  .mk.inform{width:10px;height:10px;border-radius:2px;background:#fff;border:1.5px solid var(--ink);top:12px;transform:translateX(-5.5px);z-index:5}
+  .gtxt{position:absolute;top:11px;font-family:var(--font-mono);font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink);transform:translateX(11px);white-space:nowrap;z-index:4;line-height:12px}
+
+  /* ---------- date table (slide 4) ---------- */
+  /* live roadmap embed */
+  .slide.wide{padding:8.6vh 6.5vw 4.4vh}
+  .slide.wide .inner{max-width:none}
+  .slide.wide .shead{margin-bottom:12px}
+  .slide.wide h2{font-size:clamp(24px,2.4vw,32px)}
+  .embed{position:relative;overflow:hidden;background:transparent;margin:0 auto}
+  .embed iframe{border:0;display:block}
+  .openrow{display:flex;align-items:center;gap:16px;margin-top:18px;flex-wrap:wrap}
+  .openbtn{display:inline-flex;align-items:center;gap:12px;background:var(--ink);color:#fff;border-radius:100px;
+    padding:12px 20px 12px 22px;font-size:14.5px;font-weight:600;letter-spacing:-.01em;text-decoration:none}
+  .openbtn .ar{width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.18);display:inline-flex;align-items:center;justify-content:center;font-size:12px}
+  .openurl{font-family:var(--font-mono);font-size:11px;letter-spacing:.05em;color:var(--muted)}
+  .datewrap{overflow-x:auto}
+  table.dates{width:100%;min-width:900px;border-collapse:collapse}
+  table.dates th{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:500;text-align:left;padding:9px 14px 8px 0;border-bottom:1px solid var(--ink)}
+  table.dates td{padding:11px 14px 11px 0;border-bottom:1px solid var(--line-soft);font-size:15px;color:var(--ink-soft);font-variant-numeric:tabular-nums;white-space:nowrap}
+  table.dates td.pg{font-weight:600;color:var(--ink)}
+  table.dates td.id{font-family:var(--font-mono);font-size:11px;color:var(--muted);width:30px}
+  table.dates td.na{color:#4A506A}
+  .cell.nodate .cd{font-size:13.5px;letter-spacing:-.005em;color:var(--muted)}
+  table.dates tr:last-child td{border-bottom:0}
+
+
+
+  /* ---------- responsive ---------- */
+  @media (max-height:960px){
+    .slide:not(.wide){padding:7.4vh 6vw}
+    .shead{margin-bottom:18px}
+    .cell{padding:5px 9px 6px}
+    .cell .cd{font-size:13px}
+    .flow table{border-spacing:0 4px}
+    .gapl span{margin-bottom:4px}
+    table.dates td{padding:8px 14px 8px 0;font-size:14px}
+  }
+  @media (max-width:1180px){
+    .slide{padding:104px 5vw 92px;justify-content:flex-start}
+    .slide.wide{padding:104px 5vw 84px}
+    .flowwrap{grid-template-columns:minmax(0,1fr);gap:30px}
+    .side{padding:24px 0 0;border-left:0;border-top:1px solid var(--line)}
+    .side ul{margin-bottom:18px}
+    .gantt{grid-template-columns:190px minmax(660px,1fr)}
+  }
+  @media (max-width:860px){
+    .topbar{padding:18px 20px 13px;font-size:9.5px;letter-spacing:.1em}
+    .topbar .tb-in>span{display:none}
+    .slide{padding:78px 20px 82px}
+    .slide.wide{padding:78px 20px 76px}
+    h1{font-size:clamp(34px,9vw,50px)}
+    h2{font-size:clamp(25px,6.6vw,34px)}
+    .slide.wide h2{font-size:clamp(22px,5.6vw,28px)}
+    .slide.hero h1{font-size:clamp(38px,11.5vw,62px)}
+    .lede{font-size:15px}
+    .hero-sub{font-size:16.5px;margin-top:16px}
+    .hero-meta{gap:20px 34px;margin-top:28px;padding-top:20px}
+    .shead{margin-bottom:20px}
+    .shead .eyebrow{margin-bottom:12px}
+    .nav{bottom:16px;right:16px;gap:10px}
+    .nav button{width:38px;height:38px;font-size:15px}
+    .nav #counter{display:none}
+    .exportbtn{bottom:19px;left:16px;font-size:9.5px;padding:7px 12px}
+    .fp-legend{gap:11px;font-size:9px}
+    .fullplan-hd{gap:12px}
+    .gantt{grid-template-columns:148px minmax(600px,1fr)}
+    .g-lab{font-size:12px;height:32px;padding-right:10px}
+    table.dates td{font-size:13.5px;padding:9px 12px 9px 0}
+    .side li{font-size:13px}
+    .scrollcue{display:block}
+  }
+  @media (max-width:860px) and (orientation:portrait){
+    .slide{overflow-y:auto}
+  }
+  .scrollcue{display:none;margin-top:10px;font-family:var(--font-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+
+  @media print{
+    @page{size:1600px 1000px;margin:0}
+    html,body{height:auto;overflow:visible;background:#fff}
+    .topbar,.nav,.progressbar,.exportbtn{display:none}
+    .stage{position:static;inset:auto}
+    .slide{position:relative;inset:auto;display:flex!important;opacity:1!important;height:1000px;overflow:hidden;padding:8vh 6vw;break-after:page;page-break-after:always;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .slide:last-child{break-after:auto;page-break-after:auto}
+    /* the video frame is nondeterministic in print — pin the cover to its poster */
+    .slide.hero .hero-video{display:none}
+    .slide.hero{background:#00003d url("assets/hero/geaero-cover-poster.jpg") center center/cover no-repeat}
+    .slide.hero .hero-inner{padding-bottom:56px}
+    .flow,.fullplan,.datewrap{overflow:visible}
+    /* Chromium's PDF rasterizer flattens blurred shadows into hard grey blocks — drop them */
+    *{box-shadow:none!important}
+  }
+
+  /* ---------- ranked opportunity list (slide 2) ---------- */
+  .ranks{display:grid;gap:0;margin-top:6px}
+  .rank{display:grid;grid-template-columns:64px minmax(0,1fr);gap:0 22px;align-items:baseline;
+        padding:19px 0;border-bottom:1px solid var(--line)}
+  .rank:first-child{border-top:1px solid var(--ink)}
+  .rank .rn{font-family:var(--font-mono);font-size:11px;letter-spacing:.13em;color:var(--muted)}
+  .rank .rt{font-size:clamp(17px,1.5vw,21px);font-weight:600;letter-spacing:-.015em}
+  .rank .rt{font-size:clamp(20px,1.85vw,27px)}
+  .rank.r1 .rt{font-size:clamp(23px,2.15vw,31px)}
+
+  /* ---------- three column problem table (slide 3) ---------- */
+  table.tri{width:100%;min-width:900px;border-collapse:collapse}
+  table.tri th{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;
+               color:var(--muted);font-weight:500;text-align:left;padding:0 20px 9px 0;border-bottom:1px solid var(--ink)}
+  table.tri td{padding:13px 20px 13px 0;border-bottom:1px solid var(--line-soft);font-size:15px;
+               color:var(--ink-soft);vertical-align:top;line-height:1.45}
+  table.tri td.c{font-weight:600;color:var(--ink);white-space:nowrap}
+  table.tri td.s{color:var(--ink)}
+  table.tri tr:last-child td{border-bottom:0}
+
+  /* ---------- step chain, no boxes (slides 3 and 7) ---------- */
+  .chain{display:flex;align-items:flex-start;gap:0;flex-wrap:wrap;margin-top:26px;padding-top:20px;border-top:1px solid var(--line)}
+  .chain .ch{flex:0 1 auto;max-width:280px;padding-right:26px}
+  .chain .arw{flex:none;align-self:center;color:var(--muted);font-size:15px;padding:0 26px 0 0;line-height:1}
+  .chain .ck{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+  .chain .cv{font-size:clamp(15px,1.28vw,18px);letter-spacing:-.012em;line-height:1.35;color:var(--ink)}
+  .chain .cd{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;color:var(--muted);margin-top:8px}
+
+  /* ---------- numbered scope (slide 5) ---------- */
+  .scopewrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:52px;align-items:start}
+  ol.scope{list-style:none;counter-reset:sc}
+  ol.scope li{counter-increment:sc;display:grid;grid-template-columns:44px minmax(0,1fr);gap:0 14px;
+              padding:14px 0;border-bottom:1px solid var(--line)}
+  ol.scope li:first-child{border-top:1px solid var(--ink)}
+  ol.scope li:before{content:counter(sc,decimal-leading-zero);font-family:var(--font-mono);font-size:11px;
+                     letter-spacing:.13em;color:var(--muted);padding-top:5px}
+  ol.scope b{grid-column:2;display:block;font-size:clamp(17px,1.5vw,21px);font-weight:600;letter-spacing:-.015em}
+  ol.scope span{grid-column:2;display:block;font-size:13.5px;color:var(--muted);margin-top:4px;line-height:1.45}
+  .pagelist h4{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;
+               color:var(--muted);font-weight:500;padding-bottom:9px;border-bottom:1px solid var(--ink);margin-bottom:2px}
+  .pagelist ul+h4{margin-top:28px}
+  .pagelist ul{list-style:none}
+  .pagelist li{font-size:14.5px;color:var(--ink-soft);padding:7px 0;border-bottom:1px solid var(--line-soft);letter-spacing:-.005em}
+  .pagelist li:last-child{border-bottom:0}
+
+  /* ---------- fundamental / interactive grid (slide 6) ---------- */
+  table.pairs{width:100%;min-width:860px;border-collapse:collapse}
+  table.pairs th{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;
+                 color:var(--muted);font-weight:500;text-align:left;padding:0 24px 9px 0;border-bottom:1px solid var(--ink)}
+  table.pairs td{padding:12px 24px 12px 0;border-bottom:1px solid var(--line-soft);font-size:15px;color:var(--ink-soft);line-height:1.4}
+  table.pairs td.f{font-weight:600;color:var(--ink);white-space:nowrap;width:280px}
+  table.pairs td.tbd{color:var(--voc);font-family:var(--font-mono);font-size:11px;letter-spacing:.13em}
+  table.pairs tr:last-child td{border-bottom:0}
+  .sysnote{margin-top:22px;padding-top:18px;border-top:1px solid var(--line);font-size:15px;color:var(--muted);max-width:70ch;line-height:1.5}
+  .sysnote b{color:var(--ink)}
+
+  /* The deck is the same deck. What a workshop needs on top of it is the
+     question that gets asked out loud on each slide. */
+  .ask{margin-top:22px;border-left:2px solid #2256e6;padding:2px 0 2px 18px}
+  .ask .k{font-family:var(--font-mono);font-size:12.5px;letter-spacing:.13em;text-transform:uppercase;color:#2256e6;margin-bottom:7px}
+  .ask .t{font-size:24px;line-height:1.35;color:var(--ink)}
+  .slide.dark .ask .t{color:#fff}
+  .asks{margin-top:22px;display:grid;gap:16px;padding:0}
+  .asks li{list-style:none;display:flex;gap:13px;align-items:flex-start;font-size:17px;line-height:1.42;color:var(--ink-soft)}
+  .asks li::before{content:attr(data-n);font-family:var(--font-mono);font-size:17px;font-weight:600;letter-spacing:.1em;color:var(--voc);
+     border:1px solid var(--line);border-radius:100px;padding:5px 13px;flex:none;margin-top:1px;
+     min-width:44px;text-align:center}
+  .slide.dark .asks li{color:#dfe3f2}
+  .slide.dark .asks li::before{border-color:rgba(255,255,255,.24);color:#9aa0c7}
+
+  /* The journey slide. A concept slide answers "what is this"; this one answers
+     "and then what", which is the question the room could not judge from a
+     single screen. Donny and the GE call, 26 Aug. */
+  .flow{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:2px 0 22px}
+  .fstep{display:flex;align-items:center;gap:13px;border:1px solid var(--line);border-radius:100px;padding:11px 21px 11px 12px}
+  .fstep .fn{font-family:var(--font-mono);font-size:13px;color:#fff;background:var(--ink);border-radius:100px;
+     width:27px;height:27px;display:flex;align-items:center;justify-content:center;flex:none}
+  .fstep .ft{font-size:18px;color:var(--ink)}
+  .farrow{color:var(--voc);font-size:15px}
+  .fshots{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+  .fshots figure{margin:0}
+  .fshots img{width:100%;height:auto;aspect-ratio:1440/1950;object-fit:cover;object-position:top center;
+     border:1px solid var(--line);border-radius:12px;background:var(--surface);
+     box-shadow:0 18px 40px -26px rgba(0,4,40,.5)}
+  .fshots figcaption{font-family:var(--font-mono);font-size:12.5px;letter-spacing:.13em;text-transform:uppercase;
+     color:var(--voc);margin-top:9px}
+  @media(max-width:980px){.fshots{grid-template-columns:1fr}}
+
+  /* The three readings used to sit in a three column grid directly under the
+     three page shots, so each one read as a caption for the shot above it. They
+     are not captions. This block is visually its own thing. Donny, 26 Aug. */
+  .jread{display:grid;grid-template-columns:180px 1fr;gap:0 34px;align-items:start;margin-top:30px;
+     border-top:1px solid var(--line);padding-top:24px;margin-bottom:8px}
+  /* .k was only styled inside .kv, so these labels lost their eyebrow and read
+     at the same weight as the copy under them. */
+  .jread .k{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;
+     color:var(--voc)}
+  .jclicks .jbig{font-family:var(--font-display);font-size:30px;font-weight:400;letter-spacing:-.02em;
+     color:var(--ink);line-height:1.1;margin-top:6px}
+  .jwho{display:grid;grid-template-columns:1fr 1fr;gap:34px}
+  .jwho .jp .v{font-size:15px;color:var(--ink-soft);line-height:1.5;margin-top:5px}
+  @media(max-width:1080px){.jread{grid-template-columns:1fr;gap:22px}.jwho{grid-template-columns:1fr;gap:20px}}
+  /* Bigger shots. At 230px the page content was unreadable, which made the row
+     decorative rather than evidence. */
+
+  /* The room needs to see the page move. A still cannot be scrolled and cannot
+     be clicked, and half the argument on a concept slide is what happens when
+     you do. Donny, 26 Aug. */
+  .frame.live{padding:0;background:#fff;max-height:none;height:72vh;display:block}
+  .frame.live iframe{width:100%;height:100%;border:0;display:block;background:#fff}
+  .split{align-items:start}
+
+  /* Up close. A full page shot at thumbnail size shows nothing, so each option
+     gets the three moments that make it what it is, cropped from the real page
+     by scripts/export-highlights.mjs. Donny, 26 Aug. */
+  .hl{display:grid;gap:22px}
+  .hl-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .hl-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+  @media(max-width:980px){.hl-3,.hl-2{grid-template-columns:1fr}}
+  .hl figure{margin:0;display:flex;flex-direction:column}
+  /* These are full width slices of a real page, and the content on those pages
+     is left aligned, so a centre crop cut every headline in half. */
+  .hl img{width:100%;height:clamp(210px,24vw,320px);object-fit:cover;object-position:left top;
+     border:1px solid var(--line);border-radius:4px;background:#fff;
+     box-shadow:0 20px 44px -28px rgba(0,4,40,.5)}
+  .hl figcaption{margin-top:14px;font-size:18px;font-weight:600;color:var(--ink);line-height:1.3}
+  .hl figcaption span{display:block;margin-top:5px;font-size:15.5px;font-weight:400;color:var(--muted);line-height:1.45}
+  /* Wins and costs read as a list of statements, two up, not a dense grid. */
+  .kv.wins{grid-template-columns:repeat(2,minmax(0,1fr));gap:34px 56px;margin-top:30px}
+  @media(max-width:980px){.kv.wins{grid-template-columns:1fr}}
+  .kv.wins .k{font-size:13px;color:var(--ink);font-weight:600;letter-spacing:.1em}
+  .kv.wins .v{font-size:20px;line-height:1.42;color:var(--ink-soft)}
+
+  /* The wins and costs were two slides of small text floating on white, which
+     cannot be demoed to a room. One dark slide each, big enough to read from
+     the back, with the cost stated rather than buried. Donny, 27 Aug. */
+  .slide.verdict{padding:0;overflow:hidden;background:var(--ink)}
+  .verdict .vbg{position:absolute;inset:0;background-size:cover;background-position:center 42%;opacity:.42}
+  .verdict .vbg::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(90deg,rgba(0,0,40,.94) 0%,rgba(0,0,40,.78) 48%,rgba(0,0,40,.5) 100%)}
+  .verdict .inner{position:relative;z-index:2;padding:13vh 6.5vw 9vh;display:flex;flex-direction:column;justify-content:center;height:100%}
+  .verdict .veyebrow{font-family:var(--font-mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;
+    color:#8fb2ff;margin-bottom:36px}
+  /* 26ch at 42px broke short statements into five ragged lines. */
+/* 44ch of a 46px face is about 500px in a 1600px slide, which broke short
+     statements into five lines. */
+  .verdict .vwins{list-style:none;margin:0;padding:0;display:grid;gap:24px;max-width:none;width:min(62ch,58%)}
+  .verdict .vwins li{font-family:var(--font-display);font-weight:300;font-size:clamp(28px,3.1vw,46px);
+    line-height:1.14;letter-spacing:-.022em;color:#fff;text-wrap:balance}
+  .verdict .vfoot{display:flex;gap:64px;margin-top:52px;padding-top:26px;border-top:1px solid rgba(255,255,255,.2);max-width:70ch}
+  .verdict .vfoot div{font-size:19px;color:#dfe3f2;line-height:1.4}
+  .verdict .vfoot span{display:block;font-family:var(--font-mono);font-size:11.5px;letter-spacing:.14em;
+    text-transform:uppercase;color:#8f97bd;margin-bottom:7px}
+
+  /* Three thin rows in a two column grid read as a broken table. Three cards
+     with the real page on them is what a room can actually see. */
+  .ogrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px;margin-top:32px}
+  @media(max-width:980px){.ogrid{grid-template-columns:1fr}}
+  .ogrid a{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:4px;
+    background:#fff;overflow:hidden;transition:border-color .3s cubic-bezier(.39,.575,.565,1),
+    box-shadow .3s cubic-bezier(.39,.575,.565,1),transform .3s cubic-bezier(.39,.575,.565,1)}
+  .ogrid a:hover{border-color:#2256e6;transform:translateY(-3px);box-shadow:0 20px 44px -22px rgba(0,4,40,.4)}
+  .ogrid .oshot{display:block;height:clamp(150px,17vw,220px);overflow:hidden;background:#0a1626;border-bottom:1px solid var(--line)}
+  .ogrid .oshot img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+  .ogrid .on{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;color:var(--voc);
+    padding:18px 22px 0;display:flex;align-items:center;gap:10px}
+  .ogrid .on b{font-family:var(--font-sans);font-size:10.5px;font-weight:700;letter-spacing:.1em;
+    text-transform:uppercase;color:#fff;background:#2256e6;border-radius:100px;padding:3px 9px}
+  .ogrid .ot{font-size:22px;font-weight:600;letter-spacing:-.022em;line-height:1.16;color:var(--ink);padding:8px 22px 0}
+  .ogrid .oq{font-size:15px;color:var(--muted);line-height:1.4;padding:6px 22px 0}
+  .ogrid .os{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--voc);padding:14px 22px 20px}
+  /* A single statement should not be forced into a 26ch column. */
+
+  /* One moment per slide, at a size a room can read. Three across meant each
+     was a third of a slide wide and every headline in them was cut in half.
+     Donny, 27 Aug. */
+  .hone{display:grid;grid-template-columns:minmax(280px,32%) 1fr;gap:48px;align-items:center}
+  @media(max-width:1080px){.hone{grid-template-columns:1fr;gap:28px}}
+  .hone-txt h2{margin-top:16px}
+  .hone-txt .lede{margin-top:16px;max-width:34ch}
+  .hone-shot{margin:0;border:1px solid var(--line);border-radius:4px;overflow:hidden;background:#fff;
+     box-shadow:0 34px 70px -34px rgba(0,4,40,.5);max-height:88vh}
+  .hone-shot img{display:block;width:100%;height:auto;max-height:74vh;object-fit:contain;object-position:top center}
+
+  /* A crop that cuts in cold means nothing to someone seeing the page for the
+     first time. Each of these opens on the whole page, holds a beat, then
+     pushes in to the moment. Donny, 27 Aug. */
+  .hone-shot.zoom{position:relative;overflow:hidden;height:min(84vh,820px);background:#fff}
+  /* The deck sets img{max-width:100%} globally, which capped this layer to the
+     frame width and made every push-in land at the wrong scale. */
+/* The non zoom rule caps height at 74vh and uses object-fit contain, which
+     letterboxed the whole page into the frame and made every push-in land on
+     the footer. This layer is a raw bitmap the transform moves. */
+  .hone-shot.zoom img{position:absolute;left:0;top:0;max-width:none;max-height:none;
+     height:auto;object-fit:fill;transform-origin:0 0;
+     transition:transform 1.15s cubic-bezier(.39,.575,.565,1)}
+  .hone-shot.zoom::after{content:"";position:absolute;inset:0;pointer-events:none;
+     box-shadow:inset 0 0 0 1px rgba(11,26,64,.08)}
+
+  /* The two groups Steven's 2026 traffic actually shows. They are the frame for
+     every option after this, so they get GE's own persona photography at a size
+     a room can see. Donny, 27 Aug. */
+  .pgrid{display:grid;grid-template-columns:1fr 1fr;gap:34px;margin-top:34px}
+  @media(max-width:980px){.pgrid{grid-template-columns:1fr}}
+  .pcard{display:grid;grid-template-columns:clamp(150px,17vw,230px) 1fr;gap:28px;align-items:center;
+     border:1px solid var(--line);border-radius:4px;padding:26px;background:#fff}
+  .pcard img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:4px;display:block}
+  .pcard .pn{font-family:var(--font-mono);font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--voc)}
+  .pcard h3{font-family:var(--font-display);font-weight:300;font-size:clamp(21px,1.9vw,27px);
+     line-height:1.14;letter-spacing:-.022em;color:var(--ink);margin:10px 0 0;text-wrap:balance}
+  .pcard .psay{font-size:clamp(19px,1.7vw,25px);color:#2256e6;margin:14px 0 0;line-height:1.25}
+  .pcard .pdet{font-size:16px;color:var(--muted);line-height:1.45;margin:12px 0 0}
+
+  /* Every option is judged against the two groups, in their two lanes, because
+     that is the decision the room can actually make. */
+  .pverdict .planes{display:grid;grid-template-columns:1fr 1fr;gap:56px;max-width:none}
+  @media(max-width:980px){.pverdict .planes{grid-template-columns:1fr;gap:34px}}
+  .pverdict .pl-who{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.14em;
+     text-transform:uppercase;color:#8f97bd;margin-bottom:16px}
+  .pverdict .pl-verdict{font-family:var(--font-display);font-weight:300;
+     font-size:clamp(38px,4.4vw,64px);line-height:1;letter-spacing:-.03em;color:#fff}
+  .pverdict .plane p{font-size:clamp(17px,1.4vw,21px);line-height:1.42;color:#cfd5ea;
+     margin:18px 0 0;max-width:32ch;text-wrap:pretty}
+  .pverdict .vfoot{margin-top:56px}
+
+  /* The concept slide was a copy block of what it does, where it came from and
+     still open, none of which argues for anything. It says why the option is
+     good, next to the real page, which scrolls and clicks in the room. The
+     layout is the up close one, which is the only one that reads. Donny, 27 Aug. */
+  .good{list-style:none;margin:26px 0 0;padding:0;display:grid;gap:16px}
+  .good li{position:relative;padding-left:26px;font-size:clamp(17px,1.4vw,21px);line-height:1.4;
+     color:var(--ink-soft);text-wrap:pretty}
+  .good li::before{content:"";position:absolute;left:0;top:.55em;width:9px;height:9px;
+     border-radius:2px;background:var(--green,#0ad64f)}
+/* The frame was short and wide, so the page showed as a letterbox strip. It
+     is taller than letter now and the slide gives it the room. */
+  .hone-shot.live{padding:0;height:min(88vh,880px);background:#fff;overflow:hidden}
+  /* The frame is about 900px, which puts every embedded page into its tablet
+     layout. The page renders at a desktop 1440 and is scaled down to fit, so
+     the room sees the desktop design. The default is the ratio at Donny's
+     presenting size, so the frame is still right if the script never runs.
+     Donny, 27 Aug. */
+  .hone-shot.live{--dk:.63}
+  .hone-shot.live iframe{width:1440px;height:calc(100% / var(--dk));border:0;display:block;
+     background:#fff;transform:scale(var(--dk));transform-origin:top left}
+  .hone-txt .open{margin-top:30px}
+  /* The up close and concept slides give their frame the full slide height. */
+  .slide:has(.hone){padding-top:5vh;padding-bottom:5vh}
+
+  /* The journey title was set at full display size above three small page
+     shots, so the slide was about the sentence rather than the pages. The title
+     steps down and the pages take the room. Donny, 27 Aug. */
+  .slide:has(.fshots) h2{font-size:clamp(26px,2.5vw,36px)}
+  .slide:has(.fshots) .shead{margin-bottom:18px}
+  .slide:has(.fshots) .lede{font-size:clamp(16px,1.2vw,19px);margin-top:10px}
+  .slide:has(.fshots),.slide:has(.hone){padding-top:5vh;padding-bottom:5vh}
+
+  /* The step row sat hard left under a huge title with empty space beside it.
+     Centred, in that space, where it can be read. Donny, 27 Aug. */
+  .slide:has(.fshots) .flow{justify-content:center;gap:18px;margin:6px auto 26px}
+  .slide:has(.fshots) .shead{text-align:center}
+  .slide:has(.fshots) .shead .eyebrow{justify-content:center}
+  .slide:has(.fshots) .shead .lede{margin-left:auto;margin-right:auto}
+
+  /* The deck should be able to run the walkthrough on its own while someone
+     talks over it. These are the real pages, and on arrival each one drives
+     itself to the moment the slide is about. Donny, 27 Aug. */
+  .hone-shot.demo{position:relative;overflow:hidden;height:min(88vh,880px);background:#fff;padding:0}
+/* A 1440 iframe scaled by a custom property clipped every page whenever the
+     property had not been set yet, which is most of the time a slide opens.
+     Reverted. Donny, 27 Aug. */
+  .hone-shot.demo{--dk:.63}
+  .hone-shot.demo iframe{width:1440px;height:calc(100% / var(--dk));border:0;display:block;
+     background:#fff;transform:scale(var(--dk));transform-origin:top left}
+  .replay{position:absolute;right:14px;bottom:14px;z-index:3;font-family:var(--font-mono);
+    font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);
+    background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:100px;
+    padding:8px 15px;cursor:pointer;opacity:0;transition:opacity .3s}
+  .hone-shot.demo:hover .replay{opacity:1}
+  .replay:hover{border-color:var(--ink)}
+
+  /* The setup slide was the only one left as type on white, so a presenter had
+     to fill the screen with their voice. Same ground as the rest of the setup.
+     Donny, 27 Aug. */
+/* position:relative overrode the base .slide inset:0, so the slide sized to
+     its content and left a white band under it. */
+  .slide.setupdark{position:absolute;inset:0;overflow:hidden;background:var(--ink);padding:0}
+  .setupdark .vbg{position:absolute;inset:0;background-size:cover;background-position:center 40%;opacity:.34}
+  .setupdark .vbg::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(90deg,rgba(0,0,40,.94) 0%,rgba(0,0,40,.8) 52%,rgba(0,0,40,.54) 100%)}
+  .setupdark .inner{position:relative;z-index:2;padding:13vh 6.5vw 9vh;display:flex;flex-direction:column;justify-content:center;height:100%}
+  .setupdark .veyebrow{font-family:var(--font-mono);font-size:13px;letter-spacing:.16em;
+    text-transform:uppercase;color:#8fb2ff;margin-bottom:22px}
+  .setupdark h2{color:#fff}
+  .setupdark .lede{color:#cfd5ea;margin-top:14px}
+  .setupdark .asks{margin-top:34px}
+  .setupdark .asks li{color:#dfe3f2}
+  .setupdark .asks li::before{border-color:rgba(255,255,255,.28);color:#9aa0c7}
+  /* The journey block floated in the middle with dead space above and below. */
+  .slide:has(.fshots) .shead{margin-bottom:14px}
+  .slide:has(.fshots) .flow{margin:4px auto 22px}
+  .fshots figcaption{margin-top:12px}
+
+  /* Served and Slowed were a puzzle. Each lane names the person plainly and
+     says what happens to them, in a sentence. Donny, 27 Aug. */
+  .pverdict .pl-who{font-family:var(--font-sans);font-size:clamp(19px,1.6vw,24px);
+     letter-spacing:0;text-transform:none;color:#8fb2ff;margin-bottom:18px;line-height:1.25;font-weight:600}
+  .pverdict .plane p{font-family:var(--font-display);font-weight:300;
+     font-size:clamp(24px,2.5vw,36px);line-height:1.2;letter-spacing:-.02em;color:#fff;
+     margin:0;max-width:24ch;text-wrap:balance}
+  /* the journey shots were still short against the slide */
+/* The journey shots were cropped, so the room saw the top of a page rather
+     than the page. Contain shows all of it. Donny, 27 Aug. */
+/* A 13000px page cannot be shown whole and stay legible: contain turned each
+     one into a narrow sliver. The frame is page shaped and shows the top of
+     each page. Donny, 27 Aug. */
+  /* Every journey still is the same 1440x1950 capture, so all three frames are
+     one shape and one width. No crop, no letterbox, no blank tail from a page
+     that happens to be 8,000px long. Donny, 27 Aug. */
+  .fshots img{width:100%!important;height:auto!important;aspect-ratio:1440/1950;
+     object-fit:cover!important;object-position:top center!important;background:#fff}
+
+  /* The step row sat above the pages, so you read the words before you saw
+     what they refer to. It goes under them. Donny, 27 Aug. */
+  .slide:has(.fshots) .inner{display:flex;flex-direction:column}
+  .slide:has(.fshots) .fshots{order:1}
+  .slide:has(.fshots) .flow{order:2;margin:26px auto 0}
+
+  /* The recommendation should show the thing and point at it, not describe it.
+     The pins sit at the real positions of the three moments on the page, read
+     out of data/highlights.json. Donny, 27 Aug. */
+  .slide.reco{background:var(--ink)}
+  .recogrid{display:grid;grid-template-columns:1fr minmax(300px,34%);gap:56px;align-items:center}
+  @media(max-width:1080px){.recogrid{grid-template-columns:1fr}}
+  .reco .veyebrow{font-family:var(--font-mono);font-size:13px;letter-spacing:.16em;
+    text-transform:uppercase;color:#8fb2ff;margin-bottom:20px}
+  .reco h2{color:#fff;max-width:20ch}
+  .reco .pros{list-style:none;margin:32px 0 0;padding:0;display:grid;gap:20px;counter-reset:p}
+  .reco .pros li{display:flex;gap:18px;align-items:flex-start}
+  .reco .pros span{flex:none;width:34px;height:34px;border-radius:50%;background:#2256e6;color:#fff;
+    display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:14px;
+    font-weight:600;margin-top:2px}
+  .reco .pros div{font-size:clamp(16px,1.3vw,20px);line-height:1.45;color:#cfd5ea;max-width:52ch;text-wrap:pretty}
+  .reco .pros b{color:#fff;font-weight:600}
+  .reco .lede{color:#8f97bd;margin-top:30px;font-size:17px;max-width:52ch}
+  .recoshot{position:relative;margin:0;border-radius:4px;overflow:hidden;background:#fff;
+    box-shadow:0 34px 70px -30px rgba(0,0,0,.7);max-height:80vh}
+/* cover cropped the page, so a pin placed by percentage of the real page
+     landed on the wrong band. contain keeps the percentages true. */
+  /* The full page still is 11,500px tall. Contained in a 480px column it was a
+     130px sliver floating in white, with the pins pointing at nothing. It now
+     reads the same portrait capture the journey frames use, and fills the
+     frame. Donny, 27 Aug. */
+  .recoshot img{display:block;width:100%;height:auto;aspect-ratio:1440/1950;
+     object-fit:cover;object-position:top center}
+  .recoshot .pin{position:absolute;left:12px;width:34px;height:34px;border-radius:50%;
+    background:#2256e6;color:#fff;display:flex;align-items:center;justify-content:center;
+    font-family:var(--font-mono);font-size:14px;font-weight:600;
+    box-shadow:0 0 0 4px rgba(34,86,230,.28)}
+
+  /* The cursor the room follows. It belongs to the deck, not the page, so it
+     works over any embedded page. */
+  .hone-shot.demo{position:relative}
+  .democursor{position:absolute;left:0;top:0;width:24px;height:24px;margin:-12px 0 0 -12px;
+    border-radius:50%;background:rgba(34,86,230,.3);border:2px solid #2256e6;pointer-events:none;
+    z-index:4;opacity:0;transition:transform .64s cubic-bezier(.39,.575,.565,1),opacity .3s}
+  .democursor.tap{animation:demotap .6s ease}
+  @keyframes demotap{0%{box-shadow:0 0 0 0 rgba(34,86,230,.55)}100%{box-shadow:0 0 0 26px rgba(34,86,230,0)}}
+
+  /* Each step belongs under the page it describes, not in a row above them all.
+     Donny, 27 Aug. */
+  .fshots figcaption{display:flex;align-items:center;gap:12px;margin-top:16px;
+     font-family:var(--font-sans);font-size:17px;letter-spacing:0;text-transform:none;
+     color:var(--ink);font-weight:500}
+  .fshots figcaption .fn{flex:none;width:30px;height:30px;border-radius:50%;background:var(--ink);
+     color:#fff;display:flex;align-items:center;justify-content:center;
+     font-family:var(--font-mono);font-size:13px;font-weight:600}
+
+  /* The inventory of what the hub actually holds, so the room can see what the
+     homepage has to point at. Donny, 27 Aug. */
+  .invgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;margin-top:34px}
+  @media(max-width:1080px){.invgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  .inv{border:1px solid var(--line);border-radius:4px;padding:24px;background:#fff;display:flex;flex-direction:column}
+  .inv .invn{font-family:var(--font-display);font-weight:300;font-size:clamp(34px,3.4vw,50px);
+     line-height:1;letter-spacing:-.03em;color:#2256e6}
+  .inv .invt{font-size:19px;font-weight:600;color:var(--ink);margin-top:10px;letter-spacing:-.012em}
+  .inv .invd{font-size:14.5px;color:var(--muted);line-height:1.45;margin-top:12px;text-wrap:pretty}
+</style>
+
+<style>
+  /* ── this deck ───────────────────────────────────────────────────── */
+  /* Seven cards at one row each made every title wrap. Let it wrap into rows. */
+  /* Four across, two rows. Seven in a single row left the thumbnails too small
+   to read and half the slide empty underneath. */
+  /* The overview carries the argument, not seven screenshots. Seven page shots at
+     thumbnail size were the same navy SharePoint chrome seven times over, which
+     told a reader nothing and left the row unreadable. Each concept's own slide
+     shows the full page; this one says what each sorts on. */
+  .cgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 64px;margin-top:34px}
+  @media(max-width:900px){.cgrid{grid-template-columns:1fr}}
+  .ccard{display:grid;grid-template-columns:74px 1fr 132px;align-items:baseline;gap:18px;
+     padding:26px 4px;border-bottom:1px solid var(--line-soft);transition:padding-left .14s}
+  .ccard:hover{padding-left:10px}
+  .ccard.now{border-bottom-color:#2256e6}
+  .ccard .cn{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.13em;color:var(--voc);white-space:nowrap}
+  .ccard.now .cn{color:#2256e6;font-weight:600}
+  .ccard .ct{font-size:20px;font-weight:600;letter-spacing:-.022em;line-height:1.15;color:var(--ink)}
+  .ccard .ct small{display:block;font-size:13.5px;font-weight:400;color:var(--muted);
+     letter-spacing:0;line-height:1.45;margin-top:5px}
+  .ccard .cs{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+     color:var(--voc);text-align:right;white-space:nowrap}
+  .split{display:grid;grid-template-columns:minmax(300px,.82fr) 1.18fr;gap:44px;align-items:start}
+  @media(max-width:1080px){.split{grid-template-columns:1fr}}
+  @media(max-width:980px){.cgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  .frame{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--surface);
+     box-shadow:0 30px 70px -34px rgba(0,4,40,.45);max-height:70vh}
+  .frame img{width:100%;object-position:top center}
+  .kv{display:grid;gap:18px;margin-top:24px}
+  .kv .k{font-family:var(--font-mono);font-size:12.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--voc);margin-bottom:7px}
+  .kv .v{font-size:19.5px;color:var(--ink-soft);line-height:1.45}
+  .kv .v.cost{color:var(--warn)}
+  a.open{display:inline-flex;align-items:center;gap:8px;margin-top:28px;font-size:16px;font-weight:600;
+     color:#fff;background:var(--ink);border-radius:100px;padding:11px 20px;transition:background .15s}
+  a.open:hover{background:#2256e6}
+
+  table.cmp{width:100%;border-collapse:collapse;margin-top:10px;font-size:17.5px}
+  table.cmp th,table.cmp td{text-align:left;padding:16px 16px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+  table.cmp th{font-family:var(--font-mono);font-size:12.5px;letter-spacing:.13em;text-transform:uppercase;
+     color:var(--voc);font-weight:500;border-bottom:1px solid var(--line)}
+  table.cmp td:first-child{font-weight:600;white-space:nowrap}
+  table.cmp td.q{color:var(--muted)}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="tb-in">
+    <a class="tb-brand cobrand" href="#s1" id="tocover" title="Back to the cover"><span class="ge-logo" role="img" aria-label="GE Aerospace"></span><span class="x">&times;</span><span class="bttr-logo" role="img" aria-label="Bttr."></span></a>
+    <span>Homepage workshop</span>
+  </div>
+</div>
+<div class="progressbar" id="progressbar"></div>
+
+<div class="stage" id="stage">
+
+  <section class="slide hero">
+    <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="assets/hero/geaero-cover-poster.jpg" src="assets/hero/geaero-cover-loop.mp4"></video>
+    <div class="hero-bg"></div>
+    <div class="hero-inner">
+      <div class="hero-body">
+        <div class="eyebrow">THU 27 AUG &middot; WORKING SESSION</div>
+        <h1>Flight Deck Homepage Design Review</h1>
+        <p class="hero-sub">The homepage is the shared entry point to Flight Deck. We&rsquo;ll review three live options and select a direction for publication in October.</p>
+        <div class="hero-meta">
+          <div><div class="k">Session length</div><div class="v">45 min</div></div>
+          <div><div class="k">Options</div><div class="v">Three</div></div>
+          <div><div class="k">Format</div><div class="v">Live pages</div></div>
+          <div><div class="k">Preparation</div><div class="v">Migrate to Production</div></div>
+          <div><div class="k">Publishes</div><div class="v">October</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide dark verdict">
+    <div class="vbg" style="background-image:url(/hub/assets/ge-assembly.jpg)"></div>
+    <div class="inner">
+      <div class="veyebrow">Where we are</div>
+      <ul class="vwins">
+        <li>The hub is eight Fundamentals, the Behaviors, four libraries and Wingmate.</li>
+        <li>The homepage is the last piece, and it is still open.</li>
+      </ul>
+      <div class="vfoot">
+        <div><span>Live now</span>Standard Work and Problem Solving, plus the template, tool, video and prompt libraries</div>
+        <div><span>Next, 1 September</span>5S and Daily &amp; Visual Management</div>
+        <div><span>Today</span>Review three homepage options and pick a direction</div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <section class="slide">
+    <div class="inner">
+      <div class="shead">
+        <div class="eyebrow">What is on the hub today</div>
+        <h2>Everything the homepage has to point at.</h2>
+        <p class="lede">Eight Fundamentals, the three Behaviors, four libraries and Wingmate. The homepage is the one surface that has to make sense of all of it.</p>
+      </div>
+      <div class="invgrid">
+        <div class="inv"><div class="invn">Eight</div><div class="invt">Fundamentals</div><div class="invd">Standard Work, Problem Solving, Daily &amp; Visual Management, 5S, Operating Cadences, Value Stream Management, Action Planning, Flow/Pull</div></div>
+        <div class="inv"><div class="invn">Three</div><div class="invt">Behaviors</div><div class="invd">Respect for People, Continuous Improvement, Customer Driven</div></div>
+        <div class="inv"><div class="invn">Four</div><div class="invt">Libraries</div><div class="invd">Templates, Tools, Video, Wingmate prompts</div></div>
+        <div class="inv"><div class="invn">One</div><div class="invt">Assistant</div><div class="invd">Wingmate, reachable from any page</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide dark verdict">
+    <div class="vbg" style="background-image:url(/hub/assets/ge-propulsion.jpg)"></div>
+    <div class="inner">
+      <div class="veyebrow">What is already settled</div>
+      <ul class="vwins">
+        <li>The pages, the order and the dates are all decided.</li>
+        <li>The homepage is the only open question left.</li>
+      </ul>
+      <div class="vfoot">
+        <div><span>Published</span>Standard Work and Problem Solving, 25 August</div>
+        <div><span>Next</span>5S and Daily &amp; Visual Management, 1 September</div>
+        <div><span>Then</span>Behaviors, search, the template library, and the homepage last</div>
+      </div>
+    </div>
+  </section>
+  <section class="slide dark verdict">
+    <div class="vbg" style="background-image:url(/assets/hero/behavior-improvement.jpg)"></div>
+    <div class="inner">
+      <div class="veyebrow">What the homepage has to solve</div>
+      <ul class="vwins">
+        <li>Every other page can assume you know why you are there.</li>
+        <li>This one cannot.</li>
+      </ul>
+      <div class="vfoot">
+        <div><span>What we cannot answer</span>Which reader arrives more often. You know that and we do not.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <div class="shead">
+        <div class="eyebrow">Who it has to serve &middot; your traffic, 2026</div>
+        <h2>Two groups use the hub more than anyone else.</h2>
+        <p class="lede">From the data Steven pulled. Everything after this is judged against these two.</p>
+      </div>
+      <div class="pgrid">
+        <div class="pcard">
+          <img src="assets/06-Non-Manufacturing-Individual-Contributor.png" alt="">
+          <div class="pbody">
+            <div class="pn">Group one</div>
+            <h3>Non-manufacturing individual contributor</h3>
+            <p class="psay">&ldquo;Show me what to do.&rdquo;</p>
+            <p class="pdet">Comes for the guides and the at-point help. Does not know the name of the thing yet.</p>
+          </div>
+        </div>
+        <div class="pcard">
+          <img src="assets/02-Plant-Leader.png" alt="">
+          <div class="pbody">
+            <div class="pn">Group two</div>
+            <h3>FLIGHT DECK Leader</h3>
+            <p class="psay">&ldquo;I know what file I want.&rdquo;</p>
+            <p class="pdet">Arrives with a purpose. Wants the latest standard in a named template.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide dark verdict">
+    <div class="vbg" style="background-image:url(/hub/assets/ge-hr-teams.jpg)"></div>
+    <div class="inner">
+      <div class="veyebrow">So the test for every option</div>
+      <ul class="vwins">
+        <li>Guidance for the one who does not know where to begin.</li>
+        <li>The fewest clicks for the one who does.</li>
+      </ul>
+      <div class="vfoot">
+        <div><span>How we judge every option</span>Can one page guide someone who is new and still be fast for someone who is not?</div>
+      </div>
+    </div>
+  </section>
+
+
+  
+
+
+  <section class="slide">
+    <div class="inner">
+      <div class="shead">
+        <div class="eyebrow">The question</div>
+        <h2>Three ways in. They differ in what they sort on.</h2>
+        <p class="lede">Any card opens the real page. Four minutes each, and no need to be kind.</p>
+      </div>
+      <div class="ogrid"><a class="ocard" href="/concept-quickstart.html" target="_blank" rel="noopener"><span class="oshot"><img src="assets/deck/home-now.jpg" alt="" loading="lazy"></span><span class="on">01</span><span class="ot">Answer three questions</span><span class="oq">&ldquo;Answer three questions.&rdquo;</span><span class="os">Sorts on three answers</span></a><a class="ocard pick" href="concept-quickstart.html" target="_blank" rel="noopener"><span class="oshot"><img src="assets/deck/home-qs.jpg" alt="" loading="lazy"></span><span class="on">02<b>Our pick</b></span><span class="ot">Announcements, then four ways in</span><span class="oq">&ldquo;What do you need today?&rdquo;</span><span class="os">Sorts on what you came to do</span></a><a class="ocard" href="nav-concept-3.html" target="_blank" rel="noopener"><span class="oshot"><img src="assets/deck/home-search.jpg" alt="" loading="lazy"></span><span class="on">03</span><span class="ot">Search from the top</span><span class="oq">&ldquo;Type to jump anywhere.&rdquo;</span><span class="os">Sorts on a typed name</span></a></div>
+    </div>
+  </section>
+
+
+  <section class="slide">
+    <div class="inner">
+      <div class="hone">
+        <div class="hone-txt">
+          <div class="eyebrow">Option 01</div>
+          <h2>Answer three questions</h2>
+          <p class="lede">&ldquo;Answer three questions.&rdquo;</p>
+          <ul class="good"><li>Guides someone who cannot yet name what they need.</li><li>The answer is a page, not another menu of pages.</li><li>Nothing new for GE to sustain. It is all built.</li></ul>
+          <a class="open" href="/concept-quickstart.html" target="_blank" rel="noopener">Open the live page &nearr;</a>
+        </div>
+        <figure class="hone-shot live"><iframe src="dashboard.html?review=1&amp;embed=1" loading="lazy"></iframe></figure>
+      </div>
+    </div>
+  </section>
+
+  
+
+  <section class="slide">
+    <div class="inner">
+      <div class="hone">
+        <div class="hone-txt">
+          <div class="eyebrow">Option 01 &middot; up close</div>
+          <h2>Three questions</h2>
+          <p class="lede">Where you work, what you are trying to do, where you are with it.</p>
+        </div>
+        <figure class="hone-shot demo" data-hl="h-01-questions"><iframe src="dashboard.html?review=1&amp;embed=1"></iframe><button class="replay" type="button">Play again</button></figure>
+      </div>
+    </div>
+  </section>
+  <section class="slide">
+    <div class="inner">
+      <div class="hone">
+        <div class="hone-txt">
+          <div class="eyebrow">Option 01 &middot; up close</div>
+          <h2>The recommendation</h2>
+          <p class="lede">One named next step, and the template that goes with it.</p>
+        </div>
+        <figure class="hone-shot demo" data-hl="h-01-rec"><iframe src="dashboard.html?review=1&amp;embed=1"></iframe><button class="replay" type="button">Play again</button></figure>
+      </div>
+    </div>
+  </section>
+  <section class="slide">
+    <div class="inner">
+      <div class="hone">
+        <div class="hone-txt">
+          <div class="eyebrow">Option 01 &middot; up close</div>
+          <h2>The template shelf</h2>
+          <p class="lede">Filterable by function, under everything else.</p>
+        </div>
+        <figure class="hone-shot demo" data-hl="h-01-templates"><iframe src="dashboard.html?review=1&amp;embed=1"></iframe><button class="replay" type="button">Play again</button></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <div class="shead">
+        <div class="eyebrow">Option 01 &middot; the journey</div>
+        <h2>Answer three questions: then what?</h2>
+        <p class="lede">The route to a template from here.</p>
+      </div>
+      <div class="fshots"><figure><img src="assets/deck/j-home-now.jpg" alt="" loading="lazy"><figcaption><span class="fn">1</span>Answer three questions</figcaption></figure><figure><img src="assets/deck/j-step-fundamental.jpg" alt="" loading="lazy"><figcaption><span class="fn">2</span>Recommended Fundamental</figcaption></figure><figure><img src="assets/deck/j-step-template.jpg" alt="" loading="lazy"><figcaption><span class="fn">3</span>Template detail</figcaption></figure></div>
+    </div>
+    </div>
+  </section>
+  <section class="slide dark verdict pverdict">
+    <div class="vbg" style="background-image:url(/hub/assets/ge-assembly.jpg)"></div>
+    <div class="inner">
+      <div class="veyebrow">Option 01 &middot; against the two groups</div>
+      <div class="planes"><div class="plane"><div class="pl-who">Someone who does not know where to begin</div><p>Gets the guidance they came for. The three questions do the work.</p></div><div class="plane"><div class="pl-who">Someone who knows the file they want</div><p>Answers three questions they did not need, every single visit.</p></div></div>
+      <div class="vfoot">
+        <div><span>Distance</span>Three to four clicks to a template</div>
+        <div><span>The cost</span>It asks for the same three answers on every visit.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <div class="hone">
+        <div class="hone-txt">
+          <div class="eyebrow">Option 02 &middot; our recommendation</div>
+          <h2>Announcements, then four ways in</h2>
+          <p class="lede">&ldquo;What do you need today?&rdquo;</p>
+          <ul class="good"><li>What changed is first, which is what people come back for.</li><li>The same four choices that are on every Fundamental page.</li><li>Two clicks to a template for someone who knows the file.</li></ul>
+          <a class="open" href="concept-quickstart.html" target="_blank" rel="noopener">Open the live page &nearr;</a>
+        </div>
+        <figure class="hone-shot live"><iframe src="concept-quickstart.html?review=1&amp;embed=1" loading="lazy"></iframe></figure>
+      </div>
+    </div>
+  </section>
+
+  
+
+  <section class="slide">
+    <div class="inner">
+      <div class="hone">
+        <div class="hone-txt">
+          <div class="eyebrow">Option 02 &middot; up close</div>
+          <h2>The announcement</h2>
+          <p class="lede">A header that carries what is new. Carousel or video.</p>
+        </div>
+        <figure class="hone-shot demo" data-hl="h-02-anno"><iframe src="concept-quickstart.html?review=1&amp;embed=1"></iframe><button class="replay" type="button">Play again</button></figure>
+      </div>
+    </div>
+  </section>
+  <section class="slide">
+    <div class="inner">
+      <div class="hone">
+        <div class="hone-txt">
+          <div class="eyebrow">Option 02 &middot; up close</div>
+          <h2>Quick start</h2>
+          <p class="lede">The same four choices that are on every Fundamental page, moved to the homepage.</p>
+        </div>
+        <figure class="hone-shot demo" data-hl="h-02-quick"><iframe src="concept-quickstart.html?review=1&amp;embed=1"></iframe><button class="replay" type="button">Play again</button></figure>
+      </div>
+    </div>
+  </section>
+  <section class="slide">
+    <div class="inner">
+      <div class="hone">
+        <div class="hone-txt">
+          <div class="eyebrow">Option 02 &middot; up close</div>
+          <h2>The templates</h2>
+          <p class="lede">The views that are already built, right under it.</p>
+        </div>
+        <figure class="hone-shot demo" data-hl="h-02-templates"><iframe src="concept-quickstart.html?review=1&amp;embed=1"></iframe><button class="replay" type="button">Play again</button></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <div class="shead">
+        <div class="eyebrow">Option 02 &middot; the journey</div>
+        <h2>Announcements, then four ways in: then what?</h2>
+        <p class="lede">The route to a template from here.</p>
+      </div>
+      <div class="fshots"><figure><img src="assets/deck/j-home-qs.jpg" alt="" loading="lazy"><figcaption><span class="fn">1</span>Pick one of four</figcaption></figure><figure><img src="assets/deck/j-step-fundamental.jpg" alt="" loading="lazy"><figcaption><span class="fn">2</span>Fundamental page</figcaption></figure><figure><img src="assets/deck/j-step-template.jpg" alt="" loading="lazy"><figcaption><span class="fn">3</span>Template detail</figcaption></figure></div>
+    </div>
+  </section>
+  <section class="slide dark verdict pverdict">
+    <div class="vbg" style="background-image:url(/hub/assets/ge-hr-teams.jpg)"></div>
+    <div class="inner">
+      <div class="veyebrow">Option 02 &middot; against the two groups</div>
+      <div class="planes"><div class="plane"><div class="pl-who">Someone who does not know where to begin</div><p>Learn It and Start a Standard are the help they came for.</p></div><div class="plane"><div class="pl-who">Someone who knows the file they want</div><p>Browse Templates, then the file. Two to three clicks, nothing in the way.</p></div></div>
+      <div class="vfoot">
+        <div><span>Distance</span>Two to three clicks to a template</div>
+        <div><span>The cost</span>Someone has to keep the announcements current.</div>
+      </div>
+    </div>
+  </section>
+
+
+
+
+
+  <section class="slide">
+    <div class="inner">
+      <div class="hone">
+        <div class="hone-txt">
+          <div class="eyebrow">Option 03</div>
+          <h2>Search from the top</h2>
+          <p class="lede">&ldquo;Type to jump anywhere.&rdquo;</p>
+          <ul class="good"><li>One field takes a name or a question.</li><li>Fewest clicks to a named template of anything here.</li><li>Sits on top of whichever page wins. It replaces nothing.</li></ul>
+          <a class="open" href="nav-concept-3.html" target="_blank" rel="noopener">Open the live page &nearr;</a>
+        </div>
+        <figure class="hone-shot live"><iframe src="nav-concept-3.html?review=1&amp;embed=1" loading="lazy"></iframe></figure>
+      </div>
+    </div>
+  </section>
+
+  
+
+  <section class="slide">
+    <div class="inner">
+      <div class="hone">
+        <div class="hone-txt">
+          <div class="eyebrow">Option 03 &middot; up close</div>
+          <h2>One search box</h2>
+          <p class="lede">Type a name and go straight there. Or ask a question and Wingmate answers.</p>
+        </div>
+        <figure class="hone-shot demo" data-hl="h-03-palette"><iframe src="nav-concept-3.html?review=1&amp;embed=1"></iframe><button class="replay" type="button">Play again</button></figure>
+      </div>
+    </div>
+  </section>
+  <section class="slide">
+    <div class="inner">
+      <div class="hone">
+        <div class="hone-txt">
+          <div class="eyebrow">Option 03 &middot; up close</div>
+          <h2>Everything still browsable</h2>
+          <p class="lede">Everything stays browsable behind it.</p>
+        </div>
+        <figure class="hone-shot demo" data-hl="h-03-hub"><iframe src="nav-concept-3.html?review=1&amp;embed=1"></iframe><button class="replay" type="button">Play again</button></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <div class="shead">
+        <div class="eyebrow">Option 03 &middot; the journey</div>
+        <h2>Search from the top: then what?</h2>
+        <p class="lede">The route to a template from here.</p>
+      </div>
+      <div class="fshots"><figure><img src="assets/deck/j-home-search.jpg" alt="" loading="lazy"><figcaption><span class="fn">1</span>Type a name</figcaption></figure><figure><img src="assets/deck/j-step-fundamental.jpg" alt="" loading="lazy"><figcaption><span class="fn">2</span>Fundamental page</figcaption></figure><figure><img src="assets/deck/j-step-template.jpg" alt="" loading="lazy"><figcaption><span class="fn">3</span>Straight to the page</figcaption></figure></div>
+    </div>
+    </div>
+  </section>
+  <section class="slide dark verdict pverdict">
+    <div class="vbg" style="background-image:url(/hub/assets/ge-propulsion.jpg)"></div>
+    <div class="inner">
+      <div class="veyebrow">Option 03 &middot; against the two groups</div>
+      <div class="planes"><div class="plane"><div class="pl-who">Someone who does not know where to begin</div><p>They can ask a question instead of naming a file, but they have to know what to ask.</p></div><div class="plane"><div class="pl-who">Someone who knows the file they want</div><p>Types the name and they are there. Nothing here is faster.</p></div></div>
+      <div class="vfoot">
+        <div><span>Distance</span>One to two clicks to a template</div>
+        <div><span>The cost</span>It needs search and Wingmate reachable from the page.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide dark reco">
+    <div class="inner">
+      <div class="recogrid">
+        <div class="recotxt">
+          <div class="veyebrow">Our recommendation</div>
+          <h2>Option 02 serves both groups fastest.</h2>
+          <ol class="pros">
+            <li><span>1</span><div><b>What changed is first.</b> People come to the hub to see what is new, so it opens the page rather than closing it.</div></li>
+            <li><span>2</span><div><b>Four choices, all built.</b> The same four that are on every Fundamental page, so nobody has to learn anything new.</div></li>
+            <li><span>3</span><div><b>Templates in two to three clicks.</b> For the group that knows the file they want, nothing is in the way.</div></li>
+          </ol>
+          <p class="lede">It asks nothing of GE that is not already happening, apart from keeping the announcements current.</p>
+        </div>
+        <figure class="recoshot">
+          <img src="assets/deck/j-home-qs.jpg" alt="">
+          <span class="pin" style="top:26%">1</span>
+          <span class="pin" style="top:60%">2</span>
+          <span class="pin" style="top:83%">3</span>
+        </figure>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="nav"><span id="counter">01 / 16</span><button id="prev" aria-label="Previous">&larr;</button><button id="next" aria-label="Next">&rarr;</button></div>
+
+<script>
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.slide'));
+  var n=slides.length,cur=0;
+  var counter=document.getElementById('counter');
+  var pbar=document.getElementById('progressbar');
+  function pad(x){return (x<10?'0':'')+x;}
+  function show(idx){
+    cur=Math.max(0,Math.min(n-1,idx));
+    slides.forEach(function(s,k){s.classList.toggle('active',k===cur);});
+    counter.textContent=pad(cur+1)+' / '+pad(n);
+    if(pbar)pbar.style.width=((cur+1)/n*100)+'%';
+    document.body.classList.toggle('slide-dark-active',slides[cur].classList.contains('dark')||slides[cur].classList.contains('hero'));
+    if(slides[cur]) slides[cur].scrollTop=0;
+    if(window.fdFit) setTimeout(window.fdFit,20);
+    if(window.wsFit){ window.wsFit(); setTimeout(window.wsFit,60); }
+    history.replaceState(null,'','#s'+(cur+1));
+    /* Drive the live page on this slide. A MutationObserver on the stage was
+       unreliable, so the deck tells the driver directly. */
+    if(window.wsDrive){ var fg=slides[cur].querySelector('.hone-shot.demo'); if(fg) window.wsDrive(fg); }
+  }
+  function nextS(){show(cur+1);} function prevS(){show(cur-1);}
+  window.wsGo=show;
+  document.getElementById('next').addEventListener('click',function(ev){ev.stopPropagation();nextS();});
+  document.getElementById('prev').addEventListener('click',function(ev){ev.stopPropagation();prevS();});
+  var eb=document.getElementById('exportbtn');if(eb)eb.addEventListener('click',function(ev){ev.stopPropagation();window.print();});
+  document.addEventListener('keydown',function(ev){
+    if(ev.key==='ArrowRight'||ev.key==='PageDown'||ev.key===' '){ev.preventDefault();nextS();}
+    else if(ev.key==='ArrowLeft'||ev.key==='PageUp'){ev.preventDefault();prevS();}
+    else if(ev.key==='Home'){show(0);} else if(ev.key==='End'){show(n-1);}
+  });
+  document.getElementById('stage').addEventListener('click',function(ev){
+    if(ev.target.closest('a,button'))return;
+    if(ev.clientX > window.innerWidth*0.5) nextS(); else prevS();
+  });
+
+  (function(){
+    function fit(){
+      var box=document.getElementById('embed'); if(!box) return;
+      var fr=box.querySelector('iframe');
+      var inner=box.closest('.inner'), slide=box.closest('.slide');
+      if(!inner||!inner.clientWidth) return;
+      var head=box.previousElementSibling;
+      var pad=slide?parseFloat(getComputedStyle(slide).paddingTop)*2:100;
+      var used=(head?head.offsetHeight:0)+18;
+      var w=inner.clientWidth;
+      var h=Math.max(window.innerWidth<=860?520:420,(slide?slide.clientHeight:900)-used-pad);
+      fr.style.transform='none';
+      fr.style.width=w+'px'; fr.style.height=h+'px';
+      box.style.width=w+'px'; box.style.height=h+'px';
+    }
+    window.fdFit=fit; window.addEventListener('resize',fit); setTimeout(fit,80);
+  })();
+  var m=(location.hash||'').match(/^#s(\d+)$/);
+  show(m?parseInt(m[1],10)-1:0);
+})();
+
+  (function(){
+    var x0=null,y0=null;
+    addEventListener('touchstart',function(e){var t=e.changedTouches[0];x0=t.clientX;y0=t.clientY;},{passive:true});
+    addEventListener('touchend',function(e){
+      if(x0===null) return;
+      var t=e.changedTouches[0], dx=t.clientX-x0, dy=t.clientY-y0;
+      x0=null;
+      if(Math.abs(dx)<58||Math.abs(dx)<Math.abs(dy)*1.6) return;
+      if(e.target.closest('.flow,.fullplan,.datewrap,.embed')) return;
+      dx<0?nextS():prevS();
+    },{passive:true});
+  })();
+</script>
+
+
+
+<script>
+/* The walkthrough runs itself. Each up close slide holds the real page, and on
+   arrival it scrolls to the element the slide is about, so the only thing a
+   presenter has to do is change the slide and talk. */
+(function(){
+  var HL = {"h-01-questions": {"page": "home-now", "label": "Three questions", "url": "dashboard.html", "sel": "#gp-q1", "up": 2, "x": 0, "y": 760, "w": 1000, "h": 411, "pageW": 1000, "pageH": 7718, "steps": [{"a": "scroll", "sel": "#gp-q1"}, {"a": "click", "sel": "[data-gp=\"fn\"] .fpill:nth-of-type(2)"}, {"a": "click", "sel": "[data-gp=\"stage\"] .fpill:nth-of-type(3)"}, {"a": "click", "sel": "[data-gp=\"prob\"] .fpill:nth-of-type(2)"}]}, "h-01-rec": {"page": "home-now", "label": "The recommendation", "url": "dashboard.html", "sel": "#gp-title", "up": 3, "x": 0, "y": 1281, "w": 1000, "h": 670, "pageW": 1000, "pageH": 7718, "steps": [{"a": "scroll", "sel": "#gp-q1"}, {"a": "click", "sel": "[data-gp=\"prob\"] .fpill:nth-of-type(3)"}, {"a": "scroll", "sel": "#gp-title"}]}, "h-01-templates": {"page": "home-now", "label": "The template shelf", "url": "dashboard.html", "sel": "#tpl-filters", "up": 1, "x": 0, "y": 5707, "w": 1000, "h": 760, "pageW": 1000, "pageH": 7718, "steps": [{"a": "scroll", "sel": "#tpl-filters"}, {"a": "click", "sel": "#tpl-filters .pill:nth-of-type(2)"}, {"a": "click", "sel": "#tpl-filters .pill:nth-of-type(3)"}]}, "h-02-anno": {"page": "home-qs", "label": "The announcement", "url": "concept-quickstart.html", "sel": ".annotrack", "up": 1, "x": 0, "y": 285, "w": 1000, "h": 567, "pageW": 1000, "pageH": 7520, "steps": [{"a": "scroll", "sel": ".annotrack"}, {"a": "click", "sel": "#annonav button:nth-of-type(2)"}, {"a": "click", "sel": "#annonav button:nth-of-type(3)"}]}, "h-02-quick": {"page": "home-qs", "label": "Quick start", "url": "concept-quickstart.html", "sel": ".sm-actions", "up": 1, "x": 0, "y": 752, "w": 1000, "h": 760, "pageW": 1000, "pageH": 7520, "steps": [{"a": "scroll", "sel": ".sm-actions"}, {"a": "hover", "sel": ".sm-action:nth-of-type(2)"}, {"a": "hover", "sel": ".sm-action:nth-of-type(3)"}]}, "h-02-templates": {"page": "home-qs", "label": "The templates", "url": "concept-quickstart.html", "sel": ".card.tpl", "up": 1, "x": 0, "y": 5666, "w": 1000, "h": 760, "pageW": 1000, "pageH": 7520, "steps": [{"a": "scroll", "sel": ".card.tpl"}, {"a": "click", "sel": "#tpl-filters .pill:nth-of-type(2)"}]}, "h-03-palette": {"page": "home-search", "label": "The palette", "url": "nav-concept-3.html", "sel": ".c3-head", "up": 1, "x": 0, "y": 0, "w": 1000, "h": 760, "pageW": 1000, "pageH": 2515, "steps": [{"a": "scroll", "sel": ".c3-head"}], "replay": true}, "h-03-hub": {"page": "home-search", "label": "The hub underneath", "url": "nav-concept-3.html", "sel": "#bg-home", "up": 0, "x": 0, "y": 115, "w": 1000, "h": 760, "pageW": 1000, "pageH": 2515, "steps": [{"a": "click", "sel": ".c3-box"}, {"a": "scroll", "sel": "#c3-lower"}], "replay": true}};
+  /* A scripted motion demo. A cursor moves to each target, the page scrolls to
+     it, and the click actually happens, so the room watches the page respond
+     rather than reading a caption about it. Donny, 27 Aug. */
+  function cursorFor(fig){
+    var c = fig.querySelector('.democursor');
+    if(!c){ c = document.createElement('span'); c.className = 'democursor'; fig.appendChild(c); }
+    return c;
+  }
+  function step(fig, f, steps, i){
+    var c = fig.querySelector('.democursor');
+    if(i >= steps.length){ if(c) setTimeout(function(){ c.style.opacity = '0'; }, 1000); return; }
+    var st = steps[i], d;
+    try { d = f.contentDocument; } catch(e){ return; }
+    if(!d) return;
+    var se = d.scrollingElement || d.documentElement;
+    var el = d.querySelector(st.sel);
+    if(!el) return step(fig, f, steps, i + 1);
+
+    if(st.a === 'scroll'){
+      var top = el.getBoundingClientRect().top + se.scrollTop;
+      var target = Math.max(0, top - 90);
+      try { se.scrollTo({top:target, behavior:'smooth'}); } catch(e){ se.scrollTop = target; }
+      return setTimeout(function(){ step(fig, f, steps, i + 1); }, 1150);
+    }
+
+    /* Bring the target into view, then walk the cursor to it and act. */
+    el.scrollIntoView({behavior:'smooth', block:'center'});
+    setTimeout(function(){
+      var cur = cursorFor(fig);
+      var fr = f.getBoundingClientRect(), r = el.getBoundingClientRect();
+      var scale = fr.width / (d.documentElement.clientWidth || fr.width);
+      cur.style.opacity = '1';
+      cur.style.transform = 'translate(' + ((r.left + r.width / 2) * scale) + 'px,'
+                                         + ((r.top + r.height / 2) * scale) + 'px)';
+      setTimeout(function(){
+        cur.classList.add('tap');
+        if(st.a === 'click') el.click();
+        else el.dispatchEvent(new d.defaultView.MouseEvent('mouseenter', {bubbles:true}));
+        setTimeout(function(){ cur.classList.remove('tap'); step(fig, f, steps, i + 1); }, 950);
+      }, 660);
+    }, 750);
+  }
+  function drive(fig, again){
+    var h = HL[fig.getAttribute('data-hl')]; if(!h) return;
+    var f = fig.querySelector('iframe'); if(!f) return;
+    /* A slide change can call this more than once. Without a guard the second
+       call reloads the frame while the first run is still typing, so the demo
+       restarts forever and the room sees a frozen field. Donny, 27 Aug. */
+    if(!again){
+      var now = +new Date();
+      if(fig._ranAt && now - fig._ranAt < 4000) return;
+      fig._ranAt = now;
+    }
+    /* Some pages run their own animation once on load, so by the time a slide
+       opens it has already finished and the frame looks frozen. Reloading
+       replays it. Donny, 27 Aug. */
+    if(h.replay && !again && !f.dataset.replaying){
+      f.dataset.replaying = '1';
+      f.addEventListener('load', function once(){
+        f.removeEventListener('load', once);
+        delete f.dataset.replaying;
+        drive(fig, true);
+      });
+      f.contentWindow.location.reload();
+      return;
+    }
+    var waited = 0;
+    (function go(){
+      var d;
+      try { d = f.contentDocument; } catch(e){ return; }
+      if(!d || !d.body || d.readyState === 'loading'){
+        if(waited++ > 60) return;
+        return setTimeout(go, 200);
+      }
+      (d.scrollingElement || d.documentElement).scrollTop = 0;
+      var seq = h.steps || [{a:'scroll', sel:h.sel}];
+      setTimeout(function(){ step(fig, f, seq, 0); }, again ? 250 : 800);
+    })();
+  }
+  document.addEventListener('click', function(ev){
+    var b = ev.target.closest('.replay'); if(!b) return;
+    drive(b.closest('.hone-shot.demo'), true);
+  });
+  window.wsDrive = drive;
+  var first = document.querySelector('.slide.active .hone-shot.demo');
+  if(first) drive(first);
+})();
+</script>
+
+<script>
+/* The co-brand goes back to the cover. Donny, 27 Aug. */
+(function(){
+  var a=document.getElementById('tocover'); if(!a) return;
+  a.addEventListener('click', function(ev){ ev.preventDefault(); if(window.wsGo) return window.wsGo(0);
+    var prev=document.getElementById('prev'); if(!prev) return;
+    for(var i=0;i<60;i++) prev.click(); });
+})();
+</script>
+
+
+<script>
+/* Desktop scale for every embedded page. Measured from the frame it sits in,
+   re-measured on resize and whenever a slide opens, because a hidden slide has
+   no width to measure. Donny, 27 Aug. */
+(function(){
+  function fitAll(){
+    document.querySelectorAll('.hone-shot.demo, .hone-shot.live').forEach(function(fig){
+      var w = fig.clientWidth;
+      if(w > 40) fig.style.setProperty('--dk', (w / 1440).toFixed(4));
+    });
+  }
+  window.wsFit = fitAll;
+  addEventListener('resize', fitAll);
+  addEventListener('load', fitAll);
+  if(document.readyState !== 'loading') fitAll();
+  else document.addEventListener('DOMContentLoaded', fitAll);
+  setTimeout(fitAll, 400); setTimeout(fitAll, 1600);
+})();
+</script>
+</body>
+</html>

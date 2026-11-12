@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="/hub/hub.css">
+<title>Video Library &middot; FLIGHT DECK Activation Hub</title>
+<script src="/gate.js"></script>
+<style>
+  /* The same system as the Prompt Library and the Template Library. Nothing
+     here invents a value. */
+  :root{--ink:#00003d;--muted:#4A506A;--line:#e7ebf4;--soft:#eef1f8;--ground:#f6f8fd;
+    --blue:#2256e6;--sky:#4181ff;--green:#16b364;--dim:#8891ab}
+  #vl{background:var(--ground);font-family:"GE Sans",-apple-system,"Helvetica Neue",Arial,sans-serif;color:var(--ink)}
+  #vl .wrap{max-width:1240px;margin:0 auto;padding:0 40px}
+  @media(max-width:640px){#vl .wrap{padding:0 20px}}
+
+  #vl .hero{position:relative;overflow:hidden;color:#fff;padding:66px 0 62px;
+    background:radial-gradient(120% 130% at 88% -20%,rgba(65,129,255,.34),transparent 58%),
+               linear-gradient(160deg,#0b1a34 0%,#142c55 100%)}
+  /* A fine measured grid, the way a standard is drawn, at 3% so it never
+     competes with the type. */
+  #vl .hero::before{content:"";position:absolute;inset:0;pointer-events:none;
+    background-image:linear-gradient(rgba(255,255,255,.055) 1px,transparent 1px),
+                     linear-gradient(90deg,rgba(255,255,255,.055) 1px,transparent 1px);
+    background-size:34px 34px;
+    -webkit-mask-image:radial-gradient(90% 80% at 30% 40%,#000,transparent 72%);
+            mask-image:radial-gradient(90% 80% at 30% 40%,#000,transparent 72%)}
+  #vl .hero .wrap{position:relative;z-index:1}
+  #vl .hero h1::after{content:"";display:block;width:64px;height:3px;background:var(--green);
+    margin-top:20px;border-radius:2px}
+  #vl .hero .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;letter-spacing:.2em;
+    text-transform:uppercase;color:#cfe1ff;font-weight:600;margin-bottom:14px}
+  #vl .hero .eyebrow::before{content:"";width:10px;height:10px;background:var(--green)}
+  #vl .hero h1{font-size:clamp(34px,4.4vw,50px);font-weight:300;letter-spacing:-.03em;line-height:1.03;margin:0 0 14px}
+  #vl .hero p{font-size:16px;color:#c8d5e8;max-width:70ch;margin:0;line-height:1.6}
+  #vl .facts{display:flex;gap:0;flex-wrap:wrap;margin-top:30px}
+  #vl .facts span{display:flex;flex-direction:column;gap:5px;padding:0 26px;
+    border-left:1px solid rgba(255,255,255,.14)}
+  #vl .facts span:first-child{padding-left:0;border-left:0}
+  #vl .facts b{color:#fff;font-size:27px;font-weight:300;letter-spacing:-.02em;line-height:1;
+    font-variant-numeric:tabular-nums}
+  #vl .facts i{font-style:normal;font-size:11px;font-weight:600;letter-spacing:.13em;
+    text-transform:uppercase;color:#9fb4e8}
+  /* Wrapped, the dividing rule lands at the start of a new line and reads as a
+     mistake, so below 640 the stats are spaced instead of ruled. */
+  @media(max-width:640px){
+    #vl .facts{gap:18px 26px}
+    #vl .facts span{padding:0;border-left:0}
+    #vl .facts b{font-size:23px}
+  }
+
+  #vl .controls{background:rgba(255,255,255,.88);backdrop-filter:saturate(160%) blur(10px);
+    border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20;
+    transition:box-shadow .2s}
+  #vl .controls.stuck{box-shadow:0 10px 30px -22px rgba(11,26,64,.6)}
+  #vl .find kbd{font:inherit;font-size:10.5px;font-weight:700;color:var(--dim);background:var(--soft);
+    border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 6px;flex:none}
+  #vl .controls .in{max-width:1240px;margin:0 auto;padding:14px 40px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  #vl .pgl{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#3d3d63}
+  #vl .pchips{display:flex;gap:6px;flex-wrap:wrap}
+  #vl .pchip{display:inline-flex;align-items:center;gap:7px;font:inherit;font-size:13px;font-weight:600;
+    border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:100px;padding:7px 15px;cursor:pointer;
+    transition:border-color .16s,background .16s,color .16s}
+  #vl .pchip:hover{border-color:var(--ink)}
+  #vl .pchip.on{background:var(--ink);border-color:var(--ink);color:#fff}
+  #vl .pchip .n{font-size:11px;font-weight:400;opacity:.6}
+  #vl .find{margin-left:auto;display:flex;align-items:center;gap:9px;border:1px solid var(--line);
+    border-radius:100px;padding:7px 16px;background:#fff;min-width:236px}
+  #vl .find svg{width:14px;height:14px;fill:none;stroke:var(--dim);stroke-width:1.8}
+  #vl .find input{border:0;outline:0;font:inherit;font-size:13.5px;color:var(--ink);width:100%;background:transparent}
+  @media(max-width:640px){#vl .controls .in{padding:12px 20px}#vl .find{margin-left:0;width:100%}}
+
+  #vl main{padding:8px 0 80px}
+  #vl .grp{position:relative;margin-top:30px;padding-top:26px;border-top:1px solid var(--line)}
+  #vl .grp:first-child{margin-top:22px;border-top:0}
+  #vl .gh{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+  #vl .gh .gn{font-size:58px;font-weight:200;letter-spacing:-.05em;line-height:.8;color:#dfe5f1;
+    font-variant-numeric:tabular-nums;flex:none;user-select:none}
+  #vl .gh h2{font-size:23px;font-weight:600;letter-spacing:-.025em;margin:0}
+  #vl .gh .meter{margin-left:auto;display:flex;align-items:center;gap:11px;flex:none}
+  #vl .gh .track{width:92px;height:4px;border-radius:100px;background:var(--soft);overflow:hidden}
+  #vl .gh .fill{display:block;height:100%;background:var(--green);border-radius:100px}
+  #vl .gh .ct{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+    font-variant-numeric:tabular-nums}
+  /* The header is a single row until it cannot be. At 375 the meter took the
+     band 42px past the viewport. */
+  @media(max-width:640px){
+    #vl .gh{flex-wrap:wrap;gap:10px 12px}
+    #vl .gh .gn{font-size:40px}
+    #vl .gh h2{font-size:20px}
+    #vl .gh .meter{margin-left:0;width:100%}
+    #vl .gh .track{flex:1;width:auto}
+  }
+
+  #vl .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+  #vl .card{position:relative;background:#fff;border:1px solid var(--line);border-radius:14px;
+    padding:22px 22px 18px;display:flex;flex-direction:column;gap:9px;overflow:hidden;
+    box-shadow:0 1px 2px rgba(11,26,64,.05),0 18px 40px -30px rgba(11,26,64,.22);
+    transition:transform .18s cubic-bezier(.22,1,.36,1),box-shadow .18s,border-color .18s}
+  /* The top rule is the state: green means it runs today. */
+  #vl .card::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:var(--green)}
+  #vl .card.wait::before{background:#d8dfee}
+  #vl .card:hover{transform:translateY(-3px);border-color:#cfd8ea;
+    box-shadow:0 2px 4px rgba(11,26,64,.06),0 26px 50px -28px rgba(11,26,64,.4)}
+  /* A prompt with no link is not a button that fails, so it is quieter. */
+  #vl .card.wait{background:#fbfcfe;box-shadow:none}
+  #vl .card.wait:hover{transform:none;box-shadow:none;border-color:var(--line)}
+  #vl .card.wait h3{color:#3c4665}
+  #vl .card h3{font-size:15.5px;font-weight:700;letter-spacing:-.012em;margin:0;color:var(--ink);
+    line-height:1.35}
+  #vl .card p{font-size:13px;color:var(--muted);line-height:1.55;margin:0;flex:1}
+  #vl .card .row{display:flex;align-items:center;gap:10px;margin-top:7px}
+  #vl .run{display:inline-flex;align-items:center;gap:8px;font:inherit;font-size:12.5px;font-weight:700;
+    letter-spacing:.04em;text-transform:uppercase;text-decoration:none;color:#fff;background:var(--blue);
+    border:0;border-radius:100px;padding:9px 17px;cursor:pointer;transition:background .15s}
+  #vl .run:hover{background:#1b47c4;transform:translateY(-1px)}
+  #vl .run{transition:background .15s,transform .15s,box-shadow .15s}
+  #vl .card:hover .run{box-shadow:0 10px 22px -12px rgba(34,86,230,.85)}
+  #vl .run svg{width:11px;height:11px;fill:#fff}
+  #vl .pend{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-weight:600;color:var(--muted);
+    background:var(--soft);border:1px solid var(--line);border-radius:100px;padding:8px 14px}
+  #vl .pend i{width:6px;height:6px;border-radius:50%;background:#fff;border:2px solid #c2c6d4;flex:none}
+  #vl .copy{font:inherit;font-size:12.5px;font-weight:600;color:var(--blue);background:none;border:0;
+    cursor:pointer;padding:8px 4px}
+  #vl .copy.done{color:var(--green)}
+
+  #vl .ask{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin-top:44px;
+    box-shadow:0 1px 2px rgba(11,26,64,.05),0 18px 40px -30px rgba(11,26,64,.22)}
+  #vl .ask .t{font-size:15px;font-weight:600;letter-spacing:-.01em}
+  #vl .ask .d{font-size:13.5px;color:var(--muted);line-height:1.55;margin-top:3px;max-width:74ch}
+  #vl .none{padding:60px 0;color:var(--muted);font-size:14px}
+
+  #vl-modal{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;
+    background:rgba(2,6,23,.86);padding:4vh 4vw;font-family:"GE Sans",-apple-system,"Helvetica Neue",Arial,sans-serif}
+  #vl-modal.open{display:flex}
+  #vl-modal .box{width:min(1180px,100%);max-height:92vh;display:flex;flex-direction:column}
+  #vl-modal video{width:100%;max-height:76vh;background:#000;border-radius:12px;display:block;
+    box-shadow:0 40px 120px -40px rgba(0,0,0,.9)}
+  #vl-modal .cap{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-top:16px;color:#fff}
+  #vl-modal .cap b{font-size:16px;font-weight:600;letter-spacing:-.01em}
+  #vl-modal .cap span{font-size:12.5px;color:rgba(255,255,255,.6)}
+  #vl-modal .cap a{margin-left:auto;font-size:13px;font-weight:600;color:#cfe1ff;text-decoration:none;
+    border:1px solid rgba(255,255,255,.28);border-radius:100px;padding:8px 18px}
+  #vl-modal .cap a:hover{border-color:#fff;color:#fff}
+  #vl-modal .x{position:absolute;top:20px;right:24px;width:40px;height:40px;border-radius:50%;
+    background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.24);color:#fff;font-size:19px;
+    cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:inherit}
+  #vl-modal .x:hover{background:rgba(255,255,255,.2)}
+
+
+  /* Card art, in the Template Library idiom: a preview panel above the meta, so a
+     film reads as a thing you open rather than a row you skim. */
+  #vl .card{padding:0}
+  #vl .card .body{padding:18px 22px 18px;display:flex;flex-direction:column;gap:9px;flex:1}
+  #vl .thumb{position:relative;display:block;aspect-ratio:16/9;overflow:hidden;border-bottom:1px solid var(--line);
+    background:radial-gradient(120% 130% at 74% 10%,#2a5cd8 0%,#173a91 38%,#0c1f4c 72%,#070f24 100%)}
+  #vl .card.wait .thumb{background:linear-gradient(160deg,#eef1f8 0%,#e3e9f5 100%);border-bottom-color:#e0e6f2}
+  #vl .thumb .glyph{position:absolute;inset:0;display:grid;place-items:center;color:rgba(255,255,255,.92)}
+  #vl .card.wait .thumb .glyph{color:#aab6d0}
+  #vl .thumb .glyph svg{width:34%;max-width:82px;height:auto;fill:none;stroke:currentColor;stroke-width:4.5;
+    stroke-linecap:round;stroke-linejoin:round}
+  #vl .thumb .len{position:absolute;right:10px;bottom:10px;font-size:11px;font-weight:600;color:#fff;
+    background:rgba(3,10,24,.82);border-radius:5px;padding:3px 8px}
+  #vl .thumb .play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(.94);
+    display:grid;place-items:center;width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.95);
+    opacity:0;transition:opacity .18s,transform .18s}
+  #vl .card:hover .thumb .play{opacity:1;transform:translate(-50%,-50%) scale(1)}
+  #vl .thumb .play svg{width:21px;height:21px;fill:#00003d;margin-left:2px}
+  #vl .tags{display:flex;gap:7px;flex-wrap:wrap}
+  #vl .tag{font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#2f3a63;
+    background:var(--soft);border:1px solid var(--line);border-radius:100px;padding:4px 10px}
+  #vl .card.wait .tag{color:var(--muted)}
+  /* the whole card opens the film, so the art is not a separate target */
+  #vl button.card{width:100%;text-align:left;font:inherit;cursor:pointer;padding:0}
+
+/* FOOTER, carried in the page rather than taken from /hub/hub.css. The kit strips
+   hub.css on every page because its global body and font rules restyle SharePoint's own
+   chrome, so a page that leans on it for .fd-footer ships a footer with no styles at all:
+   stacked links, no columns, no background. Ken saw exactly that on the tenant, 2 October.
+   Copied from hub/hub.css unchanged, media queries last so they stay conditional. */
+.fd-footer{background:#00010f;color:#fff;margin-top:56px;font-family:var(--font-sans,"GE Sans",-apple-system,"Helvetica Neue",Arial,sans-serif)}
+.fd-footer .fdf-in{max-width:1280px;margin:0 auto;padding:48px 28px 40px}
+.fd-footer .fdf-top{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-bottom:26px;border-bottom:1px solid rgba(255,255,255,.12)}
+.fd-footer .fdf-brand{display:flex;align-items:center;gap:11px;font-size:15px;font-weight:600;color:#fff}
+.fd-footer .fdf-chip{background:#fff;color:#00010f;font-size:10px;font-weight:800;letter-spacing:.12em;padding:5px 9px;border-radius:4px;border:1px solid #16b364}
+.fd-footer .fdf-cobrand{font-size:13px;font-weight:600;color:rgba(255,255,255,.7);letter-spacing:.02em}
+.fd-footer .fdf-cobrand i{font-style:normal;opacity:.5;margin:0 5px}
+.fd-footer .fdf-cols{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;padding:30px 0}
+.fd-footer .fdf-h{font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#7e8aa8;margin-bottom:12px}
+.fd-footer .fdf-col a{display:block;color:rgba(255,255,255,.78);font-size:13.5px;text-decoration:none;padding:5px 0;transition:color .14s}
+.fd-footer .fdf-col a:hover{color:#fff;text-decoration:none}
+.fd-footer .fdf-meta{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:22px;border-top:1px solid rgba(255,255,255,.12);font-size:11.5px;color:rgba(255,255,255,.45);letter-spacing:.02em}
+@media(max-width:720px){.fd-footer .fdf-cols{grid-template-columns:1fr 1fr;gap:24px}}
+@media(max-width:440px){.fd-footer .fdf-cols{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="suite"><div class="wrap suite-in">
+  <span class="waffle"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+  <span class="org"><span class="monogram">GE</span>GE Aerospace</span>
+  <span class="sp">SharePoint</span>
+  <input placeholder="Search this site">
+  <span class="icons"><span>&#9881;</span><span class="acct"><span class="av">A</span><span class="nm">Aero</span></span></span>
+</div></div>
+<div class="sprail"><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg></span><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h8l4 4v14H7z"/><path d="M15 3v4h4"/></svg></span><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="15" rx="1.5"/><path d="M3.5 9.5h17M9 9.5v10"/></svg></span><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a1.8 1.8 0 0 1 1.8-1.8H9l2 2h7.2A1.8 1.8 0 0 1 21 9v8.2A1.8 1.8 0 0 1 19.2 19H4.8A1.8 1.8 0 0 1 3 17.2z"/></svg></span><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span></div>
+
+<header class="site">
+  <div class="wrap site-bar">
+    <div class="site-mark"><span class="chip">FLIGHT DECK</span><a href="/concept-quickstart.html">FLIGHT DECK Activation Hub</a></div>
+    <nav class="primary">
+      <div><a class="top" href="/concept-quickstart.html">Home</a></div>
+      <div>
+        <a class="top" role="button" tabindex="0">Fundamentals<span class="caret">&#9662;</span></a>
+        <div class="menu">
+          <a href="../standard-work/sw-concept-hybrid.1.html">Standard Work</a>
+          <a href="../action-planning/ap-concept-hybrid.1.html">Action Planning</a>
+          <a href="../daily-visual-management/dvm-concept-hybrid.1.html">Daily and Visual Management</a>
+          <a href="../value-stream-management/vsm-concept-hybrid.1.html">Value Stream Management</a>
+          <a href="../operating-cadences/oc-concept-hybrid.1.html">Operating Cadences</a>
+          <a href="../problem-solving/ps-concept-hybrid.1.html">Problem Solving</a>
+          <a href="../5s/5s-concept-hybrid.1.html">5S</a>
+          <a href="../flow-pull/fp-concept-hybrid.1.html">Flow/Pull</a>
+        </div>
+      </div>
+      <div><a class="top" href="behaviors.html">Behaviors<span class="caret">&#9662;</span></a><div class="menu"><a href="/deliverables/respect-for-people/respect-for-people-concept.1.html">Respect for People</a><a href="/deliverables/customer-driven/customer-driven-concept.1.html">Customer Driven</a><a href="/deliverables/continuous-improvement/continuous-improvement-concept.1.html">Continuous Improvement</a></div></div>
+      <div><a class="top" href="sw-templates.html">Templates</a></div>
+      <div><a class="top active" href="video-library.html">Video Library</a></div>
+      <div><a class="top" href="/deliverables/standard-work/prompt-library.html">Prompt Library</a></div>
+      <div>
+        <a class="top" href="#">Additional Tools<span class="caret">&#9662;</span></a>
+        <div class="menu">
+          <a href="/tools/index.html">FLIGHT DECK Tool Library</a>
+          <a href="leader-portal.html">FLIGHT DECK Leader Portal</a>
+          <a href="miro.html">FLIGHT DECK on Miro</a>
+          <a href="/programs/index.html">FLIGHT DECK Programs</a>
+          <a href="faq.html">FAQ</a>
+        </div>
+      </div>
+      
+    </nav>
+    <span class="badge-sensitive">Sensitive &#8964;</span>
+  </div>
+</header>
+
+
+<div id="vl">
+
+<header class="hero"><div class="wrap">
+  <div class="eyebrow">FLIGHT DECK Activation Hub</div>
+  <h1>Every film in one place.</h1>
+  <p>The course films and the one minute overviews, by Fundamental, in the order the hub runs them. Everything plays here without leaving the page.</p>
+  <div class="facts" id="facts"></div>
+</div></header>
+
+<div class="controls"><div class="in">
+  <span class="pgl">Show</span>
+  <div class="pchips" id="chips"></div>
+</div></div>
+
+<main class="wrap" id="list"><p class="none">Loading.</p></main>
+
+</div>
+
+<div id="vl-modal" role="dialog" aria-modal="true" aria-label="Video player">
+  <button class="x" type="button" id="vl-x" aria-label="Close">&times;</button>
+  <div class="box">
+    <video id="vl-v" controls playsinline preload="metadata"></video>
+    <div class="cap">
+      <b id="vl-t"></b><span id="vl-m"></span>
+      <a id="vl-p" href="#" target="_blank" rel="noopener">Open its own page &nearr;</a>
+    </div>
+  </div>
+</div>
+
+<footer class="fd-footer">
+  <div class="fdf-in">
+    <div class="fdf-top">
+      <div class="fdf-brand"><span class="fdf-chip">FLIGHT DECK</span>Activation Hub</div>
+      <div class="fdf-cobrand">GE Aerospace</div>
+    </div>
+    <div class="fdf-cols">
+      <div class="fdf-col">
+        <div class="fdf-h">Libraries</div>
+        <a href="sw-templates.html">Template Library</a>
+        <a href="sw-flow.html">Template Flow</a>
+        <a href="/tools/Wingmate/wingmate-prompt-library.html">Wingmate Prompt Library</a>
+      </div>
+      <div class="fdf-col">
+        <div class="fdf-h">Fundamentals</div>
+        <a href="sw-concept-hybrid.1.html">Standard Work</a>
+        <a href="../action-planning/ap-concept-hybrid.1.html">Action Planning</a>
+      </div>
+      <div class="fdf-col">
+        <div class="fdf-h">Hub</div>
+        <a href="/concept-quickstart.html">Hub Home</a>
+        <a href="faq.html">FAQ</a>
+      </div>
+    </div>
+    <div class="fdf-meta"><span>FLIGHT DECK Activation Hub</span><span>GE Aerospace Proprietary &middot; Sensitive &middot; authorized distribution only</span></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var DATA = null, filter = 'all';
+  /* the same marks the integration maps use, so a Fundamental looks the same
+     wherever it appears in the hub */
+  var ICONS = {'f4':'<path d="M26 14 L38 26 L26 38 L14 26 Z" fill="currentColor" stroke="none"/><circle cx="70" cy="26" r="9" fill="currentColor" stroke="none"/><path d="M59 26 H48"/><path d="M51.0 17.0 L42.0 26.0 L51.0 35.0"/><path d="M26 40 V52"/><path d="M17.0 49.0 L26.0 58.0 L35.0 49.0"/><circle cx="26" cy="70" r="9" fill="currentColor" stroke="none"/><path d="M37 70 H48"/><path d="M45.0 79.0 L54.0 70.0 L45.0 61.0"/><rect x="58" y="62" width="16" height="16" fill="currentColor" stroke="none"/>',f2:'<rect x="20" y="12" width="56" height="72" rx="2"/><path d="M32 32 l5 5 l9 -10" stroke-width="5"/><path d="M54 33 H66" stroke-width="5"/><path d="M32 50 l5 5 l9 -10" stroke-width="5"/><path d="M54 51 H66" stroke-width="5"/><path d="M32 68 l5 5 l9 -10" stroke-width="5"/><path d="M54 69 H66" stroke-width="5"/>',f1:'<circle cx="48" cy="36" r="20"/><path d="M40 54 V62 M56 54 V62"/><path d="M40 62 H56 M42 72 H54"/>',f3:'<rect x="14" y="20" width="68" height="62" rx="2"/><path d="M32 10 V24 M64 10 V24"/><path d="M14 36 H82"/><rect x="28" y="48" width="8" height="8" fill="currentColor" stroke="none"/><rect x="44" y="48" width="8" height="8" fill="currentColor" stroke="none"/><rect x="60" y="48" width="8" height="8" fill="currentColor" stroke="none"/><rect x="28" y="62" width="8" height="8" fill="currentColor" stroke="none"/><rect x="44" y="62" width="8" height="8" fill="currentColor" stroke="none"/><rect x="60" y="62" width="8" height="8" fill="currentColor" stroke="none"/>',f5:'<circle cx="48" cy="48" r="20"/><path d="M48 48 V36 M48 48 H57"/><circle cx="48" cy="48" r="3" fill="currentColor" stroke="none"/><path d="M17.2 33.6 A34 34 0 1 1 31.0 77.4"/><path d="M43.3 74.2 L31.0 77.4 L34.3 89.7"/>',f7:'<rect x="20" y="16" width="52" height="68" rx="2"/><rect x="34" y="8" width="24" height="14" rx="2" fill="currentColor" stroke="none"/><path d="M30 40 H62" stroke-width="5"/><path d="M30 52 H50" stroke-width="5"/><path d="M60 72 L78 54" stroke-width="5"/><path d="M54 78 L60 72 L57 69 Z" fill="currentColor" stroke="none"/>',f6:'<path d="M74 32 H26"/><path d="M31.0 23.0 L22.0 32.0 L31.0 41.0"/><path d="M22 64 H70"/><path d="M65.0 73.0 L74.0 64.0 L65.0 55.0"/>',f8:'<rect x="16" y="14" width="16" height="16" fill="currentColor" stroke="none"/><path d="M24 30 V60 H50"/><path d="M47.0 69.0 L56.0 60.0 L47.0 51.0"/><circle cx="68" cy="60" r="8" fill="currentColor" stroke="none"/>',b1:'<circle cx="34" cy="30" r="10"/><path d="M14 74 V70 A20 20 0 0 1 54 70 V74"/><circle cx="66" cy="34" r="8" stroke-width="5"/><path d="M58 60 A16 16 0 0 1 82 74 V76" stroke-width="5"/>',b2:'<path d="M52.9 20.4 A28 28 0 0 1 75.9 45.6"/><path d="M66.1 37.4 L75.9 45.6 L84.1 35.8"/><path d="M69.4 66.0 A28 28 0 0 1 36.2 73.4"/><path d="M48.1 69.0 L36.2 73.4 L40.5 85.3"/><path d="M21.7 57.6 A28 28 0 0 1 31.9 25.1"/><path d="M29.7 37.6 L31.9 25.1 L19.4 22.9"/>',b3:'<circle cx="44" cy="52" r="30"/><circle cx="44" cy="52" r="17"/><circle cx="44" cy="52" r="5" fill="currentColor" stroke="none"/><path d="M84 12 L57 39"/><path d="M51.0 32.3 L51.0 45.0 L63.7 45.0"/>','5s':'<path d="M26 14 L38 26 L26 38 L14 26 Z" fill="currentColor" stroke="none"/><circle cx="70" cy="26" r="9" fill="currentColor" stroke="none"/><path d="M59 26 H48"/><path d="M51.0 17.0 L42.0 26.0 L51.0 35.0"/><path d="M26 40 V52"/><path d="M17.0 49.0 L26.0 58.0 L35.0 49.0"/><circle cx="26" cy="70" r="9" fill="currentColor" stroke="none"/><path d="M37 70 H48"/><path d="M45.0 79.0 L54.0 70.0 L45.0 61.0"/><rect x="58" y="62" width="16" height="16" fill="currentColor" stroke="none"/>'};
+  var IKEY = {'Standard Work':'f2','Problem Solving':'f1','Daily & Visual Management':'f3',
+    'Operating Cadences':'f5','Action Planning':'f7','Value Stream Management':'f6','Flow & Pull':'f8','5S':'f4'};
+  function mark(name){ return ICONS[IKEY[name]] || ''; }
+  var listEl = document.getElementById('list');
+
+  function esc(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+
+  fetch('/data/videos.json', { cache:'no-store' })
+    .then(function(r){ if (!r.ok) throw new Error('videos.json ' + r.status); return r.json(); })
+    .then(function(d){ DATA = d; drawFacts(); drawChips(); draw(); })
+    .catch(function(e){
+      listEl.innerHTML = '<p style="padding:60px 0;color:#4A506A">Could not load the video list: ' +
+                         esc(e.message) + '</p>';
+    });
+
+  /* Counts are computed, never typed, so the header cannot disagree with the
+     grid under it. */
+  /* The walkthroughs are Bttr's films about the pages and tools. This page is
+     GE's library, so everything here counts only what GE owns. */
+  function library(){
+    var ge = {};
+    DATA.groups.forEach(function(g){ if (g.ge) ge[g.key] = 1; });
+    return DATA.videos.filter(function(v){ return ge[v.group]; });
+  }
+  function playable(){ return library().filter(function(v){ return v.src; }); }
+  function pending(){ return library().filter(function(v){ return !v.src; }); }
+
+  function runtime(secs){
+    var m = Math.round(secs / 60);
+    return m < 60 ? m + ' min' : (Math.floor(m/60) + ' hr ' + (m % 60) + ' min');
+  }
+
+  function drawFacts(){
+    var p = playable(), total = p.reduce(function(a,v){ return a + v.seconds; }, 0);
+    var f = [[p.length, 'film' + (p.length === 1 ? '' : 's')],
+             [runtime(total), 'to watch']];
+    if (pending().length) f.push([pending().length, 'awaiting a URL from GE']);
+    document.getElementById('facts').innerHTML = f.map(function(x){
+      return '<span><b>' + x[0] + '</b><i>' + esc(x[1]) + '</i></span>'; }).join('');
+  }
+
+  function drawChips(){
+    var el = document.getElementById('chips');
+    var lib = library();
+    var rows = [{ k:'all', label:'Everything', n:lib.length }];
+    DATA.groups.filter(function(g){ return g.ge; }).forEach(function(g){
+      var n = lib.filter(function(v){ return v.group === g.key; }).length;
+      if (n) rows.push({ k:g.key, label:g.name, n:n });
+    });
+    el.innerHTML = rows.map(function(r){
+      return '<button type="button" class="pchip' + (filter === r.k ? ' on' : '') +
+             '" data-k="' + esc(r.k) + '">' + esc(r.label) +
+             '<span class="n">' + r.n + '</span></button>'; }).join('');
+  }
+
+  // bound once: drawChips replaces the buttons on every render
+  document.getElementById('chips').addEventListener('click', function(e){
+    var b = e.target.closest ? e.target.closest('.pchip') : null;
+    if (!b) return;
+    filter = b.getAttribute('data-k');
+    drawChips(); draw();
+  });
+
+  function card(v){
+    var kind = v.fundamental || '';
+    return '<button type="button" class="card" data-id="' + esc(v.id) + '" data-src="' + esc(v.src) + '">' +
+      '<div class="thumb">' +
+        (v.poster ? '<img src="' + esc(v.poster) + '" alt="" loading="lazy">' : '') +
+        '<video class="prev" muted loop playsinline preload="none" aria-hidden="true"></video>' +
+        '<span class="play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>' +
+        '<span class="len">' + esc(v.length) + '</span>' +
+      '</div>' +
+      '<div class="body"><div class="kind">' + esc(kind) + '</div>' +
+      '<h3>' + esc(v.title) + '</h3><p>' + esc(v.desc) + '</p>' +
+      '<div class="foot"><span class="go">Play &rarr;</span></div></div></button>';
+  }
+
+  /* A film with no URL is a line in a list, not a card the size of a film.
+     Eight of them as cards turned the middle of the page into a wall of
+     hatching for films nobody can watch yet. */
+  function awrow(v){
+    return '<div class="awrow" title="Awaiting ' + esc(v.awaiting) + '">' +
+      '<span class="at">' + esc(v.title) + '</span>' +
+      '<span class="aw">Awaiting ' + esc(v.awaiting) + '</span></div>';
+  }
+
+  /* A card in the same idiom as the Template Library: a preview panel, the tags,
+     the title, what it is, and one action. The top rule carries the state, green
+     when it plays today, exactly as the Prompt Library does. */
+  function card(v, fname){
+    var on = !!v.src;
+    var tags = '<span class="tag">' + esc(fname) + '</span>' +
+               (on && v.length ? '<span class="tag">' + esc(v.length) + '</span>' : '');
+    var thumb = '<span class="thumb">' +
+      '<span class="glyph"><svg viewBox="0 0 96 96" aria-hidden="true">' + (mark(fname) || '') + '</svg></span>' +
+      (on ? '<span class="play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>' +
+            (v.length ? '<span class="len">' + esc(v.length) + '</span>' : '') : '') +
+      '</span>';
+    var action = on
+      ? '<span class="run"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>Play</span>'
+      : '<span class="pend"><i></i>Awaiting ' + esc(v.awaiting || 'a URL') + '</span>';
+    var inner = thumb + '<span class="body"><span class="tags">' + tags + '</span>' +
+      '<h3>' + esc(v.title) + '</h3>' +
+      (v.desc ? '<p>' + esc(v.desc) + '</p>' : '<p></p>') +
+      '<span class="row">' + action + '</span></span>';
+    return on
+      ? '<button type="button" class="card" data-id="' + esc(v.id) + '">' + inner + '</button>'
+      : '<div class="card wait">' + inner + '</div>';
+  }
+
+  function group(n, title, items, ready, total){
+    if (!items.length) return '';
+    var pct = total ? Math.round(ready / total * 100) : 0;
+    return '<section class="grp"><div class="gh">' +
+      '<span class="gn">' + (n < 10 ? '0' : '') + n + '</span>' +
+      '<h2>' + esc(title) + '</h2>' +
+      '<span class="meter"><span class="track"><span class="fill" style="width:' + pct + '%"></span></span>' +
+      '<span class="ct">' + ready + ' of ' + total + ' ready</span></span></div>' +
+      '<div class="grid">' + items.join('') + '</div></section>';
+  }
+
+  function draw(){
+    var lib = library();
+    var vids = (filter === 'all') ? lib : lib.filter(function(v){ return v.group === filter; });
+    var films = vids.filter(function(v){ return v.group !== 'overview'; });
+    var overs = vids.filter(function(v){ return v.group === 'overview'; });
+    var html = '', n = 0;
+
+    if (films.length){
+      n++;
+      html += group(n, 'Course films', films.map(function(v){ return card(v, v.fundamental || ''); }),
+                    films.filter(function(v){ return v.src; }).length, films.length);
+    }
+    if (overs.length){
+      n++;
+      var byF = {};
+      overs.forEach(function(v){ byF[v.fundamental] = v; });
+      var items = DATA.fundamentals.map(function(f){
+        var v = byF[f.key]; return v ? card(v, f.name) : '';
+      }).filter(Boolean);
+      html += group(n, 'Fundamental overviews', items,
+                    overs.filter(function(v){ return v.src; }).length, overs.length);
+    }
+    if (!html) html = '<p class="none">Nothing here yet.</p>';
+
+    /* The one thing GE can act on sits at the end rather than in a banner at the
+       top: the page is for watching, not for chasing. */
+    if (pending().length && (filter === 'all' || filter === 'overview')){
+      html += '<div class="ask"><div class="t">' + pending().length +
+        ' overview films are made but not linked</div>' +
+        '<div class="d">They live on GE\u2019s Vimeo tenant, so the URL has to come from GE. ' +
+        'Send one and its card turns on here and on that Fundamental\u2019s page.</div></div>';
+    }
+    listEl.innerHTML = html;
+  }
+
+  // ---- player ---------------------------------------------------------------
+  var modal = document.getElementById('vl-modal');
+  var vid   = document.getElementById('vl-v');
+
+  function open(id){
+    var v = DATA.videos.filter(function(x){ return x.id === id; })[0];
+    if (!v || !v.src) return;
+    vid.src = v.src;
+    if (v.poster) vid.poster = v.poster;
+    document.getElementById('vl-t').textContent = v.title;
+    document.getElementById('vl-m').textContent = v.length + ' · ' + (v.fundamental || '');
+    var p = document.getElementById('vl-p');
+    if (v.page){ p.href = v.page; p.hidden = false; } else p.hidden = true;
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    var play = vid.play();
+    if (play && play.catch) play.catch(function(){});   // autoplay refused: controls are there
+  }
+
+  function close(){
+    modal.classList.remove('open');
+    vid.pause();
+    vid.removeAttribute('src');   // stop the download, a 99MB film keeps going otherwise
+    vid.load();
+    document.body.style.overflow = '';
+  }
+
+  listEl.addEventListener('click', function(e){
+    var c = e.target.closest ? e.target.closest('button.card') : null;
+    if (c) open(c.getAttribute('data-id'));
+  });
+  listEl.addEventListener('mouseout', function(e){
+    var c = e.target.closest ? e.target.closest('button.card') : null;
+    if (!c || (e.relatedTarget && c.contains(e.relatedTarget))) return;
+    var pv = c.querySelector('.prev');
+    if (!pv) return;
+    pv.classList.remove('on'); pv.pause(); pv.currentTime = 0;
+  });
+  document.getElementById('vl-x').addEventListener('click', close);
+  modal.addEventListener('click', function(e){ if (e.target === modal) close(); });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && modal.classList.contains('open')) close();
+  });
+})();
+</script>
+<script src="/deliverables/search/search-index.js"></script>
+<script src="/hub/omnibox.js"></script>
+</body>
+</html>

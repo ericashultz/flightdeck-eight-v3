@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Concept D · Personas · FLIGHTDECK Activation Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* GE Sans, the same faces the live pages load. These four concepts shipped on
+     Geist with a serif display face, so every headline was set in Iowan Old Style
+     while the pages they propose to replace are GE Sans throughout. Donny, 25 Aug. */
+  @font-face{font-family:"GE Sans";font-weight:300;font-style:normal;font-display:swap;src:url("assets/fonts/ge-sans/sons-light.woff2") format("woff2")}@font-face{font-family:"GE Sans";font-weight:400;font-style:normal;font-display:swap;src:url("assets/fonts/ge-sans/sons-regular.woff2") format("woff2")}@font-face{font-family:"GE Sans";font-weight:600;font-style:normal;font-display:swap;src:url("assets/fonts/ge-sans/sons-semibold.woff2") format("woff2")}
+  :root {
+    --bg: #ffffff; --bg-soft: #f6f8fd;
+    --ink: #101828; --ink-soft: #1e2939; --muted: #4A506A; --muted-soft: #99a1af;
+    --line: #e7ebf4; --line-soft: #eef1f8;
+    --accent: #155dfc; --accent-soft: #eff6ff;
+    --sp-bar: #1c2230; --sp-bar-soft: #2a3141;
+    --bttr-gold: #d2a62c;
+    --font-sans: "GE Sans", "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    --font-display: "GE Sans", "Geist", -apple-system, "Helvetica Neue", Arial, sans-serif;
+    --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, "Menlo", monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { font-family: var(--font-sans); color: var(--ink); background: var(--bg); line-height: 1.5; font-size: 14px; -webkit-font-smoothing: antialiased; }
+
+  .sp-bar { display: grid; grid-template-columns: auto auto 1fr auto; align-items: center; gap: 16px; height: 48px; padding: 0 12px; background: var(--sp-bar); color: #fff; }
+  .sp-bar-left { display: flex; align-items: center; gap: 14px; }
+  .sp-waffle { width: 32px; height: 32px; display: grid; grid-template-columns: repeat(3, 4px); grid-template-rows: repeat(3, 4px); gap: 2px; align-content: center; justify-content: center; cursor: pointer; }
+  .sp-waffle span { width: 4px; height: 4px; background: #e7ebf4; border-radius: 1px; }
+  .sp-org { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 500; }
+  .sp-org .ge-mono { width: 24px; height: 24px; border-radius: 50%; background: #fff; color: #0b1220; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-weight: 700; font-size: 9.5px; }
+  .sp-product { color: rgba(255,255,255,0.85); font-size: 13px; font-weight: 600; padding-left: 14px; border-left: 1px solid rgba(255,255,255,0.15); }
+  .sp-search { max-width: 480px; height: 30px; background: var(--sp-bar-soft); border-radius: 4px; display: flex; align-items: center; gap: 10px; padding: 0 12px; color: rgba(255,255,255,0.7); font-size: 13px; }
+  .sp-bar-right { display: flex; align-items: center; gap: 14px; }
+  .sp-bar-right .iconbtn { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.85); cursor: pointer; }
+  .sp-bar-right .iconbtn:hover { background: rgba(255,255,255,0.08); }
+  .sp-bar-right .avatar { width: 30px; height: 30px; border-radius: 50%; background: var(--accent); color: #fff; font-weight: 600; font-size: 13px; display: flex; align-items: center; justify-content: center; }
+
+  .layout { display: grid; grid-template-columns: 48px 1fr; min-height: calc(100vh - 48px); }
+  .rail { background: var(--bg); border-right: 1px solid var(--line); padding: 12px 0; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .rail .ricon { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; color: var(--muted); border-radius: 4px; cursor: pointer; }
+  .rail .ricon:hover { background: var(--line-soft); color: var(--ink); }
+  .rail .ricon.active { color: var(--accent); }
+  .rail .sep { width: 24px; height: 1px; background: var(--line); margin: 6px 0; }
+
+  .page { padding: 24px 32px 80px; }
+  .hub-header { display: grid; grid-template-columns: 72px 1fr auto; gap: 18px; align-items: start; padding-bottom: 0; border-bottom: 1px solid var(--line); }
+  .hub-icon { width: 72px; height: 72px; background: var(--ink); color: #fff; border-radius: 4px; display: flex; align-items: center; justify-content: center; padding: 14px; }
+  .hub-icon img { width: 100%; height: 100%; object-fit: contain; }
+  .sp-org .ge-mono img { width: 18px; height: 18px; display: block; }
+  .sp-org .ge-mono { padding: 0; overflow: hidden; }
+  .hub-title h1 { margin: 0 0 14px; font-size: 28px; font-weight: 600; color: var(--ink); letter-spacing: -0.01em; }
+  .hub-tabs { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
+  .hub-tab { padding: 10px 14px; font-size: 14px; color: var(--ink-soft); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+  .hub-tab:hover { color: var(--ink); }
+  .hub-tab.active { color: var(--ink); border-bottom-color: var(--ink); font-weight: 600; }
+  .hub-tab .caret { display: inline-block; margin-left: 4px; color: var(--muted); font-size: 10px; }
+  .hub-meta { font-size: 12px; color: var(--muted); display: flex; flex-direction: column; gap: 6px; align-items: flex-end; padding-top: 6px; }
+
+  .cmd-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 13px; color: var(--ink-soft); }
+  .cmd-bar .left { display: flex; gap: 4px; }
+  .cmd-bar .left .cmd { padding: 6px 10px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; border-radius: 4px; }
+  .cmd-bar .left .cmd:hover { background: var(--line-soft); }
+  .cmd-bar .left .cmd .ico { color: var(--muted); }
+  .cmd-bar .right { display: flex; align-items: center; gap: 12px; color: var(--muted); font-size: 12.5px; }
+  .cmd-bar .right .accent { color: var(--accent); cursor: pointer; }
+  .cmd-bar .right .sep { color: var(--muted-soft); }
+
+  /* ====== Concept D body ====== */
+  .body { padding: 28px 0; max-width: 1240px; margin: 0 auto; }
+  .ks { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+  .body h2 { font-size: 26px; font-weight: 600; margin: 0 0 28px; color: var(--ink); letter-spacing: -0.01em; max-width: 60ch; }
+
+  .concept-intro { padding-bottom: 32px; margin-bottom: 36px; border-bottom: 1px solid var(--line); }
+  .concept-intro .ribbon { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+  .concept-intro .ribbon-bar { width: 28px; height: 2px; background: var(--accent); }
+  .concept-intro .ribbon-text { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+  .concept-intro h1 { font-family: var(--font-display); font-size: 44px; line-height: 1.06; margin: 0 0 14px; font-weight: 400; letter-spacing: -0.02em; color: var(--ink); max-width: 22ch; }
+  .concept-intro p.lede { font-size: 17px; color: var(--muted); margin: 0; max-width: 64ch; line-height: 1.55; }
+
+  .pp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .pp { display: flex; flex-direction: column; cursor: pointer; transition: transform 0.18s; text-decoration: none; color: inherit; }
+  .pp:hover { transform: translateY(-3px); }
+  .pp .img { aspect-ratio: 5 / 3; border-radius: 6px; position: relative; overflow: hidden; background: #0b1220; }
+  .pp .img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .pp .img::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0) 30%, rgba(0,0,0,0.55) 100%); pointer-events: none; }
+  .pp .img .badge { position: absolute; top: 14px; left: 16px; z-index: 2; font-family: var(--font-mono); font-size: 10.5px; color: rgba(255,255,255,0.94); letter-spacing: 0.14em; text-transform: uppercase; padding: 4px 10px; border: 1px solid rgba(255,255,255,0.36); border-radius: 999px; background: rgba(0,0,0,0.36); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+  .pp .img .avatar-large { position: absolute; bottom: 18px; left: 18px; z-index: 2; width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.18); border: 1.5px solid rgba(255,255,255,0.5); color: #fff; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-weight: 700; font-size: 18px; letter-spacing: 0.04em; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+  .pp .role { padding: 14px 4px 2px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+  .pp .name { padding: 4px 4px 6px; font-size: 22px; font-weight: 600; color: var(--ink); letter-spacing: -0.01em; }
+  .pp .desc { padding: 0 4px 12px; font-size: 14px; color: var(--muted); line-height: 1.5; min-height: 50px; }
+  .pp .enter { padding: 0 4px; font-size: 13px; color: var(--accent); font-weight: 500; }
+
+  /* Floating nav */
+  .floating-nav { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 100; display: flex; align-items: center; gap: 4px; padding: 6px; background: rgba(11, 18, 32, 0.94); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); border-radius: 999px; box-shadow: 0 14px 36px -10px rgba(0,0,0,0.35); }
+  .floating-nav a, .floating-nav .fnav-pos { display: inline-flex; align-items: center; gap: 6px; padding: 9px 16px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: rgba(255,255,255,0.85); text-decoration: none; border-radius: 999px; transition: background 0.15s, color 0.15s; }
+  .floating-nav a:hover { background: rgba(255,255,255,0.12); color: #fff; }
+  .floating-nav .fnav-pos { color: rgba(255,255,255,0.5); cursor: default; }
+  .floating-nav .fnav-pos b { color: #fff; font-weight: 600; margin-right: 6px; }
+  .floating-nav .fnav-next { background: var(--accent); color: #fff; }
+  .floating-nav .fnav-next:hover { background: var(--accent-deep); color: #fff; }
+  @media (max-width: 760px) { .floating-nav .fnav-pos { display: none; } .floating-nav { bottom: 12px; } }
+  .switcher { padding-bottom: 96px !important; }
+
+  .switcher { margin: 80px auto 0; max-width: 1240px; padding: 28px 0 56px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
+  .switcher .back { font-size: 13px; color: var(--accent); text-decoration: none; font-family: var(--font-mono); letter-spacing: 0.04em; }
+  .switcher .back:hover { text-decoration: underline; }
+  .switcher .pages { display: flex; gap: 6px; flex-wrap: wrap; }
+  .switcher .pg { padding: 8px 14px; font-size: 12.5px; border: 1px solid var(--line); border-radius: 999px; color: var(--ink-soft); text-decoration: none; font-family: var(--font-mono); letter-spacing: 0.06em; transition: all 0.12s; }
+  .switcher .pg:hover { border-color: var(--ink); color: var(--ink); }
+  .switcher .pg.current { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .switcher .pg .num { color: var(--muted-soft); margin-right: 6px; }
+  .switcher .pg.current .num { color: #cbd5e1; }
+
+  @media (max-width: 1100px) { .pp-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 760px) {
+    .page { padding: 16px 18px 56px; }
+    .hub-meta { display: none; }
+    .pp-grid { grid-template-columns: 1fr; }
+    .sp-search { display: none; }
+  }
+  /* GE Aerospace footer */
+  .ge-footer { background: #0a1a3d; color: #fff; padding: 80px 56px 32px; margin-top: 0; }
+  .ge-footer-inner { max-width: 1280px; margin: 0 auto; }
+  .ge-footer-news { display: grid; grid-template-columns: 1fr 480px; gap: 60px; align-items: start; padding-bottom: 56px; }
+  .ge-news-title { font-family: var(--font-sans); font-size: 56px; font-weight: 400; line-height: 1.05; letter-spacing: -0.025em; margin: 0; color: #fff; }
+  .ge-news-label { font-size: 13.5px; color: rgba(255,255,255,0.92); margin: 0 0 12px; }
+  .ge-news-row { display: grid; grid-template-columns: 1fr auto; gap: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.45); align-items: center; }
+  .ge-news-input { background: transparent; border: 0; color: #fff; font-size: 14.5px; padding: 10px 0; outline: none; font-family: var(--font-sans); }
+  .ge-news-input::placeholder { color: rgba(255,255,255,0.78); }
+  .ge-news-btn { background: transparent; border: 1px solid rgba(255,255,255,0.6); color: #fff; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; transition: background 0.15s; }
+  .ge-news-btn:hover { background: rgba(255,255,255,0.12); }
+  .ge-footer-divider { height: 1px; background: rgba(255,255,255,0.18); }
+  .ge-footer-main { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; padding: 60px 0; align-items: start; }
+  .ge-footer-brand { display: flex; align-items: center; gap: 14px; }
+  .ge-footer-mark { width: 50px; height: 50px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; padding: 8px; }
+  .ge-footer-mark img { width: 100%; height: 100%; }
+  .ge-footer-word { font-size: 24px; font-weight: 500; letter-spacing: -0.005em; }
+  .ge-footer-cols { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 32px; }
+  .ge-footer-col h5 { font-size: 15px; font-weight: 600; margin: 0 0 22px; color: #fff; }
+  .ge-footer-col a { display: block; font-size: 13.5px; color: rgba(255,255,255,0.72); text-decoration: none; padding: 6px 0; transition: color 0.15s; }
+  .ge-footer-col a:hover { color: #fff; }
+  .ge-footer-copyright { padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.12); font-size: 12.5px; color: rgba(255,255,255,0.62); }
+  @media (max-width: 900px) {
+    .ge-footer { padding: 56px 24px 24px; }
+    .ge-footer-news { grid-template-columns: 1fr; gap: 32px; }
+    .ge-news-title { font-size: 40px; }
+    .ge-footer-main { grid-template-columns: 1fr; gap: 40px; }
+    .ge-footer-cols { grid-template-columns: 1fr 1fr; gap: 24px; }
+  }
+
+</style>
+</head>
+<body>
+
+<div class="sp-bar">
+  <div class="sp-bar-left">
+    <div class="sp-waffle"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="sp-org"><div class="ge-mono"><img src="assets/ge-mono-dark.svg" alt="GE"></div><div>GE Aerospace</div></div>
+    <div class="sp-product">SharePoint</div>
+  </div>
+  <div></div>
+  <div class="sp-search"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="5"/><path d="M11 11l3 3"/></svg> Search this site</div>
+  <div class="sp-bar-right">
+    <div class="iconbtn"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6.5"/><path d="M6 6.5a2 2 0 014 0c0 1.5-2 1.5-2 3M8 12v.5"/></svg></div>
+    <div class="iconbtn"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="2.5"/></svg></div>
+    <div class="avatar">D</div>
+  </div>
+</div>
+
+<div class="layout">
+  <aside class="rail">
+    <div class="ricon active"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2.5 8.5L9 3l6.5 5.5V15a1 1 0 01-1 1h-3v-4.5h-5V16h-3a1 1 0 01-1-1V8.5z"/></svg></div>
+    <div class="ricon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="9" r="6.5"/><path d="M2.5 9h13"/></svg></div>
+    <div class="ricon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 4.5h4l1.5 1.5h6.5v8H3v-9.5z"/></svg></div>
+    <div class="ricon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2.5" y="3.5" width="13" height="11" rx="1"/></svg></div>
+    <div class="ricon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2.5" y="3.5" width="13" height="11" rx="1"/></svg></div>
+    <div class="sep"></div>
+    <div class="ricon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 4v10M4 9h10"/></svg></div>
+  </aside>
+
+  <main>
+    <div class="page">
+
+      <div class="hub-header">
+        <div class="hub-icon"><img src="assets/ge-mono.svg" alt="GE Aerospace"></div>
+        <div class="hub-title">
+          <h1>FLIGHTDECK Activation Hub</h1>
+          <div class="hub-tabs">
+            <div class="hub-tab active">Home</div>
+            <div class="hub-tab">Activation Hub</div>
+            <div class="hub-tab">Fundamentals<span class="caret">▾</span></div>
+            <div class="hub-tab">Behaviors<span class="caret">▾</span></div>
+            <div class="hub-tab">Additional Tools<span class="caret">▾</span></div>
+            <div class="hub-tab">Lean Lesson Library</div>
+            <div class="hub-tab" style="color: var(--accent);">Edit</div>
+          </div>
+        </div>
+        <div class="hub-meta">
+          <div>☆ Not following</div>
+          <div>👤 27 members</div>
+        </div>
+      </div>
+
+      <div class="cmd-bar">
+        <div class="left">
+          <div class="cmd">+ New ▾</div>
+          <div class="cmd">🔗 Promote</div>
+          <div class="cmd">⚙ Page Details</div>
+          <div class="cmd">👁 Preview</div>
+          <div class="cmd">📊 Analytics</div>
+        </div>
+        <div class="right">
+          <span>Published 5/4/2026</span><span class="sep">·</span>
+          <span class="accent">Share</span><span class="sep">·</span>
+          <span class="accent">✎ Edit</span><span class="sep">·</span><span class="accent">↗</span>
+        </div>
+      </div>
+
+      <!-- ============ Personas body ============ -->
+      <section class="body">
+
+        <div class="concept-intro">
+          <div class="ribbon"><div class="ribbon-bar"></div><div class="ribbon-text">Concept 04 of 05 · Role First</div></div>
+          <h1>Choose your starting point.</h1>
+          <p class="lede">Seven personas reverse-engineered from your VOC data, mapped across 34,760 employees. FLIGHT DECK Leaders (N=400) are flagged as the priority audience — they drive adoption everywhere else.</p>
+        </div>
+
+        <div class="pp-grid">
+          <a class="pp" href="#" style="grid-column: span 2;">
+            <div class="img" style="aspect-ratio: 5 / 2;">
+              <img src="assets/persona-1.png" alt="FLIGHT DECK Leaders">
+              <div class="badge" style="background: var(--accent); border-color: var(--accent); color: #fff;">Priority audience · Genba coaches</div>
+              <div class="avatar-large">FD</div>
+            </div>
+            <div class="role">Transformational Leaders · N = ~400</div>
+            <div class="name">FLIGHT DECK Leaders</div>
+            <div class="desc">Deployed at Genba. Teach, guide, coach. Daily/weekly hub visitors. The persona that drives FD adoption everywhere else — and the one the redesign optimizes hardest for.</div>
+            <div class="enter">Enter route →</div>
+          </a>
+
+          <a class="pp" href="#">
+            <div class="img">
+              <img src="assets/persona-2.png" alt="Senior Leader">
+              <div class="badge">Operating Leaders · N = 285</div>
+              <div class="avatar-large">SL</div>
+            </div>
+            <div class="role">Senior Leader (LF)</div>
+            <div class="name">Strategic Tier 2 / SALT</div>
+            <div class="desc">"Frequency of touch trumps quality of touch." Wants simplified action plans on the 10 things that matter — not the thousand things to do.</div>
+            <div class="enter">Enter route →</div>
+          </a>
+
+          <a class="pp" href="#">
+            <div class="img">
+              <img src="assets/persona-3.png" alt="Plant Leader">
+              <div class="badge">Transformational · N = ~75–80</div>
+              <div class="avatar-large">PL</div>
+            </div>
+            <div class="role">Plant Leader</div>
+            <div class="name">SQDC + P&amp;L owner</div>
+            <div class="desc">Product Line Leaders, Part Family Leaders. Need clear "why" behind lean — and localized training in native languages.</div>
+            <div class="enter">Enter route →</div>
+          </a>
+
+          <a class="pp" href="#">
+            <div class="img">
+              <img src="assets/persona-4.png" alt="Manufacturing People Leader">
+              <div class="badge">FLL+TL · N = ~1,100</div>
+              <div class="avatar-large">MP</div>
+            </div>
+            <div class="role">Manufacturing People Leader</div>
+            <div class="name">Shift Supervisor / Team Lead</div>
+            <div class="desc">"I'm learning alongside operators rather than gaining understanding on my own." Tools on the hub feel too advanced to explain.</div>
+            <div class="enter">Enter route →</div>
+          </a>
+
+          <a class="pp" href="#">
+            <div class="img">
+              <img src="assets/persona-5.png" alt="Non-Manufacturing People Leader">
+              <div class="badge">FLL+TL · N = ~4,900</div>
+              <div class="avatar-large">NM</div>
+            </div>
+            <div class="role">Non-Manufacturing People Leader</div>
+            <div class="name">Underserved · biggest gap</div>
+            <div class="desc">"My team isn't sure how to start leveraging FLIGHT DECK. No FD coach assigned." All examples are MFG floor — has to translate.</div>
+            <div class="enter">Enter route →</div>
+          </a>
+
+          <a class="pp" href="#">
+            <div class="img">
+              <img src="assets/persona-6.png" alt="Hourly Employee">
+              <div class="badge">Individual Contributors · N = ~28,000</div>
+              <div class="avatar-large">HE</div>
+            </div>
+            <div class="role">Hourly Employee</div>
+            <div class="name">The largest group</div>
+            <div class="desc">"What the Hell is FLIGHT DECK?" "I don't know how it applies to me." Daily Mgmt feels like time taken from making parts.</div>
+            <div class="enter">Enter route →</div>
+          </a>
+
+          <a class="pp" href="#">
+            <div class="img">
+              <img src="assets/persona-3.png" alt="Non-Mfg Individual Contributor" style="object-position: 70% center;">
+              <div class="badge">Front Line Operators · N = TBD</div>
+              <div class="avatar-large">NI</div>
+            </div>
+            <div class="role">Non-Mfg Individual Contributor</div>
+            <div class="name">Engineering · DT · Quality</div>
+            <div class="desc">"FLIGHT DECK is a buzzword and has no impact on my job — I don't see any relatable examples." Pulled into firefighting / reactive work.</div>
+            <div class="enter">Enter route →</div>
+          </a>
+        </div>
+
+      </section>
+
+      <div class="switcher">
+        <a class="back" href="designs.html">← Back to walkthrough</a>
+        <div class="pages">
+          <a class="pg" href="concept-a.html"><span class="num">01</span>Stage First</a>
+          <a class="pg" href="concept-b.html"><span class="num">02</span>Wingmate First</a>
+          <a class="pg" href="concept-c.html"><span class="num">03</span>Maturity First</a>
+          <a class="pg current" href="concept-d.html"><span class="num">04</span>Role First</a>
+          <a class="pg" href="concept-e.html"><span class="num">05</span>Guided Path</a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<footer class="ge-footer">
+  <div class="ge-footer-inner">
+    <div class="ge-footer-news">
+      <h2 class="ge-news-title">Get the news in your<br>inbox</h2>
+      <div class="ge-news-form">
+        <p class="ge-news-label">Enter your email address to register for news alerts.</p>
+        <div class="ge-news-row">
+          <input type="email" class="ge-news-input" placeholder="Email address">
+          <button class="ge-news-btn" aria-label="Subscribe">→</button>
+        </div>
+      </div>
+    </div>
+    <div class="ge-footer-divider"></div>
+    <div class="ge-footer-main">
+      <div class="ge-footer-brand">
+        <span class="ge-footer-mark"><img src="assets/ge-mono-dark.svg" alt=""></span>
+        <span class="ge-footer-word">GE Aerospace</span>
+      </div>
+      <div class="ge-footer-cols">
+        <div class="ge-footer-col">
+          <h5>Get in touch</h5>
+          <a href="#">Contact us</a>
+          <a href="#">Customer support</a>
+          <a href="#">Regions</a>
+          <a href="#">Site Map</a>
+        </div>
+        <div class="ge-footer-col">
+          <h5>Legal</h5>
+          <a href="#">Security</a>
+          <a href="#">Terms</a>
+          <a href="#">Cookies</a>
+          <a href="#">Privacy</a>
+          <a href="#">Personal Information</a>
+          <a href="#">Transparency in Coverage</a>
+        </div>
+        <div class="ge-footer-col">
+          <h5>Connect</h5>
+          <a href="#">Instagram</a>
+          <a href="#">LinkedIn</a>
+          <a href="#">X</a>
+          <a href="#">YouTube</a>
+        </div>
+      </div>
+    </div>
+    <div class="ge-footer-copyright">© 2026 General Electric Company</div>
+  </div>
+</footer>
+
+
+<nav class="floating-nav">
+  <a href="index.html">← Hub</a>
+  <a href="designs.html">Walkthrough</a>
+  <span class="fnav-pos"><b>04</b>/ 05 · Personas</span>
+  <a href="concept-e.html" class="fnav-next">Next: Guided Path →</a>
+</nav>
+
+<script src="/track.js" defer></script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
+</body>
+</html>

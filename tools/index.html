@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="en">
+<head><script src="/gate.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FLIGHT DECK Tools</title>
+<style>
+  @font-face{font-family:"GE Sans";font-weight:300;src:url("assets/fonts/sons-light.woff2") format("woff2")}
+  @font-face{font-family:"GE Sans";font-weight:400;src:url("assets/fonts/sons-regular.woff2") format("woff2")}
+  @font-face{font-family:"GE Sans";font-weight:600;src:url("assets/fonts/sons-semibold.woff2") format("woff2")}
+  :root {
+    --navy:#00003d; --white:#ffffff;
+    --body:#3b4157; --muted:#6b7183; --line:#dcdfe8;
+    --graph:#c2c6d4;
+    --avionics:#0ad64f; --sky:#4181ff;
+    --sans:"GE Sans",-apple-system,"Helvetica Neue","Segoe UI",Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono",Menlo,monospace;
+    --shadow:0 1px 2px rgba(0,0,61,.05), 0 22px 44px -30px rgba(0,0,61,.28);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:var(--sans);background:var(--white);color:var(--navy);-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;min-height:100dvh}
+  a{color:inherit;text-decoration:none}
+
+  /* ── nav (GE Aerospace VI, mirrors the operating-model pages) ── */
+  .nav { border-bottom:1px solid var(--line); flex:none; }
+  .nav .in { max-width:1200px; margin:0 auto; padding:20px 40px; display:flex; align-items:center; justify-content:space-between; width:100%; }
+  .nav .logo { height:23px; width:auto; display:block; }
+  .nav a:hover .logo { opacity:.8; }
+  .nav .rt { font-size:13px; color:var(--muted); }
+  .nav .rt b { color:var(--navy); font-weight:600; }
+  @media (max-width:640px){ .nav .in { padding:16px 20px; } }
+
+  /* ── fundamentals tab row ── */
+  .mm-tabs{flex:none;z-index:60;background:rgba(255,255,255,.9);backdrop-filter:saturate(1.6) blur(12px);-webkit-backdrop-filter:saturate(1.6) blur(12px);border-bottom:1px solid var(--line)}
+  .mm-tabs-in{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;gap:0;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}
+  .mm-tabs-in::-webkit-scrollbar{display:none}
+  .mm-tab{flex:none;display:inline-flex;align-items:center;gap:9px;padding:13px 13px;font-family:var(--sans);font-size:12.5px;font-weight:500;line-height:1;color:var(--muted);background:none;border:0;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:color .15s ease,border-color .15s ease}
+  .mm-tab:hover{color:var(--navy)}
+  .mm-tab .mm-n{font-size:11px;font-weight:600;letter-spacing:.05em;color:var(--graph);font-variant-numeric:tabular-nums}
+  .mm-tab.is-on{color:var(--navy);font-weight:600;border-bottom-color:var(--avionics)}
+  .mm-tab.is-on .mm-n{color:var(--avionics)}
+  .mm-tab.sys{font-weight:600;color:var(--navy);border-right:1px solid var(--line);margin-right:6px;padding-right:16px}
+  .mm-tab.sys .mm-dot{width:8px;height:8px;border-radius:2px;background:var(--avionics);display:inline-block}
+  @media(max-width:720px){.mm-tab{padding:12px 11px;font-size:12px;gap:7px}.mm-tabs-in{padding:0 12px}}
+
+  /* ── tool strip (second level: the tools of the active fundamental) ── */
+  .strip{flex:none;display:none;border-bottom:1px solid var(--line);background:#fbfcfe}
+  body.tabbed .strip{display:block}
+  .strip-in{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:0;overflow-x:auto;scrollbar-width:none}
+  .strip-in::-webkit-scrollbar{display:none}
+  .tchip{flex:none;display:inline-flex;align-items:center;gap:8px;padding:12px 13px;font-size:12.5px;font-weight:500;color:var(--muted);background:none;border:0;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:color .15s ease,border-color .15s ease}
+  .tchip:hover{color:var(--navy)}
+  .tchip .tn{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--graph)}
+  .tchip.is-on{color:var(--navy);font-weight:600;border-bottom-color:var(--navy)}
+  .tchip.is-on .tn{color:var(--sky)}
+  .strip .open-new{margin-left:auto;flex:none;font-size:12px;color:var(--muted);padding:10px 0 10px 16px}
+  .strip .open-new:hover{color:var(--navy)}
+
+  /* ── list view (hero matches the fundamental pages: navy band, green-square eyebrow) ── */
+  .hero{background:linear-gradient(160deg,#0b1a34 0%,#142c55 100%);color:#fff;padding:44px 0 56px}
+  .hero .in{max-width:1200px;margin:0 auto;padding:0 40px}
+  .hero .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#cfe1ff;font-weight:600;margin-bottom:14px}
+  .hero .eyebrow::before{content:"";width:10px;height:10px;background:#16b364}
+  .hero h1{font-size:46px;margin:0 0 12px;letter-spacing:-.03em;font-weight:300;line-height:1.05}
+  .hero p{font-size:16px;color:#c8d5e8;max-width:720px;margin:0;line-height:1.55}
+  @media (max-width:640px){ .hero{padding:32px 0 36px} .hero .in{padding:0 20px} .hero h1{font-size:34px} .hero p{font-size:15px} }
+
+  /* Sort bar. Latest-first is the default so the newest tool is the first thing
+     anyone sees; by-fundamental is the old grouped reading order. */
+  .sortbar{max-width:1200px;margin:0 auto;padding:18px 40px 0;width:100%;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  @media (max-width:640px){ .sortbar{padding:14px 20px 0} }
+  .sortbar .sl{font-family:var(--mono,ui-monospace,Menlo,monospace);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--graph,#6b7280)}
+  .sortbar button{background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 14px;font:inherit;font-size:12.5px;color:var(--body);cursor:pointer}
+  .sortbar button:hover{border-color:#2256e6;color:#2256e6}
+  .sortbar button.on{background:#00003d;border-color:#00003d;color:#fff}
+  .newflag{display:inline-block;font-family:var(--mono,ui-monospace,Menlo,monospace);font-size:9px;letter-spacing:.11em;text-transform:uppercase;background:#16b364;color:#fff;border-radius:4px;padding:2px 6px;margin-left:8px;vertical-align:2px}
+  .tdate{font-family:var(--mono,ui-monospace,Menlo,monospace);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--graph,#6b7280);white-space:nowrap}
+  .manifest{max-width:1200px;margin:0 auto;padding:26px 40px 96px;width:100%}
+  @media (max-width:640px){ .manifest{padding:20px 20px 72px} }
+  .grp{padding:8px 0 2px}
+  .gh{display:inline-flex;align-items:center;gap:8px;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--body);font-weight:600;margin:30px 0 8px}
+  .gh::before{content:"";width:10px;height:10px;background:#16b364}
+  .gh .gn{color:var(--graph);font-variant-numeric:tabular-nums}
+  .tool{display:grid;grid-template-columns:148px 64px 1fr auto;gap:22px;align-items:center;padding:15px 14px;margin:0 -14px;border-radius:12px;cursor:pointer;transition:background .14s,box-shadow .14s}
+  .tool + .tool{border-top:1px solid #f0f1f5}
+  .tool:hover,.tool:focus-visible{background:#fff;box-shadow:var(--shadow)}
+  .tool:focus-visible{outline:2px solid var(--sky);outline-offset:2px}
+  .tool:hover .dsg{color:var(--sky)}
+  .thumb{width:148px;height:92px;object-fit:cover;display:block;border-radius:8px;border:1px solid var(--line);background:#fff;box-shadow:0 1px 2px rgba(0,0,61,.06);transition:box-shadow .14s,transform .14s}
+  .tool:hover .thumb,.tool:focus-visible .thumb{box-shadow:0 2px 6px rgba(0,0,61,.08), 0 14px 28px -18px rgba(0,0,61,.35);transform:translateY(-1px)}
+  .dsg{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--graph);transition:color .14s}
+  .tname{font-weight:600;font-size:15.5px;color:var(--navy)}
+  .tdesc{display:block;font-weight:400;font-size:13.5px;color:var(--body);line-height:1.5;margin-top:3px;max-width:62ch}
+  .ttype{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:100px;padding:4px 10px;white-space:nowrap;background:#fff}
+  .foot{border-top:1px solid var(--line);padding:22px 0 64px;font-size:12.5px;color:var(--muted);flex:none}
+  .foot .in{max-width:1200px;margin:0 auto;padding:0 40px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .foot span{font-family:var(--mono);letter-spacing:.08em}
+  @media (max-width:820px){
+    .tool{grid-template-columns:1fr;gap:6px}
+    .thumb{width:100%;height:auto;aspect-ratio:148/92;margin-bottom:6px}
+    .ttype{justify-self:start}
+  }
+
+  /* ── frame view (a tool is active) ── */
+  .stage{display:none;flex:1;min-height:0;position:relative;background:#fff}
+  .stage iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff;opacity:0;transition:opacity .18s ease}
+  .stage iframe.ready{opacity:1}
+  body.viewing{height:100dvh;overflow:hidden}
+  body.viewing .stage{display:block}
+  body.viewing .hero, body.viewing .manifest, body.viewing .foot{display:none}
+
+  @media (prefers-reduced-motion:reduce){
+    .tool,.dsg,.mm-tab,.tchip{transition:none}
+    .stage iframe{transition:none}
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav"><div class="in">
+  <a href="/concept-quickstart.html" aria-label="FLIGHT DECK Activation Hub" style="display:block;line-height:0"><svg class="logo" viewBox="0 0 283 67" role="img" aria-label="GE Aerospace"><path fill="#00003d" d="M108.115 47.0733V19.9267H121.69V22.914H111.504V31.8338H121.037V34.7454H111.504V44.0944H121.69V47.0818H108.115V47.0733ZM136.93 35.8646L140.479 23.0234L144.027 35.8646H136.93ZM133.842 47.0733L136.152 38.7341H144.831L147.141 47.0733H150.689L142.663 19.9267H138.42L130.394 47.0733H133.825H133.842ZM160.415 30.2771C162.842 30.2771 164.005 31.5982 164.005 34.4256V36.0161H156.833V34.4256C156.833 31.5898 157.988 30.2771 160.423 30.2771M153.518 34.6613V40.4844C153.518 45.0201 155.945 47.4604 160.348 47.4604C164.75 47.4604 167.06 45.4829 167.21 41.2923H164.005C163.888 43.8083 162.775 44.8602 160.339 44.8602C157.904 44.8602 156.833 43.5054 156.833 40.6696V38.7341H167.286V34.5855C167.286 30.0835 164.892 27.6853 160.423 27.6853C155.954 27.6853 153.518 30.1256 153.518 34.6613ZM180.25 31.2532V27.9209H179.898C177.547 27.9209 175.923 28.9643 175.002 30.9503V28.0808H171.881V47.0818H175.195V35.5617C175.195 33.0456 176.392 31.1775 179.472 31.1775C179.781 31.1775 180.091 31.2111 180.242 31.2532M189.347 44.8265C186.92 44.8265 185.799 43.5054 185.799 40.678V34.4677C185.799 31.6403 186.92 30.3191 189.347 30.3191C191.774 30.3191 192.896 31.6403 192.896 34.4677V40.678C192.896 43.5054 191.774 44.8265 189.347 44.8265ZM189.347 47.4604C193.825 47.4604 196.219 45.0201 196.219 40.4844V34.6613C196.219 30.1256 193.825 27.6853 189.347 27.6853C184.87 27.6853 182.484 30.1256 182.484 34.6613V40.4844C182.484 45.0201 184.878 47.4604 189.347 47.4604ZM203.425 32.5323C203.425 31.0176 204.462 30.2434 206.278 30.2434C208.438 30.2434 209.325 31.2869 209.325 33.5757H212.488C212.488 29.545 210.639 27.6768 206.278 27.6768C202.378 27.6768 200.219 29.6123 200.219 32.9951C200.219 36.1339 202.228 37.2615 204.772 38.4985L206.739 39.4662C208.747 40.4339 209.442 40.8968 209.442 42.4535C209.442 44.1197 208.287 44.8939 206.278 44.8939C203.96 44.8939 202.964 43.8083 202.964 41.4017H199.801C199.801 45.5502 201.809 47.452 206.278 47.452C210.329 47.452 212.639 45.4324 212.639 41.9823C212.639 38.8435 210.631 37.7159 208.086 36.4789L206.119 35.5112C204.111 34.5435 203.416 34.0806 203.416 32.5239M227.294 40.6696C227.294 43.3876 226.248 44.6246 223.938 44.6246C221.393 44.6246 220.197 42.9164 220.197 40.0889V34.8548C220.197 32.0274 221.393 30.3191 223.938 30.3191C226.248 30.3191 227.294 31.5646 227.294 34.2742V40.678V40.6696ZM230.608 40.5938V34.3499C230.608 30.0078 228.407 27.6768 224.666 27.6768C222.507 27.6768 220.925 28.6025 219.996 30.3865V28.0639H216.874V54.0494H220.188V44.8939C221.109 46.4422 222.657 47.2585 224.666 47.2585C228.407 47.2585 230.608 44.9275 230.608 40.5854M240.634 44.6582C238.626 44.6582 237.63 43.6064 237.63 41.5195V40.9388C237.63 38.7257 238.977 37.8758 242.643 37.8758H244.384V40.6696C244.384 43.2698 243.07 44.6667 240.643 44.6667M239.915 47.2669C242.116 47.2669 243.731 46.3749 244.618 44.6667V47.0733H247.707V33.7693C247.707 29.6207 245.589 27.6768 241.145 27.6768C236.944 27.6768 234.86 29.5365 234.784 33.3822H237.99C238.032 31.3289 239.111 30.2434 241.153 30.2434C243.355 30.2434 244.392 31.371 244.392 33.7777V35.2503H242.467C236.91 35.2503 234.332 37.11 234.332 41.1492V41.7298C234.332 45.1042 236.534 47.2753 239.923 47.2753M259.089 47.4688C263.6 47.4688 265.642 45.3399 265.642 40.5686H262.445C262.445 43.6316 261.441 44.835 259.089 44.835C256.737 44.835 255.574 43.5138 255.574 40.6864V34.4761C255.574 31.6487 256.695 30.3276 259.089 30.3276C261.482 30.3276 262.403 31.371 262.445 34.3583H265.642C265.6 29.7048 263.633 27.6853 259.089 27.6853C254.544 27.6853 252.259 30.1256 252.259 34.6613V40.4844C252.259 45.0201 254.653 47.4604 259.089 47.4604M276.137 30.2771C278.564 30.2771 279.728 31.5982 279.728 34.4256V36.0161H272.555V34.4256C272.555 31.5898 273.71 30.2771 276.145 30.2771M269.241 34.6613V40.4844C269.241 45.0201 271.668 47.4604 276.07 47.4604C280.472 47.4604 282.782 45.4829 282.933 41.2923H279.728C279.61 43.8083 278.497 44.8602 276.062 44.8602C273.626 44.8602 272.555 43.5054 272.555 40.6696V38.7341H283.008V34.5855C283.008 30.0835 280.615 27.6853 276.145 27.6853C271.676 27.6853 269.241 30.1256 269.241 34.6613ZM94.9666 47.4604C97.7034 47.4604 100.172 46.8798 102.449 45.6765V31.8338H94.1548V34.7454H99.0927V43.741C97.9377 44.2459 96.4312 44.5573 95.0084 44.5573C90.8405 44.5573 89.2587 42.5377 89.2587 37.3036V27.9545C89.2587 24.5044 91.192 22.4511 94.431 22.4511C97.6699 22.4511 99.1345 23.9658 99.2098 27.2224H102.725C102.608 21.9883 99.9882 19.548 94.431 19.548C88.8737 19.548 85.8691 22.569 85.8691 28.0808V37.1521C85.8691 44.3301 88.6478 47.4688 94.975 47.4688M40.792 24.7821C40.792 20.9785 43.353 17.2759 44.7591 17.9828C46.3493 18.7822 43.5623 22.3754 40.792 24.7821ZM23.342 26.1706C23.342 23.1075 26.3466 17.2843 28.1878 17.8986C30.3555 18.6223 26.3884 24.496 23.342 26.1706ZM20.2956 48.0747C18.9146 48.142 17.994 47.2501 17.994 45.7606C17.994 41.7719 23.4927 37.9599 27.6522 35.9151C26.9157 41.4858 25.041 47.8475 20.304 48.0663M45.6881 35.0736C42.5496 35.0736 40.1476 37.3961 40.1476 40.1815C40.1476 42.504 41.5285 44.3553 43.3782 44.3553C44.0226 44.3553 44.667 43.9851 44.667 43.152C44.667 41.9486 43.0769 41.6541 43.2024 39.8449C43.2777 38.6584 44.3992 37.859 45.504 37.859C47.7218 37.859 48.7596 40.0216 48.7596 42.2432C48.6676 45.6765 46.1568 48.0663 43.2024 48.0663C39.3274 48.0663 36.8333 44.3553 36.8333 40.3582C36.8333 34.4172 40.7083 32.1031 42.7421 31.5477C42.7672 31.5477 48.0482 32.4986 47.8808 30.1508C47.8139 29.1242 46.2823 28.7287 45.1776 28.6782C43.9473 28.6277 42.717 29.0737 42.717 29.0737C42.0725 28.7455 41.629 28.106 41.3528 27.3655C45.1357 24.4876 47.8139 21.7022 47.8139 18.5466C47.8139 16.8804 46.7091 15.391 44.5833 15.391C40.8004 15.391 37.9381 20.2128 37.9381 24.5801C37.9381 25.3206 37.9381 26.0696 38.1222 26.7175C35.7202 28.4847 33.9376 29.5786 30.707 31.5225C30.707 31.1186 30.7907 30.0667 31.0669 28.7119C32.1716 27.5085 33.6949 25.6993 33.6949 24.3109C33.6949 23.6629 33.3266 23.1075 32.5901 23.1075C30.7489 23.1075 29.3595 25.8929 28.9913 27.8367C28.1627 28.8549 26.4972 30.1593 25.1163 30.1593C24.0116 30.1593 23.6433 29.1326 23.5429 28.7708C27.0496 27.559 31.3933 22.7373 31.3933 18.3783C31.3933 17.4527 31.025 15.4078 28.2548 15.4078C24.1036 15.4078 20.5969 21.6265 20.5969 26.4483C19.1155 26.4483 18.5715 24.8662 18.5715 23.6629C18.5715 22.4596 19.0318 21.2478 19.0318 20.8775C19.0318 20.5073 18.8477 20.0445 18.2953 20.0445C16.9144 20.0445 16.0774 21.9042 16.0774 24.0332C16.1695 27.0036 18.1112 28.8633 20.6889 29.0485C21.0572 30.8156 22.6306 32.4818 24.5639 32.4818C25.7691 32.4818 27.2421 32.1115 28.2548 31.1859C28.1627 31.8338 28.0707 32.3892 27.9786 32.953C23.9195 35.0904 20.9651 36.5715 18.2869 38.9866C16.1695 40.9388 14.9643 43.5306 14.9643 45.5755C14.9643 48.3608 16.7135 50.9526 20.3207 50.9526C24.5639 50.9526 27.7945 47.5193 29.3679 42.7901C30.1044 40.5602 30.4057 37.3204 30.5898 34.3499C34.8331 31.9432 36.8501 30.5379 39.0596 28.9643C39.3358 29.4272 39.6203 29.7974 39.9802 30.0751C38.0469 31.0933 33.427 33.9712 33.427 40.7453C33.427 45.5755 36.6576 50.9526 43.0266 50.9526C48.2909 50.9526 51.8897 46.5937 51.8897 42.4199C51.8897 38.6163 49.7639 35.0904 45.7048 35.0904M61.573 43.0594C61.573 43.0594 61.5061 43.1351 61.4057 43.0931C61.3303 43.0678 61.3052 43.0257 61.3052 42.9753C61.3052 42.9164 62.4183 39.6177 62.41 35.8309C62.4016 31.7497 60.7445 29.242 58.627 29.242C57.3382 29.242 56.4092 30.1677 56.4092 31.5646C56.4092 34.0722 59.4556 34.2573 59.4556 39.7355C59.4556 41.9655 58.9953 44.0944 58.2588 46.417C54.8441 58.0128 43.9473 63.3984 33.3433 63.3984C28.4473 63.3984 24.974 62.3886 23.9362 61.9258C23.8944 61.9089 23.8609 61.8248 23.8944 61.7406C23.9195 61.6733 23.9865 61.6312 24.0283 61.6481C24.4468 61.8164 27.4346 62.7589 31.1255 62.7589C35.1846 62.7589 37.5866 61.0927 37.5866 59.0478C37.5866 57.7519 36.5739 56.7337 35.2767 56.7337C32.7826 56.7337 32.5985 59.8893 27.2505 59.8893C24.9406 59.8893 22.9152 59.4265 20.5132 58.686C9.06397 55.1601 3.61554 44.3048 3.62391 33.5337C3.62391 28.2911 5.08854 24.1173 5.11365 24.0752C5.13039 24.05 5.19734 24.0163 5.28104 24.05C5.36473 24.0752 5.38147 24.151 5.38147 24.1678C5.24756 24.6054 4.27672 27.5927 4.27672 31.3037C4.27672 35.385 5.93384 37.8 8.05965 37.8C9.26483 37.8 10.2775 36.8744 10.2775 35.5701C10.2775 33.0624 7.23109 32.7847 7.23109 27.3991C7.23109 25.0766 7.6914 23.0402 8.4279 20.6251C11.9095 9.09658 22.7059 3.70259 33.3182 3.61844C38.2478 3.57636 42.5663 5.06581 42.7337 5.19204C42.7588 5.21728 42.7923 5.2846 42.7588 5.36034C42.7253 5.44449 42.6668 5.46132 42.6417 5.4529C42.5914 5.4529 39.7793 4.26639 35.5361 4.26639C31.569 4.26639 29.075 5.93255 29.075 8.06996C29.075 9.2733 29.9956 10.2915 31.3849 10.2915C33.879 10.2915 34.0631 7.22846 39.4111 7.22846C41.721 7.22846 43.7464 7.69128 46.1484 8.4318C57.6897 11.9577 62.9372 22.9056 63.0377 33.4916C63.0879 38.9108 61.573 43.0173 61.5563 43.0426M33.3182 1.5736C15.7845 1.5736 1.56506 15.8706 1.56506 33.5C1.56506 51.1294 15.7845 65.418 33.3182 65.418C50.8519 65.418 65.063 51.1294 65.063 33.5C65.063 15.8706 50.8519 1.5736 33.3182 1.5736ZM33.3182 67C14.9476 67 0 52.0634 0 33.5C0 14.9366 14.9476 0 33.3182 0C51.6889 0 66.6365 15.0376 66.6365 33.5C66.6365 51.9624 51.6805 67 33.3182 67Z"/></svg></a>
+  <div class="rt">FLIGHT DECK <span style="color:var(--muted)">&middot;</span> <b>Tool Library</b></div>
+</div></nav>
+
+<div class="mm-tabs" role="tablist" aria-label="FLIGHT DECK tools by fundamental">
+  <div class="mm-tabs-in" id="tabs">
+    <button class="mm-tab sys is-on" data-tab="all" role="tab" aria-selected="true"><span class="mm-dot"></span>All tools</button>
+  </div>
+</div>
+
+<div class="strip" role="tablist" aria-label="Tools of the selected fundamental">
+  <div class="strip-in" id="strip"></div>
+</div>
+
+<header class="hero"><div class="in">
+  <div class="eyebrow">FLIGHT DECK &middot; Tool Library</div>
+  <h1>The working tools, in one place.</h1>
+  <p>Every interactive tool built for the Activation Hub. Tab through the fundamentals; pick a tool and it loads right here.</p>
+</div></header>
+
+<div class="sortbar"><span class="sl">Sort</span><button id="sort-new" class="on" type="button">Latest work first</button><button id="sort-grp" type="button">By fundamental</button></div>
+<main class="manifest" id="list"></main>
+
+<div class="stage" id="stage"></div>
+
+<footer class="foot">
+  <div class="in">
+    <span>GE AEROSPACE</span>
+    <span id="count"></span>
+  </div>
+</footer>
+
+<script>
+const GROUPS = [
+  { n:'00', key:'db', name:'Dashboard', tools:[
+    { id:'guided', name:'Guided Recommendation', type:'Component',
+      desc:'Photo hero plus three questions that route to a recommended next step. The front door of the hub, as one reusable component.',
+      href:'guided-recommendation/guided-recommendation.html', added:'2026-07-09' },
+    { id:'wingmate', name:'Wingmate Prompt Library', type:'Library',
+      desc:'Every Wingmate prompt in FLIGHT DECK, one banner per fundamental — run the live prompts, the rest light up as GE wires the links.',
+      href:'Wingmate/wingmate-prompt-library.html', added:'2026-07-15' },
+  ]},
+  { n:'01', key:'ps', name:'Problem Solving', tools:[
+    { id:'continuum-hybrid', name:'The Problem Solving Continuum — Method Selector', type:'Selector',
+      desc:'GE\'s continuum curve and the six When/How methods in one view — click any method to open its steps, templates, coaching questions, and a field example.',
+      href:'Problem Solving/ps-continuum-hybrid.html', added:'2026-07-14' },
+    { id:'frontdoor', name:'The Front Door', type:'Walkthrough',
+      desc:'Three gates, one at a time: foundation, problem statement, method. The path lights up to the recommended approach.',
+      href:'../deliverables/problem-solving/ps-frontdoor.html', added:'2026-07-07' },
+    { id:'map', name:'Integration Points', type:'Map',
+      desc:'Where Problem Solving connects to the other Fundamentals and Behaviors.',
+      href:'../deliverables/problem-solving/ps-integration-map.html', added:'2026-07-07' },
+  ]},
+  { n:'02', key:'sw', name:'Standard Work', tools:[
+    { id:'takt', name:'Takt Time & Target Cycle Time Calculator', type:'Calculator',
+      desc:'Enter your shift, breaks, and customer demand. It returns Takt Time and the Target Cycle Time to design the standard to.',
+      href:'../deliverables/standard-work/sw-takt.html', added:'2026-07-07' },
+    { id:'map', name:'Integration Points', type:'Map',
+      desc:'Standard Work wired to the other Fundamentals and the Behaviors. Hover any node for the connection.',
+      href:'../deliverables/standard-work/sw-integration-map.html', added:'2026-07-07' },
+    { id:'page', name:'The Full Page, Manufacturing View', type:'Page',
+      desc:'The complete Standard Work page with the Manufacturing world selected, end to end.',
+      href:'../deliverables/standard-work/sw-concept-hybrid.1.html?w=mfg', added:'2026-07-07' },
+  ]},
+  { n:'03', key:'dvm', name:'Daily & Visual Mgmt', tools:[
+    { id:'kpiselector', name:'KPI Selector — Leading vs. Lagging', type:'Trainer',
+      desc:'Learn the difference, then classify 12 real KPIs — swipe right for leading, left for lagging — and review your board doctrine.',
+      href:'DVM/dvm-kpi-classifier.html', added:'2026-07-16' },
+    { id:'map', name:'Integration Points', type:'Map',
+      desc:'Daily & Visual Management wired to the other Fundamentals and the Behaviors. Hover any node for the connection.',
+      href:'../deliverables/daily-visual-management/dvm-integration-map.html', added:'2026-07-14' },
+  ]},
+  { n:'04', key:'5s', name:'5S', tools:[
+    { id:'sim', name:'Digital Desktop Simulation', type:'Simulation',
+      desc:'Run 5S on a cluttered digital desktop. Sort, set, shine, standardize, sustain.',
+      href:'5S/5s-digital-desktop-simulation.html', added:'2026-07-08' },
+    { id:'map', name:'Integration Points', type:'Map',
+      desc:'5S wired to the other Fundamentals and the Behaviors. Hover any node for the connection.',
+      href:'../deliverables/5s/5s-integration-map.html', added:'2026-07-09' },
+  ]},
+  { n:'05', key:'oc', name:'Operating Cadences', tools:[
+    { id:'map', name:'Integration Points', type:'Map',
+      desc:'Operating Cadences wired to the other Fundamentals and the Behaviors. Hover any node for the connection.',
+      href:'../deliverables/operating-cadences/oc-integration-map.html', added:'2026-07-14' },
+    { id:'kpitree', name:'KPI Tree & Cadence Mapper', type:'Guided',
+      desc:'Map your team\'s KPIs from the top review down to the daily board, link each one to what it drives, and see which meeting reviews it.',
+      href:'Operating Cadences/oc-kpi-tree-cadence-mapper.html', added:'2026-10-12' },
+  ]},
+  { n:'06', key:'vsm', name:'Value Stream Mgmt', tools:[
+    { id:'map', name:'Integration Points', type:'Map',
+      desc:'Value Stream Management wired to the other Fundamentals and the Behaviors. Hover any node for the connection.',
+      href:'../deliverables/value-stream-management/vsm-integration-map.html', added:'2026-07-14' },
+  ]},
+  { n:'07', key:'ap', name:'Action Planning', tools:[
+    { id:'prioritizer', name:'Impact / Effort Prioritizer', type:'Calculator',
+      desc:'Place actions on the impact and effort grid to decide what gets done first.',
+      href:'Action Planning/action-planning-impact-effort-prioritizer.html', added:'2026-07-08' },
+    { id:'builder', name:'Guided Plan Builder', type:'Guided',
+      desc:'The same checks, asked one question at a time, with the template filling in beside you. For the plan that does not exist yet — open it or download it when you are done.',
+      href:'Action Planning/action-planning-plan-builder.html', added:'2026-07-29' },
+    { id:'coach', name:'Plan Coach', type:'Coach',
+      desc:'Paste a real action plan and it reads back what a review would raise — one name and one date per action, a verb and a deliverable in every row, and whether the impact sums to the gap. Every check is sourced, and most are fixable in one click.',
+      href:'Action Planning/action-planning-plan-coach.html', added:'2026-07-28' },
+    { id:'map', name:'Integration Points', type:'Map',
+      desc:'Action Planning wired to the other Fundamentals and the Behaviors. Hover any node for the connection.',
+      href:'../deliverables/action-planning/ap-integration-map.html', added:'2026-07-09' },
+  ]},
+  { n:'08', key:'fp', name:'Flow & Pull', tools:[
+    { id:'map', name:'Integration Points', type:'Map',
+      desc:'Flow & Pull wired to the other Fundamentals and the Behaviors. Hover any node for the connection.',
+      href:'../deliverables/flow-pull/fp-integration-map.html', added:'2026-07-14' },
+  ]},
+];
+const CODES = { db:'DB', ps:'PS', sw:'SW', dvm:'DVM', '5s':'5S', oc:'OC', vsm:'VSM', ap:'AP', fp:'FP' };
+const byKey = {}; GROUPS.forEach(g => byKey[g.key] = g);
+
+/* ---------- render static pieces ---------- */
+const tabs = document.getElementById('tabs');
+GROUPS.forEach(g => {
+  const b = document.createElement('button');
+  b.className = 'mm-tab'; b.dataset.tab = g.key; b.setAttribute('role','tab'); b.setAttribute('aria-selected','false');
+  b.innerHTML = `<span class="mm-n">${g.n}</span>${g.name}`;
+  tabs.appendChild(b);
+});
+
+const list = document.getElementById('list');
+
+/* Position within its own fundamental, so a tool keeps the same AP·02 style
+   code no matter which order the page is sorted in. */
+const ORD = {};
+GROUPS.forEach(g => g.tools.forEach((t, i) => { ORD[g.key + '/' + t.id] = i + 1; }));
+const code = (k, id) => CODES[k] + '\u00b7' + String(ORD[k + '/' + id] || 1).padStart(2, '0');
+
+function fmtDate(d) {
+  if (!d) return '';
+  const p = d.split('-');
+  return new Date(+p[0], +p[1] - 1, +p[2])
+    .toLocaleDateString('en-US', { month:'short', day:'numeric' }).toUpperCase();
+}
+const NOW = new Date();
+function isNew(d) {
+  if (!d) return false;
+  const p = d.split('-');
+  return (NOW - new Date(+p[0], +p[1] - 1, +p[2])) / 86400000 <= 7;
+}
+
+function toolRow(g, t, meta) {
+  return `
+      <a class="tool" href="#${g.key}/${t.id}" data-key="${g.key}" data-id="${t.id}">
+        <img class="thumb" loading="lazy" src="assets/thumbs/${g.key}-${t.id}.jpg" alt="">
+        <span class="dsg">${code(g.key, t.id)}</span>
+        <span><span class="tname">${t.name}${isNew(t.added) ? '<span class="newflag">New</span>' : ''}</span><span class="tdesc">${t.desc}</span></span>
+        <span class="ttype">${meta || t.type}</span>
+      </a>`;
+}
+
+function renderGrouped() {
+  list.innerHTML = GROUPS.filter(g => g.tools.length).map(g => `
+  <section class="grp">
+    <div class="gh"><span class="gn">${g.n}</span>${g.name}</div>
+    ${g.tools.map(t => toolRow(g, t)).join('')}
+  </section>`).join('');
+}
+
+function renderLatest() {
+  const all = [];
+  GROUPS.forEach(g => g.tools.forEach(t => all.push({ g, t })));
+  all.sort((a, b) => String(b.t.added || '').localeCompare(String(a.t.added || '')) ||
+                     a.t.name.localeCompare(b.t.name));
+  list.innerHTML = `
+  <section class="grp">
+    <div class="gh"><span class="gn">—</span>Newest first</div>
+    ${all.map(x => toolRow(x.g, x.t,
+      `<span class="tdate">${fmtDate(x.t.added)}</span>`)).join('')}
+  </section>`;
+}
+
+let sortMode = 'latest';
+function renderList() {
+  (sortMode === 'latest' ? renderLatest : renderGrouped)();
+  document.getElementById('sort-new').classList.toggle('on', sortMode === 'latest');
+  document.getElementById('sort-grp').classList.toggle('on', sortMode !== 'latest');
+}
+document.getElementById('sort-new').addEventListener('click', () => { sortMode = 'latest';  renderList(); });
+document.getElementById('sort-grp').addEventListener('click', () => { sortMode = 'grouped'; renderList(); });
+renderList();
+
+const n = GROUPS.reduce((a, g) => a + g.tools.length, 0);
+const live = GROUPS.filter(g => g.key !== 'db' && g.tools.length).length;
+document.getElementById('count').textContent = (n + ' TOOLS · ' + live + ' OF 8 FUNDAMENTALS · LIVE PAGES');
+
+/* ---------- state + routing ---------- */
+const strip = document.getElementById('strip');
+const stage = document.getElementById('stage');
+let current = { key:'all', id:null };
+
+function parseHash() {
+  const h = location.hash.slice(1);
+  if (!h) return { key:'all', id:null };
+  const [key, id] = h.split('/');
+  const g = byKey[key];
+  if (!g) return { key:'all', id:null };
+  if (id && g.tools.some(t => t.id === id)) return { key, id };
+  return { key, id:null };
+}
+
+function render(state) {
+  current = state;
+  const g = byKey[state.key];
+  const tool = g && state.id ? g.tools.find(t => t.id === state.id) : null;
+
+  document.querySelectorAll('.mm-tab').forEach(b => {
+    const on = b.dataset.tab === state.key;
+    b.classList.toggle('is-on', on);
+    b.setAttribute('aria-selected', on);
+  });
+
+  document.body.classList.toggle('tabbed', !!g);
+  if (g && g.tools.length) {
+    strip.innerHTML = g.tools.map((t, i) =>
+      `<button class="tchip${tool && t.id === state.id ? ' is-on' : ''}" data-id="${t.id}" role="tab" aria-selected="${tool && t.id === state.id}">
+         <span class="tn">${CODES[g.key]}·${String(i + 1).padStart(2, '0')}</span>${t.name}</button>`).join('')
+      + (tool ? `<a class="open-new" href="${encodeURI(tool.href)}" target="_blank" rel="noopener">Full screen &#8599;</a>` : '');
+  } else if (g) {
+    strip.innerHTML = `<span class="tchip" style="cursor:default">No tools live for ${g.name} yet.</span>`;
+  } else strip.innerHTML = '';
+
+  document.body.classList.toggle('viewing', !!tool);
+  if (tool) {
+    const url = encodeURI(tool.href);
+    const prev = stage.querySelector('iframe');
+    if (!prev || prev.dataset.url !== url) {
+      // a fresh iframe per navigation: no nested history entries, browser back stays on the hub
+      const f = document.createElement('iframe');
+      f.title = tool.name; f.dataset.url = url;
+      f.addEventListener('load', () => {
+        try { // same-origin: keep the page's full look, drop only the duplicated chrome
+          const d = f.contentDocument;
+          d.documentElement.classList.remove('embed');
+          d.querySelectorAll('.nav, .mm-tabs, .proto-banner, .suite, .sprail, .site, .cmdbar').forEach(el => el.style.display = 'none');
+          // the SharePoint mock offsets the body for its fixed left rail; drop it when embedded
+          if (d.querySelector('.sprail')) d.body.style.setProperty('padding-left', '0', 'important');
+          // full width in the hub: uncap the page column, let bands run edge to edge,
+          // and re-cap each band's content so it aligns with the hub's 1200px grid
+          const st = d.createElement('style');
+          st.textContent = '.page,.wrap{max-width:none!important;margin:0!important}' +
+            '.page>*:not(.hero):not(style):not(script),.wrap>*:not(.hero):not(style):not(script){max-width:1312px;margin-left:auto!important;margin-right:auto!important}' +
+            '.fd-in{max-width:1200px;margin:0 auto}';
+          d.head.appendChild(st);
+          d.querySelectorAll('.page>.hero, .wrap>.hero, body>.hero').forEach(h => {
+            if (h.querySelector(':scope > .in, :scope > .fd-in')) return;
+            const inner = d.createElement('div'); inner.className = 'fd-in';
+            while (h.firstChild) inner.appendChild(h.firstChild);
+            h.appendChild(inner);
+          });
+          f.contentWindow.scrollTo(0, 0);
+        } catch (err) {}
+        f.classList.add('ready');
+        if (prev && prev.parentNode) prev.remove();
+      });
+      f.src = url;
+      stage.appendChild(f);
+      // remove the old frame after a beat even if load stalls, so frames never stack
+      if (prev) setTimeout(() => { if (prev.parentNode) prev.remove(); }, 1200);
+    }
+    document.title = tool.name + ' · FLIGHT DECK Tools';
+  } else {
+    stage.querySelectorAll('iframe').forEach(f => f.remove());
+    document.title = 'FLIGHT DECK Tools';
+  }
+
+  const target = state.id ? '#' + state.key + '/' + state.id : (state.key === 'all' ? location.pathname : '#' + state.key);
+  if (location.hash !== target && !(target === location.pathname && !location.hash))
+    history.pushState(null, '', target);
+}
+
+tabs.addEventListener('click', e => {
+  const b = e.target.closest('.mm-tab'); if (!b) return;
+  const key = b.dataset.tab;
+  if (key === 'all') return render({ key:'all', id:null });
+  // selecting a fundamental opens its first tool so the stage is never empty
+  render({ key, id: byKey[key].tools[0] ? byKey[key].tools[0].id : null });
+});
+strip.addEventListener('click', e => {
+  const b = e.target.closest('.tchip'); if (!b) return;
+  render({ key: current.key, id: b.dataset.id });
+});
+list.addEventListener('click', e => {
+  const a = e.target.closest('.tool'); if (!a) return;
+  e.preventDefault();
+  render({ key: a.dataset.key, id: a.dataset.id });
+});
+addEventListener('popstate', () => render(parseHash()));
+render(parseHash());
+</script>
+<style>
+.fd-footer{background:#00010f;color:#fff;margin-top:56px;font-family:"GE Sans",-apple-system,"Helvetica Neue",Arial,sans-serif}
+.fd-footer *{box-sizing:border-box}
+.fd-footer .fdf-in{max-width:1280px;margin:0 auto;padding:48px 28px 40px}
+.fd-footer .fdf-top{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-bottom:26px;border-bottom:1px solid rgba(255,255,255,.12)}
+.fd-footer .fdf-brand{display:flex;align-items:center;gap:11px;font-size:15px;font-weight:600;color:#fff}
+.fd-footer .fdf-chip{background:#fff;color:#00010f;font-size:10px;font-weight:800;letter-spacing:.12em;padding:5px 9px;border-radius:4px;border:1px solid #16b364}
+.fd-footer .fdf-cobrand{font-size:13px;font-weight:600;color:rgba(255,255,255,.7);letter-spacing:.02em}
+.fd-footer .fdf-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;padding:30px 0}
+.fd-footer .fdf-h{font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#7e8aa8;margin-bottom:12px}
+.fd-footer .fdf-col a{display:block;color:rgba(255,255,255,.78);font-size:13.5px;text-decoration:none;padding:5px 0;transition:color .14s}
+.fd-footer .fdf-col a:hover{color:#fff;text-decoration:none}
+.fd-footer .fdf-meta{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:22px;border-top:1px solid rgba(255,255,255,.12);font-size:11.5px;color:rgba(255,255,255,.45);letter-spacing:.02em}
+@media(max-width:720px){.fd-footer .fdf-cols{grid-template-columns:1fr 1fr;gap:24px}}
+@media(max-width:440px){.fd-footer .fdf-cols{grid-template-columns:1fr}}
+</style>
+<footer class="fd-footer">
+  <div class="fdf-in">
+    <div class="fdf-top">
+      <div class="fdf-brand"><span class="fdf-chip">FLIGHT DECK</span>Activation Hub</div>
+      <div class="fdf-cobrand">GE Aerospace</div>
+    </div>
+    <div class="fdf-cols">
+      <div class="fdf-col">
+        <div class="fdf-h">Libraries</div>
+        <a href="/deliverables/standard-work/sw-templates.html">Template Library</a>
+        <a href="/deliverables/standard-work/video-library.html">Video Library</a>
+        <a href="/tools/index.html">Tool Library</a>
+      </div>
+      <div class="fdf-col">
+        <div class="fdf-h">Fundamentals</div>
+        <a href="/deliverables/standard-work/sw-concept-hybrid.1.html">Standard Work</a>
+        <a href="/deliverables/action-planning/ap-concept-hybrid.1.html">Action Planning</a>
+        <a href="/fundamentals/">All Fundamentals</a>
+      </div>
+      <div class="fdf-col">
+        <div class="fdf-h">Hub</div>
+        <a href="/concept-quickstart.html">Hub Home</a>
+        <a href="/deliverables/standard-work/faq.html">FAQ</a>
+      </div>
+    </div>
+    <div class="fdf-meta"><span>FLIGHT DECK Activation Hub</span><span>GE Aerospace Proprietary &middot; Sensitive &middot; authorized distribution only</span></div>
+  </div>
+</footer>
+</body>
+</html>

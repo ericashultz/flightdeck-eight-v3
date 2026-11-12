@@ -1,0 +1,37 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex, nofollow">
+<script src="/gate.js"></script>
+<title>Wingmate Demo · FLIGHT DECK Activation Hub</title>
+<script>
+!function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug getPageViewId captureTraceFeedback captureTraceMetric".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+posthog.init('phc_o5N855eYZYPQL4ih8RSRLfycv2tZGCJFKid5VNX8CL68',{api_host:'https://us.i.posthog.com',autocapture:false,disable_session_recording:true,loaded:function(ph){ph.register({surface:'demo-video'});}});
+window.ph=function(name){try{if(window.posthog&&posthog.capture)posthog.capture(name,{surface:'demo-video'});}catch(e){}};
+</script>
+<style>
+@font-face{font-family:"GE Sans";src:url(/assets/fonts/ge-sans/sons-regular.woff2) format("woff2");font-weight:400}
+@font-face{font-family:"GE Sans";src:url(/assets/fonts/ge-sans/sons-light.woff2) format("woff2");font-weight:300}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#04070f;color:#fff;font-family:"GE Sans",-apple-system,"Helvetica Neue",Arial,sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 20px 96px}
+.eyebrow{font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8aa6f0;margin-bottom:12px}
+h1{font-size:clamp(26px,3.4vw,40px);font-weight:300;letter-spacing:-.02em;margin-bottom:22px;text-align:center}
+video{width:min(1240px,96vw);aspect-ratio:16/10;border-radius:14px;box-shadow:0 40px 120px -40px rgba(0,0,0,.9);background:#000}
+.row{display:flex;gap:14px;margin-top:40px;flex-wrap:wrap;justify-content:center}
+.row a{display:inline-flex;align-items:center;gap:8px;color:#fff;text-decoration:none;font-size:13.5px;border:1px solid rgba(255,255,255,.22);border-radius:100px;padding:10px 20px;transition:border-color .15s}
+.row a:hover{border-color:#0ad64f}
+.row a.live{background:#16b364;border-color:#16b364}
+</style></head><body>
+<div class="eyebrow">FLIGHT DECK Wingmate &middot; Demo</div>
+<h1>The assistant runs alongside every standard.</h1>
+<video id="wmv" src="/assets/video/wingmate-demo.mp4" controls autoplay muted playsinline></video>
+<div class="row">
+  <a class="live" href="/deliverables/standard-work/sw-wingmate-demo.html?autodemo=1" onclick="ph('wingmate_spin_clicked')">Run it live &rarr;</a>
+  <a href="/deck-wingmate-demo.html">The demo deck</a>
+  <a href="/index.html">Back to the hub</a>
+</div>
+<script>
+(function(){
+  var v=document.getElementById("wmv");if(!v)return;var played=false,done=false;
+  v.addEventListener("play",function(){if(!played){played=true;ph("wingmate_video_play");}});
+  v.addEventListener("ended",function(){if(!done){done=true;ph("wingmate_video_complete");}});
+})();
+</script>
+</body></html>
