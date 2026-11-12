@@ -983,6 +983,17 @@ body{padding-left:0}
 #dash .esw .es-t-arc{font-size:13px}
 /* Feedback band is as tall as the AeroIntel band on the WGAWP page. */
 @media(min-width:901px){#dash section.fb-band{min-height:398px;display:flex;align-items:center;padding-top:0;padding-bottom:0}#dash section.fb-band .in{width:100%;padding-top:48px;padding-bottom:48px}}
+/* Hero banner sized like the other three pages: 560px tall (copy sits low, 116px below the nav and 72px above the bottom edge); slides stack in one cell so the banner is as tall as its tallest slide. */
+#dash section.hero.anno{min-height:560px;display:flex;flex-direction:column;justify-content:flex-end;align-items:stretch;padding:0}
+#dash .hero.anno .heroin{box-sizing:border-box;width:min(1100px,calc(100% - 56px));max-width:none;margin:0 auto;padding:116px 0 72px}
+#dash .hero.anno .annotrack{display:grid;min-height:0;max-width:880px}
+#dash .hero.anno .annoslide{position:static;grid-area:1/1;align-self:end}
+@media(max-width:860px){#dash .hero.anno .heroin{width:calc(100% - 40px)}}
+@media(max-width:700px){#dash section.hero.anno{min-height:497px}#dash .hero.anno .heroin{padding:72px 0 56px}}
+/* Every homepage block uses the hero banner's column: 1100px (56px of side space), 40px of side space at 860px and below. */
+#dash .esw .esw-in,#dash .qsband>.wrap2,#dash .tools-sec.compact .tools-card,#dash #fdl-finder.help-block .fdl-wrap,#dash section.fb-band .in{box-sizing:border-box;width:min(1100px,calc(100% - 56px));max-width:none;margin-left:auto;margin-right:auto}
+#dash section.fb-band .in,#dash .qsband>.wrap2{padding-left:0;padding-right:0}
+@media(max-width:860px){#dash .esw .esw-in,#dash .qsband>.wrap2,#dash .tools-sec.compact .tools-card,#dash #fdl-finder.help-block .fdl-wrap,#dash section.fb-band .in{width:calc(100% - 40px)}}
 /* Feedback band on the same navy as the Strategic Framework sections (--ink #00003d). */
 #dash .fb-band{background:#00003d;border-top:1px solid rgba(255,255,255,.12);border-bottom:1px solid rgba(255,255,255,.12)}
 #dash .fb-band .eyebrow{color:rgba(255,255,255,.7)}
@@ -1143,6 +1154,9 @@ body{padding-left:0}
 #dash #px-start .qrow:first-child{padding-top:0}
 #dash #px-start .rail .rsub{display:block}
 
+/* Close button in the top-right corner of every quick start panel. */
+#dash #px-hdww{position:relative}
+#dash #px-hdww .gsx-close{position:absolute;top:0;right:0;float:none;margin:0;z-index:6}
 /* Quick start panels are collapsed until their card is clicked: a little air above an opened panel, and no extra top margin on its first block. */
 #dash .qsband .gsx:not([data-fixed]){margin-top:40px}
 #dash .qsband .gsx:not([data-fixed])>.fund-ed:first-child,#dash .qsband .gsx:not([data-fixed])>.pxhead:first-child{margin-top:0}
@@ -1536,6 +1550,7 @@ body{padding-left:0}
         </a>
       </div>
       <div class="gsx" id="px-fund">
+        <button type="button" class="gsx-close" data-px-close>Close &times;</button>
         <div class="fund-ed rise">
           <div class="fund-lead">
             <div class="eyebrow">Strategic Framework</div>
@@ -1586,6 +1601,7 @@ body{padding-left:0}
 
       </div>
       <div class="gsx" id="px-hdww">
+        <button type="button" class="gsx-close" data-px-close>Close &times;</button>
         <div class="beh-head rise">
           <div class="eyebrow">Strategic Framework</div>
           <h2>How Do We Win</h2>
@@ -1627,6 +1643,7 @@ body{padding-left:0}
         </div>
       </div>
       <div class="gsx" id="px-ai">
+        <button type="button" class="gsx-close" data-px-close>Close &times;</button>
         <div class="wingband">
           <div class="in">
             <div class="kick">AeroIntel</div>

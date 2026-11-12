@@ -1,0 +1,36 @@
+/* Top chrome (SharePoint suite bar + site header), identical on every page. Mirrors the homepage's header. */
+:root{--sn-surface:#fff;--sn-ink:#0f172a;--sn-muted:#64748b;--sn-line:#e5e7eb;--sn-blue:#155dfc;--sn-navy:#101a4d;--sn-green:#22c55e;--sn-bg:#fff}
+.suite,header.site{font-family:"Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;text-align:left;font-weight:400;letter-spacing:normal}
+.suite *,header.site *{box-sizing:border-box;margin:0;padding:0}
+.suite a,header.site a{text-decoration:none}
+.suite .site-wrap,header.site .site-wrap{max-width:1280px;margin:0 auto;padding:0 28px}
+.suite{background:#0b0f2b;color:#fff}
+.suite-in{display:flex;align-items:center;gap:18px;height:46px}
+.suite .waffle{display:grid;grid-template-columns:repeat(3,4px);gap:2px;cursor:pointer}
+.suite .waffle i{width:4px;height:4px;background:#cbd5e1;border-radius:1px}
+.suite .org{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;white-space:nowrap}
+.suite .org .monogram{width:22px;height:22px;border-radius:50%;border:1.5px solid #fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;font-style:italic}
+.suite .sp{font-size:13.5px;font-weight:600;white-space:nowrap}
+.suite input{flex:1;max-width:520px;margin:0 auto;background:#fff;border:none;border-radius:4px;padding:7px 14px;font-size:12.5px;font-family:inherit;color:var(--sn-ink)}
+.suite .icons{margin-left:auto;display:flex;align-items:center;gap:16px;font-size:14px;opacity:.85}
+.suite .acct{display:flex;align-items:center;gap:9px;opacity:1}
+.suite .acct .av{width:26px;height:26px;border-radius:50%;flex:none;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#2256e6 url('/hub/assets/avatar-aero.jpg') center/cover no-repeat;font-size:0;text-indent:-999em;color:transparent}
+.suite .acct .nm{font-size:13px;font-weight:600;white-space:nowrap}
+@media(max-width:820px){.suite .acct .nm{display:none}}
+header.site{background:var(--sn-surface);border-bottom:1px solid var(--sn-line);position:sticky;top:0;z-index:50;color:var(--sn-ink)}
+.site-bar{display:flex;align-items:center;flex-wrap:wrap;gap:12px 18px;min-height:60px}
+.site-mark{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.01em;white-space:nowrap}
+.site-mark a{color:var(--sn-ink)}
+.site-mark .chip{font-family:inherit;background:var(--sn-navy);color:#fff;font-size:10px;font-weight:700;letter-spacing:.12em;padding:4px 8px;border-radius:4px;border:1px solid var(--sn-green)}
+nav.primary{display:flex;gap:4px;flex:1;min-width:0}
+nav.primary>div{position:relative;flex:none}
+nav.primary a.top{display:block;color:var(--sn-ink);font-size:13px;font-weight:500;padding:8px 9px;border-radius:6px;white-space:nowrap}
+nav.primary a.top:hover{background:var(--sn-bg)}
+nav.primary a.top.active{color:var(--sn-blue);box-shadow:inset 0 -2px 0 var(--sn-blue);border-radius:6px 6px 0 0}
+@media(max-width:1280px){nav.primary a.top{padding:8px 5px;font-size:12px}}
+@media(max-width:1024px){nav.primary{overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}nav.primary::-webkit-scrollbar{display:none}}
+@media(max-width:700px){.suite .sp,.suite .icons{display:none}header.site .site-bar{height:auto;flex-wrap:wrap;gap:8px;padding:10px 0}nav.primary{flex-basis:100%;order:3;overflow-x:auto;padding-bottom:4px}}
+@media(max-width:640px){.suite input{max-width:calc(100vw - 150px)}}
+@media(max-width:560px){.suite input{display:none}.suite .sp{display:none}.site-bar{flex-wrap:wrap;row-gap:6px}nav.primary{flex-wrap:wrap;row-gap:4px}}
+@media(max-width:600px){nav.primary{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}nav.primary a{white-space:nowrap}}
+@media(max-width:400px){.site-mark a{display:none}.site-bar{gap:12px}}
