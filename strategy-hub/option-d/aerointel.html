@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<title>AeroIntel &middot; Enterprise Strategy Center &middot; Option D</title>
+<title>AeroIntel &middot; Strategy Activation Hub &middot; Option D</title>
 <style>
 @font-face{font-family:"GE Sans";font-weight:300;font-style:normal;font-display:swap;src:url("/assets/fonts/ge-sans/sons-light.woff2") format("woff2")}
 @font-face{font-family:"GE Sans";font-weight:400;font-style:normal;font-display:swap;src:url("/assets/fonts/ge-sans/sons-regular.woff2") format("woff2")}
@@ -17,7 +17,7 @@
   --bodyd:rgba(255,255,255,.74); --mutedd:rgba(255,255,255,.52); --lined:rgba(255,255,255,.14);
   --bodyl:#4A506A; --linel:#e7ebf4; --tintl:#f6f7fb;
   --sans:"GE Sans",-apple-system,"Helvetica Neue",Arial,sans-serif;
-  --mono:"Geist Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  --mono:"GE Sans",-apple-system,"Helvetica Neue",Arial,sans-serif;
   --ease:cubic-bezier(.23,1,.32,1);
 }
 *{box-sizing:border-box}
@@ -256,6 +256,31 @@ footer.fd-footer{margin-top:0}
 @media(max-width:900px){.site-header .in{flex-wrap:wrap;padding:10px 20px;gap:8px}.site-header .nav{flex-basis:100%;order:3}}
 @media(max-width:400px){.site-header .brand .nm{display:none}}
 </style>
+<link rel="stylesheet" href="/hub/hero-carousel.css">
+<link rel="stylesheet" href="/hub/help-v2.css">
+<style>
+/* Eyebrow style (GE Sans, 11px, semibold, .2em tracking, caps) for every label that used the typewriter font. */
+.notebar a,
+.eyebrow,
+.badge,
+.pagenav a,
+.fw-card .n,
+.vsoon .cap,
+.hero .sub,
+.numitem .n,
+.evopanel .status,
+.evopanel .curve,
+.gov-col h4,
+.gov-item .pending,
+.aiband-eyebrow,
+#toolkits .tk-rowh,
+#toolkits .tk-ph span{font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase}
+#toolkits .tk-verb,#toolkits .tk-dec,#toolkits .es-t-arc,#toolkits .tk-itl{font-weight:600}
+.pagenav a{font-size:11px;letter-spacing:.1em}
+</style>
+<link rel="stylesheet" href="/hub/feedback-band.css">
+<link rel="stylesheet" href="/hub/aipair.css">
+<link rel="stylesheet" href="/hub/film-modal.css">
 </head>
 <body>
 
@@ -270,7 +295,7 @@ footer.fd-footer{margin-top:0}
 
 <header class="site-header">
   <div class="in">
-    <a class="brand" href="index.html" style="text-decoration:none;color:inherit"><span style="background:#101a4d;color:#fff;font-size:10px;font-weight:700;letter-spacing:.12em;padding:4px 8px;border-radius:4px;border:1px solid #22c55e;line-height:1.2">STRATEGY</span><span class="nm">Enterprise Strategy Center</span></a>
+    <a class="brand" href="index.html" style="text-decoration:none;color:inherit"><span style="background:#101a4d;color:#fff;font-size:10px;font-weight:700;letter-spacing:.12em;padding:4px 8px;border-radius:4px;border:1px solid #22c55e;line-height:1.2">STRATEGY</span><span class="nm">Strategy Activation Hub</span></a>
     <nav class="nav">
       <a href="index.html">Home</a>
       <a href="what-game-are-we-playing.html">What Game Are We Playing</a>
@@ -280,13 +305,35 @@ footer.fd-footer{margin-top:0}
   </div>
 </header>
 
-<section class="hero">
-  <video class="hero-bg" muted playsinline poster="/strategy-hub/img/aerointel-core.jpg">
-  </video>
-  <div class="in">
-    <span class="badge enable hl" style="--d:0">Strategy Enablement</span>
-    <h1 class="hl" style="--d:1">AeroIntel</h1>
-    <div class="sub hl" style="--d:2">Aerospace Intelligence</div>
+<section class="hc" aria-label="Announcements">
+  <div class="hc-in">
+    <div class="hc-track">
+      <article class="hc-slide on">
+        <div class="hc-tag">Strategy Tool</div>
+        <h1>Navigate with Intel</h1>
+        <p class="hc-sub">Use the best information and explore the what-ifs with AeroIntel.</p>
+        <div class="hc-ctas"><a class="hc-pill" href="#">Sign up for AeroIntel <span class="pc"><span>&rarr;</span></span></a><a class="hc-pill" href="#">Log in to AeroIntel <span class="pc"><span>&rarr;</span></span></a></div>
+      </article>
+      <article class="hc-slide">
+        <div class="hc-tag">Strategy Fundamental</div>
+        <h1>What Game Are We Playing</h1>
+        <p class="hc-sub">Subcopy for What Game Are We Playing, pending.</p>
+        <a class="hc-pill" href="/strategy-hub/option-d/what-game-are-we-playing.html">Open What Game Are We Playing <span class="pc"><span>&rarr;</span></span></a>
+      </article>
+      <article class="hc-slide">
+        <div class="hc-tag">Strategy Fundamental</div>
+        <h1>How Do We Win</h1>
+        <p class="hc-sub">How Do We Win (HDWW) develops, refines, and validates strategic recommendations through collaboration across Business Unit leadership, functional teams, strategy, and SALT.</p>
+        <a class="hc-pill" href="/strategy-hub/option-d/how-do-we-win.html">Open How Do We Win <span class="pc"><span>&rarr;</span></span></a>
+      </article>
+    </div>
+    <div class="hc-nav">
+      <button type="button" class="hc-arr" data-hc="-1" aria-label="Previous slide">&#8592;</button>
+      <button type="button" class="on" aria-label="Slide 1"></button>
+      <button type="button" aria-label="Slide 2"></button>
+      <button type="button" aria-label="Slide 3"></button>
+      <button type="button" class="hc-arr" data-hc="1" aria-label="Next slide">&#8594;</button>
+    </div>
   </div>
 </section>
 
@@ -298,25 +345,40 @@ footer.fd-footer{margin-top:0}
     <a href="#evolution">The Evolution</a>
     <a href="#truth">Single source of truth</a>
     <a href="#governance">Governance and Judgement</a>
-    <a href="#help">Where to find help</a>
+    <a href="#fdl-finder">Where to find help</a>
   </div></div>
 </nav>
 
-<section class="sec light" id="introduction">
-  <div class="wrap">
-    <h2 class="h2big rise">Introduction</h2>
-    <p class="lede rise" style="color:var(--ink);font-size:clamp(18px,1.8vw,22px);max-width:60ch">AeroIntel applies AI to GE Aerospace&rsquo;s curated expert content, giving teams faster, more consistent analysis for complex strategic questions.</p>
-  </div>
-</section>
-
-<section class="sec dark">
-  <div class="wrap">
-    <div class="stats stagger">
-      <div class="stat rise"><div class="num count" data-target="11600" data-suffix="+">11,600+</div><div class="lbl">Curated Documents</div></div>
-      <div class="stat rise"><div class="num" style="font-size:clamp(22px,2.6vw,34px)">Internal &amp; External</div><div class="lbl">Source Coverage</div></div>
-      <div class="stat rise"><div class="num count" data-target="3" data-suffix="">3</div><div class="lbl">Versions Product Evolution</div></div>
+<section class="aipair-sec" id="introduction" aria-label="AeroIntel overview">
+<div class="aipair">
+<section class="aistat-block" aria-label="AeroIntel source coverage">
+    <div class="aistat-card" role="img" aria-label="11,600+ curated documents: 6,500+ external documents and 5,000+ internal documents.">
+      <div class="aistat-eb"><i></i>AeroIntel &middot; Coverage</div>
+      <p class="aistat-sub">AeroIntel applies AI to GE Aerospace&rsquo;s curated expert content, giving teams faster, more consistent analysis for complex strategic questions.</p>
+      <div class="aistat-main">
+        <div class="aistat-n">11,600+</div>
+        <div class="aistat-l">Curated Documents</div>
+      </div>
+      <div class="aistat-side">
+        <div class="aistat-bar"><i class="ext"></i><i class="int"></i></div>
+        <ul class="aistat-k"><li class="ext">6,500+ External Documents</li><li class="int">5,000+ Internal Documents</li></ul>
+      </div>
+      <div class="aistat-ft">Internal &amp; External Source Coverage</div>
     </div>
+  </section>
+<section class="fd-say"><div class="v-in">
+  <div>
+    <div class="rule"></div>
+    <div class="aistat-eb say-eb"><i></i>AeroIntel &middot; Video</div>
+    <h3 class="say-h">What is AeroIntel?</h3>
+    <p class="say-sub">Learn how to use AeroIntel&rsquo;s AI-enabled capabilities to strengthen strategy.</p>
   </div>
+  <!-- Video: data-src takes the film's address when it arrives; until then the player opens nothing (shared film-modal.js). -->
+  <a class="say-start say-video" href="#" data-film-open data-src="" aria-label="What is AeroIntel? Watch the video">
+    <div class="sa-shot"><img src="/strategy-hub/img/aerointel-core.jpg" alt="" loading="lazy"><span class="say-play" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></span></div>
+  </a>
+</div></section>
+</div>
 </section>
 
 <section class="sec light">
@@ -446,30 +508,37 @@ footer.fd-footer{margin-top:0}
   </div>
 </section>
 
-<section class="sec light" id="help">
-  <div class="wrap">
-    <h2 class="h2big rise">Where do I find Help?</h2>
-    <p class="lede rise" style="color:var(--bodyl)">If you need additional help, below are some of our most experienced leaders in this enablement tool.</p>
-    <div class="blockhd rise" style="font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);margin:30px 0 0">The team behind AeroIntel</div>
-    <div class="team stagger">
-      <div class="team-item rise"><span class="av">SS</span><div><div class="nm">Stotz, Sarah</div><div class="ti">Sr Marketing Manager &middot; Market Intelligence</div></div></div>
-      <div class="team-item rise"><span class="av">YE</span><div><div class="nm">Edupuganti, Yasaswini</div><div class="ti">Lead Project Management Specialist</div></div></div>
-      <div class="team-item rise"><span class="av">NF</span><div><div class="nm">Flores, Nicholas</div><div class="ti">Principal Analytics Engineer</div></div></div>
-      <div class="team-item rise"><span class="av">KS</span><div><div class="nm">Schanche, Kristin</div><div class="ti">Sr Project Management Manager</div></div></div>
-      <div class="team-item rise"><span class="av">NL</span><div><div class="nm">Leber, Nicole</div><div class="ti">Sr Director &middot; Technical Product Management</div></div></div>
-      <div class="team-item rise"><span class="av">DE</span><div><div class="nm">Ensor, David</div><div class="ti">Principal Technical Product Manager</div></div></div>
-      <div class="team-item rise"><span class="av">LS</span><div><div class="nm">Saadati, Leila</div><div class="ti">Sr Staff Data Scientist</div></div></div>
-      <div class="team-item rise"><span class="av">EP</span><div><div class="nm">Potter, Emily</div><div class="ti">Executive &middot; Digital Market Intelligence</div></div></div>
-      <div class="team-item rise"><span class="av">MC</span><div><div class="nm">Cahill, Matthew</div><div class="ti">Sr BD Manager &middot; Business Development</div></div></div>
-      <div class="team-item rise"><span class="av">ST</span><div><div class="nm">Tripathy, Satyakam</div><div class="ti">Staff Data Engineer &middot; Physical Infrastructure</div></div></div>
+<section id="fdl-finder" class="help-block">
+  <div class="fdl-wrap">
+    <div class="fdl-eyebrow">The team behind AeroIntel</div>
+    <h2 class="fdl-h2">Where can I find help?</h2>
+    <p class="fdl-sub">If you need additional help, below are some of our most experienced leaders in this enablement tool</p>
+
+    <div class="fdl-group fdl-flat">
+      <div class="fdl-people">
+        <div class="fdl-person"><span class="avatar"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7z"/></svg></span><span class="fdl-meta"><b>Stotz, Sarah</b><span>Sr Marketing Manager - Market Intelligence</span></span></div>
+        <div class="fdl-person"><span class="avatar"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7z"/></svg></span><span class="fdl-meta"><b>Edupuganti, Yasaswini</b><span>Lead Project Management Specialist</span></span></div>
+        <div class="fdl-person"><span class="avatar"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7z"/></svg></span><span class="fdl-meta"><b>Flores, Nicholas</b><span>Principal Analytics Engineer</span></span></div>
+      </div>
     </div>
+  </div>
+</section>
+
+<section class="fb-band">
+  <div class="in">
+    <div>
+      <div class="eyebrow">Feedback</div>
+      <h2>Have a suggestion?</h2>
+      <p>Your feedback helps us drive continuous improvement on the Strategy Activation Hub</p>
+    </div>
+    <a class="gpill" href="#">Feedback form <span class="pc"><span>&nearr;</span></span></a>
   </div>
 </section>
 
 <footer class="fd-footer">
   <div class="fdf-in">
     <div class="fdf-top">
-      <div class="fdf-brand"><span class="fdf-chip">STRATEGY</span>Enterprise Strategy Center</div>
+      <div class="fdf-brand"><span class="fdf-chip">STRATEGY</span>Strategy Activation Hub</div>
       <div class="fdf-cobrand">GE Aerospace</div>
     </div>
     <div class="fdf-cols">
@@ -478,7 +547,7 @@ footer.fd-footer{margin-top:0}
       <div class="fdf-col"><div class="fdf-h">Quick Links</div><a href="#">Organization</a><a href="#">Long Range Financials (Forecast)</a></div>
       <div class="fdf-col"><div class="fdf-h">Site</div><a href="/strategy-hub/option-d/index.html">Home</a></div>
     </div>
-    <div class="fdf-meta"><span>Enterprise Strategy Center</span><span>GE Aerospace Proprietary &middot; Sensitive &middot; authorized distribution only</span></div>
+    <div class="fdf-meta"><span>Strategy Activation Hub</span><span>GE Aerospace Proprietary &middot; Sensitive &middot; authorized distribution only</span></div>
   </div>
 </footer>
 
@@ -538,5 +607,6 @@ footer.fd-footer{margin-top:0}
   }catch(e){}
 })();
 </script>
+<script src="/hub/hero-carousel.js"></script>
 </body>
 </html>

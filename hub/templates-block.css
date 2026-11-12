@@ -1,0 +1,33 @@
+/* Templates block (v2): full-width white band, hairline above, links in columns. .compact is the tighter homepage version. */
+.tools-sec{background:#fff;border-top:1px solid #e6e6ee;padding:56px 0 76px;font-family:"GE Sans",-apple-system,"Helvetica Neue",Arial,sans-serif;color:#00003d;text-align:left}
+.tools-sec *{box-sizing:border-box}
+.tools-card{width:min(1100px,calc(100% - 80px));margin:0 auto;color:#00003d}
+.tl-eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#44496e;margin:0 0 14px}
+.tl-eyebrow .sq{width:7px;height:7px;border-radius:1px;background:#16b364;flex:none}
+.tl-h{font-family:inherit;font-size:clamp(28px,2.6vw,40px);font-weight:300;letter-spacing:-.028em;line-height:1.04;margin:0 0 30px;color:#00003d}
+.tl-cols{display:grid;grid-template-columns:1fr 1fr;gap:32px clamp(32px,5vw,72px)}
+.tl-cols3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.tl-group{display:flex;flex-direction:column}
+.tl-lbl{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#44496e;margin:26px 0 6px;padding-bottom:12px;border-bottom:1px solid #e6e6ee}
+.tl-lbl:first-child{margin-top:0}
+.tl-row{display:flex;align-items:center;gap:16px;padding:13px 10px;margin:0 -10px;border-radius:12px;text-decoration:none;color:inherit;transition:background .18s}
+.tl-row:hover{background:#f6f6f9}
+.tl-icon{width:40px;height:40px;border-radius:12px;flex:none;display:flex;align-items:center;justify-content:center;background:#ecebf3;color:#00003d}
+.tl-icon svg{width:18px;height:18px}
+.tl-icon.tl-live,.tl-icon.tl-guide{background:#e4f6ec;color:#0d8a4e}
+.tl-icon.tl-tpl,.tl-icon.tl-prompt{background:#e8f0ff;color:#2256e6}
+.tl-body{display:flex;flex-direction:column;gap:2px;min-width:0}
+.tl-title{font-size:16px;font-weight:400;color:#00003d;line-height:1.3;letter-spacing:-.005em}
+.tl-meta{font-size:13px;color:#75758f;line-height:1.3}
+/* Compact (homepage) */
+.tools-sec.compact{padding:56px 0 48px}
+.compact .tl-eyebrow{margin-bottom:10px}
+.compact .tl-h{margin-bottom:28px}
+.compact .tl-cols{gap:24px clamp(32px,5vw,64px)}
+.compact .tl-lbl{margin:14px 0 4px;padding-bottom:8px}
+.compact .tl-row{gap:12px;padding:7px 10px}
+.compact .tl-icon{width:30px;height:30px;border-radius:9px}
+.compact .tl-icon svg{width:15px;height:15px}
+.compact .tl-title{font-size:15px}
+.compact .tl-meta{font-size:12px}
+@media(max-width:900px){.tools-card{width:calc(100% - 40px)}.tl-cols,.tl-cols3{grid-template-columns:1fr;gap:0}.tools-sec,.tools-sec.compact{padding:44px 0 56px}.tl-group+.tl-group .tl-lbl:first-child{margin-top:26px}}

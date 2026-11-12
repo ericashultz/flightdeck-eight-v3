@@ -1,0 +1,33 @@
+/* Hero carousel (v2 look) for the Fundamental / AeroIntel pages: brushed-metal backdrop, left-aligned copy low in the banner,
+   glass pill, dots + arrows. Self-contained: every rule is under .hc. */
+.hc{position:relative;isolation:isolate;overflow:hidden;color:#fff;font-family:var(--sans,"GE Sans",-apple-system,"Helvetica Neue",Arial,sans-serif);
+  background:#00001a url(/strategy-hub/img/hero-bg.jpg?v=1) center/cover no-repeat;min-height:560px;display:flex;flex-direction:column;justify-content:flex-end}
+.hc-in{position:relative;z-index:1;box-sizing:border-box;width:min(1100px,calc(100% - 56px));margin:0 auto;padding:116px 0 72px}
+.hc-track{display:grid;max-width:880px}
+.hc-slide{grid-area:1/1;align-self:end;opacity:0;transform:translateY(10px);pointer-events:none;
+  transition:opacity .5s cubic-bezier(.23,1,.32,1),transform .5s cubic-bezier(.23,1,.32,1)}
+.hc-slide.on{opacity:1;transform:none;pointer-events:auto}
+.hc-tag{display:inline-flex;align-items:center;gap:9px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;margin-bottom:18px}
+.hc-tag::before{content:"";width:8px;height:8px;border-radius:2px;background:#0ad64f}
+.hc h1{margin:0;font-weight:300;font-size:clamp(38px,4.6vw,68px);line-height:1;letter-spacing:-.03em;color:#fff;text-wrap:balance}
+.hc-sub{margin:18px 0 0;font-size:clamp(16px,1.35vw,20px);line-height:1.5;color:rgba(255,255,255,.8);max-width:60ch;text-wrap:pretty}
+.hc-ctas{display:flex;flex-wrap:wrap;gap:12px}
+.hc-pill{display:inline-flex;align-items:center;gap:22px;margin-top:26px;padding:6px 6px 6px 26px;border-radius:6.25rem;border:1px solid transparent;
+  background:rgba(255,255,255,.1);color:#fff;font-size:16px;line-height:1.2;cursor:pointer;text-decoration:none;
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);transition:background .18s,color .18s}
+.hc-pill .pc{display:flex;flex:none;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;background:#fff;color:#00003d;font-size:18px;transition:background .18s,color .18s}
+.hc-pill:hover{background:#fff;color:#00003d}
+.hc-pill:hover .pc{background:#00003d;color:#fff}
+.hc-pill:focus-visible{outline:none;border-color:#4181ff}
+.hc-nav{display:flex;align-items:center;gap:9px;margin-top:34px}
+.hc-nav button{width:9px;height:9px;padding:0;border:0;border-radius:100px;background:rgba(255,255,255,.35);cursor:pointer;transition:width .25s,background .25s}
+.hc-nav button.on{background:#fff;width:30px}
+.hc-nav button:hover{background:rgba(255,255,255,.6)}
+.hc-nav .hc-arr{width:34px;height:34px;border:1px solid rgba(255,255,255,.35);background:transparent;color:#fff;font-size:15px;line-height:1;display:flex;align-items:center;justify-content:center}
+.hc-nav .hc-arr:first-child{margin-right:5px}.hc-nav .hc-arr:last-child{margin-left:5px}
+@media(hover:hover) and (pointer:fine){.hc-nav .hc-arr:hover{background:#fff;border-color:#fff;color:#00003d}}
+@media(max-width:860px){.hc-in{width:calc(100% - 40px)}}
+@media(max-width:700px){.hc{min-height:0}.hc-in{padding:72px 0 56px}.hc-pill{max-width:100%;box-sizing:border-box;white-space:normal;text-align:left;line-height:1.3}}
+@media(prefers-reduced-motion:reduce){.hc-slide{transition:none}}
+.hc>#dash{position:relative;z-index:1}
+.hc [data-tk][aria-expanded="true"] .pc span{display:inline-block;transform:rotate(180deg)}
